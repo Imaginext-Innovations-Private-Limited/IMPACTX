@@ -1,0 +1,26 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.env
+*.sqlite3
+.DS_Store
+.coverage
+# Locally generated audio: do not commit without checking provider distribution terms
+static/voices/**/*.mp3
+static/voices/**/*.webm
+static/voices/**/*.m4a
+
+# Generated speech cache; never commit before checking distribution rights
+voice_cache/
+*.bak_before_*
+*.part
+.env.*
+!.env.example
+
+# Bundled fallback audio (offline eSpeak NG) and fonts ARE committed so a fresh clone works everywhere:
+!static/voices-basic/
+!static/voices-basic/**
+!static/fonts/**
+
+demo_assets/

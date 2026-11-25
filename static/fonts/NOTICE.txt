@@ -1,0 +1,4 @@
+Noto Sans (Devanagari, Bengali, Odia/Oriya, Telugu, Kannada) - Copyright The Noto Project Authors.
+Licensed under the SIL Open Font License 1.1 (https://openfontlicense.org). Packaged via the
+@fontsource npm packages. Bundled so regional scripts render the same in every browser and OS,
+even when no suitable system font is installed.

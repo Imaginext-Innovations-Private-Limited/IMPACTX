@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a1323" />
+  <meta name="description" content="ScamShield AI — understand fraud warning signs before you act." />
+  <title>ScamShield AI | Check before you trust</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <nav class="nav wrap" aria-label="Main navigation">
+      <a href="/" class="brand" aria-label="ScamShield AI homepage"><span class="brand-icon" aria-hidden="true">✦</span><span>Scam<span class="brand-accent">Shield</span><sup>AI</sup></span></a>
+      <div class="nav-right"><span class="pill"><span class="dot"></span> Local-first analysis</span><a href="#how-it-works" class="navlink">How it works</a><a href="#reporting" class="navlink">Report a scam</a><a href="/static/voice-studio.html" class="navlink">Voice Studio</a></div>
+    </nav>
+    <header class="hero wrap">
+      <div class="eyebrow"><span class="star">✳</span> YOUR DIGITAL SAFETY COMPANION</div>
+      <h1>Before you trust it, <span>check it.</span></h1>
+      <p>Spot warning signs in suspicious calls, messages and payment requests. Get an explanation you can understand—not a black-box verdict.</p>
+      <div class="hero-meta"><span>✓ Scam pattern screening</span><span>✓ Explainable indicators</span><span>✓ Official reporting guidance</span><span>✓ Spoken safety guidance</span></div>
+    </header>
+    <main class="wrap main-grid">
+      <section class="panel editor" aria-labelledby="editor-title">
+        <div class="panel-head"><div><div class="section-kicker">01 / INPUT</div><h2 id="editor-title">Check suspicious content</h2><p>Paste a message, upload a screenshot or transcribe a recording.</p></div><span class="security-icon" aria-hidden="true">⛨</span></div>
+        <div class="tabs" role="tablist" aria-label="Input method">
+          <button id="tab-text" role="tab" aria-selected="true" class="tab active" data-tab="text"><span aria-hidden="true">⌨</span> Text / UPI</button>
+          <button id="tab-image" role="tab" aria-selected="false" class="tab" data-tab="image"><span aria-hidden="true">▧</span> Screenshot</button>
+          <button id="tab-voice" role="tab" aria-selected="false" class="tab" data-tab="voice"><span aria-hidden="true">◉</span> Voice</button>
+        </div>
+        <div class="input-options">
+          <label for="channel">Source <select id="channel"><option value="message">Message / Other</option><option value="sms">SMS</option><option value="whatsapp">WhatsApp</option><option value="call">Call transcript</option><option value="upi">UPI / payment request</option><option value="image">Screenshot OCR</option></select></label>
+          <label for="language">Hear / explain in <select id="language" aria-label="Warning language"><option value="en">English</option><option value="hi">Hindi · हिन्दी</option><option value="bn">Bangla · বাংলা</option><option value="kn">Kannada · ಕನ್ನಡ</option><option value="te">Telugu · తెలుగు</option><option value="or">Odia · ଓଡ଼ିଆ</option><option value="mr">Marathi · मराठी</option></select></label>
+        </div>
+        <div id="input-language-tools" class="tool-area hidden"><label for="input-language">Input language (OCR / audio / microphone) <select id="input-language"><option value="en">English</option><option value="hi">Hindi · हिन्दी</option><option value="bn">Bangla · বাংলা</option><option value="kn">Kannada · ಕನ್ನಡ</option><option value="te">Telugu · తెలుగు</option><option value="or">Odia · ଓଡ଼ିଆ</option><option value="mr">Marathi · मराठी</option></select></label></div>
+        <div id="image-tools" class="tool-area hidden"><label class="upload" for="image-input"><span class="upload-icon">⇧</span><strong>Choose a screenshot</strong><small>PNG, JPG or WebP · up to 4 MB · processed on this server</small></label><input id="image-input" type="file" accept="image/png,image/jpeg,image/webp" hidden/><p class="helper">OCR uses the selected input language if its Tesseract language data is installed. Review it before trusting the assessment.</p></div>
+        <p class="helper voice-language-info">🔊 Choose the language you prefer to <strong>hear</strong>. Input and output languages can be different. Saved audio and optional AI speech are checked below.</p>
+        <div id="voice-tools" class="tool-area hidden">
+          <label class="upload audio-upload" for="audio-input"><span class="upload-icon">♫</span><strong>Choose a voice recording</strong><small>MP3, WAV, M4A, AAC, OGG, WebM or FLAC · up to 20 MB · recordings up to 3 minutes</small></label>
+          <input id="audio-input" type="file" accept=".mp3,.wav,.m4a,.mp4,.aac,.ogg,.opus,.webm,.flac,.amr,.wma,.aiff,audio/*" hidden />
+          <p id="audio-file-name" class="helper">No audio file selected.</p>
+          <label class="helper" style="display:flex;gap:8px;align-items:flex-start;margin:8px 0"><input id="audio-consent" type="checkbox" style="width:auto;flex-shrink:0"/> I have permission to send this recording to Sarvam AI.</label><button class="voice-btn" id="transcribe-audio-btn" type="button" disabled>Transcribe recording</button>
+          <p class="helper audio-privacy">Cloud transcription uses your API credits and sends the recording to Sarvam AI. Only upload recordings you have permission to share; provider retention policies apply. The app does not keep a local recording history.</p>
+          <button class="voice-btn" id="voice-btn" type="button"><span id="mic-icon">●</span> <span id="voice-label">Start microphone transcription</span></button>
+          <p class="helper">Live microphone transcription uses your browser's speech service. This does not record or intercept phone calls.</p>
+        </div>
+        <div class="textarea-header"><label for="message">Message or transcript</label><span id="char-count">0 / 6000</span></div>
+        <textarea id="message" maxlength="6000" placeholder="Example: Your parcel is seized. Police will arrest you unless you transfer ₹20,000 right now…" rows="8" spellcheck="false"></textarea>
+        <div class="examples"><span>TRY AN EXAMPLE</span><div class="example-buttons"><button data-demo="arrest">Digital arrest</button><button data-demo="upi">UPI scam</button><button data-demo="kyc">KYC</button><button data-demo="courier">Courier</button><button data-demo="phish">Phishing link</button><button data-demo="mistake">"Sent by mistake"</button><button data-demo="hinglish">Hinglish arrest</button><button data-demo="otp">Genuine OTP SMS</button><button data-demo="safe">Normal message</button></div></div>
+        <div class="button-row"><button id="analyze-btn" class="primary-btn" type="button"><span aria-hidden="true">✦</span> Analyze <span class="arrow" aria-hidden="true">→</span></button><button id="clear-btn" class="ghost-btn" type="button">Clear</button></div>
+        <p class="helper">One assessment: AI and local safety checks when you consent; otherwise local only. If AI is unavailable, local analysis continues. Remove private details before sharing.</p>
+        <p id="status" class="status" role="status" aria-live="polite">Your text is assessed on this application server and is not stored by the app.</p>
+      </section>
+      <aside class="panel result-panel" aria-labelledby="results-title">
+        <div class="panel-head"><div><div class="section-kicker">02 / ANALYSIS</div><h2 id="results-title">Safety assessment</h2><p>Understand the signals, not just a score.</p></div></div>
+        <div id="empty-result" class="empty-result"><div class="empty-art" aria-hidden="true"><div class="empty-ring">◈</div></div><h3>Let's check that message.</h3><p>Paste suspicious content, review extracted text or choose an example, then click Analyze.</p><div class="empty-hint">A lack of detected warnings never proves a sender is trustworthy.</div></div>
+        <div id="results" class="results hidden" aria-live="polite">
+          <div class="risk-head"><div><span class="mini-label">ASSESSMENT</span><h3 id="risk-title"></h3></div><span id="risk-level" class="risk-badge"></span></div>
+          <p id="analysis-mode" class="helper"></p>
+          <p id="risk-summary" class="risk-summary"></p>
+          <div class="spoken-warning" aria-label="Listen to the safety warning">
+            <div class="voice-top"><span class="voice-circle" aria-hidden="true">◖))</span><div class="voice-copy"><strong>Hear the safety warning</strong><small id="voice-ready">Checking voice availability…</small></div></div>
+            <div class="voice-controls"><button id="listen-warning" class="listen-btn" type="button" aria-label="Play spoken fraud warning">▶ Hear warning</button><button id="stop-warning" class="stop-btn" type="button" disabled>■ Stop</button></div>
+            <p id="spoken-preview" lang="en" class="spoken-preview"></p>
+            <p class="voice-privacy">Speech uses fixed safety templates selected by the detected warning type. No pasted message or private details are sent to the speech provider. Browser speech may use an online service.</p>
+          </div>
+          <div class="risk-meter"><div id="risk-fill" class="risk-fill"></div></div><p class="risk-caption"><span id="risk-score"></span> · Heuristic risk index (not a probability or calibrated confidence)</p>
+          <div class="insight-bar"><span>Warning indicators</span><strong id="indicator-count">0</strong></div>
+          <div id="indicators" class="indicator-list"></div>
+          <h4>What you should do</h4><ol id="actions" class="actions"></ol>
+          <div id="categories" class="categories"></div>
+          <button id="copy-report" class="report-btn" type="button">▤ Copy safety summary</button><button id="copy-complaint" class="report-btn" type="button">✎ Copy complaint draft (for 1930 / cybercrime.gov.in)</button>
+          <p class="fineprint">Educational prototype. Not proof of fraud, identity verification or legal advice.</p>
+        </div>
+      </aside>
+    </main>
+    <section id="reporting" class="wrap reporting">
+      <div class="reporting-copy"><div class="section-kicker">03 / PROTECT YOURSELF</div><h2>Think money was lost?</h2><p>Contact your bank immediately. In India, use the official national cybercrime helpline or portal. For suspicious calls and messages, Sanchar Saathi offers the Chakshu reporting facility.</p></div>
+      <div class="reporting-actions"><a href="tel:1930" class="hotline"><strong>1930</strong><span>Financial cyber fraud helpline <span aria-hidden="true">↗</span></span></a><a target="_blank" rel="noopener noreferrer" href="https://cybercrime.gov.in/">National Cyber Crime Reporting Portal ↗</a><a target="_blank" rel="noopener noreferrer" href="https://sancharsaathi.gov.in/">Sanchar Saathi / Chakshu ↗</a></div>
+    </section>
+    <section id="how-it-works" class="wrap how"><div class="section-kicker">BUILT FOR TRUST</div><h2>What happens behind the screen?</h2><div class="how-grid"><div class="how-card"><span>01</span><h3>Extract</h3><p>Read text directly, convert a screenshot with OCR or transcribe a recording with consent via Sarvam AI. Browser dictation is also available.</p></div><div class="how-card"><span>02</span><h3>Cross-check</h3><p>Combine a local rules engine and text classifier with optional GPT-OSS contextual analysis via Groq. If cloud analysis fails, use the local result.</p></div><div class="how-card"><span>03</span><h3>Explain</h3><p>Highlight matched warning phrases, provide practical next steps and point toward official help.</p></div></div></section>
+    <footer class="wrap footer"><span class="brand small"><span class="brand-icon">✦</span> ScamShield AI</span><span>Hackathon MVP · No account · No stored scan history</span><span>Always independently verify urgent requests. Regional translations need native-speaker review.</span></footer>
+  </div>
+  <script src="/static/app.js?v=201" defer></script>
+</body>
+</html>
