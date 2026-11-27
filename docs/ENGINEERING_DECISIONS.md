@@ -28,7 +28,7 @@ Test on at least four fraud classes (digital arrest, KYC, courier, UPI), legitim
 - Escalation to accredited human help and vetted reporting services.
 
 ## Questions judges might ask
-**What is the actual AI?** Local TF-IDF character n-gram classifier with logistic regression, working alongside a transparent hand-coded rule set. Limited synthetic training means currently experimental.
+**What is the actual AI?** Local TF-IDF character n-gram classifier with Linear SVM (experimental replacement for Logistic Regression), working alongside a transparent hand-coded rule set. Limited synthetic training means currently experimental.
 
 **Does it listen to WhatsApp or intercept calls?** No. Only user-supplied text/screenshot or browser microphone transcription. This boundary is intentional and documented.
 

@@ -280,18 +280,27 @@ def _model():
     """Tiny offline lexical ML model: a secondary weak signal only."""
     try:
         from sklearn.feature_extraction.text import TfidfVectorizer
-        from sklearn.linear_model import LogisticRegression
+        from sklearn.svm import LinearSVC
         from sklearn.pipeline import make_pipeline
         from .training_data import SUSPICIOUS, BENIGN
         if not SUSPICIOUS or not BENIGN:
             return None
         pipe = make_pipeline(TfidfVectorizer(analyzer="char", ngram_range=(3, 5), min_df=1,
                                             max_features=14000, lowercase=True),
-                             LogisticRegression(max_iter=300, class_weight="balanced", random_state=42))
+                             LinearSVC(max_iter=10000, class_weight="balanced", random_state=42))
         pipe.fit(SUSPICIOUS + BENIGN, [1] * len(SUSPICIOUS) + [0] * len(BENIGN))
         return pipe
     except ImportError:
         return None
+
+
+# Conservative signed margin, NOT a probability. Selected on training-only
+# five-fold out-of-fold scores (see benchmark_svm_migration.py).
+SVM_REVIEW_MARGIN = 0.30
+
+
+def _ml_suspicious(model, text: str) -> bool:
+    return float(model.decision_function([text])[0]) >= SVM_REVIEW_MARGIN
 
 
 def analyze(text: str, channel: str = "message", language: str = "en") -> dict[str, Any]:
@@ -405,9 +414,8 @@ def analyze(text: str, channel: str = "message", language: str = "en") -> dict[s
     ml = _model()
     model_signal = "unavailable" if ml is None else "not_triggered"
     if ml is not None and len(text.split()) >= 5:
-        # This model is trained on bundled synthetic examples, so require a high threshold.
-        p = float(ml.predict_proba([text])[0, 1])
-        if p >= 0.85:
+        # This model is trained on bundled synthetic examples, so require a conservative margin.
+        if _ml_suspicious(ml, text):
             model_signal = "suspicious_wording"
             if total == 0:
                 total += 2  # No rule -> at most 'review' on a model signal alone.
