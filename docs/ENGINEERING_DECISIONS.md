@@ -10,7 +10,7 @@ A person sees a threatening WhatsApp message or a UPI collect request. We reduce
 Instead of a misleading “98% fraud confidence,” show each rule match with the exact snippet of user-supplied text, a short rationale and actionable safety advice. The 0–10 display is a heuristic risk index, not statistical probability or measured accuracy.
 
 ## Decision 3 — Hybrid instead of LLM-only
-An explicit engine handles high-risk, well-understood behaviors (asking for UPI PIN to receive money, collecting OTPs, remote access demands). A tiny local ML classifier trained on **synthetic** text can add a weak caution when language resembles examples but no strong rules match. The model's performance is not validated externally; no invented accuracy numbers.
+An explicit engine handles high-risk, well-understood behaviors (asking for UPI PIN to receive money, collecting OTPs, remote access demands). A tiny local ML classifier trained on **synthetic** text can request a Review when language resembles examples but no strong rules match. The model's performance is not validated externally; no invented accuracy numbers.
 
 ## Decision 4 — Sensitivity to false alarms
 Legitimate KYC messages and cybersecurity awareness content can contain suspicious keywords. Generic urgency is only a weak signal; scores must not claim verified fraud. UI always says “not enough context” when the text is too short and “no clear signal” rather than “safe” when nothing matches.
@@ -28,7 +28,7 @@ Test on at least four fraud classes (digital arrest, KYC, courier, UPI), legitim
 - Escalation to accredited human help and vetted reporting services.
 
 ## Questions judges might ask
-**What is the actual AI?** Local TF-IDF character n-gram classifier with Linear SVM (experimental replacement for Logistic Regression), working alongside a transparent hand-coded rule set. Limited synthetic training means currently experimental.
+**What is the actual AI?** Local TF-IDF character n-gram classifier with Linear SVM (selected for v2.1 after comparative synthetic evaluation and regression testing), working alongside a transparent hand-coded rule set. Limited synthetic training means currently experimental.
 
 **Does it listen to WhatsApp or intercept calls?** No. Only user-supplied text/screenshot or browser microphone transcription. This boundary is intentional and documented.
 

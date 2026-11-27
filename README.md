@@ -1,4 +1,4 @@
-# ScamShield AI v2.0 — Digital Arrest and UPI Fraud Detector
+# ScamShield AI v2.1 — Digital Arrest and UPI Fraud Detector
 
 Track B · Problem Statement 5 · Wisework × Imagenext internship hackathon
 
@@ -25,7 +25,7 @@ Keys are not saved by the launcher. Existing environment keys can be used in nor
 ## Architecture and boundaries
 
 - FastAPI backend, HTML/CSS/JS frontend, Pillow/Tesseract OCR.
-- Offline: contextual rules and a small character TF-IDF/Linear SVM classifier trained on synthetic examples. Its signed margin is not a probability. ML alone can only request Review, never Caution or High Risk. See `benchmark_svm_migration.py` for the isolated comparison with the former Logistic Regression gate. This is an experimental SVM edition.
+- Offline: contextual rules and a small character TF-IDF/Linear SVM classifier trained on synthetic examples. Its signed margin is not a probability. ML alone can only request Review, never Caution or High Risk. See `benchmark/model_comparison.py` for the standalone classifier comparison and [SVM migration notes](docs/SVM_MIGRATION.md) for the separate full-engine experiment. SVM is selected for v2.1; the prototype remains experimental.
 - Optional cloud: Groq GPT-OSS 120B with a bounded GPT-OSS 20B backup attempt on eligible failures, structured output, best-effort redaction, evidence validation and offline fallback. The higher warning level is retained on disagreement.
 - Sarvam speech transcription and fixed multilingual voice warnings. No user messages are sent for fixed-script TTS. Cloud analysis/transcription require consent; provider policies apply. Redaction is not foolproof; use synthetic or anonymized demo data.
 - Risk scores are heuristic, not probabilities. Unit tests do not establish real-world accuracy. Low scores do not prove safety. No government or bank endorsement.
@@ -36,6 +36,7 @@ Keys are not saved by the launcher. Existing environment keys can be used in nor
 - `static/` — interface, fonts and bundled offline voices
 - `tools/` — launch and optional voice-generation utilities
 - `tests/` — regression and integration tests (cloud responses mocked)
+- `benchmark/` — run `.venv\Scripts\python.exe benchmark\model_comparison.py` from the project root to regenerate the Excel-compatible CSV.
 - `demo_assets/` — synthetic demo inputs
 - `docs/` — engineering, team and demonstration guidance
 - `voice_cache/` — local generated audio, excluded from GitHub
