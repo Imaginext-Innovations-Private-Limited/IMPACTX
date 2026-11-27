@@ -382,6 +382,11 @@ def analyze(text: str, channel: str = "message", language: str = "en") -> dict[s
             relevant = {"apk_install", "remote_install", "remote_control"} if finding["id"] == "government_apk_context" else {"url_tld", "url_lookalike", "url_ip", "url_shortener", "unverified_link"}
             related_weight = sum(m["weight"] for m in matched if m["id"] in relevant)
             finding["weight"] = max(finding["weight"], 7 - related_weight)
+        if finding["id"] == "credential_reward_context":
+            # Do not double-count the same credential request; raise the compound
+            # to the high-risk boundary, with separately inspectable evidence.
+            credential_weight = sum(m["weight"] for m in matched if m["id"] == "credential")
+            finding["weight"] = max(1, 7 - credential_weight)
         # Restore original evidence, including the exact original offsets.
         finding["evidence"] = text[finding["start"]:finding["end"]][:160]
         total += finding["weight"]
@@ -444,7 +449,9 @@ def analyze(text: str, channel: str = "message", language: str = "en") -> dict[s
         cat_scores.clear()
         total = 0
 
-    sufficient_context = len(text) >= 18 and len(text.split()) >= 3
+    sufficient_context = (len(text) >= 18 and len(text.split()) >= 3) or any(
+        m["id"] == "credential_reward_context" for m in matched
+    )
     strong = any(m["weight"] >= 5 for m in matched)
     if not sufficient_context:
         level = "unknown"

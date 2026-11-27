@@ -40,3 +40,15 @@ def test_health_exposes_configuration_not_secret(monkeypatch):
     response = client.get('/api/health')
     assert response.json()['groq_configured'] is True
     assert 'private-test-key' not in response.text
+
+
+def test_network_events_pause_cloud_without_automatic_analysis():
+    js = (ROOT / 'static/app.js').read_text(encoding='utf-8')
+    assert 'window.addEventListener("offline",networkChanged)' in js
+    assert 'window.addEventListener("online",networkChanged)' in js
+    assert 'choice.disabled=offline||groqConfigured!==true' in js
+    assert 'choice.checked=!choice.disabled&&cloudPreference' in js
+    assert 'navigator.onLine!==false&&groqConfigured===true' in js
+    assert 'cloudFallback=useCloud&&data.analysis_mode==="offline_fallback"' in js
+    handler = js.split('function networkChanged(){', 1)[1].split('async function scan', 1)[0]
+    assert 'scan(' not in handler and 'invalidateAssessment(' not in handler

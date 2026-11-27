@@ -50,6 +50,22 @@ def contextual_findings(text, is_official):
                               advice=advice,evidence=text[start:end][:160],start=start,end=end,_category=category))
             break
 
+    # Explicit secret-for-reward solicitations, including terse messages. Match
+    # a direct request within one clause; do not escalate general OTP awareness.
+    secret = r"(?:otp|one[ -]time password|upi\s*pin|cvv|password)"
+    demand = r"(?:send|share|provide|give|reply\s+with|enter|tell\s+us)\s+(?:us\s+)?(?:your\s+|the\s+)?" + secret
+    reward = r"(?:win|claim|receive|collect|unlock|get|redeem)\s+(?:(?:your|the|a|cash|free|lottery)\s+){0,3}(?:money|cash|prize|reward|cashback|winnings|bonus)"
+    for match in re.finditer(r"(?:^|[.!?;]\s*)(?P<request>(?:please\s+)?" + demand + r"\b\s*[,–-]?\s*(?:and\s+|to\s+|then\s+)?" + reward + r"\b|to\s+" + reward + r"\s*[,–-]?\s*(?:please\s+)?" + demand + r"\b)", text, re.I):
+        start, end = match.span('request')
+        # Do not treat quoted or explicitly negated examples as direct demands.
+        if re.search(r"\b(?:never|do\s+not|don.t|not|avoid)\b", text[max(0,start-45):end], re.I):
+            continue
+        found.append(dict(id='credential_reward_context', title='Secret code requested in exchange for a reward', weight=7,
+                          explanation='The message ties a secret code to a financial reward. You do not need to share an OTP to receive a prize.',
+                          advice='Do not share any code or enter a PIN. Independently verify the offer.', evidence=text[start:end],
+                          start=start, end=end, _category='Credential theft'))
+        break
+
     add('utility_context','Utility cutoff threat with a callback request',7,'Utility scam',
         'An alleged overdue utility bill, a timed cutoff and a number supplied in the message create a strong impersonation risk.',
         'Do not call or pay using the message. Check the bill in the utility provider’s official app or on its published number.',
