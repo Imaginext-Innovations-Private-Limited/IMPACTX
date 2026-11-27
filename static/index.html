@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0a1323" />
   <meta name="description" content="ScamShield AI — understand fraud warning signs before you act." />
   <title>ScamShield AI | Check before you trust</title>
-  <link rel="stylesheet" href="/static/styles.css?v=2105" />
+  <link rel="stylesheet" href="/static/styles.css?v=2106" />
 </head>
 <body>
   <div class="app-shell">
@@ -66,6 +66,8 @@
           <div class="risk-head"><div><span class="mini-label">ASSESSMENT</span><h3 id="risk-title"></h3></div><span id="risk-level" class="risk-badge"></span></div>
           <p id="analysis-mode" class="helper"></p>
           <p id="risk-summary" class="risk-summary"></p>
+          <p id="safety-note" class="safety-note hidden"></p>
+          <p id="coverage-note" lang="en" class="helper hidden"></p>
           <p id="model-only-note" class="model-only-note hidden"></p>
           <h4>What you should do</h4><ol id="actions" class="actions"></ol>
           <a class="rescue-shortcut" href="#rescue">Need help staying safe? Get guidance →</a>
@@ -76,7 +78,7 @@
             <p class="voice-privacy">Speech uses fixed safety templates selected by the detected warning type. No pasted message or private details are sent to the speech provider. Browser speech may use an online service.</p>
           </div>
           <details class="evidence-details"><summary><strong id="evidence-label">Evidence details</strong> <span id="indicator-count">0</span></summary>
-          <div class="risk-meter"><div id="risk-fill" class="risk-fill"></div></div><p class="risk-caption"><span id="risk-score"></span> · Heuristic risk index (not a probability or calibrated confidence)</p>
+          <div id="risk-index-panel"><div class="risk-meter"><div id="risk-fill" class="risk-fill"></div></div><p class="risk-caption"><span id="risk-score"></span> · Heuristic risk index (not a probability or calibrated confidence)</p></div>
           <div class="insight-bar"><span>Warning indicators</span></div>
           <div id="indicators" class="indicator-list"></div>
           <div id="categories" class="categories"></div></details>
@@ -106,6 +108,6 @@
     <section id="how-it-works" class="wrap how"><div class="section-kicker">BUILT FOR TRUST</div><h2>What happens behind the screen?</h2><div class="how-grid"><div class="how-card"><span>01</span><h3>Extract</h3><p>Read text directly, convert a screenshot with OCR or transcribe a recording with consent via Sarvam AI. Browser dictation is also available.</p></div><div class="how-card"><span>02</span><h3>Cross-check</h3><p>Combine a local rules engine and text classifier with optional GPT-OSS contextual analysis via Groq. If cloud analysis fails, use the local result.</p></div><div class="how-card"><span>03</span><h3>Explain</h3><p>Highlight matched warning phrases, provide practical next steps and point toward official help.</p></div></div></section>
     <footer class="wrap footer"><span class="brand small"><span class="brand-icon">✦</span> ScamShield AI</span><span>Hackathon MVP · No account · No stored scan history</span><span>Always independently verify urgent requests. Regional translations need native-speaker review.</span></footer>
   </div>
-  <script src="/static/app.js?v=2105" defer></script>
+  <script src="/static/app.js?v=2106" defer></script>
 </body>
 </html>

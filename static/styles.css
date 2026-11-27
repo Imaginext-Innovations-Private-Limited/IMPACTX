@@ -43,3 +43,7 @@ body, button, input, textarea, select {font-family: "ScamShield Indic", "Nirmala
 .editor textarea{min-height:100px;height:112px;resize:vertical}.cloud-choice{margin-bottom:10px;padding:9px 12px}.cloud-choice .helper{margin:5px 0 0}
 .hero{padding:14px 12px 14px}.hero h1{margin:5px auto;font-size:clamp(28px,3.5vw,42px)}.hero p{margin:6px auto 8px}.hero-rescue-link{margin:2px 0 7px}
 @media(max-width:480px){.input-options{grid-template-columns:1fr}.hero{padding:12px 4px}.editor textarea{height:105px}}
+
+/* Inconclusive is not safe. */
+.risk-badge.no_clear_signal,.risk-badge.unknown{color:#ffdca0;border-color:#9b7145;background:#4f3b26;white-space:normal;max-width:48%;text-align:center;overflow-wrap:anywhere}
+.safety-note{color:#ffdca0;border:1px solid #9b7145;border-radius:8px;padding:10px 12px;font-size:13px;background:#4f3b2633}

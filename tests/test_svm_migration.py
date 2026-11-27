@@ -18,7 +18,7 @@ class Margin:
         return [self.value]
 
 
-@pytest.mark.parametrize('margin,expected', [(-1, False), (0, False), (.299, False), (.30, True), (1, True)])
+@pytest.mark.parametrize('margin,expected', [(-1, False), (0, False), (.199, False), (.20, True), (1, True)])
 def test_signed_margin_gate(margin, expected):
     assert engine._ml_suspicious(Margin(margin), 'test') is expected
 

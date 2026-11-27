@@ -294,9 +294,9 @@ def _model():
         return None
 
 
-# Conservative signed margin, NOT a probability. Selected on training-only
-# five-fold out-of-fold scores (see benchmark_svm_migration.py).
-SVM_REVIEW_MARGIN = 0.30
+# Signed margin, NOT a probability. Candidate selected on training-only
+# scenario-grouped five-fold out-of-fold scores; ML remains Review-only.
+SVM_REVIEW_MARGIN = 0.20
 
 
 def _ml_suspicious(model, text: str) -> bool:
