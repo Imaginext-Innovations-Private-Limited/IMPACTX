@@ -1,0 +1,25 @@
+﻿dataset,model,training_samples,samples,flagged_scams,missed_scams,benign_flags,benign_unflagged,recall_pct,precision_pct,f1_pct,accuracy_pct,provenance
+prior_selection,baseline_394,394,110,34,21,5,50,61.82,87.18,72.34,76.36,Windows terminal output supplied by user; not rerun
+prior_selection,mit_weighted_reference,4673,110,27,28,12,43,49.09,69.23,57.45,63.64,Windows terminal output supplied by user; not rerun
+prior_selection,bsis_balanced_research,5885,110,29,26,9,46,52.73,76.32,62.37,68.18,Windows terminal output supplied by user; not rerun
+prior_selection,mixed_source_research,10164,110,27,28,9,46,49.09,75,59.34,66.36,Windows terminal output supplied by user; not rerun
+prior_holdout,baseline_394,394,44,22,0,2,20,100,91.67,95.65,95.45,Windows terminal output supplied by user; not rerun
+prior_holdout,mit_weighted_reference,4673,44,21,1,5,17,95.45,80.77,87.5,86.36,Windows terminal output supplied by user; not rerun
+prior_holdout,bsis_balanced_research,5885,44,21,1,3,19,95.45,87.5,91.3,90.91,Windows terminal output supplied by user; not rerun
+prior_holdout,mixed_source_research,10164,44,19,3,5,17,86.36,79.17,82.61,81.82,Windows terminal output supplied by user; not rerun
+regional_development,baseline_394,394,88,44,0,13,31,100,77.19,87.13,85.23,Windows terminal output supplied by user; not rerun
+regional_development,mit_weighted_reference,4673,88,44,0,13,31,100,77.19,87.13,85.23,Windows terminal output supplied by user; not rerun
+regional_development,bsis_balanced_research,5885,88,44,0,13,31,100,77.19,87.13,85.23,Windows terminal output supplied by user; not rerun
+regional_development,mixed_source_research,10164,88,44,0,14,30,100,75.86,86.27,84.09,Windows terminal output supplied by user; not rerun
+external_mit_group_filtered,baseline_394,394,473,115,86,23,249,57.21,83.33,67.85,76.96,Windows terminal output supplied by user; not rerun
+external_mit_group_filtered,mit_weighted_reference,4673,473,199,2,0,272,99,100,99.5,99.58,Windows terminal output supplied by user; not rerun
+external_mit_group_filtered,bsis_balanced_research,5885,473,113,88,31,241,56.22,78.47,65.51,74.84,Windows terminal output supplied by user; not rerun
+external_mit_group_filtered,mixed_source_research,10164,473,197,4,1,271,98.01,99.49,98.75,98.94,Windows terminal output supplied by user; not rerun
+bsis_validation,baseline_394,394,1268,199,557,81,431,26.32,71.07,38.42,49.68,Windows terminal output supplied by user; not rerun
+bsis_validation,mit_weighted_reference,4673,1268,342,414,174,338,45.24,66.28,53.77,53.63,Windows terminal output supplied by user; not rerun
+bsis_validation,bsis_balanced_research,5885,1268,482,274,150,362,63.76,76.27,69.45,66.56,Windows terminal output supplied by user; not rerun
+bsis_validation,mixed_source_research,10164,1268,479,277,143,369,63.36,77.01,69.52,66.88,Windows terminal output supplied by user; not rerun
+bsis_seen_test,baseline_394,394,1171,160,598,95,318,21.11,62.75,31.59,40.82,Windows terminal output supplied by user; not rerun
+bsis_seen_test,mit_weighted_reference,4673,1171,326,432,145,268,43.01,69.21,53.05,50.73,Windows terminal output supplied by user; not rerun
+bsis_seen_test,bsis_balanced_research,5885,1171,458,300,146,267,60.42,75.83,67.25,61.91,Windows terminal output supplied by user; not rerun
+bsis_seen_test,mixed_source_research,10164,1171,449,309,144,269,59.23,75.72,66.47,61.32,Windows terminal output supplied by user; not rerun

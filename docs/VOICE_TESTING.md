@@ -1,5 +1,7 @@
 # v1.2 — Native speaker review and audio QA checklist
 
+> Historical notes. For current v2.1 behavior and setup, see [final release guide](FINAL_RELEASE.md) and [README](../README.md).
+
 ## Why voice-first, not text-only?
 A person may understand spoken Bengali, Hindi, Kannada, Telugu, or Odia but be uncomfortable reading the language's script. ScamShield keeps the familiar English navigation for the initial hackathon, provides a spoken warning in the chosen language when a matching voice or local clip exists, and shows the text as a fallback. This is a prototype; consider icon-only controls and fully localized navigation in later work.
 

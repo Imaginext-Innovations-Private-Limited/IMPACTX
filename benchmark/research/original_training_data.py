@@ -1,0 +1,87 @@
+"""Frozen original 64 synthetic training samples for historical research."""
+SUSPICIOUS = ['I am calling from the crime branch your identity is linked to money '
+ 'laundering send funds to verify',
+ 'You are under digital arrest due to a parcel containing illegal drugs '
+ 'transfer the verification fee',
+ 'Police department notice you are under investigation stay on video call and '
+ 'do not tell anyone',
+ 'Your parcel is seized by customs for narcotics you must settle the fine '
+ 'immediately',
+ 'CBI officer here your case will be registered if you do not pay the security '
+ 'deposit',
+ 'Your bank KYC is expired and your account will be blocked click this link to '
+ 'update now',
+ 'Dear customer verify OTP to avoid suspension of your SIM card service',
+ 'Bank account deactivation alert provide your one time password for '
+ 'reactivation',
+ 'Your electricity connection will disconnect immediately pay the pending fee '
+ 'by the link',
+ 'Your Aadhaar was used for criminal activity transfer money to a safe account '
+ 'urgently',
+ 'Approve the UPI collect request to receive your prize money',
+ 'Enter your UPI PIN to receive cashback into your account immediately',
+ 'You have won a lottery pay the processing charge to release the winnings',
+ 'Install AnyDesk so our support executive can verify your banking account',
+ 'Please share your screen and enter PIN for refund verification',
+ 'Do not tell your family you must settle this investigation on video call '
+ 'right now',
+ 'Courier fraud alert your parcel has banned substances pay the penalty to '
+ 'avoid arrest',
+ 'SIM KYC update last warning click this link now or your number gets blocked',
+ 'You need to transfer 15000 to a verification account or police will arrest '
+ 'you',
+ 'RBI customer support asks you to provide OTP to activate your account',
+ 'Refund available please accept collect request and submit UPI PIN',
+ 'A fake government officer demands you deposit bail money immediately',
+ 'Customs has seized your parcel and police case is opened pay investigation '
+ 'fees',
+ 'Bank security desk requires the CVV and OTP for this urgent payment release',
+ 'To stop a warrant from being issued join this private video meeting and '
+ 'deposit the fine',
+ 'Your wallet account is suspended download remote control app to complete '
+ 'reactivation',
+ 'Final warning your digital arrest starts today pay the compliance charge',
+ 'Claim the cashback prize by entering your UPI PIN on this form',
+ 'Your WhatsApp account will close urgently share the OTP with the security '
+ 'team',
+ 'The parcel courier officer says narcotics were found and you must transfer '
+ 'an investigation deposit',
+ 'KYC suspended urgently share password and your OTP with our verification '
+ 'agent',
+ 'We are from cyber police do not hang up and do not tell anyone about the '
+ 'arrest warrant']
+BENIGN = ['Your package has been delivered to the reception desk at 2 pm',
+ 'The department meeting is scheduled for Friday afternoon at the office',
+ "Your electricity bill for October is available in the provider's official "
+ 'app',
+ 'I have sent the documents you requested please review them before our '
+ 'discussion',
+ 'Reminder your dentist appointment is tomorrow at 10 am',
+ 'Your train ticket confirmation is attached to this email for reference',
+ 'The university career fair is open for registration this week',
+ 'The school seminar will be conducted at 4 pm on campus',
+ 'Please read the agenda before our online conference tomorrow',
+ 'Our store order has shipped and tracking is available in your app',
+ 'The courier partner attempted delivery and will try again tomorrow',
+ 'You can check the transaction history safely in your banking app',
+ 'Thank you for the payment your subscription is now active',
+ 'Please share the presentation slides in our class group',
+ 'I am sending you the photos from the weekend trip',
+ 'Our department has updated the library opening hours',
+ 'There will be scheduled maintenance of the college network this Sunday',
+ 'The grocery delivery will arrive between 6 and 7 pm',
+ 'Your order refund has been processed to your original payment method',
+ 'This is a scam alert never share your OTP or UPI PIN with unknown callers',
+ 'Cybercrime awareness workshop will discuss digital arrest fraud cases',
+ 'My account summary has been generated and is available in the official '
+ 'application',
+ 'An invitation for our family gathering was sent yesterday',
+ "Reminder to bring your identity card for tomorrow's examination",
+ 'Bank educational newsletter explaining safe UPI transactions',
+ 'We recommend not clicking on suspicious links received over SMS',
+ 'The payroll team will issue salary slips at the end of each month',
+ 'Your parcel delivery was rescheduled at your own request',
+ 'Dear students please update the class attendance register before Monday',
+ 'I would like to arrange a meeting about the new project sprint',
+ 'The help desk has shared the ticket number for your service request',
+ 'Official bank notice: always use our app and never disclose your password']

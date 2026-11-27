@@ -1,0 +1,11 @@
+en 200 1.0 high high
+hi 200 1.0 review review
+bn 200 1.0 caution caution
+kn 200 1.0 caution caution
+te 200 1.0 caution caution
+or 200 0.929 caution no_clear_signal
+mr 200 1.0 caution caution
+ta 200 0.966 caution caution
+ml 200 0.875 caution no_clear_signal
+gu 200 1.0 caution caution
+pa 200 1.0 caution caution

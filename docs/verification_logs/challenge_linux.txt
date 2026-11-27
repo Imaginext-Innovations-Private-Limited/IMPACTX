@@ -1,0 +1,12 @@
+ALL {'samples': 44, 'flagged_scams': 16, 'missed_scams': 6, 'benign_flags': 5, 'benign_unflagged': 17, 'recall_pct': 72.73, 'precision_pct': 76.19, 'f1_pct': 74.42, 'accuracy_pct': 75.0}
+bn {'samples': 4, 'flagged_scams': 1, 'missed_scams': 1, 'benign_flags': 1, 'benign_unflagged': 1, 'recall_pct': 50.0, 'precision_pct': 50.0, 'f1_pct': 50.0, 'accuracy_pct': 50.0}
+en {'samples': 4, 'flagged_scams': 2, 'missed_scams': 0, 'benign_flags': 1, 'benign_unflagged': 1, 'recall_pct': 100.0, 'precision_pct': 66.67, 'f1_pct': 80.0, 'accuracy_pct': 75.0}
+gu {'samples': 4, 'flagged_scams': 2, 'missed_scams': 0, 'benign_flags': 0, 'benign_unflagged': 2, 'recall_pct': 100.0, 'precision_pct': 100.0, 'f1_pct': 100.0, 'accuracy_pct': 100.0}
+hi {'samples': 4, 'flagged_scams': 2, 'missed_scams': 0, 'benign_flags': 1, 'benign_unflagged': 1, 'recall_pct': 100.0, 'precision_pct': 66.67, 'f1_pct': 80.0, 'accuracy_pct': 75.0}
+kn {'samples': 4, 'flagged_scams': 1, 'missed_scams': 1, 'benign_flags': 0, 'benign_unflagged': 2, 'recall_pct': 50.0, 'precision_pct': 100.0, 'f1_pct': 66.67, 'accuracy_pct': 75.0}
+ml {'samples': 4, 'flagged_scams': 1, 'missed_scams': 1, 'benign_flags': 0, 'benign_unflagged': 2, 'recall_pct': 50.0, 'precision_pct': 100.0, 'f1_pct': 66.67, 'accuracy_pct': 75.0}
+mr {'samples': 4, 'flagged_scams': 2, 'missed_scams': 0, 'benign_flags': 1, 'benign_unflagged': 1, 'recall_pct': 100.0, 'precision_pct': 66.67, 'f1_pct': 80.0, 'accuracy_pct': 75.0}
+or {'samples': 4, 'flagged_scams': 2, 'missed_scams': 0, 'benign_flags': 0, 'benign_unflagged': 2, 'recall_pct': 100.0, 'precision_pct': 100.0, 'f1_pct': 100.0, 'accuracy_pct': 100.0}
+pa {'samples': 4, 'flagged_scams': 2, 'missed_scams': 0, 'benign_flags': 0, 'benign_unflagged': 2, 'recall_pct': 100.0, 'precision_pct': 100.0, 'f1_pct': 100.0, 'accuracy_pct': 100.0}
+ta {'samples': 4, 'flagged_scams': 0, 'missed_scams': 2, 'benign_flags': 1, 'benign_unflagged': 1, 'recall_pct': 0.0, 'precision_pct': 0.0, 'f1_pct': 0.0, 'accuracy_pct': 25.0}
+te {'samples': 4, 'flagged_scams': 1, 'missed_scams': 1, 'benign_flags': 0, 'benign_unflagged': 2, 'recall_pct': 50.0, 'precision_pct': 100.0, 'f1_pct': 66.67, 'accuracy_pct': 75.0}

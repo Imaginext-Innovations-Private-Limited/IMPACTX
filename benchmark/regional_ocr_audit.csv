@@ -1,0 +1,12 @@
+﻿language,ocr_status,text_similarity,original_level,ocr_level,extracted
+en,200,1.0,high,high,Transfer money to avoid arrest.
+hi,200,1.0,review,review,जेल से बचने के लिए अभी पैसे भेजें।
+bn,200,1.0,caution,caution,গ্রেপ্তার এড়াতে এখন টাকা পাঠান।
+kn,200,1.0,caution,caution,ಜೈಲು ತಪ್ಪಿಸಲು ಹಣ ಕಳುಹಿಸಿ.
+te,200,1.0,caution,caution,జైలు తప్పించుకోవడానికి డబ్బు పంపండి.
+or,200,0.929,caution,no_clear_signal,"ଜେଲ ଏଡ଼ାଇବାକୁ ଟଙ୍କା ପଠାନ୍ତା,"
+mr,200,1.0,caution,caution,अटक टाळण्यासाठी पैसे पाठवा.
+ta,200,0.966,caution,caution,சிறை தண்டனையைத்‌ தவிர்க்க பணம்‌ அனுப்புங்கள்‌.
+ml,200,0.875,caution,no_clear_signal,ജയില്‍ ഒഴിവാക്കാന്‍ പണം അയയ്ക്കുക.
+gu,200,1.0,caution,caution,જેલ ટાળવા માટે રકમ મોકલો.
+pa,200,1.0,caution,caution,ਜੇਲ੍ਹ ਤੋਂ ਬਚਣ ਲਈ ਰਕਮ ਭੇਜੋ।

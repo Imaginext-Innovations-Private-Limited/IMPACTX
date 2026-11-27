@@ -243,3 +243,10 @@ for _pairs in REGIONAL_PAIRS.values():
     for _suspicious, _benign in _pairs:
         SUSPICIOUS.append(_suspicious)
         BENIGN.append(_benign)
+
+# Additional development contrast pairs; the benchmark selection/holdout is excluded.
+from .extra_training import PAIRS as EXTRA_PAIRS
+for _pairs in EXTRA_PAIRS.values():
+    for _suspicious, _benign in _pairs:
+        SUSPICIOUS.append(_suspicious)
+        BENIGN.append(_benign)

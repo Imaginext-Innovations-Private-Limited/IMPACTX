@@ -11,8 +11,10 @@ def test_uncertainty_is_visible_before_actions_and_never_green():
     assert html.index('id="safety-note"') < html.index('id="actions"')
     assert html.index('id="coverage-note"') < html.index('id="actions"')
     assert 'id="risk-index-panel"' in html
-    style = re.search(r'\.risk-badge\.no_clear_signal,\.risk-badge\.unknown\{([^}]+)\}', css)
-    assert style and 'color:#ffdca0' in style.group(1)
+    neutral = re.findall(r'\.risk-badge\.no_clear_signal\{([^}]+)\}', css)
+    assert neutral and all('color:#d1d5db' in rule for rule in neutral)
+    assert re.search(r'\.risk-badge\.unknown\{color:#ffdca0', css)
+    assert re.search(r'\.safety-note\{color:#ffdca0', css)
 
 
 def test_inconclusive_label_and_copy_and_meter():
@@ -24,3 +26,8 @@ def test_inconclusive_label_and_copy_and_meter():
     assert 'safetyUnconfirmed(d)?[safetyLabel(d),safetyNote(d)' in js.split('function copyReport()', 1)[1].split('\n', 1)[0]
     labels = js.split('const safetyUnconfirmedLabels=Object.freeze({', 1)[1].split('});', 1)[0]
     assert set(re.findall(r'\b([a-z]{2}):"', labels)) == {'en','hi','bn','kn','te','or','mr','ta','ml','gu','pa'}
+
+    neutral_labels = js.split('const noClearSignalLabels=Object.freeze({', 1)[1].split('});', 1)[0]
+    assert set(re.findall(r'\b([a-z]{2}):"', neutral_labels)) == {'en','hi','bn','kn','te','or','mr','ta','ml','gu','pa'}
+    assert 'en:"NO CLEAR SIGNAL"' in neutral_labels
+    assert 'data.level==="no_clear_signal"?noClearSignalLabels:safetyUnconfirmedLabels' in js

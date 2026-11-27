@@ -1,5 +1,7 @@
 # Three-day four-person sprint plan
 
+> Historical notes. For current v2.1 behavior and setup, see [final release guide](FINAL_RELEASE.md) and [README](../README.md).
+
 ## Deliverable definition (acceptance criteria)
 - Fully launchable on a Windows laptop with `run.bat`.
 - Five demo scenarios available and results are visibly distinct.

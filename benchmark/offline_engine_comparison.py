@@ -8,7 +8,8 @@ import csv
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from scamshield import engine, training_data
+from scamshield import engine, training_data, regional_context
+from unittest.mock import patch
 
 SELECTION = {
     'en': [
@@ -153,7 +154,7 @@ def evaluate(name, sets):
     return rows
 
 
-def main():
+def historical_main():
     sets = [('prior_selection', SELECTION), ('new_synthetic_holdout', HOLDOUT)]
     suspicious, benign = training_data.SUSPICIOUS[:], training_data.BENIGN[:]
     margin = engine.SVM_REVIEW_MARGIN
@@ -166,8 +167,8 @@ def main():
         engine._model.cache_clear()
         rows = evaluate('baseline_64', sets)
     finally:
-        training_data.SUSPICIOUS[:] = suspicious
-        training_data.BENIGN[:] = benign
+        training_data.SUSPICIOUS[:] = suspicious[:175]
+        training_data.BENIGN[:] = benign[:175]
         engine.SVM_REVIEW_MARGIN = margin
         engine._model.cache_clear()
     rows += evaluate('candidate_350', sets)
@@ -187,7 +188,11 @@ def main():
         writer.writeheader()
         writer.writerows(rows)
     print('Saved:', output)
+    training_data.SUSPICIOUS[:] = suspicious
+    training_data.BENIGN[:] = benign
+    engine._model.cache_clear()
 
 
 if __name__ == '__main__':
-    main()
+    with patch.object(regional_context, 'regional_context_findings', lambda text: []):
+        historical_main()

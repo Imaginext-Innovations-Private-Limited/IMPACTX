@@ -113,8 +113,8 @@ def choose_topic(result):
     ids = {x['id'] for x in result['indicators']}
     # Strong category-specific evidence takes precedence over broad keyword matches.
     groups = (
-        ('upi', {'receive_pin','collect_request','mistake_return','just_accept','mr_receive_pin'}),
-        ('arrest', {'arrest','regional_arrest','arrest_hinglish','safe_account','stay_on_call','mr_arrest','ta_arrest_demand','ml_arrest_demand','gu_arrest_demand','pa_arrest_demand'}),
+        ('upi', {'receive_pin','collect_request','mistake_return','just_accept','mr_receive_pin','regional_context_receive_pin'}),
+        ('arrest', {'arrest','regional_arrest','arrest_hinglish','safe_account','stay_on_call','mr_arrest','ta_arrest_demand','ml_arrest_demand','gu_arrest_demand','pa_arrest_demand','regional_context_arrest'}),
         ('courier', {'courier','regional_courier','mr_courier'}),
         ('kyc', {'kyc','regional_kyc','account_block','mr_kyc'}),
         ('remote', {'remote_control','remote_install','apk_install'}),

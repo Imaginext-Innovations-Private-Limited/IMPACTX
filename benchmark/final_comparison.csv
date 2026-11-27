@@ -1,0 +1,7 @@
+﻿dataset,model,scams_flagged,scams_missed,benign_flagged,benign_unflagged,accuracy_pct,precision_pct,recall_pct,f1_pct,high_risk_scams
+prior_selection,uploaded_350,34,21,11,44,70.91,75.56,61.82,68.0,0
+prior_selection,candidate_394,34,21,5,50,76.36,87.18,61.82,72.34,0
+prior_holdout,uploaded_350,22,0,6,16,86.36,78.57,100.0,88.0,0
+prior_holdout,candidate_394,22,0,2,20,95.45,91.67,100.0,95.65,0
+regional_development,uploaded_350,35,9,13,31,75.0,72.92,79.55,76.09,2
+regional_development,candidate_394,44,0,13,31,85.23,77.19,100.0,87.13,2

@@ -38,7 +38,9 @@ def home():
 
 @app.get("/api/health")
 def health():
+    from .training_data import SUSPICIOUS, BENIGN
     return {"status": "ok", "version": __version__, "privacy": "No content persisted by server",
+            "training_samples": len(SUSPICIOUS) + len(BENIGN), "offline_engine": "tfidf-linear-svm-regional-context",
             "groq_configured": bool(os.environ.get("GROQ_API_KEY", "").strip())}
 
 @app.get("/api/voice-prompts")

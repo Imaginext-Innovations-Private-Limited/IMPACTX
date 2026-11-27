@@ -7,13 +7,13 @@ A person sees a threatening WhatsApp message or a UPI collect request. We reduce
 **Rejected:** intercept live phone calls, read private WhatsApp chats, link directly to UPI apps, train a massive deepfake detector in two days. They need sensitive permissions, partner APIs and extensive security review. **Selected:** working browser-based, real-time **analysis of user-supplied text**, screenshots and optional microphone dictation.
 
 ## Decision 2 — Explainability over flashy metrics
-Instead of a misleading “98% fraud confidence,” show each rule match with the exact snippet of user-supplied text, a short rationale and actionable safety advice. The 0–10 display is a heuristic risk index, not statistical probability or measured accuracy.
+Instead of a misleading “98% fraud confidence,” show each rule match with the exact snippet of user-supplied text, a short rationale and actionable safety advice. Any displayed risk index is heuristic, not statistical probability or measured accuracy.
 
 ## Decision 3 — Hybrid instead of LLM-only
 An explicit engine handles high-risk, well-understood behaviors (asking for UPI PIN to receive money, collecting OTPs, remote access demands). A tiny local ML classifier trained on **synthetic** text can request a Review when language resembles examples but no strong rules match. The model's performance is not validated externally; no invented accuracy numbers.
 
 ## Decision 4 — Sensitivity to false alarms
-Legitimate KYC messages and cybersecurity awareness content can contain suspicious keywords. Generic urgency is only a weak signal; scores must not claim verified fraud. UI always says “not enough context” when the text is too short and “no clear signal” rather than “safe” when nothing matches.
+Legitimate KYC messages and cybersecurity awareness content can contain suspicious keywords. Generic urgency is only a weak signal; scores must not claim verified fraud. UI always says “not enough context” when the text is too short and “No Clear Signal” rather than “safe” when nothing matches.
 
 ## Decision 5 — Privacy and consent
 Never silently read someone's messages. Never save scans to a database or log their text. Uploaded images are OCR'd in memory. Mic capture is permissioned and browser dependent, and may use an external browser speech provider. For commercial production: privacy impact assessment, TLS, access control, server limits, consent, data retention policy, independent security testing and legal review.
@@ -39,7 +39,7 @@ Test on at least four fraud classes (digital arrest, KYC, courier, UPI), legitim
 **What did the team prioritize?** Safety impact, visible end-to-end workflow, transparent architecture, testability, privacy and clean deployment over a long list of incomplete integrations.
 
 
-## v1.2 — A voice-first multilingual accessibility layer (23 Nov 2026)
+## Historical v1.2 — A voice-first multilingual accessibility layer (23 Nov 2026)
 
 **User need:** Fluent speakers of Bengali, Hindi, Kannada, Telugu and Odia may not be comfortable reading/writing those scripts. A text-only translation selector would exclude people who need spoken warnings.
 
@@ -50,3 +50,13 @@ Test on at least four fraud classes (digital arrest, KYC, courier, UPI), legitim
 **Privacy:** Audio prompts are fixed localized strings selected by risk level. No user message, extracted secrets, matched evidence, or complaint draft is supplied to text-to-speech. Locally recorded voice packs require explicit contributor consent prior to publication.
 
 **Testing:** New tests verify multilingual API shapes, output/input-language independence, four native-script synthetic scam examples, four safe OTP messages, and voice script secret isolation. No evidence of population-level detection accuracy is claimed.
+
+## v2.1 final model decision
+
+Retain character TF-IDF and Linear SVM; expand synthetic training to 350 messages and use a 0.20 signed margin. ML-only flags remain Review. See [benchmark guide](../benchmark/README.md) for trade-offs, semantic model rejection and limitations.
+
+### Final v2.1 candidate refinement
+Keep the same TF-IDF/SVM and 0.20 threshold. Add 22 balanced synthetic contrast pairs (44 messages) in two scenario families, giving 394 messages total. Add local concept co-occurrence checks for four regional fraud behaviors only where existing rules have not already established Caution or High; require affirmative action wording and consider nearby negation. This is a limited language lexicon, not a translator. The changes are evaluated together, and the regional audit is development evidence. The final comparison records misses and false alarms; independent native-speaker and real-world evaluation remains required.
+
+## v2.1.1 release readiness
+Retain the 394-message model, because the 4,673 / 5,885 / 10,164 external-data candidates had cross-source regressions and BSIS-derived models are not cleared for product distribution. Add a separate threshold-voting research evaluator, no production ML change. Fix clipboard fallback feedback so a denied copy is not reported as successful. Browser DOM smoke uses actual HTML/JS and the FastAPI backend, with providers and recognition events simulated. New challenge and regional OCR audit disclose remaining misses.

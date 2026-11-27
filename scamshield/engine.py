@@ -410,6 +410,19 @@ def analyze(text: str, channel: str = "message", language: str = "en") -> dict[s
         matched[0]["weight"] = total = 1
         cat_scores["Job / task scam"] = 1
 
+    # Add compositional native-script evidence only when existing rules have not
+    # already established caution/high. Never double-count a strong rule.
+    if total < 3:
+        from .regional_context import regional_context_findings
+        regional = regional_context_findings(rule_text)
+        if regional:
+            finding = max(regional, key=lambda m: m['weight'])
+            finding['evidence'] = text[finding['start']:finding['end']][:160]
+            total += finding['weight']
+            cat_scores[finding.pop('_category')] += finding['weight']
+            matched.append(finding)
+            context.append(finding)
+
     # ML is a weak signal, not a fraud-certification engine. No claimed calibrated confidence.
     ml = _model()
     model_signal = "unavailable" if ml is None else "not_triggered"

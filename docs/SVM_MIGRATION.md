@@ -1,5 +1,7 @@
 # ScamShield AI — experimental Linear SVM migration
 
+> Historical notes. For current v2.1 behavior and setup, see [final release guide](FINAL_RELEASE.md) and [README](../README.md).
+
 ## Decision and safeguards
 
 The candidate was integrated into the v2.1 development branch after Windows regression and live offline/hybrid checks. The stable v2.0.1 release remains unchanged. The bundled 64 synthetic training messages and character-level TF-IDF (3–5 grams) are unchanged. LinearSVC replaces LogisticRegression. The model is fitted locally on first use and cached. The former threshold (LR score >= 0.85) is replaced with a signed SVM decision margin >= 0.30, NOT a probability. The five-word minimum and Review-only cap are preserved. No safety rules, score scale, cloud integration, language handling, OCR, frontend, or voice files changed. These statements describe the migration experiment itself, not subsequent UI updates.

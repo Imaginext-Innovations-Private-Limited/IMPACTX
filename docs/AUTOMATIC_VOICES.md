@@ -1,5 +1,7 @@
 # v1.2.1 — Create voices automatically (no recordings needed)
 
+> Historical notes. For current v2.1 behavior and setup, see [final release guide](FINAL_RELEASE.md) and [README](../README.md).
+
 ## Quick demo setup on Windows
 
 1. Run `run.bat` once to set up the virtual environment. This optional legacy helper covers six languages; Sarvam is the preferred seven-language path.

@@ -1,0 +1,5 @@
+Release: 2.1.1 | Training samples: 394
+PASS: six text and regional regression cases
+PASS: 121 basic clips; 121 optional natural cached clips available
+PASS: actual English OCR and subsequent detection
+Offline smoke check complete. Live browser/provider tests are separate.

@@ -1,0 +1,10 @@
+Cloud analysis: GPT-OSS 120B: HTTP 503
+Cloud analysis: GPT-OSS 120B: HTTP 503
+Cloud analysis: GPT-OSS 20B: HTTP 503
+PASS: neutral warning, clipboard success and denied-copy feedback
+PASS: high-risk UI, warning play/stop controls, five rescue scenarios
+PASS: explicit cloud choice, mocked primary/backup/failure, offline transition without automatic requests
+PASS: real OCR upload, manual review and analysis
+PASS: simulated microphone events, stop and review
+PASS: actual WAV metadata and upload, mocked Sarvam transcription, manual analysis
+PASS: all eleven response-language selections, voice availability and Clear; no uncaught JS errors

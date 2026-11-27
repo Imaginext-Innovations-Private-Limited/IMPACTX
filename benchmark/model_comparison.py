@@ -12,7 +12,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 from sklearn.model_selection import RepeatedStratifiedKFold, cross_val_score
 
-# Import the existing project's training dataset.
+# Import the original training rows from the expanded project dataset.
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 from scamshield.training_data import SUSPICIOUS, BENIGN
@@ -43,8 +43,10 @@ PAIRS = [
 
 
 def main():
-    X = SUSPICIOUS + BENIGN
-    y = [1] * len(SUSPICIOUS) + [0] * len(BENIGN)
+    # Keep this historical comparison on the original 64 training rows.
+    suspicious, benign = SUSPICIOUS[:32], BENIGN[:32]
+    X = suspicious + benign
+    y = [1] * len(suspicious) + [0] * len(benign)
     test_X = [message for pair in PAIRS for message in pair]
     test_y = [label for _ in PAIRS for label in (1, 0)]
     normalize = lambda text: ' '.join(text.casefold().split())
