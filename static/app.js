@@ -14,7 +14,7 @@ const examples = {
 };
 let cloudPreference=false, cloudFallback=false;
 let lastResult=null, pendingRequest=null, groqConfigured=null, currentTab="text", recognition=null, micActive=false;
-const supportedVoiceLocales={en:"en-IN",hi:"hi-IN",bn:"bn-IN",kn:"kn-IN",te:"te-IN",or:"or-IN",mr:"mr-IN"};
+const supportedVoiceLocales={en:"en-IN",hi:"hi-IN",bn:"bn-IN",kn:"kn-IN",te:"te-IN",or:"or-IN",mr:"mr-IN",ta:"ta-IN",ml:"ml-IN",gu:"gu-IN",pa:"pa-IN"};
 let speakingUtterance=null, recordingClip=null, clipUrl=null, voiceMode=null, voiceCheck=0, playbackAttempt=0, inputRevision=0, imageRequest=null, audioRequest=null, audioDurationSeconds=null, audioSelection=0;
 function setStatus(text,error=false){$("status").textContent=text;$("status").classList.toggle("error",error)}
 function setText(t){inputRevision++;$("message").value=t.slice(0,6000);$("char-count").textContent=`${$("message").value.length} / 6000`;}
@@ -65,7 +65,11 @@ const modelOnlyNotes=Object.freeze({
   kn:"ಸ್ಥಳೀಯ ಯಂತ್ರ ಕಲಿಕೆ ಮಾದರಿಯು ಸಂದೇಶದಲ್ಲಿ ಅನುಮಾನಾಸ್ಪದ ಮಾದರಿಗಳನ್ನು ಗುರುತಿಸಿದೆ. ಯಾವುದೇ ನಿರ್ದಿಷ್ಟ ವಂಚನೆ ನಿಯಮ ಹೊಂದಿಕೆಯಾಗಿಲ್ಲ. ಕಳುಹಿಸಿದವರನ್ನು ಸ್ವತಂತ್ರವಾಗಿ ಪರಿಶೀಲಿಸಿ।",
   te:"స్థానిక మెషిన్ లెర్నింగ్ నమూనా సందేశంలో అనుమానాస్పద నమూనాలను గుర్తించింది. నిర్దిష్ట మోసం నియమం ఏదీ సరిపోలలేదు. పంపిన వారిని స్వతంత్రంగా ధృవీకరించండి.",
   or:"ସ୍ଥାନୀୟ ମେସିନ୍ ଲର୍ଣ୍ଣିଂ ମଡେଲ୍ ବାର୍ତ୍ତାରେ ସନ୍ଦେହଜନକ ଢାଞ୍ଚା ଚିହ୍ନଟ କରିଛି। କୌଣସି ନିର୍ଦ୍ଦିଷ୍ଟ ଠକେଇ ନିୟମ ମେଳ ଖାଇନାହିଁ। ପ୍ରେରକଙ୍କୁ ସ୍ୱାଧୀନ ଭାବେ ଯାଞ୍ଚ କରନ୍ତୁ।",
-  mr:"स्थानिक मशीन लर्निंग मॉडेलला संदेशात संशयास्पद नमुने आढळले. कोणताही विशिष्ट फसवणूक नियम जुळला नाही. पाठवणाऱ्याची स्वतंत्रपणे पडताळणी करा."
+  mr:"स्थानिक मशीन लर्निंग मॉडेलला संदेशात संशयास्पद नमुने आढळले. कोणताही विशिष्ट फसवणूक नियम जुळला नाही. पाठवणाऱ्याची स्वतंत्रपणे पडताळणी करा.",
+  ta:"உள்ளூர் இயந்திரக் கற்றல் மாதிரி சந்தேகத்திற்குரிய சொல் வடிவங்களைக் கண்டறிந்தது. குறிப்பிட்ட மோசடி விதி பொருந்தவில்லை. அனுப்பியவரை தனியாகச் சரிபார்க்கவும்.",
+  ml:"പ്രാദേശിക മെഷീൻ ലേണിങ് മാതൃക സംശയകരമായ എഴുത്ത് രീതികൾ കണ്ടെത്തി. പ്രത്യേക തട്ടിപ്പ് നിയമം പൊരുത്തപ്പെട്ടില്ല. അയച്ചയാളെ സ്വതന്ത്രമായി പരിശോധിക്കുക.",
+  gu:"સ્થાનિક મશીન લર્નિંગ મોડેલે શંકાસ્પદ લખાણના નમૂના શોધ્યા છે. છેતરપિંડીનો કોઈ ચોક્કસ નિયમ મળ્યો નથી. મોકલનારની સ્વતંત્ર રીતે તપાસ કરો.",
+  pa:"ਸਥਾਨਕ ਮਸ਼ੀਨ ਲਰਨਿੰਗ ਮਾਡਲ ਨੂੰ ਸ਼ੱਕੀ ਲਿਖਤ ਦੇ ਨਮੂਨੇ ਮਿਲੇ ਹਨ। ਕੋਈ ਖਾਸ ਧੋਖਾਧੜੀ ਨਿਯਮ ਨਹੀਂ ਮਿਲਿਆ। ਭੇਜਣ ਵਾਲੇ ਦੀ ਸੁਤੰਤਰ ਜਾਂਚ ਕਰੋ."
 });
 function modelOnlyNote(data){
   if(data.level!=="review"||data.model_signal!=="suspicious_wording"||data.score!==2||data.indicators.length!==0||data.analysis_mode==="hybrid")return "";
@@ -254,13 +258,6 @@ function showRescue(choice){
   $("rescue-steps").replaceChildren(...steps.map(step=>make("li",step)));
 }
 function setupUsability(){
-  const select=$("language"), buttons=$("language-buttons");
-  const sync=()=>buttons.querySelectorAll("button").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.language===select.value)));
-  for(const opt of select.options){
-    const button=make("button",opt.textContent,"language-button");button.type="button";button.dataset.language=opt.value;
-    button.addEventListener("click",()=>{if(select.value!==opt.value){select.value=opt.value;select.dispatchEvent(new Event("change",{bubbles:true}));}sync();});buttons.append(button);
-  }
-  select.addEventListener("change",sync);sync();$("language-choices").classList.remove("hidden");$("response-select-label").classList.add("hidden");
   const drop=$("image-drop");drop.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();$("image-input").click();}});
   for(const type of ["dragenter","dragover"])drop.addEventListener(type,e=>{e.preventDefault();drop.classList.add("drag-active");});
   for(const type of ["dragleave","drop"])drop.addEventListener(type,e=>{e.preventDefault();drop.classList.remove("drag-active");});

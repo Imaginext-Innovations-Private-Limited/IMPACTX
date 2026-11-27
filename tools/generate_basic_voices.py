@@ -29,7 +29,7 @@ sys.path.insert(0, str(ROOT))
 from scamshield import voice  # noqa: E402
 from scamshield.languages import LEVELS  # noqa: E402
 
-ESPEAK_VOICE = {"en": "en-gb-x-rp", "hi": "hi", "bn": "bn", "kn": "kn", "te": "te", "or": "or", "mr": "mr"}
+ESPEAK_VOICE = {"en": "en-gb-x-rp", "hi": "hi", "bn": "bn", "kn": "kn", "te": "te", "or": "or", "mr": "mr", "ta": "ta", "ml": "ml", "gu": "gu", "pa": "pa"}
 OUT = ROOT / "static" / "voices-basic"
 
 

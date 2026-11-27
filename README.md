@@ -19,7 +19,7 @@ Keys are not saved by the launcher. Existing environment keys can be used in nor
 1. Paste a message or upload a screenshot; check the extracted text before analysis.
 2. Click **Analyze** once after reviewing the text. With Groq configured, enable **Use online AI** for a combined AI + local assessment; leave it off for local-only analysis. Consent is off on each page load. Without a key or if the provider fails, the offline engine remains available. Editing text or settings clears stale results; nothing is analyzed automatically.
 3. For voice, use browser dictation (browser support varies) or upload a consented recording with Sarvam configured. Review the transcript before analysis.
-4. Select English, Hindi, Bengali, Kannada, Telugu, Odia or Marathi and click Hear warning. The app can reuse saved audio, synthesize fixed safety scripts with Sarvam, or fall back to browser and bundled basic voices. Verify actual pronunciation with fluent speakers.
+4. Select English, Hindi, Bengali, Kannada, Telugu, Odia, Marathi, Tamil, Malayalam, Gujarati or Punjabi and click Hear warning. The app can reuse saved audio, synthesize fixed safety scripts with Sarvam, or fall back to browser and bundled basic voices. Verify actual pronunciation with fluent speakers.
 5. For financial cybercrime, guidance links to 1930 and https://cybercrime.gov.in/. Contact your bank if money was transferred or credentials exposed.
 
 ## Architecture and boundaries
@@ -44,3 +44,6 @@ Keys are not saved by the launcher. Existing environment keys can be used in nor
 See [demo script](docs/DEMO_SCRIPT.md), [engineering decisions](docs/ENGINEERING_DECISIONS.md), [team sprint](docs/TEAM_SPRINT.md), and [optional legacy voice generation](docs/AUTOMATIC_VOICES.md). Older release notes and large test logs can be kept in a private archive outside the repo. Do not distribute generated or recorded voices without checking permissions and provider terms.
 
 License: MIT. Educational prototype.
+
+### Four additional response languages (v2.1 beta)
+Tamil, Malayalam, Gujarati and Punjabi have draft localized safety summaries and fixed audio scripts, limited regional pattern matching, and mapped OCR and speech input options. Detailed rule evidence may remain English. Native-speaker review and live Sarvam tests are pending. OCR requires the corresponding Tesseract traineddata; microphone support depends on the browser. Basic offline audio is synthetic; natural voices must be generated separately using the existing Sarvam tool. The Rescue Assistant remains English-only.

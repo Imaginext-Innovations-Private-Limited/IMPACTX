@@ -81,3 +81,23 @@ REGIONAL_RULES += (
      r"(?:पार्सल|कुरिअर|कुरियर).{0,65}(?:अमली\s*पदार्थ|अवैध\s*वस्तू|जप्त\s*केले|जप्त\s*झाले)",
      "Courier fraud", "Parcel crime claims may be used to intimidate.", "Contact the courier company independently.", "पार्सल जब्ती का दावा"),
 )
+
+# Limited beta coverage for four additional scripts; the classifier is unchanged.
+# Direct requests to disclose an authentication secret to the sender are high risk.
+# Require an explicit recipient and affirmative disclosure verb in the same clause.
+for lang, arrest, demand, code, noun, recipient, send, negative in (
+    ('ta', r'டிஜிட்டல்\s*கைது|கைது\s*செய்வோம்', r'பணம்\s*(?:அனுப்புங்கள்|அனுப்பவும்|செலுத்துங்கள்)', r'OTP|ஓடிபி|ஓ\s*டி\s*பி', r'எண்ணை|குறியீட்டை', r'எங்களுக்கு|எனக்கு|எங்களிடம்|என்னிடம்', r'அனுப்புங்கள்|அனுப்பவும்|சொல்லுங்கள்|சொல்லவும்|தாருங்கள்|கொடுங்கள்', r'வேண்டாம்|கூடாது'),
+    ('ml', r'ഡിജിറ്റൽ\s*അറസ്റ്റ്|അറസ്റ്റ്\s*ചെയ്യും', r'പണം\s*(?:അയയ്ക്കുക|അയക്കുക|നൽകുക)', r'OTP|ഒടിപി|ഓടിപി|ഓ\s*ടി\s*പി', r'നമ്പർ|കോഡ്', r'ഞങ്ങൾക്ക്|എനിക്ക്|ഞങ്ങളോട്|എന്നോട്', r'അയയ്ക്കുക|അയക്കുക|പറയുക|നൽകുക|തരുക', r'വേണ്ട|അരുത്|പാടില്ല'),
+    ('gu', r'ડિજિટલ\s*ધરપકડ|ધરપકડ\s*કરીશું', r'(?:પૈસા|રકમ)\s*(?:મોકલો|ભરો)', r'OTP|ઓટીપી|ઓ\s*ટી\s*પી', r'નંબર|કોડ', r'અમને|મને', r'મોકલો|જણાવો|આપો|કહો', r'નહીં|નહી|નહિ'),
+    ('pa', r'ਡਿਜੀਟਲ\s*ਗ੍ਰਿ?ਫਤਾਰੀ|ਡਿਜੀਟਲ\s*ਗ੍ਰਿਫ਼ਤਾਰੀ|ਗ੍ਰਿਫਤਾਰ\s*ਕਰਾਂਗੇ', r'(?:ਪੈਸੇ|ਰਕਮ)\s*(?:ਭੇਜੋ|ਦਿਓ)', r'OTP|ਓਟੀਪੀ|ਓ\s*ਟੀ\s*ਪੀ', r'ਨੰਬਰ|ਕੋਡ', r'ਸਾਨੂੰ|ਮੈਨੂੰ', r'ਭੇਜੋ|ਦੱਸੋ|ਦਿਓ', r'ਨਹੀਂ|ਨਹੀ|ਨਾ'),
+):
+    REGIONAL_RULES += (
+        (lang+'_arrest_demand', 'Arrest threat and payment demand', 8,
+         rf'(?:{arrest}).{{0,100}}(?:{demand})', 'Digital arrest',
+         'An arrest claim combined with a demand for money is a serious warning.',
+         'Verify independently; do not pay to avoid arrest.', 'गिरफ्तारी और पैसे की मांग'),
+        (lang+'_code_request', 'Request for an authentication code', 7,
+         rf'(?:{code})\s*(?:(?:{noun})\s*)?(?:{recipient})\s*(?:{send})(?=\s|[.!?।,;:]|$)(?!\s*(?:{negative}))', 'Credential theft',
+         'A request to disclose an authentication code is suspicious.',
+         'Never reveal your OTP.', 'OTP की मांग'),
+    )

@@ -31,3 +31,15 @@
 .hero-rescue-link{display:inline-block;color:#ffdb9d;font-size:13px;font-weight:700;margin:4px 0 12px;text-underline-offset:3px} .upload:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
 
 .model-only-note{border-left:3px solid var(--teal);background:#112b3b;border-radius:6px;padding:10px 12px;color:#d7e9f2;font-size:13px;margin:10px 0 14px;overflow-wrap:anywhere}
+
+/* Use installed Indic script fonts for the four additional languages. */
+body, button, input, textarea, select {font-family: "ScamShield Indic", "Nirmala UI", "Latha", "Kartika", "Shruti", "Raavi", system-ui, sans-serif;}
+
+/* All languages share one native selector; source and response fit side by side. */
+.input-options{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:5px}
+.input-options label{min-width:0}.input-options select{min-width:0;min-height:44px;cursor:pointer}
+.input-options select:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.response-language-help{margin:0 0 12px}.panel-head{margin-bottom:12px}.examples{margin:5px 0 8px}
+.editor textarea{min-height:100px;height:112px;resize:vertical}.cloud-choice{margin-bottom:10px;padding:9px 12px}.cloud-choice .helper{margin:5px 0 0}
+.hero{padding:14px 12px 14px}.hero h1{margin:5px auto;font-size:clamp(28px,3.5vw,42px)}.hero p{margin:6px auto 8px}.hero-rescue-link{margin:2px 0 7px}
+@media(max-width:480px){.input-options{grid-template-columns:1fr}.hero{padding:12px 4px}.editor textarea{height:105px}}

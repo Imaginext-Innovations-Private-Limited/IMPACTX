@@ -120,7 +120,7 @@ async def transcribe_audio(request: Request, file: UploadFile = File(...), langu
         await file.close()
         raise HTTPException(status_code=400, detail="Confirm permission to send this recording to Sarvam AI.")
     language_codes = {"en":"en-IN", "hi":"hi-IN", "bn":"bn-IN", "kn":"kn-IN",
-                     "te":"te-IN", "or":"od-IN", "mr":"mr-IN"}
+                     "te":"te-IN", "or":"od-IN", "mr":"mr-IN", "ta":"ta-IN", "ml":"ml-IN", "gu":"gu-IN", "pa":"pa-IN"}
     if language not in language_codes:
         await file.close()
         raise HTTPException(status_code=422, detail="Unsupported audio language")
@@ -224,7 +224,7 @@ async def ocr_image(file: UploadFile = File(...), language: str = Query("auto"))
                 if candidate.is_file():
                     pytesseract.pytesseract.tesseract_cmd = str(candidate)
             installed = pytesseract.get_languages(config="")
-            desired = {"en":"eng", "hi":"hin", "bn":"ben", "kn":"kan", "te":"tel", "or":"ori", "mr":"mar"}
+            desired = {"en":"eng", "hi":"hin", "bn":"ben", "kn":"kan", "te":"tel", "or":"ori", "mr":"mar", "ta":"tam", "ml":"mal", "gu":"guj", "pa":"pan"}
             if language != "auto" and desired[language] not in installed:
                 raise HTTPException(status_code=503, detail=f"OCR language {desired[language]} not installed. Add its Tesseract traineddata file.")
             requested = ("eng", "hin") if language == "auto" else tuple(dict.fromkeys((desired[language], "eng")))

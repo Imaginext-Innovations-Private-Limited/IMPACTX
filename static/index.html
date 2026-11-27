@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0a1323" />
   <meta name="description" content="ScamShield AI — understand fraud warning signs before you act." />
   <title>ScamShield AI | Check before you trust</title>
-  <link rel="stylesheet" href="/static/styles.css?v=2103" />
+  <link rel="stylesheet" href="/static/styles.css?v=2105" />
 </head>
 <body>
   <div class="app-shell">
@@ -32,10 +32,10 @@
         </div>
         <div class="input-options">
           <label for="channel">Source <select id="channel"><option value="message">Message / Other</option><option value="sms">SMS</option><option value="whatsapp">WhatsApp</option><option value="call">Call transcript</option><option value="upi">UPI / payment request</option><option value="image">Screenshot OCR</option></select></label>
-          <label id="response-select-label" for="language">Hear / explain in <select id="language" aria-label="Warning language"><option value="en">English</option><option value="hi">Hindi · हिन्दी</option><option value="bn">Bangla · বাংলা</option><option value="kn">Kannada · ಕನ್ನಡ</option><option value="te">Telugu · తెలుగు</option><option value="or">Odia · ଓଡ଼ିଆ</option><option value="mr">Marathi · मराठी</option></select></label>
+          <label id="response-select-label" for="language">Response language <select id="language" aria-label="Response language" aria-describedby="response-language-help"><option value="bn">Bangla · বাংলা</option><option value="en" selected>English</option><option value="gu">Gujarati · ગુજરાતી</option><option value="hi">Hindi · हिन्दी</option><option value="kn">Kannada · ಕನ್ನಡ</option><option value="ml">Malayalam · മലയാളം</option><option value="mr">Marathi · मराठी</option><option value="or">Odia · ଓଡ଼ିଆ</option><option value="pa">Punjabi · ਪੰਜਾਬੀ</option><option value="ta">Tamil · தமிழ்</option><option value="te">Telugu · తెలుగు</option></select></label>
         </div>
-        <div id="language-choices" class="language-choices hidden" role="group" aria-label="Response language"><strong>Hear / explain in</strong><div id="language-buttons" class="language-buttons"></div><small>Choose a language for the result. Input can be different.</small></div>
-        <div id="input-language-tools" class="tool-area hidden"><label for="input-language">Input language (OCR / audio / microphone) <select id="input-language"><option value="en">English</option><option value="hi">Hindi · हिन्दी</option><option value="bn">Bangla · বাংলা</option><option value="kn">Kannada · ಕನ್ನಡ</option><option value="te">Telugu · తెలుగు</option><option value="or">Odia · ଓଡ଼ିଆ</option><option value="mr">Marathi · मराठी</option></select></label></div>
+        <p id="response-language-help" class="helper response-language-help">Choose the language for written and spoken guidance. Input can be different.</p>
+        <div id="input-language-tools" class="tool-area hidden"><label for="input-language">Input language (OCR / audio / microphone) <select id="input-language"><option value="bn">Bangla · বাংলা</option><option value="en" selected>English</option><option value="gu">Gujarati · ગુજરાતી</option><option value="hi">Hindi · हिन्दी</option><option value="kn">Kannada · ಕನ್ನಡ</option><option value="ml">Malayalam · മലയാളം</option><option value="mr">Marathi · मराठी</option><option value="or">Odia · ଓଡ଼ିଆ</option><option value="pa">Punjabi · ਪੰਜਾਬੀ</option><option value="ta">Tamil · தமிழ்</option><option value="te">Telugu · తెలుగు</option></select></label></div>
         <div id="image-tools" class="tool-area hidden"><label id="image-drop" class="upload" for="image-input" tabindex="0" role="button" aria-label="Choose or drop a screenshot"><span class="upload-icon">⇧</span><strong>Choose or drop a screenshot</strong><small>PNG, JPG or WebP · up to 4 MB · processed on this server</small></label><input id="image-input" type="file" accept="image/png,image/jpeg,image/webp" hidden/><p id="image-file-name" class="helper" role="status"></p><p class="helper">OCR uses the selected input language if its Tesseract language data is installed. Review it before trusting the assessment.</p></div>
         <div id="audio-tools" class="tool-area hidden">
           <label class="upload audio-upload" for="audio-input"><span class="upload-icon">♫</span><strong>Choose a voice recording</strong><small>MP3, WAV, M4A, AAC, OGG, WebM or FLAC · up to 20 MB · recordings up to 3 minutes</small></label>
@@ -106,6 +106,6 @@
     <section id="how-it-works" class="wrap how"><div class="section-kicker">BUILT FOR TRUST</div><h2>What happens behind the screen?</h2><div class="how-grid"><div class="how-card"><span>01</span><h3>Extract</h3><p>Read text directly, convert a screenshot with OCR or transcribe a recording with consent via Sarvam AI. Browser dictation is also available.</p></div><div class="how-card"><span>02</span><h3>Cross-check</h3><p>Combine a local rules engine and text classifier with optional GPT-OSS contextual analysis via Groq. If cloud analysis fails, use the local result.</p></div><div class="how-card"><span>03</span><h3>Explain</h3><p>Highlight matched warning phrases, provide practical next steps and point toward official help.</p></div></div></section>
     <footer class="wrap footer"><span class="brand small"><span class="brand-icon">✦</span> ScamShield AI</span><span>Hackathon MVP · No account · No stored scan history</span><span>Always independently verify urgent requests. Regional translations need native-speaker review.</span></footer>
   </div>
-  <script src="/static/app.js?v=2103" defer></script>
+  <script src="/static/app.js?v=2105" defer></script>
 </body>
 </html>
