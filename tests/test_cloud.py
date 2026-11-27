@@ -98,3 +98,65 @@ def test_timeout(provider,monkeypatch):
     monkeypatch.setattr(cloud.httpx,'post',timeout)
     result=scan()
     assert result['analysis_mode']=='offline_fallback' and 'private error' not in str(result)
+
+
+@pytest.mark.parametrize('failure', [500, 503, 429, 422, 'invalid', 'truncated', 'timeout'])
+def test_backup_recovers_eligible_failure(monkeypatch, failure):
+    monkeypatch.setenv('GROQ_API_KEY','fake-test-key')
+    calls=[]
+    def post(url, **kwargs):
+        model=kwargs['json']['model']; calls.append(model)
+        if len(calls)==1:
+            if failure=='timeout':
+                raise httpx.ReadTimeout('PRIVATE EXCEPTION')
+            status=failure if isinstance(failure,int) else 200
+            data=payload(evidence='invented') if failure=='invalid' else payload()
+            finish='length' if failure=='truncated' else 'stop'
+        else:
+            status=200; data=payload(); finish='stop'
+        return httpx.Response(status, request=httpx.Request('POST',url),json={'choices':[{'finish_reason':finish,'message':{'content':json.dumps(data)}}]})
+    monkeypatch.setattr(cloud.httpx,'post',post)
+    result=scan()
+    assert calls==[cloud.MODEL,cloud.BACKUP_MODEL]
+    assert result['analysis_mode']=='hybrid' and result['analysis_model']==cloud.BACKUP_MODEL
+    assert result['level']=='high' and 'GPT-OSS 20B' in result['analysis_note']
+    assert 'PRIVATE EXCEPTION' not in str(result)
+
+
+@pytest.mark.parametrize('status',[400,401,403,429])
+def test_no_retry_for_auth_bad_request_or_cooldown(monkeypatch,status):
+    monkeypatch.setenv('GROQ_API_KEY','fake-test-key')
+    calls=[]
+    def post(url,**kwargs):
+        calls.append(kwargs['json']['model'])
+        return httpx.Response(status,request=httpx.Request('POST',url),headers={'retry-after':'60'} if status==429 else {},json={'error':'PRIVATE PROVIDER TEXT'})
+    monkeypatch.setattr(cloud.httpx,'post',post)
+    result=scan()
+    assert calls==[cloud.MODEL] and result['analysis_mode']=='offline_fallback'
+    assert str(status) in result['analysis_note'] and 'PRIVATE PROVIDER TEXT' not in str(result)
+
+
+def test_both_invalid_responses_fail_closed(provider,caplog):
+    calls=provider(payload(evidence='PRIVATE INVENTED EVIDENCE'))
+    result=scan()
+    assert len(calls)==2 and result['analysis_mode']=='offline_fallback'
+    assert 'response failed validation' in result['analysis_note']
+    assert 'PRIVATE INVENTED EVIDENCE' not in caplog.text
+    assert 'fake-test-key' not in caplog.text
+
+
+def test_offline_connection_failure_does_not_repeat(monkeypatch):
+    monkeypatch.setenv('GROQ_API_KEY','fake-test-key')
+    calls=[]
+    def post(url, **kwargs):
+        calls.append(kwargs['json']['model']); raise httpx.ConnectError('PRIVATE ERROR')
+    monkeypatch.setattr(cloud.httpx,'post',post)
+    result=scan()
+    assert calls==[cloud.MODEL] and result['analysis_mode']=='offline_fallback'
+    assert 'connection unavailable' in result['analysis_note']
+
+
+def test_primary_success_does_not_use_backup(provider):
+    calls=provider(payload())
+    result=scan()
+    assert len(calls)==1 and result['analysis_model']==cloud.MODEL

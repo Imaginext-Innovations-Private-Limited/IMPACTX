@@ -1,5 +1,6 @@
 """Opt-in Groq contextual screening. No message cache, tools, or URL visits."""
 import json
+import logging
 import os
 import re
 from typing import Literal
@@ -11,6 +12,9 @@ from .languages import LANGUAGE_NAMES, localize_result
 from .voice import voice_details
 
 MODEL = 'openai/gpt-oss-120b'
+BACKUP_MODEL = 'openai/gpt-oss-20b'
+MODEL_LABELS = {MODEL: 'GPT-OSS 120B', BACKUP_MODEL: 'GPT-OSS 20B'}
+LOGGER = logging.getLogger(__name__)
 URL = 'https://api.groq.com/openai/v1/chat/completions'
 SCORES = {'unknown': 0, 'no_clear_signal': 0, 'review': 2, 'caution': 5, 'high': 8}
 ORDER = {'unknown': 0, 'no_clear_signal': 1, 'review': 2, 'caution': 3, 'high': 4}
@@ -41,13 +45,13 @@ def cloud_text(text):
     return text
 
 
-def ask(text, language, key):
+def ask(text, language, key, model=MODEL):
     response = httpx.post(URL, headers={'Authorization': 'Bearer '+key}, json={
-        'model': MODEL, 'messages': [{'role': 'system', 'content': SYSTEM},
+        'model': model, 'messages': [{'role': 'system', 'content': SYSTEM},
             {'role': 'user', 'content': json.dumps({'output_language': LANGUAGE_NAMES[language][0], 'message': text}, ensure_ascii=False)}],
-        'reasoning_effort': 'low', 'max_completion_tokens': 1200,
+        'reasoning_effort': 'low', 'max_completion_tokens': 2048,
         'response_format': {'type': 'json_schema', 'json_schema': {'name': 'fraud_assessment', 'strict': True, 'schema': Assessment.model_json_schema()}},
-    }, timeout=httpx.Timeout(15, connect=4), follow_redirects=False)
+    }, timeout=httpx.Timeout(10, connect=3), follow_redirects=False)
     response.raise_for_status()
     choice = response.json()['choices'][0]
     if choice.get('finish_reason') != 'stop':
@@ -73,18 +77,45 @@ def hybrid(text, local, language):
     if not key:
         local['analysis_note'] = 'Groq key not configured. Local assessment only.'
         return local
-    try:
-        result = ask(cloud_text(text), language, key)
-    except httpx.HTTPStatusError as exc:
-        local['analysis_note'] = f'Cloud unavailable (HTTP {exc.response.status_code}). Local assessment only.'
-        return local
-    except (httpx.HTTPError, ValueError, KeyError, IndexError, TypeError, ValidationError):
-        local['analysis_note'] = 'Cloud unavailable or response failed validation. Local assessment only.'
-        return local
+    safe_text = cloud_text(text)
+    failures = []
+    for model in (MODEL, BACKUP_MODEL):
+        retryable = False
+        try:
+            result = ask(safe_text, language, key, model)
+        except httpx.HTTPStatusError as exc:
+            status = exc.response.status_code
+            reason = f'HTTP {status}'
+            retryable = status in {404, 408, 422, 429, 498, 500, 502, 503, 504}
+            if status == 429 and exc.response.headers.get('retry-after'):
+                # Respect provider cooldown; do not delay an urgent local assessment.
+                retryable = False
+        except (httpx.ConnectError, httpx.ConnectTimeout):
+            reason = 'connection unavailable'
+        except httpx.TimeoutException:
+            reason = 'request timed out'
+            retryable = True
+        except httpx.HTTPError:
+            reason = 'network error'
+            retryable = True
+        except (ValueError, KeyError, IndexError, TypeError, ValidationError):
+            reason = 'response failed validation'
+            retryable = True
+        else:
+            break
+        failures.append(f'{MODEL_LABELS[model]}: {reason}')
+        # Never log message content, provider response bodies, credentials or exception text.
+        LOGGER.warning('Cloud analysis: %s: %s', MODEL_LABELS[model], reason)
+        if not retryable or model == BACKUP_MODEL:
+            local['analysis_note'] = 'Cloud unavailable (' + '; '.join(failures) + '). Local assessment only.'
+            return local
     local_level = local['level']
     local['analysis_mode'] = 'hybrid'
-    local['analysis_note'] = ('Hybrid assessment — GPT-OSS 120B + local safety checks. '
+    local['analysis_model'] = model
+    local['analysis_note'] = (f'Hybrid assessment — {MODEL_LABELS[model]} + local safety checks. '
                               'Conservative warning retained when checks disagree. Not proof of fraud.')
+    if failures:
+        local['analysis_note'] += ' Backup model used after primary failure.'
     if ORDER[result.level] > ORDER[local_level]:
         local['level'] = result.level
         local['score'] = SCORES[result.level]

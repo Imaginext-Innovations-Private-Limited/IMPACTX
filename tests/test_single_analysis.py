@@ -19,7 +19,9 @@ def test_only_explicit_click_starts_analysis():
     assert 'addEventListener("click",requestAnalysis)' in js
     assert 'setTimeout(scan' not in js
     assert 'cloud_consent:useCloud' in js
-    assert 'window.confirm(' in js
+    assert 'window.confirm(' not in js
+    assert 'groqConfigured===true&&$("cloud-consent").checked' in js
+    assert 'id="cloud-consent" disabled' in (ROOT / 'static/index.html').read_text(encoding='utf-8')
 
 
 def test_edit_invalidates_previous_result():

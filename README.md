@@ -17,7 +17,7 @@ Keys are not saved by the launcher. Existing environment keys can be used in nor
 ## Demo
 
 1. Paste a message or upload a screenshot; check the extracted text before analysis.
-2. Click **Analyze** once after reviewing the text. With Groq configured, approve the consent prompt for one combined AI + local assessment, or decline for local-only analysis. Without a key or if the provider fails, the offline engine remains available. Editing text or settings clears stale results; nothing is analyzed automatically.
+2. Click **Analyze** once after reviewing the text. With Groq configured, enable **Use online AI** for a combined AI + local assessment; leave it off for local-only analysis. Consent is off on each page load. Without a key or if the provider fails, the offline engine remains available. Editing text or settings clears stale results; nothing is analyzed automatically.
 3. For voice, use browser dictation (browser support varies) or upload a consented recording with Sarvam configured. Review the transcript before analysis.
 4. Select English, Hindi, Bengali, Kannada, Telugu, Odia or Marathi and click Hear warning. The app can reuse saved audio, synthesize fixed safety scripts with Sarvam, or fall back to browser and bundled basic voices. Verify actual pronunciation with fluent speakers.
 5. For financial cybercrime, guidance links to 1930 and https://cybercrime.gov.in/. Contact your bank if money was transferred or credentials exposed.
@@ -26,7 +26,7 @@ Keys are not saved by the launcher. Existing environment keys can be used in nor
 
 - FastAPI backend, HTML/CSS/JS frontend, Pillow/Tesseract OCR.
 - Offline: contextual rules and a small TF-IDF/logistic-regression classifier trained on synthetic examples.
-- Optional cloud: Groq GPT-OSS 120B with structured output, best-effort redaction, evidence validation and offline fallback. The higher warning level is retained on disagreement.
+- Optional cloud: Groq GPT-OSS 120B with a bounded GPT-OSS 20B backup attempt on eligible failures, structured output, best-effort redaction, evidence validation and offline fallback. The higher warning level is retained on disagreement.
 - Sarvam speech transcription and fixed multilingual voice warnings. No user messages are sent for fixed-script TTS. Cloud analysis/transcription require consent; provider policies apply. Redaction is not foolproof; use synthetic or anonymized demo data.
 - Risk scores are heuristic, not probabilities. Unit tests do not establish real-world accuracy. Low scores do not prove safety. No government or bank endorsement.
 
