@@ -1,0 +1,46 @@
+{% extends "career/base.html" %}
+{% block content %}
+<div class="workspace-shell">
+  <aside class="sidebar">
+    <div class="sidebar-label">YOUR WORKSPACE</div>
+    <nav class="side-nav" aria-label="Career workspace">
+      <a class="side-link" href="{% url 'workspace' %}"><i class="bi bi-grid-1x2-fill"></i>Overview</a>
+      <a class="side-link" href="{% url 'workspace_section' section='interview' %}"><i class="bi bi-chat-square-text"></i>Mock Interview</a>
+      <a class="side-link active" href="{% url 'interview_history' %}"><i class="bi bi-clock-history"></i>Previous Attempts</a>
+    </nav>
+    <div class="sidebar-foot"><span class="local-indicator"><i></i> Ollama · local inference</span><small>Private to your account</small></div>
+  </aside>
+  <section class="workspace-content">
+    <div class="page-heading">
+      <div>
+        <div class="section-kicker">PRACTICE ARCHIVE</div>
+        <h1>Mock Interview History</h1>
+        <p class="muted">All attempts are saved separately and can be opened as read-only results.</p>
+      </div>
+    </div>
+    <article class="surface-card table-card">
+      <div class="card-heading"><div><div class="section-kicker">YOUR ATTEMPTS</div><h2>Previous interviews</h2></div></div>
+      {% for item in interview_history %}
+      <div class="history-row">
+        <div>
+          <b>{{ item.role }} · Attempt {{ item.attempt_number }}</b>
+          <small>Session #{{ item.id }} · {{ item.created_at|date:'M j, Y' }} · {{ item.get_status_display }}</small>
+        </div>
+        {% if item.status == 'completed' %}
+        <span class="history-score">{{ item.summary.score }}%</span>
+        <a class="btn btn-outline" href="{% url 'interview_result' session_id=item.id %}">View results</a>
+        {% else %}
+        <a class="btn btn-primary" href="{% url 'workspace_section' section='interview' %}?session={{ item.id }}">Resume</a>
+        {% endif %}
+      </div>
+      {% empty %}
+      <div class="empty-inline">No interview attempts yet.</div>
+      {% endfor %}
+    </article>
+    <div class="interview-role-actions">
+      <a class="btn btn-outline" href="{% url 'workspace_section' section='interview' %}"><i class="bi bi-arrow-left"></i> Back to Mock Interview</a>
+      <a class="btn btn-primary" href="{% url 'workspace_section' section='overview' %}">Back to Career Dashboard</a>
+    </div>
+  </section>
+</div>
+{% endblock %}

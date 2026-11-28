@@ -1,0 +1,15 @@
+{% extends 'career/base.html' %}
+{% block title %}{% if mode == 'signup' %}Create account{% else %}Sign in{% endif %} | CareerPilot AI{% endblock %}
+{% block content %}
+<section class="auth-layout">
+  <div class="auth-aside"><span class="eyebrow">A MORE DELIBERATE CAREER MOVE</span><h1>{% if mode == 'signup' %}Make room for<br>what's next.{% else %}Pick up where<br>you left off.{% endif %}</h1><p>Your career workspace keeps your skills, learning plan, and practice sessions in one private place.</p><div class="auth-local"><i class="bi bi-shield-lock"></i><span>Resume files are analyzed in memory and aren't saved.</span></div></div>
+  <div class="auth-form-panel"><div class="section-kicker">{% if mode == 'signup' %}CREATE YOUR ACCOUNT{% else %}WELCOME BACK{% endif %}</div><h2>{% if mode == 'signup' %}Start your workspace{% else %}Sign in to CareerPilot{% endif %}</h2><p class="muted">{% if mode == 'signup' %}A username and password are all you need to begin.{% else %}Your progress is ready when you are.{% endif %}</p>
+    <form method="post" class="auth-form" novalidate>{% csrf_token %}
+      {% for field in form %}<div class="field-wrap"><label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.help_text %}<div class="form-help">{{ field.help_text|safe }}</div>{% endif %}{% for error in field.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>{% endfor %}
+      {% for error in form.non_field_errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+      <button class="btn btn-primary w-100" type="submit">{% if mode == 'signup' %}Create account{% else %}Sign in{% endif %} <i class="bi bi-arrow-up-right"></i></button>
+    </form>
+    <div class="auth-switch">{% if mode == 'signup' %}Already have an account? <a href="{% url 'login' %}">Sign in</a>{% else %}New to CareerPilot? <a href="{% url 'signup' %}">Create an account</a>{% endif %}</div>
+  </div>
+</section>
+{% endblock %}
