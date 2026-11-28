@@ -1,0 +1,11 @@
+# Pages checked daily by scripts/refresh.py. A change is a signal for a person to look,
+# download the new notification and run the importer; nothing is loaded automatically.
+pages:
+  - name: nppa_home
+    url: "https://www.nppa.gov.in"
+  - name: nha_resources
+    url: "https://nha.gov.in/PM-JAY"
+  - name: cbic_gst_rates
+    url: "https://cbic-gst.gov.in/gst-goods-services-rates.html"
+  - name: karnataka_hc_circular_case
+    url: "https://www.scconline.com/blog/?p=400817"

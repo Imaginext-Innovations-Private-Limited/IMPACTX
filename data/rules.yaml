@@ -1,0 +1,158 @@
+# Rule registry. Rules are data: a new notification or court order changes this
+# file, not the engine. Each rule names the Python check that implements it.
+#
+# status: in_force | voluntary | on_hold | expired
+# verdict: the class the rule produces when it fires (red rules may fall back to grey
+#          when a needed fact or number is missing).
+# needs: context facts that must be known for the rule to give red/amber/green.
+
+rules:
+  # ---------------------------------------------------------------- price caps
+  - id: PRC-STENT
+    family: price
+    check: price.stent
+    status: in_force
+    verdict: red
+    channel: nppa
+    sources: [nppa_stent_2026, gst_2025_devices_medicines, dpco_2013]
+    message: prc_stent
+
+  - id: PRC-KNEE
+    family: price
+    check: price.knee
+    status: in_force
+    verdict: red
+    channel: nppa
+    sources: [nppa_knee_2024, nppa_knee_ext_2026, gst_2025_devices_medicines, dpco_2013]
+    message: prc_knee
+
+  - id: PRC-SCHED
+    family: price
+    check: price.scheduled_medicine
+    status: in_force
+    # red only after the user confirms that quantity is counted in dosage units (tablets, vials);
+    # otherwise grey, because strips and tablets cannot be told apart reliably on a bill
+    verdict: red
+    channel: nppa
+    sources: [nppa_so1581_2026, nppa_scheduled_ceilings, gst_2025_devices_medicines, dpco_2013]
+    message: prc_sched
+
+  - id: PRC-MRP
+    family: price
+    check: price.mrp
+    status: in_force
+    verdict: red
+    channel: consumer
+    sources: [legal_metrology_mrp]
+    message: prc_mrp
+
+  # ---------------------------------------------------------------- entitlements
+  - id: ENT-COVERED
+    family: entitlement
+    check: entitlement.covered_items
+    status: in_force
+    verdict: red
+    channel: scheme_grievance
+    # also needs the user's answer that the patient actually paid these lines
+    needs: [payer, hospital_empanelled_on_service_date, scheme_booked]
+    sources: [nha_operation_manual_2022, nha_adhikar_patra, hbp_2022]
+    message: ent_covered
+
+  - id: ENT-CASH-DENIAL
+    family: entitlement
+    check: entitlement.cash_denial
+    status: in_force
+    verdict: red
+    channel: scheme_grievance
+    needs: [payer, hospital_empanelled_on_service_date, scheme_booked]
+    sources: [nha_operation_manual_2022, nha_adhikar_patra]
+    message: ent_cash_denial
+
+  # ---------------------------------------------------------------- arithmetic
+  - id: ARI-QTYRATE
+    family: arithmetic
+    check: arithmetic.qty_rate
+    status: in_force
+    verdict: red
+    channel: hospital_desk
+    sources: []
+    message: ari_qtyrate
+
+  - id: ARI-TOTAL
+    family: arithmetic
+    check: arithmetic.total
+    status: in_force
+    # amber, not red: printed totals often include taxes, discounts or rows the reader skipped
+    verdict: amber
+    channel: hospital_desk
+    sources: []
+    message: ari_total
+
+  # ---------------------------------------------------------------- tax
+  - id: TAX-GST
+    family: tax
+    check: tax.gst
+    status: in_force
+    # red for GST on exempt treatment (services, ICU, rooms up to the limit, in-patient food);
+    # amber for GST added to medicines and implants of an admitted patient; grey for cosmetic work
+    verdict: red
+    channel: hospital_desk
+    sources: [gst_circular32_2018, gst_n04_2022_room, gst_n03_2022_room_rate]
+    message: tax_gst
+
+  # ---------------------------------------------------------------- billing conventions (amber)
+  - id: CONV-DUPLICATE
+    family: convention
+    check: convention.duplicates
+    status: in_force
+    verdict: amber
+    channel: hospital_desk
+    sources: []
+    message: conv_duplicate
+
+  - id: CONV-ROOMDAYS
+    family: convention
+    check: convention.room_days
+    status: in_force
+    verdict: amber
+    channel: hospital_desk
+    sources: []
+    message: conv_roomdays
+
+  - id: CONV-OUTSIDE-STAY
+    family: convention
+    check: convention.outside_stay
+    status: in_force
+    verdict: amber
+    channel: hospital_desk
+    sources: []
+    message: conv_outside_stay
+
+  # ---------------------------------------------------------------- format and rights
+  - id: FMT-MISSING
+    family: format
+    check: format.missing_elements
+    status: voluntary
+    verdict: amber
+    channel: hospital_desk
+    sources: [is_19493_2025]
+    message: fmt_missing
+
+  - id: RGT-ITEMISED
+    family: rights
+    check: format.not_itemised
+    status: in_force
+    verdict: amber
+    channel: hospital_desk
+    sources: [patients_charter_2021]
+    message: rgt_itemised
+
+  # ---------------------------------------------------------------- info only
+  - id: STATE-KA-DISCLOSURE
+    family: state
+    check: state.karnataka_disclosure
+    status: on_hold
+    verdict: info
+    channel: none
+    sources: [ka_fda_circular_2026]
+    message: state_ka

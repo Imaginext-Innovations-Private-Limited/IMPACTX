@@ -1,0 +1,404 @@
+# Government health schemes that could have paid a hospital bill, for every state and UT.
+#
+# Used by kk/schemes.py to show a family who paid cash how much a scheme could have paid.
+# Every cover amount cites a source id in sources.yaml (scheme_*). Nothing here is ever added
+# to the amount a family can challenge: it is awareness, not a claim.
+#
+# cover:      the most the scheme pays (INR). null with kind no_ceiling.
+# kind:       family_year  - per family per year (floater)
+#             no_ceiling   - no money cap; treatment at the scheme's package rates
+#             one_time     - one-time assistance
+#             co_pay       - scheme pays `share` percent of the package rate, up to `cover`
+# who:        eligibility codes, each rendered by message sav_who_<code>. Figures in `values`.
+# where:      empanelled (default) | govt_super_speciality | in_state | esi | cghs
+# general:    true if any family could qualify by income, residence or age alone
+#             (used to pick the headline). Job-linked schemes are false.
+# checked:    date the cover was last checked against the source.
+
+checked: "2026-11-28"
+
+central:
+  - id: pmjay
+    name: "Ayushman Bharat PM-JAY"
+    cover: 500000
+    kind: family_year
+    who: [secc]
+    general: true
+    check_url: "https://beneficiary.nha.gov.in"
+    phone: "14555"
+    source: scheme_pmjay
+  - id: vay_vandana
+    name: "Ayushman Vay Vandana card"
+    cover: 500000
+    kind: family_year
+    who: [age70]
+    values: {age: 70}
+    general: true
+    check_url: "https://beneficiary.nha.gov.in"
+    phone: "14555"
+    source: scheme_vay_vandana
+  - id: esic
+    name: "ESI scheme (ESIC)"
+    cover: null
+    kind: no_ceiling
+    who: [esi_worker]
+    values: {limit: 21000}
+    where: esi
+    general: false
+    check_url: "https://www.esic.gov.in"
+    source: scheme_esic
+  - id: cghs
+    name: "Central Government Health Scheme (CGHS)"
+    cover: null
+    kind: no_ceiling
+    who: [central_govt]
+    where: cghs
+    general: false
+    check_url: "https://cghs.mohfw.gov.in"
+    source: scheme_cghs
+  - id: echs
+    name: "Ex-Servicemen Contributory Health Scheme (ECHS)"
+    cover: null
+    kind: no_ceiling
+    who: [ex_servicemen]
+    general: false
+    check_url: "https://www.echs.gov.in"
+    source: scheme_echs
+  - id: capf
+    name: "Ayushman CAPF"
+    cover: null
+    kind: no_ceiling
+    who: [capf]
+    general: false
+    source: scheme_capf
+  - id: ran
+    name: "Rashtriya Arogya Nidhi (RAN)"
+    cover: 1500000
+    kind: one_time
+    who: [bpl_life_threatening]
+    where: govt_super_speciality
+    general: false
+    check_url: "https://mohfw.gov.in/major-programmes/poor-patients-financial-assistance/rashtriya-arogya-nidhi"
+    source: scheme_ran
+
+states:
+  andhra_pradesh:
+    - id: ap_ntr_vaidya_seva
+      name: "Dr NTR Vaidya Seva (with PM-JAY)"
+      cover: 2500000
+      kind: family_year
+      who: [bpl]
+      general: true
+      check_url: "https://drntrvaidyaseva.ap.gov.in"
+      phone: "104"
+      source: scheme_ap_ntr
+  arunachal_pradesh:
+    - id: ar_cmaay
+      name: "Chief Minister Arogya Arunachal Yojana (CMAAY)"
+      cover: 500000
+      kind: family_year
+      who: [state_listed]
+      general: true
+      source: scheme_ar_cmaay
+  assam:
+    - id: as_aa_mmjay
+      name: "Ayushman Asom - Mukhya Mantri Jan Arogya Yojana"
+      cover: 500000
+      kind: family_year
+      who: [ration_nfsa, not_pmjay]
+      general: true
+      check_url: "https://beneficiary.nha.gov.in"
+      phone: "14555"
+      source: scheme_as_aammjay
+  bihar:
+    - id: br_mmjay
+      name: "Mukhyamantri Jan Arogya Yojana (Bihar)"
+      cover: 500000
+      kind: family_year
+      who: [ration_nfsa, not_pmjay]
+      general: true
+      check_url: "https://beneficiary.nha.gov.in"
+      phone: "14555"
+      source: scheme_br_mmjay
+  chhattisgarh:
+    - id: cg_svnsasy
+      name: "Shaheed Veer Narayan Singh Ayushman Swasthya Yojana"
+      cover: 500000
+      kind: family_year
+      who: [ration_nfsa]
+      general: true
+      source: scheme_cg_svnsasy
+    - id: cg_svnsasy_other
+      name: "Shaheed Veer Narayan Singh Ayushman Swasthya Yojana (other ration cards)"
+      cover: 50000
+      kind: family_year
+      who: [other_families]
+      general: true
+      source: scheme_cg_svnsasy
+  goa:
+    - id: ga_ddssy
+      name: "Deen Dayal Swasthya Seva Yojana (DDSSY)"
+      cover: 400000
+      kind: family_year
+      who: [all_residents, not_govt_employee, fee_yearly]
+      where: in_state
+      general: true
+      note: size_depends
+      check_url: "https://nhm.goa.gov.in/ddssy/"
+      source: scheme_ga_ddssy
+  gujarat:
+    - id: gj_pmjay_ma
+      name: "PMJAY - Mukhyamantri Amrutam (PMJAY-MA)"
+      cover: 1000000
+      kind: family_year
+      who: [state_listed]
+      general: true
+      check_url: "https://beneficiary.nha.gov.in"
+      phone: "14555"
+      source: scheme_gj_pmjay_ma
+  haryana:
+    - id: hr_chirayu
+      name: "Ayushman Bharat - Chirayu Haryana"
+      cover: 500000
+      kind: family_year
+      who: [income_free_then_fee]
+      values: {limit: 180000}
+      general: true
+      check_url: "https://ayushmanbharat.haryana.gov.in"
+      source: scheme_hr_chirayu
+  himachal_pradesh:
+    - id: hp_himcare
+      name: "Mukhya Mantri Himachal Health Care Scheme (HIMCARE)"
+      cover: 500000
+      kind: family_year
+      who: [not_pmjay, fee_yearly]
+      general: true
+      check_url: "https://hpsbys.in"
+      source: scheme_hp_himcare
+  jharkhand:
+    - id: jh_massy
+      name: "Mukhyamantri Abua Swasthya Suraksha Yojana"
+      cover: 1500000
+      kind: family_year
+      who: [ration_nfsa, not_pmjay]
+      general: true
+      check_url: "https://bis.jharkhand.gov.in"
+      source: scheme_jh_massy
+  karnataka:
+    - id: ka_abark
+      name: "Ayushman Bharat - Arogya Karnataka (BPL)"
+      cover: 500000
+      kind: family_year
+      who: [ration_nfsa]
+      general: true
+      check_url: "https://arogya.karnataka.gov.in"
+      source: scheme_ka_abark
+    - id: ka_abark_apl
+      name: "Ayushman Bharat - Arogya Karnataka (APL, co-payment)"
+      cover: 150000
+      kind: co_pay
+      share: 30
+      who: [other_families]
+      general: true
+      check_url: "https://arogya.karnataka.gov.in"
+      source: scheme_ka_abark
+  kerala:
+    - id: kl_kasp
+      name: "Karunya Arogya Suraksha Padhathi (KASP)"
+      cover: 500000
+      kind: family_year
+      who: [state_listed]
+      general: true
+      source: scheme_kl_kasp
+  madhya_pradesh:
+    - id: mp_niramayam
+      name: "Ayushman Bharat Niramayam"
+      cover: 500000
+      kind: family_year
+      who: [state_listed]
+      general: true
+      check_url: "https://beneficiary.nha.gov.in"
+      phone: "14555"
+      source: scheme_mp_niramayam
+  maharashtra:
+    - id: mh_mjpjay
+      name: "Mahatma Jyotirao Phule Jan Arogya Yojana (with PM-JAY)"
+      cover: 500000
+      kind: family_year
+      who: [all_residents]
+      general: true
+      source: scheme_mh_mjpjay
+  manipur:
+    - id: mn_cmht
+      name: "Chief Minister-gi Hakshelgi Tengbang (CMHT)"
+      cover: 500000
+      kind: family_year
+      who: [state_listed]
+      general: true
+      source: scheme_mn_cmht
+  meghalaya:
+    - id: ml_mhis
+      name: "Megha Health Insurance Scheme (MHIS)"
+      cover: 530000
+      kind: family_year
+      who: [all_residents, not_govt_employee]
+      general: true
+      source: scheme_ml_mhis
+  mizoram:
+    - id: mz_muhcs
+      name: "Mizoram Universal Health Care Scheme (MUHCS)"
+      cover: 500000
+      kind: family_year
+      who: [all_residents, fee_yearly]
+      general: true
+      source: scheme_mz_muhcs
+  nagaland:
+    - id: nl_cmhis_gen
+      name: "Chief Minister Health Insurance Scheme (CMHIS) - general"
+      cover: 500000
+      kind: family_year
+      who: [not_pmjay]
+      general: true
+      check_url: "https://cmhis.nagaland.gov.in"
+      source: scheme_nl_cmhis
+    - id: nl_cmhis_ep
+      name: "CMHIS - state employees and pensioners"
+      cover: 2000000
+      kind: family_year
+      who: [state_govt_employee]
+      general: false
+      check_url: "https://cmhis.nagaland.gov.in"
+      source: scheme_nl_cmhis
+  odisha:
+    - id: od_gjay
+      name: "Gopabandhu Jan Arogya Yojana (with PM-JAY)"
+      cover: 500000
+      kind: family_year
+      who: [state_listed]
+      general: true
+      source: scheme_od_gjay
+    - id: od_gjay_women
+      name: "Gopabandhu Jan Arogya Yojana - extra cover for women"
+      cover: 1000000
+      kind: family_year
+      who: [state_listed, women]
+      general: true
+      source: scheme_od_gjay
+  punjab:
+    - id: pb_mmsy
+      name: "Mukh Mantri Sehat Yojana (MMSY)"
+      cover: 1000000
+      kind: family_year
+      who: [all_residents]
+      general: true
+      source: scheme_pb_mmsy
+  rajasthan:
+    - id: rj_maa
+      name: "Mukhyamantri Ayushman Arogya Yojana (MAA)"
+      cover: 2500000
+      kind: family_year
+      who: [all_residents, fee_yearly]
+      general: true
+      phone: "181"
+      source: scheme_rj_maa
+  sikkim:
+    - id: sk_su_swastha
+      name: "Su-Swastha Yojana (state employees)"
+      cover: 1000000
+      kind: family_year
+      who: [state_govt_employee]
+      general: false
+      check_url: "https://www.myscheme.gov.in/schemes/su-swastha-yojana"
+      source: scheme_sk_su_swastha
+  tamil_nadu:
+    - id: tn_cmchis
+      name: "Chief Minister's Comprehensive Health Insurance Scheme (CMCHIS)"
+      cover: 500000
+      kind: family_year
+      who: [income_max]
+      values: {limit: 120000, announced: 2500000}
+      note: announced_pending
+      general: true
+      check_url: "https://www.myscheme.gov.in/schemes/cmchis"
+      source: scheme_tn_cmchis
+  telangana:
+    - id: tg_aarogyasri
+      name: "Rajiv Aarogyasri"
+      cover: 1000000
+      kind: family_year
+      who: [bpl]
+      general: true
+      check_url: "https://www.rajivaarogyasri.telangana.gov.in"
+      source: scheme_tg_aarogyasri
+  tripura:
+    - id: tr_cmjay
+      name: "Chief Minister Jan Arogya Yojana (CM-JAY)"
+      cover: 500000
+      kind: family_year
+      who: [not_pmjay]
+      general: true
+      source: scheme_tr_cmjay
+  uttar_pradesh:
+    - id: up_mmjaa
+      name: "Mukhyamantri Jan Arogya Abhiyan (MMJAA)"
+      cover: 500000
+      kind: family_year
+      who: [state_listed, not_pmjay]
+      general: true
+      check_url: "https://beneficiary.nha.gov.in"
+      phone: "14555"
+      source: scheme_up_mmjaa
+  uttarakhand:
+    - id: uk_aauy
+      name: "Atal Ayushman Uttarakhand Yojana"
+      cover: 500000
+      kind: family_year
+      who: [all_residents]
+      general: true
+      check_url: "https://sha.uk.gov.in"
+      source: scheme_uk_aauy
+  west_bengal:
+    - id: wb_swasthya_sathi
+      name: "Swasthya Sathi"
+      cover: 500000
+      kind: family_year
+      who: [all_residents]
+      general: true
+      check_url: "https://swasthyasathi.gov.in"
+      source: scheme_wb_swasthya_sathi
+  delhi:
+    - id: dl_ab_topup
+      name: "Ayushman Bharat Delhi (PM-JAY with state top-up)"
+      cover: 1000000
+      kind: family_year
+      who: [secc]
+      general: true
+      check_url: "https://beneficiary.nha.gov.in"
+      phone: "14555"
+      source: scheme_dl_topup
+  jammu_kashmir:
+    - id: jk_sehat
+      name: "AB PM-JAY SEHAT"
+      cover: 500000
+      kind: family_year
+      who: [all_residents]
+      general: true
+      check_url: "https://beneficiary.nha.gov.in"
+      phone: "14555"
+      source: scheme_jk_sehat
+  puducherry:
+    - id: py_pmjay_convergence
+      name: "AB PM-JAY convergence scheme (Puducherry)"
+      cover: 500000
+      kind: family_year
+      who: [ration_nfsa]
+      general: true
+      check_url: "https://beneficiary.nha.gov.in"
+      phone: "14555"
+      source: scheme_py_convergence
+  # UTs where only PM-JAY and the central schemes are listed here.
+  andaman_nicobar: []
+  chandigarh: []
+  dnh_dd: []
+  ladakh: []
+  lakshadweep: []

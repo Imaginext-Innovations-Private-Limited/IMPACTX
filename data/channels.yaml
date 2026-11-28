@@ -1,0 +1,40 @@
+# Where each kind of finding is taken. Contact details are data with sources;
+# re-check them during every data refresh.
+
+hospital_desk:
+  name: "Hospital billing desk, then the hospital grievance officer"
+  how: "Hand over the letter at the billing counter and ask for a dated acknowledgement."
+  sources: []
+
+scheme_grievance:
+  name: "PM-JAY grievance: helpline 14555 and the CGRMS portal"
+  phone: "14555"
+  url: "https://cgrms.pmjay.gov.in"
+  escalation: "District Grievance Redressal Committee, then State, then National (NHA)"
+  sources:
+    - "https://pib.gov.in/PressReleasePage.aspx?PRID=2116209"
+    - "https://righttoinformation.wiki/ayushman-cashless-denied-hospital-complaint"
+
+nppa:
+  name: "NPPA Pharma Jan Samadhan (inside the Pharma Sahi Daam app and portal)"
+  phone: "1800-111-255"
+  url: "https://www.nppa.gov.in"
+  escalation: "State Drug Controller"
+  sources:
+    - "https://www.gktoday.in/pharma-jan-samadhan-and-pharma-sahi-daam-integrated/"
+
+consumer:
+  name: "National Consumer Helpline, then a consumer commission case on e-Jagriti"
+  phone: "1915"
+  url: "https://e-jagriti.gov.in"
+  sources:
+    - "https://www.impriindia.com/?p=76165"
+
+insurer:
+  name: "Your insurer's grievance officer, then IRDAI Bima Bharosa, then the Insurance Ombudsman"
+  phone: "155255"
+  url: "https://bimabharosa.irdai.gov.in"
+  escalation: "Insurance Ombudsman (Bima Lokpal), then a consumer commission"
+  sources:
+    - "https://policyholder.gov.in/web/guest/grievance-cell-cad"
+    - "https://www.cioins.co.in/"

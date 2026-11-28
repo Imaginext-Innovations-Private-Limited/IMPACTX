@@ -1,0 +1,18 @@
+fastapi>=0.110
+uvicorn>=0.27
+python-multipart>=0.0.9
+pydantic>=2.6
+PyYAML>=6.0
+Jinja2>=3.1
+pdfplumber>=0.11
+opencv-python-headless>=4.9
+numpy>=1.26
+rapidocr_onnxruntime>=1.3; python_version < "3.13"
+rapidocr_onnxruntime>=1.2.3; python_version >= "3.13"   # newer releases are not published for 3.13+ yet
+httpx>=0.27
+pytest>=8.0
+sherpa-onnx==1.12.40        # optional: natural offline voices (scripts/fetch_voices.py)
+edge-tts>=7.0               # natural voices for Kannada, Tamil, Telugu (online; KK_TTS_ONLINE=0 turns off)
+Pillow>=10.0
+qrcode==8.2
+truststore>=0.10        # voice download on networks that re-sign HTTPS (uses the OS certificate store)

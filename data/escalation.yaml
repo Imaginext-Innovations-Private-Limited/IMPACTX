@@ -1,0 +1,58 @@
+# Complaint tracker: who to go to, in order, and how long each office has.
+#
+# wait:  how long to wait for a reply before going further.
+#        kind regulator | scheme_rule come from an official text (source + ref);
+#        kind suggested is our suggestion where no official reply time was found (kk_suggested_waits).
+# opens: earliest day the step may be filed, counted from the previous step's letter (Ombudsman).
+# limit: last day to file the step. from: cause (the day the problem arose; the family enters it,
+#        default the discharge date) | prev (the previous step's reply, or the end of its wait) |
+#        decision (the previous step's reply date).
+# Re-check every number during each data refresh.
+
+checked: "2026-11-28"
+
+steps:
+  hosp_desk:
+    wait: {days: 7, kind: suggested, source: kk_suggested_waits, ref: "Suggested wait for the billing desk"}
+  hosp_gro:
+    wait: {days: 7, kind: suggested, source: kk_suggested_waits, ref: "Suggested wait for the hospital grievance officer"}
+  nch:
+    phone: "1915"
+    url: "https://consumerhelpline.gov.in"
+    info_source: nch_contact
+    wait: {days: 30, kind: suggested, source: kk_suggested_waits, ref: "Suggested wait for the National Consumer Helpline"}
+  consumer:
+    url: "https://e-jagriti.gov.in"
+    limit: {years: 2, from: cause, source: cpa_2019_s69, ref: "Section 69(1): within two years from the date on which the cause of action has arisen"}
+  nppa_pjs:
+    phone: "1800-111-255"
+    url: "https://www.nppa.gov.in"
+    wait: {days: 30, kind: suggested, source: kk_suggested_waits, ref: "Suggested wait for NPPA Pharma Jan Samadhan"}
+  pmjay_cgrms:
+    phone: "14555"
+    url: "https://cgrms.pmjay.gov.in"
+    info_source: pmjay_grievance_2021
+    wait: {days: 15, kind: scheme_rule, source: pmjay_grievance_2021, ref: "Escalation matrix: not resolved by DGNO/SGNO within 15 days, referred to DGRC/SGRC"}
+  pmjay_dgrc:
+    wait: {days: 30, kind: scheme_rule, source: pmjay_grievance_2021, ref: "Section 7.2: addressed by the Grievance Redressal Committee within 30 days"}
+  pmjay_sgrc:
+    wait: {days: 30, kind: scheme_rule, source: pmjay_grievance_2021, ref: "Section 7.2: addressed by the Grievance Redressal Committee within 30 days"}
+    limit: {days: 30, from: decision, source: pmjay_grievance_2021, ref: "Section 7.2(d): appeal within 30 days to the higher Grievance Redressal Committee"}
+  insurer_gro:
+    wait: {days: 14, kind: regulator, source: irdai_grievance_tat, ref: "An insurance company is required to resolve a grievance within two weeks of its receipt"}
+  bima_bharosa:
+    phone: "155255"
+    url: "https://bimabharosa.irdai.gov.in"
+    info_source: irdai_grievance_tat
+    wait: {days: 30, kind: suggested, source: kk_suggested_waits, ref: "Suggested wait for IRDAI Bima Bharosa"}
+  ombudsman:
+    url: "https://www.cioins.co.in"
+    opens: {after: insurer_gro, months: 1, source: ombudsman_rules_2017, ref: "Rule 14(3)(a)(ii): no reply within one month after the insurer received the representation"}
+    limit: {years: 1, from: prev, prev: insurer_gro, source: ombudsman_rules_2017, ref: "Rule 14(3)(b): complaint made within one year"}
+
+ladders:
+  hospital_desk: [hosp_desk, hosp_gro, nch, consumer]
+  nppa: [hosp_desk, nppa_pjs, consumer]
+  scheme_grievance: [pmjay_cgrms, pmjay_dgrc, pmjay_sgrc]
+  consumer: [nch, consumer]
+  insurer: [insurer_gro, bima_bharosa, ombudsman, consumer]

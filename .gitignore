@@ -221,3 +221,15 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+__pycache__/
+*.pyc
+.venv/
+data/raw/
+data/staged/*
+!data/staged/.gitkeep
+!data/staged/nppa_so1581_2026_scheduled.csv
+data/review_log.csv
+eval/cases/
+*.html
+!kk/web/index.html
+demo_assets/
