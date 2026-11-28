@@ -1,0 +1,177 @@
+{
+  "groq_configured": false,
+  "google_safe_browsing_configured": false,
+  "cases": [
+    {
+      "case": "polished_phishing_email",
+      "offline_level": "high",
+      "offline_ms": 730.69,
+      "online_level": "high",
+      "online_mode": "offline_fallback",
+      "online_ms": 9.81,
+      "live_url_status": "unavailable",
+      "engines": {
+        "local_rules": true,
+        "text_ml": "not_triggered",
+        "url_ml": "checked",
+        "local_threat_db": "checked_no_match",
+        "qr_decoder": "none",
+        "identity_verifier": "checked",
+        "live_url_reputation": "unavailable",
+        "cloud_llm": "offline_fallback"
+      }
+    },
+    {
+      "case": "genuine_professional_email",
+      "offline_level": "no_clear_signal",
+      "offline_ms": 11.25,
+      "online_level": "no_clear_signal",
+      "online_mode": "offline_fallback",
+      "online_ms": 4.61,
+      "live_url_status": "not_applicable",
+      "engines": {
+        "local_rules": true,
+        "text_ml": "not_triggered",
+        "url_ml": "checked",
+        "local_threat_db": "checked_no_match",
+        "qr_decoder": "none",
+        "identity_verifier": "checked",
+        "live_url_reputation": "not_applicable",
+        "cloud_llm": "offline_fallback"
+      }
+    },
+    {
+      "case": "digital_arrest_scam",
+      "offline_level": "high",
+      "offline_ms": 4.36,
+      "online_level": "high",
+      "online_mode": "offline_fallback",
+      "online_ms": 4.38,
+      "live_url_status": "not_applicable",
+      "engines": {
+        "local_rules": true,
+        "text_ml": "suspicious_wording",
+        "url_ml": "checked",
+        "local_threat_db": "checked_no_match",
+        "qr_decoder": "none",
+        "identity_verifier": "checked",
+        "live_url_reputation": "not_applicable",
+        "cloud_llm": "offline_fallback"
+      }
+    },
+    {
+      "case": "upi_refund_fraud",
+      "offline_level": "high",
+      "offline_ms": 4.13,
+      "online_level": "high",
+      "online_mode": "offline_fallback",
+      "online_ms": 3.68,
+      "live_url_status": "not_applicable",
+      "engines": {
+        "local_rules": true,
+        "text_ml": "suspicious_wording",
+        "url_ml": "checked",
+        "local_threat_db": "checked_no_match",
+        "qr_decoder": "none",
+        "identity_verifier": "checked",
+        "live_url_reputation": "not_applicable",
+        "cloud_llm": "offline_fallback"
+      }
+    },
+    {
+      "case": "quishing_upi_refund",
+      "offline_level": "high",
+      "offline_ms": 23.61,
+      "online_level": "high",
+      "online_mode": "offline_fallback",
+      "online_ms": 3.91,
+      "live_url_status": "not_applicable",
+      "engines": {
+        "local_rules": true,
+        "text_ml": "suspicious_wording",
+        "url_ml": "checked",
+        "local_threat_db": "checked_no_match",
+        "qr_decoder": "decoded",
+        "identity_verifier": "checked",
+        "live_url_reputation": "not_applicable",
+        "cloud_llm": "offline_fallback"
+      }
+    },
+    {
+      "case": "suspicious_phishing_url",
+      "offline_level": "caution",
+      "offline_ms": 4.37,
+      "online_level": "caution",
+      "online_mode": "offline_fallback",
+      "online_ms": 5.04,
+      "live_url_status": "unavailable",
+      "engines": {
+        "local_rules": true,
+        "text_ml": "not_triggered",
+        "url_ml": "checked",
+        "local_threat_db": "checked_no_match",
+        "qr_decoder": "none",
+        "identity_verifier": "checked",
+        "live_url_reputation": "unavailable",
+        "cloud_llm": "offline_fallback"
+      }
+    },
+    {
+      "case": "unseen_phishing_url",
+      "offline_level": "caution",
+      "offline_ms": 4.09,
+      "online_level": "caution",
+      "online_mode": "offline_fallback",
+      "online_ms": 4.85,
+      "live_url_status": "unavailable",
+      "engines": {
+        "local_rules": true,
+        "text_ml": "not_triggered",
+        "url_ml": "checked",
+        "local_threat_db": "checked_no_match",
+        "qr_decoder": "none",
+        "identity_verifier": "checked",
+        "live_url_reputation": "unavailable",
+        "cloud_llm": "offline_fallback"
+      }
+    },
+    {
+      "case": "legitimate_official_url",
+      "offline_level": "no_clear_signal",
+      "offline_ms": 4.55,
+      "online_level": "no_clear_signal",
+      "online_mode": "offline_fallback",
+      "online_ms": 4.23,
+      "live_url_status": "unavailable",
+      "engines": {
+        "local_rules": true,
+        "text_ml": "not_triggered",
+        "url_ml": "checked",
+        "local_threat_db": "checked_no_match",
+        "qr_decoder": "none",
+        "identity_verifier": "checked",
+        "live_url_reputation": "unavailable",
+        "cloud_llm": "offline_fallback"
+      }
+    },
+    {
+      "case": "sender_impersonation",
+      "offline_level": "caution",
+      "offline_ms": 4.12,
+      "online_level": "caution",
+      "online_mode": "offline_fallback",
+      "online_ms": 3.72,
+      "live_url_status": "not_applicable",
+      "engines": {
+        "local_rules": true,
+        "text_ml": "not_triggered",
+        "url_ml": "checked",
+        "local_threat_db": "checked_no_match",
+        "qr_decoder": "none",
+        "identity_verifier": "checked",
+        "live_url_reputation": "not_applicable",
+        "cloud_llm": "offline_fallback"
+      }
+    }
+  ]
+}

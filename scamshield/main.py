@@ -249,6 +249,27 @@ def _sarvam_batch_transcribe(audio: bytes, suffix: str, language_code: str, api_
                 return transcript
     return ""
 
+def _resolve_tesseract_cmd() -> str | None:
+    """Locate the Tesseract OCR executable across PATH and standard Windows paths."""
+    found = shutil.which("tesseract")
+    if found:
+        return found
+    if os.name == "nt":
+        bases = (
+            os.environ.get("ProgramFiles", "C:/Program Files"),
+            os.environ.get("ProgramFiles(x86)", "C:/Program Files (x86)"),
+            os.environ.get("LOCALAPPDATA", ""),
+        )
+        for base in bases:
+            if not base:
+                continue
+            for rel in ("Tesseract-OCR/tesseract.exe", "Programs/Tesseract-OCR/tesseract.exe"):
+                candidate = Path(base) / rel
+                if candidate.is_file():
+                    return str(candidate)
+    return None
+
+
 @app.post("/api/ocr")
 async def ocr_image(file: UploadFile = File(...), language: str = Query("auto")):
     if language not in {*LANGUAGE_NAMES, "auto"}:
@@ -274,10 +295,9 @@ async def ocr_image(file: UploadFile = File(...), language: str = Query("auto"))
             qr_payloads = decode_qr_from_bytes(data)
             qr_analysis = [classify_qr_payload(p) for p in qr_payloads]
             im = ImageOps.exif_transpose(raw).convert("RGB")
-            if os.name == "nt" and not shutil.which("tesseract"):
-                candidate = Path(os.environ.get("ProgramFiles", "C:/Program Files")) / "Tesseract-OCR" / "tesseract.exe"
-                if candidate.is_file():
-                    pytesseract.pytesseract.tesseract_cmd = str(candidate)
+            t_cmd = _resolve_tesseract_cmd()
+            if t_cmd:
+                pytesseract.pytesseract.tesseract_cmd = t_cmd
             installed = pytesseract.get_languages(config="")
             desired = {"en":"eng", "hi":"hin", "bn":"ben", "kn":"kan", "te":"tel", "or":"ori", "mr":"mar", "ta":"tam", "ml":"mal", "gu":"guj", "pa":"pan"}
             if language != "auto" and desired[language] not in installed:

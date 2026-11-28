@@ -40,6 +40,11 @@ First setup needs internet to install missing Python packages from `requirements
 .venv\Scripts\python.exe benchmark\final_comparison.py
 ```
 
+### Individual Innovation Extensions (`dipankar-individual-innovation`)
+- **Offline Multimodal & Identity Screening:** Added OpenCV `QRCodeDetector` + `upi://pay` parser (`scamshield/qr_decoder.py`), PSL-based email/identity verification + `.eml` upload (`scamshield/identity_verifier.py`), and an offline URL-only phishing classifier + SHA-256 PhishTank lookup DB (`scamshield/url_classifier.py`).
+- **Auto Protect & Online Protection:** Automatically screens pasted text and completed uploads locally with zero API keys; optional consented Online Protection adds Google Safe Browsing v4 (`GOOGLE_SAFE_BROWSING_API_KEY`) and Groq GPT-OSS (`GROQ_API_KEY`) with automatic offline fallback.
+- See [individual innovation report](docs/INDIVIDUAL_INNOVATION.md) for dataset provenance, held-out metrics, and live demonstration steps.
+
 Previous v2.1.0 package verified on Windows: 615 passed, 1 skipped; offline release smoke passed. v2.1.1 verified in Linux (Python 3.13.5, scikit-learn 1.8.0): 627 passed, zero failed/skipped, including 11 research-tool tests. Actual English OCR, 121 cached warning endpoints and 242 MP3 streams checked. Seven Chromium DOM smoke groups passed using an in-process API bridge and simulated provider/microphone events. This is not a live browser/provider test. Run Windows acceptance for this revision before distribution.
 
 Run the final full-engine comparison: `.venv\Scripts\python.exe benchmark\final_comparison.py`. Against the uploaded 350-example engine in the same Linux environment, the 394-example candidate flags 34/55 suspicious and 5/55 benign messages on the earlier selection set (previously 34/55 and 11/55). On the prior small holdout it flags 22/22 suspicious and 2/22 benign (previously 22/22 and 6/22). On a regional development audit it flags 44/44 suspicious and 13/44 benign (previously 35/44 and 13/44). These are synthetic, scenario-related development cases, not independent real-world accuracy. All four previously missed regional messages now have rule evidence and receive Caution. See [benchmark guide](benchmark/README.md) and [release verification](docs/RELEASE_VERIFICATION.md).
