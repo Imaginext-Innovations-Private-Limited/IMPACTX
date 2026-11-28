@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-950 text-gray-100 font-sans;
+  }
+}
+
+/* Custom map styles */
+.leaflet-container {
+  background: #0f172a;
+  border-radius: 0.75rem;
+}
+
+/* Risk badge animations */
+@keyframes pulse-critical {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239,68,68,0.6); }
+  50% { opacity: 0.9; box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+}
+.pulse-critical { animation: pulse-critical 1.5s ease-in-out infinite; }
+
+/* Alert banner slide-in */
+@keyframes slide-down {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.alert-banner { animation: slide-down 0.4s ease; }
