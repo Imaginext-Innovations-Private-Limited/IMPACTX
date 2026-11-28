@@ -1,0 +1,29 @@
+{
+  "project": "CYVORA",
+  "detector": "C2 Beaconing",
+  "model_type": "RandomForestClassifier",
+  "n_estimators": 200,
+  "features": [
+    "duration",
+    "orig_bytes",
+    "resp_bytes",
+    "orig_pkts",
+    "resp_pkts",
+    "orig_ip_bytes",
+    "resp_ip_bytes",
+    "missed_bytes"
+  ],
+  "target": "y",
+  "provisional_threshold": 0.5,
+  "threshold_status": "Provisional; requires independent evaluation",
+  "evaluation_dataset": "TQH-C2 Testbed C",
+  "evaluation_status": "Development benchmark already examined during model selection; not an independent final test",
+  "test_metrics": {
+    "accuracy": 0.7891,
+    "precision": 0.7858,
+    "recall": 0.8473,
+    "f1": 0.8154,
+    "average_precision": 0.7454,
+    "roc_auc": 0.7096
+  }
+}
