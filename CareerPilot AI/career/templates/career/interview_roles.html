@@ -1,0 +1,59 @@
+{% extends 'career/base.html' %}
+{% block title %}Choose an Interview Role | CareerPilot AI{% endblock %}
+{% block content %}
+<div class="workspace-shell">
+  <aside class="sidebar">
+    <div class="sidebar-label">YOUR WORKSPACE</div>
+    <nav class="side-nav" aria-label="Career workspace">
+      <a class="side-link" href="{% url 'workspace' %}"><i class="bi bi-grid-1x2-fill"></i>Overview</a>
+      <a class="side-link active" href="{% url 'workspace_section' section='interview' %}"><i class="bi bi-chat-square-text"></i>Mock Interview</a>
+      <a class="side-link" href="{% url 'interview_history' %}"><i class="bi bi-clock-history"></i>Previous Attempts</a>
+    </nav>
+    <div class="sidebar-foot"><span class="local-indicator"><i></i> Ollama · local inference</span><small>Private to your account</small></div>
+  </aside>
+  <section class="workspace-content">
+    <div class="page-heading">
+      <div>
+        <div class="section-kicker">ROLE-SPECIFIC PRACTICE</div>
+        <h1>Choose an interview role</h1>
+        <p class="muted">Pick a role to start a new, independent interview attempt. Your previous results remain saved.</p>
+      </div>
+      <a class="btn btn-outline" href="{% url 'workspace_section' section='interview' %}">Back to Mock Interview</a>
+    </div>
+    <div class="role-selection-grid">
+      {% for item in role_cards %}
+      <article class="surface-card role-selection-card">
+        <div class="role-selection-heading">
+          <div>
+            <div class="section-kicker">{% if item.practised %}PRACTISED BEFORE{% else %}NEW ROLE{% endif %}</div>
+            <h2>{{ item.name }}</h2>
+          </div>
+          {% if item.practised %}<span class="role-attempt-count">{{ item.attempt_count }} attempt{{ item.attempt_count|pluralize }}</span>{% endif %}
+        </div>
+        <p>{{ item.description }}</p>
+        <h3>Interview topics</h3>
+        <div class="tag-list">
+          {% for topic in item.topics %}<span class="skill-tag">{{ topic }}</span>{% endfor %}
+        </div>
+        <div class="role-selection-meta">
+          {% if item.latest_score != None %}
+          <span>Latest score <b>{{ item.latest_score }}%</b></span>
+          {% else %}
+          <span>No completed attempts yet</span>
+          {% endif %}
+        </div>
+        <form method="post" action="{% url 'start_interview' %}">
+          {% csrf_token %}
+          <input type="hidden" name="role" value="{{ item.name }}">
+          <button type="submit" class="btn btn-primary">Start Mock Interview <i class="bi bi-arrow-right"></i></button>
+        </form>
+      </article>
+      {% endfor %}
+    </div>
+    <div class="interview-role-actions">
+      <a class="btn btn-outline" href="{% url 'interview_history' %}">View Previous Attempts</a>
+      <a class="btn btn-outline" href="{% url 'workspace' %}">Back to Career Dashboard</a>
+    </div>
+  </section>
+</div>
+{% endblock %}

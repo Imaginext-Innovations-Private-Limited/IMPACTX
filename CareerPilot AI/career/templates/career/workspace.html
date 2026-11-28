@@ -1,0 +1,295 @@
+{% extends 'career/base.html' %}
+{% block title %}{{ section|title }} | CareerPilot AI{% endblock %}
+{% block content %}
+<div class="workspace-shell">
+  <aside class="sidebar">
+    <div class="sidebar-label">YOUR WORKSPACE</div>
+    <nav class="side-nav" aria-label="Career workspace">
+      <a class="side-link {% if section == 'overview' %}active{% endif %}" href="{% url 'workspace' %}"><i class="bi bi-grid-1x2-fill"></i>Overview</a>
+      <a class="side-link {% if section == 'resume' %}active{% endif %}" href="{% url 'workspace_section' section='resume' %}"><i class="bi bi-file-earmark-person"></i>Resume Analyzer</a>
+      <a class="side-link {% if section == 'github' %}active{% endif %}" href="{% url 'workspace_section' section='github' %}"><i class="bi bi-github"></i>GitHub Analyzer</a>
+      <a class="side-link {% if section == 'match' %}active{% endif %}" href="{% url 'workspace_section' section='match' %}"><i class="bi bi-bullseye"></i>Career Match</a>
+      <a class="side-link {% if section == 'roadmap' %}active{% endif %}" href="{% url 'workspace_section' section='roadmap' %}"><i class="bi bi-map"></i>Learning Roadmap</a>
+      <a class="side-link {% if section == 'interview' %}active{% endif %}" href="{% url 'workspace_section' section='interview' %}"><i class="bi bi-chat-square-text"></i>Mock Interview</a>
+      <a class="side-link {% if section == 'progress' %}active{% endif %}" href="{% url 'workspace_section' section='progress' %}"><i class="bi bi-graph-up-arrow"></i>My Progress</a>
+    </nav>
+    <div class="sidebar-foot"><span class="local-indicator"><i></i> Ollama · local inference</span><small>Private to your account</small></div>
+  </aside>
+
+  <section class="workspace-content">
+    {% if section == 'overview' %}
+      <div class="page-heading"><div><div class="section-kicker">CAREER OVERVIEW</div><h1>Welcome back, {{ user.username }}.</h1><p class="muted">Your career signals, role readiness, and next steps in one place.</p></div><a class="btn btn-primary" href="{% url 'workspace_section' section='resume' %}">Analyze a resume <i class="bi bi-arrow-up-right"></i></a></div>
+      <div class="metric-grid">
+        <article class="metric-card metric-primary"><span>Job readiness</span><strong>{{ metrics.readiness }}<small>%</small></strong><div class="metric-foot">{% if result %}{{ result.role }}{% else %}Analyze a resume to begin{% endif %}</div></article>
+        <article class="metric-card"><span>Identified skills</span><strong>{{ metrics.identified_skills }}</strong><div class="metric-foot">From your latest resume</div></article>
+        <article class="metric-card"><span>Skills to develop</span><strong>{{ metrics.missing_skills }}</strong><div class="metric-foot">Required for your target role</div></article>
+        <article class="metric-card"><span>Public repositories</span><strong>{{ metrics.repositories }}</strong><div class="metric-foot">{% if github %}@{{ github.username }}{% else %}Connect your GitHub profile{% endif %}</div></article>
+      </div>
+      {% if result %}
+      <section class="opportunities-section" aria-labelledby="opportunities-heading">
+        <div class="section-kicker opportunity-main-label">JOB ROLES YOU CAN APPLY FOR NOW</div>
+        <div class="section-heading-row">
+          <div><div class="section-kicker">YOUR CAREER OPPORTUNITIES</div><h2 id="opportunities-heading">Roles within reach.</h2><p class="muted">Recommendations are based on CareerPilot's defined technical requirements, not live vacancies or hiring guarantees.</p></div>
+        </div>
+        <p class="muted opportunity-description">Discover job opportunities that match your existing technical skills without requiring additional mandatory skill enhancement.</p>
+        <div class="opportunity-columns">
+          <article class="opportunity-panel">
+            <div class="opportunity-panel-heading"><div><span class="opportunity-icon cyan-icon"><i class="bi bi-lightning-charge-fill"></i></span><h3>Ready to Apply</h3></div><span class="opportunity-count">{{ alternatives.ready|length }}</span></div>
+            <p class="muted">Based on your current skill profile, these roles match the mandatory technical requirements without requiring additional mandatory skill enhancement.</p>
+            {% for item in alternatives.ready %}
+              <div class="opportunity-card ready-card">
+                <div class="opportunity-card-top"><div><h4>{{ item.role }}</h4><span class="readiness-badge">NO MANDATORY SKILL ENHANCEMENT REQUIRED</span></div><strong>{{ item.score }}%</strong></div>
+                <p>{{ item.explanation }}</p>
+                <div class="opportunity-meta"><span><i class="bi bi-check2-circle"></i> {{ item.matched_mandatory_count }}/{{ item.total_required }} mandatory matched</span><span><i class="bi bi-stars"></i> {{ item.missing_optional_skills|length }} optional to explore</span></div>
+                <div class="tag-list">{% for skill in item.matched_mandatory_skills|slice:":5" %}<span class="skill-tag skill-good">{{ skill }}</span>{% endfor %}</div>
+                <a class="btn btn-primary btn-sm" href="{% url 'workspace_section' section='match' %}?role={{ item.role|urlencode }}">Explore Role <i class="bi bi-arrow-up-right"></i></a>
+              </div>
+            {% empty %}
+              <div class="opportunity-empty"><i class="bi bi-compass"></i><strong>No immediate alternatives yet.</strong><span>Keep building your current profile and check back after adding more evidence.</span></div>
+            {% endfor %}
+          </article>
+          <article class="opportunity-panel">
+            <div class="section-kicker">ROLES TO EXPLORE WITH SKILL ENHANCEMENT</div>
+            <div class="opportunity-panel-heading"><div><span class="opportunity-icon purple-icon"><i class="bi bi-signpost-2-fill"></i></span><h3>Explore with Skill Enhancement</h3></div><span class="opportunity-count">{{ alternatives.enhancement|length }}</span></div>
+            <p class="muted">These roles are close to your current profile and show the minimum mandatory skills to add next.</p>
+            {% for item in alternatives.enhancement %}
+              <div class="opportunity-card enhancement-card">
+                <div class="opportunity-card-top"><div><h4>{{ item.role }}</h4><span class="readiness-badge enhancement-badge">SKILL ENHANCEMENT REQUIRED</span></div><strong>{{ item.score }}%</strong></div>
+                <p>{{ item.explanation }}</p>
+                <div class="opportunity-meta"><span><i class="bi bi-check2-circle"></i> {{ item.matched_mandatory_count }}/{{ item.total_required }} mandatory matched</span><span><i class="bi bi-plus-circle"></i> {{ item.missing_mandatory_skills|length }} skill{{ item.missing_mandatory_skills|length|pluralize }} needed</span></div>
+                <div class="tag-list">{% for skill in item.missing_mandatory_skills|slice:":4" %}<span class="skill-tag skill-gap">{{ skill }}</span>{% endfor %}</div>
+                <div class="opportunity-actions"><a class="btn btn-outline-light btn-sm" href="{% url 'workspace_section' section='match' %}?role={{ item.role|urlencode }}">Explore Role</a><form method="post" action="{% url 'generate_roadmap' %}">{% csrf_token %}<input type="hidden" name="role" value="{{ item.role }}"><button class="btn btn-primary btn-sm" type="submit">Generate Roadmap <i class="bi bi-arrow-right"></i></button></form></div>
+              </div>
+            {% empty %}
+              <div class="opportunity-empty"><i class="bi bi-check2-circle"></i><strong>No near-term enhancement roles found.</strong><span>Recommendations appear when at least half of a role's mandatory skills are already present.</span></div>
+            {% endfor %}
+          </article>
+        </div>
+      </section>
+      {% endif %}
+      {% if result %}<article class="surface-card dashboard-match"><div><div class="section-kicker">LATEST ROLE MATCH · {{ result.match_category }}</div><h2>{{ result.role }}</h2><p class="muted">{% if result.perfect_match %}All mandatory skills were found in your resume or explicit public project descriptions.{% else %}{{ result.missing_skills|length }} mandatory skill{{ result.missing_skills|length|pluralize }} to prioritize next.{% endif %}</p></div><div class="dashboard-match-score"><strong>{{ result.score }}%</strong><span>indicative compatibility</span></div><div class="dashboard-match-skills"><b>Matched skills</b><div class="tag-list">{% for skill in result.matched_skills|slice:":6" %}<span class="skill-tag skill-good">{{ skill }}</span>{% empty %}<span class="muted">No mandatory skills detected yet.</span>{% endfor %}</div></div><a class="btn btn-outline-light" href="{% url 'workspace_section' section='match' %}">Review match <i class="bi bi-arrow-right"></i></a></article>{% endif %}
+      <div class="overview-grid">
+        <article class="surface-card chart-card"><div class="card-heading"><div><div class="section-kicker">SKILL COVERAGE</div><h2>Role alignment</h2></div><a href="{% url 'workspace_section' section='match' %}" class="subtle-link">View breakdown <i class="bi bi-arrow-right"></i></a></div>{% if result %}<div class="chart-box"><canvas id="matchChart" aria-label="Matched and missing required skills"></canvas></div>{% else %}<div class="empty-chart"><i class="bi bi-bar-chart-line"></i><p>Your role alignment chart will appear after resume analysis.</p></div>{% endif %}</article>
+        <article class="surface-card chart-card"><div class="card-heading"><div><div class="section-kicker">PREPARATION</div><h2>Learning progress</h2></div><a href="{% url 'workspace_section' section='roadmap' %}" class="subtle-link">Open roadmap <i class="bi bi-arrow-right"></i></a></div>{% if roadmap %}<div class="progress-chart-layout"><div class="progress-donut"><canvas id="progressChart" aria-label="Completed roadmap tasks"></canvas><strong>{{ metrics.roadmap_progress }}<small>%</small></strong></div><div><h3>{{ roadmap_tasks|length }} tasks</h3><p class="muted">{{ chart_data.completed_tasks }} completed across your saved plan.</p></div></div>{% else %}<div class="empty-chart"><i class="bi bi-signpost-split"></i><p>Generate a roadmap to start tracking weekly progress.</p></div>{% endif %}</article>
+      </div>
+      <div class="overview-grid overview-bottom">
+        <article class="surface-card"><div class="card-heading"><div><div class="section-kicker">GET STARTED</div><h2>Build your signal</h2></div></div><a class="action-row" href="{% url 'workspace_section' section='resume' %}"><span class="action-icon cyan-icon"><i class="bi bi-file-earmark-arrow-up"></i></span><span><b>Analyze your resume</b><small>Find skills and role gaps</small></span><i class="bi bi-arrow-up-right"></i></a><a class="action-row" href="{% url 'workspace_section' section='github' %}"><span class="action-icon purple-icon"><i class="bi bi-github"></i></span><span><b>Connect GitHub</b><small>Review your public portfolio</small></span><i class="bi bi-arrow-up-right"></i></a><a class="action-row" href="{% url 'workspace_section' section='interview' %}"><span class="action-icon blue-icon"><i class="bi bi-chat-square-text"></i></span><span><b>Practise an interview</b><small>Try role-specific questions</small></span><i class="bi bi-arrow-up-right"></i></a></article>
+        <article class="surface-card"><div class="card-heading"><div><div class="section-kicker">RECENT ACTIVITY</div><h2>Your preparation</h2></div><a href="{% url 'workspace_section' section='progress' %}" class="subtle-link">All progress <i class="bi bi-arrow-right"></i></a></div>{% for item in resume_history %}<div class="activity-row"><span class="activity-dot"></span><div><b>{{ item.role }} analysis</b><small>{{ item.created_at|date:'M j, Y' }} · {{ item.skills|length }} skills identified</small></div><strong>{{ item.match_data.score }}%</strong></div>{% empty %}<div class="empty-inline">Your saved analyses will show here.</div>{% endfor %}</article>
+      </div>
+
+    {% elif section == 'resume' %}
+      <div class="page-heading"><div><div class="section-kicker">PROFILE SIGNAL</div><h1>Resume Analyzer</h1><p class="muted">Extract skills and experience locally, then compare them with your target role.</p></div></div>
+      <div class="content-grid">
+        <article class="surface-card form-card">
+          <div class="section-kicker">UPLOAD AND ANALYZE</div>
+          <h2>Start with your experience.</h2>
+          <form method="post" action="{% url 'analyze_resume' %}" enctype="multipart/form-data" class="stack-form" id="resume-form">
+            {% csrf_token %}
+            <label class="form-label" for="resume-file">Resume PDF <small>5 MB max</small></label>
+            <label class="upload-zone" for="resume-file" id="resume-dropzone">
+              <input id="resume-file" class="upload-input" type="file" name="resume" accept=".pdf,application/pdf" aria-describedby="resume-upload-help resume-file-name" required>
+              <span class="upload-icon"><i class="bi bi-cloud-arrow-up"></i></span>
+              <span class="upload-title">Drop your PDF here or <strong>browse files</strong></span>
+              <span class="upload-help" id="resume-upload-help">PDF only · Maximum 5 MB · Text-based PDFs</span>
+              <span class="upload-filename" id="resume-file-name" aria-live="polite">No file selected</span>
+            </label>
+            <label class="form-label" for="target-role">Target role</label>
+            <select class="form-select" name="role" id="target-role" required>
+              {% for role, details in roles.items %}
+                <option value="{{ role }}" data-required="{{ details.required|length }}" data-optional="{{ details.preferred|length }}" {% if profile.target_role == role %}selected{% endif %}>{{ role }}</option>
+              {% endfor %}
+            </select>
+            <p class="role-summary" id="role-summary" aria-live="polite"></p>
+            <button class="btn btn-primary" type="submit">Analyze resume <i class="bi bi-arrow-right"></i></button>
+          </form>
+          <p class="privacy-note"><i class="bi bi-shield-lock"></i> The PDF is processed in memory and not retained.</p>
+        </article>
+        <article class="surface-card">
+          <div class="section-kicker">LATEST ANALYSIS</div>
+          {% if result %}
+            <h2>{{ result.role }}</h2>
+            <p class="muted">{{ result.resume_name }} · {{ result.score }}% indicative match</p>
+            <div class="skill-pair">
+              <div>
+                <h3>Detected skills <span>{{ result.student_skills|length }}</span></h3>
+                <div class="tag-list">{% for skill in result.student_skills %}<span class="skill-tag">{{ skill }}</span>{% empty %}<p class="muted">No listed skills found yet.</p>{% endfor %}</div>
+              </div>
+              <div>
+                <h3>Education</h3><p class="section-copy">{{ result.sections.education|default:'No education section detected.'|linebreaksbr }}</p>
+                <h3>Experience</h3><p class="section-copy">{{ result.sections.experience|default:'No experience section detected.'|linebreaksbr }}</p>
+                <h3>Projects</h3><p class="section-copy">{{ result.sections.projects|default:'No projects section detected.'|linebreaksbr }}</p>
+              </div>
+            </div>
+          {% else %}
+            <div class="empty-state"><i class="bi bi-file-earmark-person"></i><h3>Your resume snapshot will appear here.</h3><p>Education, experience, projects, and technical skills are identified where section headings are present.</p></div>
+          {% endif %}
+        </article>
+      </div>
+      <article class="surface-card table-card"><div class="card-heading"><div><div class="section-kicker">SAVED HISTORY</div><h2>Recent resume analyses</h2></div></div>{% for item in resume_history %}<div class="history-row"><div><b>{{ item.role }}</b><small>{{ item.resume_name }} · {{ item.created_at|date:'M j, Y' }}</small></div><span class="history-score">{{ item.match_data.score }}%</span></div>{% empty %}<div class="empty-inline">Your analyses are private to this account.</div>{% endfor %}</article>
+
+    {% elif section == 'github' %}
+      <div class="page-heading"><div><div class="section-kicker">PORTFOLIO SIGNAL</div><h1>GitHub Analyzer</h1><p class="muted">Explore public work, activity, and languages relevant to your target role.</p></div></div>
+      <article class="surface-card form-card github-form"><form method="post" action="{% url 'analyze_github' %}" class="github-connect">{% csrf_token %}<div><label class="form-label" for="github-user">Public GitHub username</label><input class="form-control" id="github-user" name="username" maxlength="39" value="{{ profile.github_username }}" placeholder="username" required></div><button class="btn btn-primary">Analyze profile <i class="bi bi-arrow-right"></i></button></form><p class="privacy-note"><i class="bi bi-globe2"></i> Uses GitHub's unauthenticated public API. Rate limits may apply.</p></article>
+      {% if github %}<article class="surface-card profile-card"><div class="profile-top">{% if github.avatar %}<img class="profile-avatar" src="{{ github.avatar }}" alt="{{ github.name }} GitHub profile avatar">{% endif %}<div><div class="section-kicker">PUBLIC PORTFOLIO</div><h2>{{ github.name }}</h2><a href="{{ github.profile_url }}" target="_blank" rel="noopener noreferrer">@{{ github.username }} <i class="bi bi-box-arrow-up-right"></i></a><p class="muted">{{ github.bio }}</p></div><div class="profile-stat"><strong>{{ github.public_repos }}</strong><small>repositories</small></div><div class="profile-stat"><strong>{{ github.total_stars }}</strong><small>stars</small></div><div class="profile-stat"><strong>{{ github.total_forks }}</strong><small>forks</small></div></div><p class="portfolio-summary">{{ github.portfolio_summary }}{% if github.role %} Ranked for {{ github.role }}.{% endif %}</p><div class="language-row"><b>Languages</b>{% for language, count in github.languages.items %}<span>{{ language }} <small>{{ count }}</small></span>{% empty %}<span>No language data</span>{% endfor %}</div><div class="repo-grid">{% for repo in github.top_repos %}<article class="repo-item"><div><a href="{{ repo.url }}" target="_blank" rel="noopener noreferrer">{{ repo.name }} <i class="bi bi-box-arrow-up-right"></i></a><span class="repo-relevance">{{ repo.relevance }} role signals</span></div><p>{{ repo.description }}</p><div class="repo-meta"><span>{{ repo.language }}</span><span><i class="bi bi-star"></i> {{ repo.stars }}</span><span><i class="bi bi-diagram-2"></i> {{ repo.forks }}</span><span>Updated {{ repo.updated_at|slice:':10'|default:'unknown' }}</span></div></article>{% empty %}<div class="empty-inline">No public repositories were returned for this profile.</div>{% endfor %}</div></article>{% else %}<article class="surface-card empty-state"><i class="bi bi-github"></i><h3>Connect your public portfolio.</h3><p>Repository summaries, languages, stars, forks, and update dates will appear here.</p></article>{% endif %}
+
+    {% elif section == 'match' %}
+      <div class="page-heading"><div><div class="section-kicker">SKILLS TO ROLE</div><h1>Career Match</h1><p class="muted">A transparent comparison against your selected role profile, not a hiring prediction.</p></div></div>
+      {% if invalid_role %}
+      <article class="surface-card empty-state" role="alert"><i class="bi bi-exclamation-triangle"></i><h3>That job role is not supported.</h3><p>Choose a role from Career Opportunities to view its analysis.</p><a class="btn btn-primary" href="{% url 'workspace' %}">Back to Career Opportunities</a></article>
+      {% elif result %}
+      <article class="surface-card match-result-summary">
+        <div class="match-result-top">
+          <div>
+            <div class="section-kicker">{{ result.role }} · {{ result.readiness_status }}</div>
+            <h2>{{ result.score }}% current compatibility</h2>
+            <p class="muted">{{ result.score_explanation }}</p>
+          </div>
+          <span class="match-category {% if result.perfect_match %}is-perfect{% else %}is-gap{% endif %}">
+            {{ result.readiness_status }}
+          </span>
+        </div>
+        <div class="readiness-metrics">
+          <div><span>Mandatory coverage</span><strong>{{ result.mandatory_coverage }}%</strong></div>
+          <div><span>Optional coverage</span><strong>{% if result.optional_coverage != None %}{{ result.optional_coverage }}%{% else %}N/A{% endif %}</strong></div>
+          <div><span>Matched mandatory</span><strong>{{ result.matched_skills|length }} / {{ result.total_required }}</strong></div>
+        </div>
+        <section class="optional-skills">
+          <h3>Optional skills already possessed <span>{{ result.preferred_skills|length }}</span></h3>
+          <div class="tag-list">
+            {% for skill in result.preferred_skills %}<span class="skill-tag skill-preferred">{{ skill }}</span>
+            {% empty %}<p class="muted">No optional skills detected yet.</p>{% endfor %}
+          </div>
+          <h3>Missing optional skills <span>{{ result.missing_preferred_skills|length }}</span></h3>
+          <div class="tag-list">
+            {% for skill in result.missing_preferred_skills %}<span class="skill-tag skill-preferred">{{ skill }}</span>
+            {% empty %}<p class="muted">No missing optional skills.</p>{% endfor %}
+          </div>
+        </section>
+        {% if result.github_matched_skills %}
+          <p class="github-match-evidence">Explicit GitHub project-description mentions:
+            {% for skill in result.github_matched_skills %}<span class="skill-tag skill-good">{{ skill }}</span>{% endfor %}
+          </p>
+        {% endif %}
+        {% if result.perfect_match %}
+          <div class="perfect-match-message" role="status">
+            <i class="bi bi-check-circle-fill"></i>
+            <div><strong>YOU ARE READY FOR THIS ROLE!</strong><br>Your current skill profile satisfies all the mandatory technical requirements for this selected role. No additional mandatory skill enhancement is required based on our analysis.</div>
+          </div>
+          <div class="result-actions">
+            <a class="btn btn-outline-light" href="{% url 'workspace' %}">Explore Another Job Role <i class="bi bi-arrow-right"></i></a>
+            <a class="btn btn-primary" href="{% url 'workspace_section' section='match' %}">View My Skill Analysis <i class="bi bi-arrow-up-right"></i></a>
+          </div>
+        {% else %}
+          <div class="enhancement-plan">
+            <div>
+              <strong class="gap-heading">YOUR PROFILE NEEDS SKILL ENHANCEMENT</strong>
+              <h3>Minimum enhancement · {{ result.enhancement_priority }} priority</h3>
+              <p class="muted">Focus only on mandatory gaps, following the role profile's sequence. Acquiring them could move this indicative score to about {{ result.expected_score_after_mandatory_skills }}%; this is not a hiring guarantee.</p>
+            </div>
+            <ol>
+              {% for item in result.enhancement_recommendations %}
+                <li><span>{{ item.skill }}</span><small>{{ item.priority }} priority · Step {{ item.sequence }}</small></li>
+              {% endfor %}
+            </ol>
+            <form method="post" action="{% url 'generate_roadmap' %}">
+              {% csrf_token %}
+              <input type="hidden" name="role" value="{{ result.role }}">
+              <button class="btn btn-primary" type="submit">Generate a personalized learning roadmap <i class="bi bi-arrow-right"></i></button>
+            </form>
+          </div>
+        {% endif %}
+        <a class="btn btn-outline-light match-back-action" href="{% url 'workspace' %}">Back to Career Opportunities</a>
+        <p class="match-evidence-note"><i class="bi bi-info-circle"></i> GitHub contributes only technical terms explicitly named in public repository descriptions. Repository language metadata is not treated as proof of skill. Missing GitHub information does not count against your match.</p>
+      </article>
+      {% endif %}
+      {% if result and not invalid_role %}<div class="match-hero surface-card"><div><div class="section-kicker">{{ result.role }}</div><h2>Your skills line up at</h2><p>{{ result.score_explanation }}</p></div><div class="match-score"><strong>{{ result.score }}<small>%</small></strong><span>indicative skill match</span></div></div><div class="content-grid match-grid"><article class="surface-card"><div class="section-kicker">REQUIRED SKILLS</div><h2>Skill-by-skill comparison</h2><div class="comparison-list">{% for item in result.skill_breakdown %}{% if item.category == 'Required' %}<div class="comparison-row"><span>{{ item.skill }}</span><span class="comparison-status {% if item.matched %}is-matched{% else %}is-missing{% endif %}">{% if item.matched %}<i class="bi bi-check2-circle"></i> Matched{% else %}<i class="bi bi-plus-circle"></i> To build{% endif %}</span></div>{% endif %}{% endfor %}</div></article><article class="surface-card"><div class="section-kicker">YOUR PROFILE</div><h2>Strengths and opportunities</h2><h3>Matched required <span>{{ result.matched_skills|length }}</span></h3><div class="tag-list">{% for skill in result.matched_skills %}<span class="skill-tag skill-good">{{ skill }}</span>{% empty %}<p class="muted">No required skills detected.</p>{% endfor %}</div><h3 class="mt-4">Missing required <span>{{ result.missing_skills|length }}</span></h3><div class="tag-list">{% for skill in result.missing_skills %}<span class="skill-tag skill-gap">{{ skill }}</span>{% endfor %}</div><h3 class="mt-4">Preferred skills <span>{{ result.preferred_skills|length }} present</span></h3><div class="tag-list">{% for skill in result.preferred_skills %}<span class="skill-tag skill-preferred">{{ skill }}</span>{% empty %}<p class="muted">No preferred skills detected yet.</p>{% endfor %}</div></article></div><div class="content-grid"><article class="surface-card"><div class="section-kicker">SUGGESTED PROOF</div><h2>Projects to make your skills visible</h2>{% for project in result.suggested_projects %}<div class="list-line"><i class="bi bi-arrow-up-right-circle"></i>{{ project }}</div>{% endfor %}</article><article class="surface-card"><div class="section-kicker">INTERVIEW PREP</div><h2>Topics to practise</h2>{% for topic in result.interview_topics %}<span class="skill-tag">{{ topic }}</span>{% endfor %}</article></div>{% elif not invalid_role %}<article class="surface-card empty-state"><i class="bi bi-bullseye"></i><h3>Start with a resume analysis.</h3><p>Choose one of five role profiles and see matched, missing, and preferred skills with the scoring method explained.</p><a class="btn btn-primary" href="{% url 'workspace_section' section='resume' %}">Analyze a resume</a></article>{% endif %}
+
+    {% elif section == 'roadmap' %}
+      <div class="page-heading"><div><div class="section-kicker">FOUR WEEKS, BUILT AROUND YOU</div><h1>Learning Roadmap</h1><p class="muted">Local Qwen inference when available, with a built-in free fallback.</p></div>{% if result and not result.perfect_match %}<form method="post" action="{% url 'generate_roadmap' %}">{% csrf_token %}<button type="submit" class="btn btn-primary">{% if roadmap %}Generate a new plan{% else %}Create my roadmap{% endif %} <i class="bi bi-arrow-repeat"></i></button></form>{% endif %}</div>
+      {% if result and result.perfect_match %}<article class="surface-card perfect-match-message roadmap-perfect" role="status"><i class="bi bi-check-circle-fill"></i><div><strong>No skill-gap roadmap is needed for {{ result.role }}.</strong> You already match all mandatory skills in the current analysis.</div><a class="btn btn-outline-light" href="{% url 'workspace_section' section='resume' %}">Explore another role</a></article>{% endif %}
+      {% if roadmap %}<div class="roadmap-summary surface-card"><div><div class="section-kicker">{{ roadmap.source }}</div><h2>{{ result.role }} learning plan</h2><p class="muted mb-0">{{ chart_data.completed_tasks }} of {{ roadmap_tasks|length }} tasks complete · {{ metrics.roadmap_progress }}%</p></div><div class="roadmap-progress"><div class="progress"><div class="progress-bar" style="width:{{ metrics.roadmap_progress }}%"></div></div></div></div><div class="week-grid">{% for week in roadmap_weeks %}<article class="week-card"><div class="week-top"><span>WEEK 0{{ week.number }}</span><span>{{ week.items|length }} tasks</span></div><h2>{{ week.objective }}</h2><div class="week-block"><h3>Topics</h3><div class="tag-list">{% for topic in week.topics %}<span class="skill-tag">{{ topic }}</span>{% endfor %}</div></div><div class="week-block"><h3>Tasks</h3>{% for task in week.items %}<form method="post" action="{% url 'toggle_roadmap_task' task_id=task.id %}" class="task-form">{% csrf_token %}<button type="submit" class="task-toggle {% if task.completed %}is-done{% endif %}" aria-label="{% if task.completed %}Mark incomplete{% else %}Mark complete{% endif %}"><i class="bi {% if task.completed %}bi-check-circle-fill{% else %}bi-circle{% endif %}"></i><span>{{ task.title }}</span></button></form>{% endfor %}</div><div class="week-outcome"><b>Outcome</b><p>{{ week.outcome }}</p></div><div class="resource-list"><b>Free resources</b>{% for resource in week.resources %}<span><i class="bi bi-book"></i>{{ resource }}</span>{% endfor %}</div></article>{% endfor %}</div>{% else %}<article class="surface-card empty-state"><i class="bi bi-map"></i><h3>A learning plan with momentum.</h3><p>Analyze your resume first. Your four-week plan will use your role gaps, projects, and connected GitHub portfolio.</p>{% if not result %}<a class="btn btn-primary" href="{% url 'workspace_section' section='resume' %}">Analyze a resume</a>{% endif %}</article>{% endif %}
+
+    {% elif section == 'interview' %}
+      <div class="page-heading"><div><div class="section-kicker">PRACTISE WITH PURPOSE</div><h1>Mock Interview</h1><p class="muted">Role-specific practice with constructive local AI feedback or a transparent rubric fallback.</p></div></div>
+      {% if active_question and interview %}<article class="interview-question surface-card"><div class="question-top"><div><div class="section-kicker">{{ interview.role }} · QUESTION {{ interview.question_index|add:1 }} OF {{ interview.questions|length }}</div><h2>{{ active_question }}</h2></div><span class="question-count">{{ interview.question_index|add:1 }} / {{ interview.questions|length }}</span></div><form method="post" action="{% url 'submit_interview_answer' session_id=interview.id %}">{% csrf_token %}<label class="form-label" for="interview-answer">Your answer <small>Up to 5,000 characters</small></label><textarea class="form-control answer-area" id="interview-answer" name="answer" rows="8" maxlength="5000" required></textarea><button class="btn btn-primary">Submit answer <i class="bi bi-arrow-right"></i></button></form></article>            {% elif interview and interview.status == 'completed' %}<article class="surface-card interview-summary"><div class="section-kicker">PRACTICE SESSION COMPLETE</div><h2>{{ interview.role }} interview summary · Attempt {{ interview.attempt_number }} · Session #{{ interview.id }}</h2><div class="summary-score"><strong>{{ interview.summary.score }}<small>%</small></strong><span>overall practice score</span></div><div class="feedback-actions"><form method="post" action="{% url 'start_interview' %}">{% csrf_token %}<input type="hidden" name="role" value="{{ interview.role }}"><button class="btn btn-primary">Retake This Role</button></form>      <a class="btn btn-outline" href="{% url 'interview_roles' %}">Explore Another Job Role</a><a class="btn btn-outline" href="{% url 'interview_history' %}">View Previous Attempts</a><a class="btn btn-outline" href="{% url 'workspace_section' section='overview' %}">Back to Career Dashboard</a></div><p class="muted">Evaluator: {{ interview.summary.evaluator|default:'Rubric fallback' }}</p><p class="muted">{{ interview.summary.message }}</p><div class="summary-columns"><div><h3>Strengths</h3>{% for item in interview.summary.strengths %}<div class="list-line"><i class="bi bi-check2-circle"></i>{{ item }}</div>{% empty %}<p class="muted">No strengths recorded.</p>{% endfor %}</div><div><h3>Areas to improve</h3>{% for item in interview.summary.improvements %}<div class="list-line"><i class="bi bi-arrow-up-right-circle"></i>{{ item }}</div>{% empty %}<p class="muted">No improvement notes recorded.</p>{% endfor %}</div></div><h3 class="mt-4">Answer review</h3>{% for item in interview_answers %}<details class="answer-review"><summary>{{ item.question }} <span>{{ item.feedback.score }}%</span></summary><p><b>Your answer</b><br>{{ item.answer }}</p><p><b>Evaluator:</b> {{ item.feedback.source }}</p><p>{{ item.feedback.feedback }}</p>{% if item.feedback.rubric %}<p><b>Rubric:</b> Relevance {{ item.feedback.rubric.relevance }}% · Technical correctness {{ item.feedback.rubric.technical_correctness }}% · Completeness {{ item.feedback.rubric.completeness }}% · Practical understanding {{ item.feedback.rubric.practical_understanding }}% · Clarity {{ item.feedback.rubric.clarity }}%</p>{% endif %}<div class="feedback-tags">{% for strength in item.feedback.got_right|default:item.feedback.strengths %}<span class="skill-tag skill-good">{{ strength }}</span>{% endfor %}{% for incorrect in item.feedback.incorrect %}<span class="skill-tag skill-gap">{{ incorrect }}</span>{% endfor %}{% for missing in item.feedback.missing %}<span class="skill-tag skill-gap">Missing: {{ missing }}</span>{% endfor %}{% for improvement in item.feedback.improvements %}<span class="skill-tag skill-gap">{{ improvement }}</span>{% endfor %}</div>{% if item.feedback.suggested_answer_structure %}<p><b>Suggested answer structure</b><br>{{ item.feedback.suggested_answer_structure }}</p>{% endif %}</details>{% endfor %}</article>      {% else %}<div class="metric-grid progress-metrics"><article class="metric-card"><span>Completed interviews</span><strong>{{ metrics.interviews_completed }}</strong></article><article class="metric-card"><span>Roles practised</span><strong>{{ metrics.interview_roles }}</strong></article><article class="metric-card metric-primary"><span>Latest score</span><strong>{{ metrics.interview_score }}{% if metrics.interviews_completed %}<small>%</small>{% endif %}</strong></article><article class="metric-card"><span>Best score</span><strong>{{ metrics.interview_best_score }}{% if metrics.interviews_completed %}<small>%</small>{% endif %}</strong></article></div><div class="content-grid interview-start-grid"><article class="surface-card form-card"><div class="section-kicker">START A SESSION</div><h2>Practise your next answer.</h2><p class="muted">Four technical questions, delivered one at a time. Your answers and feedback are saved privately to your account.</p><form method="post" action="{% url 'start_interview' %}" class="stack-form">{% csrf_token %}<label class="form-label" for="interview-role">Target role</label><select class="form-select" name="role" id="interview-role" required>{% for role, details in roles.items %}<option value="{{ role }}" {% if profile.target_role == role %}selected{% endif %}>{{ role }}</option>{% endfor %}</select><button class="btn btn-primary">Start mock interview <i class="bi bi-arrow-right"></i></button></form><p class="privacy-note"><i class="bi bi-info-circle"></i> Practice feedback is not an employer assessment.</p></article>      <article class="surface-card"><div class="section-kicker">YOUR SESSIONS</div><h2>Recent practice</h2><a class="btn btn-outline" href="{% url 'interview_history' %}">View Previous Attempts</a>{% for item in interview_history %}<div class="history-row"><div><b>{{ item.role }}</b><small>{{ item.created_at|date:'M j, Y' }} · {{ item.get_status_display }}</small></div>{% if item.status == 'completed' %}<span class="history-score">{{ item.summary.score }}%</span>{% endif %}</div>{% empty %}<div class="empty-inline">Completed sessions will appear here.</div>{% endfor %}</article></div>{% endif %}
+
+    {% elif section == 'progress' %}
+      <div class="page-heading"><div><div class="section-kicker">YOUR MOMENTUM</div><h1>My Progress</h1><p class="muted">Career preparation records saved to your account.</p></div></div>
+      <div class="metric-grid progress-metrics"><article class="metric-card metric-primary"><span>Job readiness</span><strong>{{ metrics.readiness }}<small>%</small></strong><div class="metric-foot">{% if result %}{{ result.role }}{% else %}No resume analysis yet{% endif %}</div></article><article class="metric-card"><span>Roadmap complete</span><strong>{{ metrics.roadmap_progress }}<small>%</small></strong><div class="metric-foot">{{ chart_data.completed_tasks }} / {{ roadmap_tasks|length }} tasks</div></article><article class="metric-card"><span>Interview practice</span><strong>{{ metrics.interview_score }}{% if metrics.interview_score %}<small>%</small>{% endif %}</strong><div class="metric-foot">Latest completed session</div></article><article class="metric-card"><span>GitHub repos</span><strong>{{ metrics.repositories }}</strong><div class="metric-foot">Public portfolio signal</div></article></div>
+      <div class="overview-grid"><article class="surface-card chart-card"><div class="card-heading"><div><div class="section-kicker">SKILL DISTRIBUTION</div><h2>Role skill coverage</h2></div></div>{% if result %}<div class="chart-box"><canvas id="distributionChart" aria-label="Required and preferred role skills"></canvas></div>{% else %}<div class="empty-chart"><i class="bi bi-bar-chart"></i><p>Skill distribution appears after resume analysis.</p></div>{% endif %}</article><article class="surface-card chart-card"><div class="card-heading"><div><div class="section-kicker">LEARNING PROGRESS</div><h2>Roadmap completion</h2></div></div>{% if roadmap %}<div class="chart-box"><canvas id="progressBarChart" aria-label="Completed and open roadmap tasks"></canvas></div>{% else %}<div class="empty-chart"><i class="bi bi-check2-square"></i><p>Generate a roadmap to track learning tasks.</p></div>{% endif %}</article></div>
+      <article class="surface-card table-card"><div class="card-heading"><div><div class="section-kicker">HISTORY</div><h2>Interview sessions</h2></div></div>{% for item in interview_history %}<div class="history-row"><div><b>{{ item.role }} practice</b><small>{{ item.created_at|date:'M j, Y' }} · {{ item.get_status_display }}</small></div>{% if item.status == 'completed' %}<span class="history-score">{{ item.summary.score }}%</span>{% endif %}</div>{% empty %}<div class="empty-inline">Your saved practice sessions will appear here.</div>{% endfor %}</article>
+    {% endif %}
+    {% if section == 'interview' and latest_answer and interview.status == 'active' %}
+    <article class="surface-card answer-feedback"><div class="card-heading"><div><div class="section-kicker">FEEDBACK ON YOUR LAST ANSWER</div><h2>{{ latest_answer.feedback.score }}% practice rubric</h2></div><span class="feedback-source">{{ latest_answer.feedback.source }}</span></div><p>{{ latest_answer.feedback.feedback }}</p><div class="summary-columns"><div><h3>Strengths</h3>{% for item in latest_answer.feedback.strengths %}<div class="list-line"><i class="bi bi-check2-circle"></i>{{ item }}</div>{% endfor %}</div><div><h3>Try next</h3>{% for item in latest_answer.feedback.improvements %}<div class="list-line"><i class="bi bi-arrow-up-right-circle"></i>{{ item }}</div>{% endfor %}</div></div></article>
+    {% endif %}
+    <p class="workspace-disclaimer"><i class="bi bi-info-circle"></i> Match scores and interview feedback are preparation aids, not hiring probabilities or employer assessments.</p>
+  </section>
+</div>
+{{ chart_data|json_script:'chart-data' }}
+{% endblock %}
+{% block scripts %}
+<script>
+const resumeInput = document.getElementById('resume-file');
+const resumeDropzone = document.getElementById('resume-dropzone');
+const resumeFileName = document.getElementById('resume-file-name');
+if (resumeInput && resumeDropzone && resumeFileName) {
+  const showResumeFile = () => {
+    resumeFileName.textContent = resumeInput.files.length ? resumeInput.files[0].name : 'No file selected';
+  };
+  resumeInput.addEventListener('change', showResumeFile);
+  resumeDropzone.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    resumeDropzone.classList.add('is-dragging');
+  });
+  resumeDropzone.addEventListener('dragleave', (event) => {
+    if (!resumeDropzone.contains(event.relatedTarget)) resumeDropzone.classList.remove('is-dragging');
+  });
+  resumeDropzone.addEventListener('drop', (event) => {
+    event.preventDefault();
+    resumeDropzone.classList.remove('is-dragging');
+    if (!event.dataTransfer || !event.dataTransfer.files.length) return;
+    const transfer = new DataTransfer();
+    Array.from(event.dataTransfer.files).forEach((file) => transfer.items.add(file));
+    resumeInput.files = transfer.files;
+    showResumeFile();
+  });
+}
+const roleSelect = document.getElementById('target-role');
+const roleSummary = document.getElementById('role-summary');
+if (roleSelect && roleSummary) {
+  const updateRoleSummary = () => {
+    const option = roleSelect.selectedOptions[0];
+    if (!option) return;
+    roleSummary.textContent = `${option.dataset.required} mandatory skills · ${option.dataset.optional} optional skills in this profile`;
+  };
+  roleSelect.addEventListener('change', updateRoleSummary);
+  updateRoleSummary();
+}
+</script>
+<script>
+const chartData = JSON.parse(document.getElementById('chart-data').textContent);
+const theme = getComputedStyle(document.documentElement);
+const cyan = theme.getPropertyValue('--secondary').trim();
+const blue = theme.getPropertyValue('--primary').trim();
+const purple = theme.getPropertyValue('--highlight').trim();
+const amber = theme.getPropertyValue('--warning').trim();
+const grid = 'rgba(177, 190, 211, .12)';
+const text = theme.getPropertyValue('--muted').trim();
+const chartTooltip = {
+  backgroundColor: 'rgba(11, 20, 37, .96)',
+  titleColor: '#F8FAFC',
+  bodyColor: text,
+  borderColor: 'rgba(148, 163, 184, .15)',
+  borderWidth: 1,
+  padding: 12,
+};
+const matchCanvas = document.getElementById('matchChart');
+if (matchCanvas) new Chart(matchCanvas, {type: 'doughnut', data: {labels: ['Matched', 'To build'], datasets: [{data: [chartData.matched, chartData.missing], backgroundColor: [cyan, amber], borderWidth: 0, hoverOffset: 4}]}, options: {maintainAspectRatio: false, cutout: '72%', plugins: {tooltip: chartTooltip, legend: {position: 'bottom', labels: {color: text, usePointStyle: true, padding: 18}}}}});
+const distributionCanvas = document.getElementById('distributionChart');
+if (distributionCanvas) new Chart(distributionCanvas, {type: 'bar', data: {labels: ['Required matched', 'Required missing', 'Preferred matched', 'Preferred missing'], datasets: [{data: [chartData.required_matched, chartData.required_missing, chartData.preferred_matched, chartData.preferred_missing], backgroundColor: [cyan, amber, purple, blue], borderRadius: 4, maxBarThickness: 36}]}, options: {maintainAspectRatio: false, plugins: {tooltip: chartTooltip, legend: {display: false}}, scales: {x: {ticks: {color: text}, grid: {display: false}}, y: {beginAtZero: true, ticks: {precision: 0, color: text}, grid: {color: grid}}}}});
+const progressCanvas = document.getElementById('progressChart');
+if (progressCanvas) new Chart(progressCanvas, {type: 'doughnut', data: {labels: ['Complete', 'Remaining'], datasets: [{data: [chartData.completed_tasks, chartData.open_tasks], backgroundColor: [cyan, '#344057'], borderWidth: 0}]}, options: {maintainAspectRatio: false, cutout: '78%', plugins: {tooltip: chartTooltip, legend: {display: false}}}});
+const progressBarCanvas = document.getElementById('progressBarChart');
+if (progressBarCanvas) new Chart(progressBarCanvas, {type: 'bar', data: {labels: ['Completed', 'In progress'], datasets: [{data: [chartData.completed_tasks, chartData.open_tasks], backgroundColor: [cyan, blue], borderRadius: 4, maxBarThickness: 48}]}, options: {maintainAspectRatio: false, plugins: {tooltip: chartTooltip, legend: {display: false}}, scales: {x: {ticks: {color: text}, grid: {display: false}}, y: {beginAtZero: true, ticks: {precision: 0, color: text}, grid: {color: grid}}}}});
+</script>
+{% endblock %}

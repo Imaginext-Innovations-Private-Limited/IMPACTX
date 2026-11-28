@@ -1,0 +1,17 @@
+venv/
+.venv/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+db.sqlite3
+.env
+.env.*
+!.env.example
+media/
+.DS_Store
+.careerpilot-requirements.sha256
+*.log
+*.tmp
+*.bak
+.pytest_cache/
+.mypy_cache/

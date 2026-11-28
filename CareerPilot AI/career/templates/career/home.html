@@ -1,0 +1,32 @@
+{% extends 'career/base.html' %}
+{% block title %}CareerPilot AI | From Skills to Success{% endblock %}
+{% block content %}
+<section class="landing-hero">
+  <div class="landing-copy">
+    <div class="eyebrow"><span class="eyebrow-line"></span> YOUR NEXT CHAPTER, WITH A PLAN</div>
+    <h1>From Skills<br><span>to Success.</span></h1>
+    <p class="landing-lede">A practical career mentor for the work ahead. Find your strengths, close the right gaps, and turn your learning into proof.</p>
+    <div class="landing-actions"><a href="{% url 'signup' %}" class="btn btn-primary btn-lg">Build my career plan <i class="bi bi-arrow-up-right"></i></a><a href="#how-it-works" class="text-link">See how it works <i class="bi bi-arrow-down-right"></i></a></div>
+    <div class="hero-proof"><span><i class="bi bi-cpu"></i> AI runs on your device</span><span><i class="bi bi-shield-check"></i> Your data stays yours</span></div>
+  </div>
+  <div class="landing-art" aria-hidden="true">
+    <div class="art-label">CAREER<br>INTELLIGENCE <span>01 — 04</span></div>
+    <div class="art-path"><span class="path-node node-one"><i class="bi bi-file-earmark-person"></i></span><span class="path-node node-two"><i class="bi bi-code-slash"></i></span><span class="path-node node-three"><i class="bi bi-signpost-split"></i></span><span class="path-node node-four"><i class="bi bi-rocket-takeoff"></i></span><div class="path-line"></div></div>
+    <div class="art-note"><span>YOUR SKILLS, IN MOTION</span><i class="bi bi-arrow-up-right"></i></div>
+  </div>
+</section>
+<section class="landing-section" id="features">
+  <div class="section-heading"><div><div class="eyebrow">ONE WORKSPACE, FOUR SIGNALS</div><h2>Make your next move<br>with evidence.</h2></div><p>Get a clearer view of where you are and what to work on next, grounded in your own experience.</p></div>
+  <div class="feature-grid">
+    <article class="feature-item"><div class="feature-index">01</div><i class="bi bi-file-earmark-bar-graph"></i><h3>Know your skill profile</h3><p>Read your resume locally and compare the skills it shows against real role requirements.</p></article>
+    <article class="feature-item"><div class="feature-index">02</div><i class="bi bi-github"></i><h3>Show the work</h3><p>Connect public repositories and surface the projects, languages, and activity behind your profile.</p></article>
+    <article class="feature-item"><div class="feature-index">03</div><i class="bi bi-map"></i><h3>Build a learning route</h3><p>Turn skill gaps into four weeks of focused practice, useful outcomes, and free resources.</p></article>
+    <article class="feature-item"><div class="feature-index">04</div><i class="bi bi-chat-square-text"></i><h3>Practise out loud</h3><p>Work through role-specific interview questions and get constructive feedback on each answer.</p></article>
+  </div>
+</section>
+<section class="how-section" id="how-it-works">
+  <div class="eyebrow">A MOMENTUM-BUILDING LOOP</div><h2>Clear steps. Real progress.</h2>
+  <div class="steps-grid"><div><span>01</span><h3>Bring your experience</h3><p>Upload a PDF resume and choose a role that interests you.</p></div><div><span>02</span><h3>Find your next skills</h3><p>Review matched skills, gaps, preferred skills, and the scoring breakdown.</p></div><div><span>03</span><h3>Put the plan to work</h3><p>Track roadmap tasks, practise interviews, and see your preparation build.</p></div></div>
+  <div class="landing-cta"><div><div class="eyebrow">START WITH WHAT YOU KNOW</div><h2>Your next step is closer than it looks.</h2></div><a href="{% url 'signup' %}" class="btn btn-primary">Create your workspace <i class="bi bi-arrow-up-right"></i></a></div>
+</section>
+{% endblock %}
