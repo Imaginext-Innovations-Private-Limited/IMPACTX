@@ -1,0 +1,19 @@
+row_id,brand,aliases,type,hospital_label,valid_from,valid_to,source_id,source_ref
+BR-XIENCE,Xience,xience|xience alpine|xience xpedition|xience expedition|xience prime|xience sierra|xience skypoint|xience v|xpedition,des,XIENCE ALPINE | DES | ABBOTT,2017-02-13,,hospital_stent_lists,Breach Candy Hospital stent list
+BR-RESOLUTE,Resolute,resolute|resolute integrity|resolute onyx|integrity resolute|endeavor resolute|onyx frontier|onyx,des,RESOLUTE ONYX | DES | MEDTRONIC,2017-02-13,,hospital_stent_lists,Breach Candy Hospital stent list
+BR-ENDEAVOR,Endeavor,endeavor|endeavor sprint,des,ENDEAVOR SPRINT | DES | MEDTRONIC,2017-02-13,,hospital_stent_lists,Breach Candy Hospital stent list
+BR-SYNERGY,Synergy,synergy|synergy xd|megatron,des,DES | Boston Scientific India Ltd | Synergy,2017-02-13,,hospital_stent_lists,Apollo Hospitals Bangalore stent list
+BR-PROMUS,Promus,promus|promus premier|promus elite|promus element plus,des,PROMUS PREMIER (DES) BOSTON,2017-02-13,,hospital_stent_lists,Ruby Hall Clinic stent rates
+BR-ORSIRO,Orsiro,orsiro|orsiro hybrid,des,DES | Biotronik | Orsiro Hybrid,2017-02-13,,hospital_stent_lists,Apollo Hospitals Delhi stent list
+BR-ULTIMASTER,Ultimaster,ultimaster|ultimaster tensei|ultimaster nagomi,des,ULTIMASTER STENT (DES) TERUMO,2017-02-13,,hospital_stent_lists,Ruby Hall Clinic stent rates
+BR-BIOMIME,BioMime,biomime|biomime aura|biomime morph|biomime lineage|biomime branch,des,DES | Meril Life Sciences | Biomime Aura,2017-02-13,,hospital_stent_lists,Apollo Hospitals Indore stent list
+BR-BIOMATRIX,BioMatrix,biomatrix|biomatrix flex|biomatrix alpha,des,BIOMATRIX FLEX (DES) BIOSENSORS,2017-02-13,,hospital_stent_lists,Ruby Hall Clinic stent rates
+BR-PRONOVA,Pronova,pronova|pronova xr|pronova cc|pronova ss,des,DES | Vascular concepts | Pronova XR,2017-02-13,,hospital_stent_lists,Apollo Hospitals Indore stent list
+BR-SUPRAFLEX,Supraflex,supraflex|supraflex cruz,unknown,SUPRAFLEX CRUZ | SMT (no type label),2017-02-13,,hospital_stent_lists,Fortis Healthcare stent pricing
+BR-TETRIFLEX,Tetriflex,tetriflex,unknown,TETRIFLEX | SMT (no type label),2017-02-13,,hospital_stent_lists,Fortis Healthcare stent pricing
+BR-EVERMINE,Evermine,evermine|evermine 50,unknown,EVERMINE 50 | MERIL LIFE SCIENCES (no type label),2017-02-13,,hospital_stent_lists,Fortis Healthcare stent pricing
+BR-YUKON,Yukon,yukon|yukon choice,unknown,YUKON CHOICE ISAR SUMMIT | TRANSLUMINA (no type label),2017-02-13,,hospital_stent_lists,Fortis Healthcare stent pricing
+BR-MITIGATOR,Mitigator,mitigator,unknown,MITIGATOR | ENVISION SCIENTIFIC (no type label),2017-02-13,,hospital_stent_lists,Fortis Healthcare stent pricing
+BR-BIOFREEDOM,BioFreedom,biofreedom,unknown,BIOFREEDOM (no type label),2017-02-13,,hospital_stent_lists,CARE Hospitals stent pricing
+BR-FLEXENIUM,Flexenium,flexenium,unknown,FLEXENIUM (no type label),2017-02-13,,hospital_stent_lists,CARE Hospitals stent pricing
+BR-GRAFTMASTER,Graftmaster,graftmaster,bms,BARE METAL STENTS/ GRAFTMASTER STENT | BMS | ABBOTT,2017-02-13,,hospital_stent_lists,Breach Candy Hospital stent list

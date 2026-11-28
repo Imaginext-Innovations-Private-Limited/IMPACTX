@@ -1,0 +1,84 @@
+{
+ "notice": "TEST BILL - NOT A REAL PATIENT - NOT VALID FOR ANY CLAIM. Ceilings are official (S.O. 1581(E)); hospital, quantities and rates are constructed.",
+ "answers": {
+  "payer": "cash",
+  "state": "karnataka",
+  "medicine_qty_in_dosage_units": true
+ },
+ "bill": {
+  "header": {
+   "hospital_name": "Sample Medical Centre",
+   "admission_date": "2026-11-10",
+   "discharge_date": "2026-11-12",
+   "bill_type": "final",
+   "total": "1240.00"
+  },
+  "lines": [
+   {
+    "description": "Inj Sodium Chloride 0.9% 500ml NonGlass",
+    "section": "pharmacy",
+    "date": "2026-11-11",
+    "qty": "6",
+    "rate": "95.00",
+    "amount": "570.00"
+   },
+   {
+    "description": "Normal Saline 500ml",
+    "section": "pharmacy",
+    "date": "2026-11-11",
+    "qty": "2",
+    "rate": "60.00",
+    "amount": "120.00"
+   },
+   {
+    "description": "RL 500ml",
+    "section": "pharmacy",
+    "date": "2026-11-11",
+    "qty": "4",
+    "rate": "90.00",
+    "amount": "360.00"
+   },
+   {
+    "description": "Inj Paracetamol 150mg/ml 1ml",
+    "section": "pharmacy",
+    "date": "2026-11-11",
+    "qty": "5",
+    "rate": "12.00",
+    "amount": "60.00"
+   },
+   {
+    "description": "Tab Diclofenac 50mg",
+    "section": "pharmacy",
+    "date": "2026-11-11",
+    "qty": "10",
+    "rate": "4.00",
+    "amount": "40.00"
+   },
+   {
+    "description": "Tab Pantoprazole 40mg",
+    "section": "pharmacy",
+    "date": "2026-11-11",
+    "qty": "10",
+    "rate": "9.00",
+    "amount": "90.00"
+   }
+  ]
+ },
+ "expected": {
+  "hand_worked": [
+   "Sodium chloride 0.9% 500 ml non-glass, Sl. 122: 6 x 35.71 x 1.05 = 224.97 allowed; 570.00 - 224.97 = 345.03",
+   "Normal saline 500 ml, pack not stated: higher of Sl. 121 (glass 41.95) and 122 used: 2 x 41.95 x 1.05 = 88.10; 120.00 - 88.10 = 31.90",
+   "Ringer lactate 500 ml, Sl. 111: 4 x 57.85 x 1.05 = 242.97; 360.00 - 242.97 = 117.03",
+   "Paracetamol inj 150 mg/ml 1 ml, Sl. 91: 5 x 5.34 x 1.05 = 28.04; 60.00 - 28.04 = 31.96",
+   "Diclofenac tablet: the order lists only the 50 mg capsule, so no ceiling applies",
+   "Pantoprazole: not in the loaded rows of this order"
+  ],
+  "excess": {
+   "Sodium Chloride": "345.03",
+   "Normal Saline": "31.90",
+   "RL 500ml": "117.03",
+   "Paracetamol": "31.96"
+  },
+  "recoverable": "525.92"
+ }
+}

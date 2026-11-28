@@ -1,0 +1,212 @@
+{
+  "notice": "TEST BILL - NOT A REAL PATIENT - NOT VALID FOR ANY CLAIM. Fictional test fixture; never use as evaluation data.",
+  "file": "bill2_knee_pmjay.pdf",
+  "answers": {
+    "payer": "pmjay",
+    "state": "gujarat",
+    "hospital_empanelled": true,
+    "patient_paid": true
+  },
+  "bill": {
+    "header": {
+      "hospital_name": "Sample Ortho Hospital",
+      "gstin": "24TESTB0000T1Z9",
+      "admission_date": "2026-11-10",
+      "discharge_date": "2026-11-15",
+      "bill_type": "final",
+      "total": "122448.00",
+      "scheme_markers": [
+        "PMJAY",
+        "pre-auth"
+      ]
+    },
+    "lines": [
+      {
+        "description": "Femoral Component Titanium Primary Knee",
+        "section": "implant",
+        "date": "2026-11-11",
+        "batch": "FK2201",
+        "expiry": "31/12/2029",
+        "qty": "1",
+        "rate": "62000.00",
+        "mrp": null,
+        "amount": "62000.00"
+      },
+      {
+        "description": "Tibial Tray with Insert Metal",
+        "section": "implant",
+        "date": "2026-11-11",
+        "batch": "TT4410",
+        "expiry": "31/12/2029",
+        "qty": "1",
+        "rate": "38000.00",
+        "mrp": null,
+        "amount": "38000.00"
+      },
+      {
+        "description": "Patella Button",
+        "section": "implant",
+        "date": "2026-11-11",
+        "batch": "PB1107",
+        "expiry": "31/12/2029",
+        "qty": "1",
+        "rate": "6500.00",
+        "mrp": null,
+        "amount": "6500.00"
+      },
+      {
+        "description": "Inj Ceftriaxone 1g",
+        "section": "pharmacy",
+        "date": "2026-11-11",
+        "batch": "CF2210",
+        "expiry": "31/10/2027",
+        "qty": "6",
+        "rate": "65.00",
+        "mrp": "72.00",
+        "amount": "390.00"
+      },
+      {
+        "description": "Inj Tramadol 50mg",
+        "section": "pharmacy",
+        "date": "2026-11-12",
+        "batch": "TR3301",
+        "expiry": "30/04/2027",
+        "qty": "6",
+        "rate": "18.00",
+        "mrp": "21.00",
+        "amount": "108.00"
+      },
+      {
+        "description": "Surgical Drape Kit",
+        "section": "consumables",
+        "date": "2026-11-11",
+        "batch": "SD7719",
+        "expiry": "31/08/2028",
+        "qty": "1",
+        "rate": "3200.00",
+        "mrp": null,
+        "amount": "3200.00"
+      },
+      {
+        "description": "Deluxe Room Upgrade Charges",
+        "section": "room",
+        "date": "2026-11-10",
+        "batch": null,
+        "expiry": null,
+        "qty": "5",
+        "rate": "2000.00",
+        "mrp": null,
+        "amount": "10000.00"
+      },
+      {
+        "description": "Physiotherapy Session",
+        "section": null,
+        "date": "2026-11-14",
+        "batch": null,
+        "expiry": null,
+        "qty": "3",
+        "rate": "500.00",
+        "mrp": null,
+        "amount": "1500.00"
+      },
+      {
+        "description": "Attendant Diet Charges",
+        "section": null,
+        "date": "2026-11-10",
+        "batch": null,
+        "expiry": null,
+        "qty": "5",
+        "rate": "150.00",
+        "mrp": null,
+        "amount": "750.00"
+      }
+    ]
+  },
+  "expected": {
+    "recoverable": "111698.00",
+    "amber_total": null,
+    "findings": [
+      {
+        "rule_id": "ENT-COVERED",
+        "match": "Femoral",
+        "verdict": "red",
+        "excess": "62000.00"
+      },
+      {
+        "rule_id": "PRC-KNEE",
+        "match": "Femoral",
+        "verdict": "red",
+        "excess": "7858.91",
+        "why": "51,562.94 x 1.05 = 54,141.09 allowed; the larger scheme claim counts for this line"
+      },
+      {
+        "rule_id": "ENT-COVERED",
+        "match": "Tibial",
+        "verdict": "red",
+        "excess": "38000.00"
+      },
+      {
+        "rule_id": "PRC-KNEE",
+        "match": "Tibial",
+        "verdict": "red",
+        "excess": "900.63",
+        "why": "tray with insert 35,332.73 x 1.05 = 37,099.37 allowed"
+      },
+      {
+        "rule_id": "ENT-COVERED",
+        "match": "Patella",
+        "verdict": "red",
+        "excess": "6500.00"
+      },
+      {
+        "rule_id": "PRC-KNEE",
+        "match": "Patella",
+        "verdict": "red",
+        "excess": "784.02",
+        "why": "5,443.79 x 1.05 = 5,715.98 allowed"
+      },
+      {
+        "rule_id": "ENT-COVERED",
+        "match": "Ceftriaxone",
+        "verdict": "red",
+        "excess": "390.00"
+      },
+      {
+        "rule_id": "ENT-COVERED",
+        "match": "Tramadol",
+        "verdict": "red",
+        "excess": "108.00"
+      },
+      {
+        "rule_id": "ENT-COVERED",
+        "match": "Drape",
+        "verdict": "red",
+        "excess": "3200.00"
+      },
+      {
+        "rule_id": "ENT-COVERED",
+        "match": "Physiotherapy",
+        "verdict": "red",
+        "excess": "1500.00"
+      },
+      {
+        "rule_id": "ENT-COVERED",
+        "match": "Deluxe",
+        "verdict": "amber",
+        "why": "room upgrade: ask, do not claim"
+      },
+      {
+        "rule_id": "ENT-COVERED",
+        "match": "Attendant",
+        "verdict": "amber",
+        "why": "non-medical charge"
+      }
+    ],
+    "not_expected": [
+      "ENT-CASH-DENIAL",
+      "PRC-STENT",
+      "CONV-ROOMDAYS",
+      "STATE-KA-DISCLOSURE"
+    ]
+  }
+}

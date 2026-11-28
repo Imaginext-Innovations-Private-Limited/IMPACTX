@@ -1,0 +1,4 @@
+row_id,item,value,unit,valid_from,valid_to,source_id,source_ref,note
+GSTH-EXEMPT-2017,exempt_health_care_rate,0,percent,2017-07-01,,gst_circular32_2018,"Sl. No. 5: health care services by a clinical establishment are exempt (Sl. No. 74, Notification 12/2017-CT(Rate))","Doctors, nursing, procedures, tests, ICU and rooms up to the limit; food advised for in-patients"
+GSTH-ROOM-LIMIT-2022,room_limit_per_day,5000,INR,2022-07-18,,gst_n04_2022_room,"Proviso to Sl. No. 74: room [other than ICU/CCU/ICCU/NICU] having room charges exceeding Rs. 5000 per day","Per day, per person receiving health care services"
+GSTH-ROOM-RATE-2022,room_rate_above_limit,5,percent,2022-07-18,,gst_n03_2022_room_rate,"Entry 31A: central tax 2.5% without ITC; state tax 2.5%; GST 5% in all","Only on non-ICU rooms above the limit"

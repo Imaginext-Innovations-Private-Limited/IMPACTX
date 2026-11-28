@@ -1,0 +1,10 @@
+[project]
+name = "kharcha-kavach"
+version = "4.0.0"
+description = "Hospital bill auditor for India: checks bills against official rules and proves every number"
+requires-python = ">=3.10"
+readme = "README.md"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

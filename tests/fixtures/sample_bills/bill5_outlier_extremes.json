@@ -1,0 +1,211 @@
+{
+  "notice": "TEST BILL - NOT A REAL PATIENT - NOT VALID FOR ANY CLAIM. Fictional test fixture; never use as evaluation data.",
+  "file": "bill5_outlier_extremes.pdf",
+  "answers": {
+    "payer": "cash",
+    "state": "karnataka"
+  },
+  "bill": {
+    "header": {
+      "hospital_name": "Sample Super Speciality Hospital",
+      "gstin": "29TESTB0000T5Z1",
+      "admission_date": "2026-11-10",
+      "discharge_date": "2026-11-12",
+      "bill_type": "final",
+      "total": "10000000.00"
+    },
+    "lines": [
+      {
+        "description": "Drug Eluting Stent (Everolimus) 3.0x28",
+        "section": "implant",
+        "date": "2026-11-11",
+        "batch": "XB9001",
+        "expiry": "30/06/2028",
+        "qty": "1",
+        "rate": "985000.00",
+        "mrp": null,
+        "amount": "985000.00"
+      },
+      {
+        "description": "Drug Eluting Stent (Sirolimus) 2.75x18",
+        "section": "implant",
+        "date": "2026-11-11",
+        "batch": "SR9002",
+        "expiry": "31/12/2027",
+        "qty": "12",
+        "rate": "40000.00",
+        "mrp": null,
+        "amount": "480000.00"
+      },
+      {
+        "description": "Balloon Catheter 2.5x15",
+        "section": "consumables",
+        "date": "2026-11-11",
+        "batch": "BC9003",
+        "expiry": "30/09/2027",
+        "qty": "1",
+        "rate": "9800.00",
+        "mrp": null,
+        "amount": "98000.00"
+      },
+      {
+        "description": "Surgical Gloves (pair)",
+        "section": "consumables",
+        "date": "2026-11-11",
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "0.00",
+        "mrp": null,
+        "amount": "0.00"
+      },
+      {
+        "description": "Disposable Syringe 5ml",
+        "section": "consumables",
+        "date": "2026-11-11",
+        "batch": "SY9004",
+        "expiry": "31/03/2029",
+        "qty": "3",
+        "rate": "0.01",
+        "mrp": null,
+        "amount": "0.03"
+      },
+      {
+        "description": "Inj Enoxaparin 40mg",
+        "section": "pharmacy",
+        "date": "2026-11-11",
+        "batch": "EN9005",
+        "expiry": "31/05/2027",
+        "qty": "1",
+        "rate": "52000.00",
+        "mrp": "455.00",
+        "amount": "52000.00"
+      },
+      {
+        "description": "Tab Paracetamol 500mg",
+        "section": "pharmacy",
+        "date": "2026-11-12",
+        "batch": "PC9006",
+        "expiry": "31/01/2028",
+        "qty": "10000",
+        "rate": "2.00",
+        "mrp": "2.10",
+        "amount": "20000.00"
+      },
+      {
+        "description": "Pharmacy Return - Inj Enoxaparin 40mg",
+        "section": "pharmacy",
+        "date": "2026-11-12",
+        "batch": "EN9005",
+        "expiry": "31/05/2027",
+        "qty": "-5",
+        "rate": "455.00",
+        "mrp": "455.00",
+        "amount": "-2275.00"
+      },
+      {
+        "description": "CT Scan Brain",
+        "section": "diagnostics",
+        "date": "2024-01-02",
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "3500.00",
+        "mrp": null,
+        "amount": "3500.00"
+      },
+      {
+        "description": "Lipid Profile",
+        "section": "diagnostics",
+        "date": "2026-11-10",
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "650.00",
+        "mrp": null,
+        "amount": "650.00"
+      },
+      {
+        "description": "ICU Room Rent",
+        "section": "room",
+        "date": "2026-11-10",
+        "batch": null,
+        "expiry": null,
+        "qty": "45",
+        "rate": "25000.00",
+        "mrp": null,
+        "amount": "1125000.00"
+      },
+      {
+        "description": "PTCA Procedure Charges",
+        "section": "procedure",
+        "date": "2026-11-11",
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "45000.00",
+        "mrp": null,
+        "amount": "45000.00"
+      }
+    ]
+  },
+  "expected": {
+    "recoverable": "1083599.67",
+    "amber_total": "7193124.97",
+    "findings": [
+      {
+        "rule_id": "PRC-STENT",
+        "match": "Everolimus",
+        "verdict": "red",
+        "excess": "943854.67",
+        "why": "1 x 39,186.03 x 1.05 = 41,145.33 allowed; billed 9,85,000 (about 24 times the cap)"
+      },
+      {
+        "rule_id": "PRC-MRP",
+        "match": "^Inj Enoxaparin",
+        "verdict": "red",
+        "excess": "51545.00",
+        "why": "1 x MRP 455 = 455 but billed 52,000"
+      },
+      {
+        "rule_id": "ARI-QTYRATE",
+        "match": "Balloon",
+        "verdict": "red",
+        "excess": "88200.00",
+        "why": "1 x 9,800 = 9,800 but billed 98,000 (a misplaced zero)"
+      },
+      {
+        "rule_id": "ARI-TOTAL",
+        "verdict": "amber",
+        "excess": "7193124.97",
+        "why": "lines add to 28,06,875.03 but the total says 1,00,00,000"
+      },
+      {
+        "rule_id": "CONV-ROOMDAYS",
+        "match": "ICU",
+        "verdict": "amber",
+        "why": "45 room days for 2 nights"
+      },
+      {
+        "rule_id": "CONV-OUTSIDE-STAY",
+        "match": "CT Scan",
+        "verdict": "amber",
+        "why": "dated 02/01/2024"
+      }
+    ],
+    "not_expected": [
+      "ENT-COVERED",
+      "ENT-CASH-DENIAL"
+    ],
+    "edge_cases_read_as_printed": [
+      "zero line (gloves, 0.00)",
+      "3 paise line (syringes, 0.03)",
+      "negative return line (-5 x 455 = -2,275)",
+      "1 crore total",
+      "test dated 2024"
+    ],
+    "known_gaps": [
+      "12 stents (each under the cap) and 10,000 paracetamol tablets in a 2-night stay are not flagged: no official rule limits how many may be billed, and the app does not invent a threshold"
+    ]
+  }
+}

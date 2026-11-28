@@ -1,0 +1,1 @@
+case_id,origin,consent_id_or_citation,date_collected,hospital_type,state,payer,pages,lines,lines_matched_to_rule,share_of_amount_matched_pct,ocr_amounts_correct,ocr_amounts_total,red_findings_labelled,red_findings_found,red_findings_wrong,remedy_tried,remedy_outcome,notes

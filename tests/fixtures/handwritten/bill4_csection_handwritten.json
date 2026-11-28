@@ -1,0 +1,178 @@
+{
+  "notice": "TEST BILL. Fictional handwritten bill for exercising the code. Not a real patient or hospital. Never use as evaluation data.",
+  "file": "bill4_csection_handwritten.jpg",
+  "answers": {
+    "payer": "cash",
+    "state": "karnataka"
+  },
+  "bill": {
+    "header": {
+      "hospital_name": "Sample Maternity Nursing Home",
+      "gstin": null,
+      "admission_date": "2026-11-16",
+      "discharge_date": "2026-11-19",
+      "bill_type": "final",
+      "total": "54780.00"
+    },
+    "lines": [
+      {
+        "description": "LSCS - Surgeon charges",
+        "section": null,
+        "date": null,
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "25000.00",
+        "mrp": null,
+        "amount": "25000.00"
+      },
+      {
+        "description": "Anaesthetist charges",
+        "section": null,
+        "date": null,
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "6000.00",
+        "mrp": null,
+        "amount": "6000.00"
+      },
+      {
+        "description": "O.T. charges",
+        "section": null,
+        "date": null,
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "8000.00",
+        "mrp": null,
+        "amount": "8000.00"
+      },
+      {
+        "description": "Room rent (General ward)",
+        "section": null,
+        "date": null,
+        "batch": null,
+        "expiry": null,
+        "qty": "5",
+        "rate": "1500.00",
+        "mrp": null,
+        "amount": "7500.00"
+      },
+      {
+        "description": "Nursing charges",
+        "section": null,
+        "date": null,
+        "batch": null,
+        "expiry": null,
+        "qty": "3",
+        "rate": "500.00",
+        "mrp": null,
+        "amount": "1500.00"
+      },
+      {
+        "description": "Paediatrician - baby care",
+        "section": null,
+        "date": null,
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "2000.00",
+        "mrp": null,
+        "amount": "2000.00"
+      },
+      {
+        "description": "Inj Ringer Lactate 500ml",
+        "section": null,
+        "date": null,
+        "batch": null,
+        "expiry": null,
+        "qty": "6",
+        "rate": "120.00",
+        "mrp": null,
+        "amount": "720.00"
+      },
+      {
+        "description": "Inj Ceftriaxone 1g",
+        "section": null,
+        "date": null,
+        "batch": null,
+        "expiry": null,
+        "qty": "6",
+        "rate": "85.00",
+        "mrp": null,
+        "amount": "610.00"
+      },
+      {
+        "description": "Cap Diclofenac 50mg",
+        "section": null,
+        "date": null,
+        "batch": null,
+        "expiry": null,
+        "qty": "10",
+        "rate": "5.00",
+        "mrp": null,
+        "amount": "50.00"
+      },
+      {
+        "description": "Lab - CBC, Blood group",
+        "section": null,
+        "date": null,
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "900.00",
+        "mrp": null,
+        "amount": "900.00"
+      },
+      {
+        "description": "Sutures & dressing",
+        "section": null,
+        "date": null,
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "2500.00",
+        "mrp": null,
+        "amount": "2500.00"
+      }
+    ]
+  },
+  "expected": {
+    "findings": [
+      {
+        "rule_id": "PRC-SCHED",
+        "item": "Inj Ringer Lactate 500ml",
+        "verdict": "red",
+        "allowed": "364.46",
+        "excess": "355.54",
+        "why": "NPPA S.O. 1581(E) ceiling 57.85 per 500 ml bottle + 5% GST = 60.74; billed 120 x 6"
+      },
+      {
+        "rule_id": "PRC-SCHED",
+        "item": "Cap Diclofenac 50mg",
+        "verdict": "red",
+        "allowed": "8.19",
+        "excess": "41.81",
+        "why": "NPPA S.O. 1581(E) ceiling 0.78 per capsule + 5% GST = 0.82; billed 5 x 10"
+      },
+      {
+        "rule_id": "ARI-QTYRATE",
+        "item": "Inj Ceftriaxone 1g",
+        "excess": "100.00",
+        "why": "6 x 85 = 510, written as 610; on a photo it is asked about before it is counted"
+      },
+      {
+        "rule_id": "ROOM-DAYS",
+        "verdict": "amber",
+        "why": "5 room days billed for a 3-night stay"
+      }
+    ],
+    "recoverable_after_confirming": {
+      "shipped_data": "100.00",
+      "with_nppa_so1581_rows_approved_and_units_confirmed": "497.35"
+    },
+    "lines_read": 11,
+    "family_confirms": "every line with a hard-to-read number, including Nursing (amount unreadable: 1,500)"
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "notice": "TEST BILL - NOT A REAL PATIENT - NOT VALID FOR ANY CLAIM. Fictional test fixture; never use as evaluation data.",
+  "file": "bill6_gst_on_treatment.pdf",
+  "answers": {
+    "payer": "cash",
+    "state": "karnataka"
+  },
+  "bill": {
+    "header": {
+      "hospital_name": "Sample Multispeciality Hospital",
+      "gstin": "29TESTB0000T6Z8",
+      "admission_date": "2026-11-10",
+      "discharge_date": "2026-11-14",
+      "bill_type": "final",
+      "total": "30098.00"
+    },
+    "lines": [
+      {
+        "description": "ICU Charges",
+        "section": "room",
+        "date": "2026-11-10",
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "9000.00",
+        "mrp": null,
+        "amount": "9000.00"
+      },
+      {
+        "description": "Twin Sharing Room Rent",
+        "section": "room",
+        "date": "2026-11-11",
+        "batch": null,
+        "expiry": null,
+        "qty": "3",
+        "rate": "3500.00",
+        "mrp": null,
+        "amount": "10500.00"
+      },
+      {
+        "description": "Consultation - Physician",
+        "section": "professional",
+        "date": "2026-11-10",
+        "batch": null,
+        "expiry": null,
+        "qty": "4",
+        "rate": "800.00",
+        "mrp": null,
+        "amount": "3200.00"
+      },
+      {
+        "description": "Platelet Count",
+        "section": "diagnostics",
+        "date": "2026-11-10",
+        "batch": null,
+        "expiry": null,
+        "qty": "4",
+        "rate": "300.00",
+        "mrp": null,
+        "amount": "1200.00"
+      },
+      {
+        "description": "Dengue NS1 Antigen",
+        "section": "diagnostics",
+        "date": "2026-11-10",
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "1200.00",
+        "mrp": null,
+        "amount": "1200.00"
+      },
+      {
+        "description": "IV Ringer Lactate 500ml",
+        "section": "pharmacy",
+        "date": "2026-11-10",
+        "batch": "RL6001",
+        "expiry": "31/08/2028",
+        "qty": "8",
+        "rate": "60.00",
+        "mrp": "60.00",
+        "amount": "480.00"
+      },
+      {
+        "description": "CGST @ 9%",
+        "section": null,
+        "date": "2026-11-14",
+        "batch": null,
+        "expiry": null,
+        "qty": null,
+        "rate": null,
+        "mrp": null,
+        "amount": "2259.00"
+      },
+      {
+        "description": "SGST @ 9%",
+        "section": null,
+        "date": "2026-11-14",
+        "batch": null,
+        "expiry": null,
+        "qty": null,
+        "rate": null,
+        "mrp": null,
+        "amount": "2259.00"
+      }
+    ]
+  },
+  "expected": {
+    "recoverable": "4518.00",
+    "amber_total": null,
+    "findings": [
+      {
+        "rule_id": "TAX-GST",
+        "match": "^CGST",
+        "verdict": "red",
+        "excess": "4518.00",
+        "why": "CGST 2,259 + SGST 2,259 = 4,518 on an in-patient bill. Treatment is exempt (CBIC Circular 32/06/2018 Sl. 5); ICU is exempt whatever it costs and the twin room is 3,500 a day, not above 5,000 (Notification 04/2022-CT(Rate)), so no GST is due on any line: all 4,518 is excess"
+      }
+    ],
+    "not_expected": [
+      "ARI-TOTAL",
+      "ENT-COVERED",
+      "PRC-MRP"
+    ]
+  }
+}

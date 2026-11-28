@@ -1,0 +1,71 @@
+{
+  "notice": "TEST BILL - NOT A REAL PATIENT - NOT VALID FOR ANY CLAIM. Fictional test fixture; never use as evaluation data.",
+  "file": "bill3_interim_photo.jpg",
+  "answers": {
+    "payer": "pmjay",
+    "state": "karnataka",
+    "hospital_empanelled": true,
+    "scheme_booked": false
+  },
+  "bill": {
+    "header": {
+      "hospital_name": "Sample City Hospital",
+      "gstin": "29TESTB0000T2Z3",
+      "admission_date": "2026-03-10",
+      "discharge_date": null,
+      "bill_type": "interim",
+      "total": "262000.00"
+    },
+    "lines": [
+      {
+        "description": "PTCA Package All Inclusive",
+        "section": null,
+        "date": "2026-03-10",
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "210000.00",
+        "mrp": null,
+        "amount": "210000.00"
+      },
+      {
+        "description": "Drug Eluting Stent",
+        "section": null,
+        "date": "2026-03-11",
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "52000.00",
+        "mrp": null,
+        "amount": "52000.00"
+      }
+    ]
+  },
+  "expected": {
+    "recoverable": "262000.00",
+    "amber_total": null,
+    "findings": [
+      {
+        "rule_id": "ENT-CASH-DENIAL",
+        "verdict": "red",
+        "excess": "262000.00",
+        "why": "card holder at an empanelled hospital, case not booked under the scheme"
+      },
+      {
+        "rule_id": "PRC-STENT",
+        "match": "Stent",
+        "verdict": "grey",
+        "why": "March 2026: no verified stent ceiling loaded for that date (2026 ceilings start 1 April 2026)"
+      },
+      {
+        "rule_id": "RGT-ITEMISED",
+        "verdict": "amber",
+        "why": "one package line is over 80% of the bill"
+      }
+    ],
+    "not_expected": [
+      "ENT-COVERED",
+      "STATE-KA-DISCLOSURE"
+    ]
+  }
+}

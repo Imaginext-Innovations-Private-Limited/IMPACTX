@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#23306E">
+<title>Kharcha Kavach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Baloo+Bhai+2:wght@600;700;800&family=Baloo+Tamma+2:wght@600;700;800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+Gujarati:wght@400;600&family=Noto+Sans+Kannada:wght@400;600&family=Noto+Sans+Tamil:wght@400;600&family=Noto+Sans+Telugu:wght@400;600&family=Baloo+Thambi+2:wght@600;700;800&family=Baloo+Tammudu+2:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="logo" href="/" aria-label="Kharcha Kavach home">
+    <svg viewBox="0 0 40 44" aria-hidden="true"><path d="M20 2 37 8v13c0 10.5-7.2 18.6-17 21C10.2 39.6 3 31.5 3 21V8z" fill="#23306E"/><path d="M20 6.5 33 11v10c0 8.3-5.5 14.8-13 16.9C12.5 35.8 7 29.3 7 21V11z" fill="#F0A202"/><text x="20" y="29" text-anchor="middle" font-size="17" font-weight="800" fill="#23306E" font-family="Baloo 2, sans-serif">₹</text></svg>
+    <span class="logo-name">Kharcha Kavach<small data-t="app_tag"></small></span>
+  </a>
+  <div class="langs" role="group" aria-label="Language">
+    <button type="button" data-lang="en">EN</button>
+    <button type="button" data-lang="hi">हि</button>
+    <button type="button" data-lang="kn">ಕ</button>
+    <button type="button" data-lang="gu">ગુ</button>
+    <button type="button" data-lang="ta">த</button>
+    <button type="button" data-lang="te">తె</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="hero">
+    <div class="hero-copy">
+      <h1 data-t="hero_title"></h1>
+      <p data-t="hero_sub"></p>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="mini-receipt">
+        <i></i><i></i><i class="short"></i><i></i><i class="short"></i>
+        <span class="stamp red" data-t="legend_red"></span>
+        <span class="stamp amber" data-t="legend_amber"></span>
+        <span class="stamp green" data-t="legend_green"></span>
+      </div>
+    </div>
+  </section>
+
+  <ol class="steps" id="steps">
+    <li data-step="1"><b>1</b><span data-t="step1"></span></li>
+    <li data-step="2"><b>2</b><span data-t="step2"></span></li>
+    <li data-step="3"><b>3</b><span data-t="step3"></span></li>
+  </ol>
+
+  <!-- step 1: add the bill -->
+  <section class="panel" id="step-1">
+    <div class="samples" id="samples">
+      <span data-t="samples_label"></span>
+      <button type="button" data-sample="bill1" data-t="sample_bill1"></button>
+      <button type="button" data-sample="bill2" data-t="sample_bill2"></button>
+      <button type="button" data-sample="bill6" data-t="sample_bill6"></button>
+    </div>
+    <div class="switch" role="tablist">
+      <button type="button" role="tab" data-mode="photo" class="on" data-t="mode_photo"></button>
+      <button type="button" role="tab" data-mode="type" data-t="mode_type"></button>
+    </div>
+
+    <div id="mode-photo">
+      <label class="drop" id="drop">
+        <input id="files" type="file" accept="image/*,application/pdf" multiple>
+        <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="12" width="38" height="28" rx="7" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="24" cy="26" r="7.5" fill="none" stroke="currentColor" stroke-width="3"/><path d="M16 12l3-5h10l3 5" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></svg>
+        <strong data-t="drop_title"></strong>
+        <span data-t="drop_sub"></span>
+      </label>
+      <div class="thumbs" id="thumbs"></div>
+    </div>
+
+    <div id="mode-type" hidden>
+      <p class="hint" data-t="type_hint"></p>
+      <div class="grid3">
+        <label class="field"><span data-t="hospital_name"></span><input id="t-hospital" type="text" autocomplete="off"></label>
+        <label class="field"><span data-t="adm_date"></span><input id="t-adm" type="date"></label>
+        <label class="field"><span data-t="dis_date"></span><input id="t-dis" type="date"></label>
+      </div>
+      <div class="lines" id="lines"></div>
+      <button type="button" class="ghost add" id="add-line">＋ <span data-t="add_line"></span></button>
+    </div>
+
+    <div class="limits">
+      <h3 data-t="limits_title"></h3>
+      <p class="hint" data-t="limits_sub"></p>
+      <div class="lim-row" id="limits"></div>
+    </div>
+
+    <div class="nav">
+      <span></span>
+      <button type="button" class="primary" id="to-2" data-t="btn_next"></button>
+    </div>
+  </section>
+
+  <!-- step 2: situation -->
+  <section class="panel" id="step-2" hidden>
+    <fieldset class="q">
+      <legend data-t="q_payer"></legend>
+      <div class="payers" id="payers">
+        <button type="button" data-payer="pmjay" style="--c:#F0A202"><i>✚</i><span data-t="pay_pmjay"></span></button>
+        <button type="button" data-payer="state_scheme" style="--c:#178A5A"><i>★</i><span data-t="pay_state"></span></button>
+        <button type="button" data-payer="private_insurance" style="--c:#2F7DE1"><i>◆</i><span data-t="pay_ins"></span></button>
+        <button type="button" data-payer="cghs" style="--c:#7B4FD6"><i>●</i><span data-t="pay_cghs"></span></button>
+        <button type="button" data-payer="cash" style="--c:#E0457B"><i>₹</i><span data-t="pay_cash"></span></button>
+      </div>
+    </fieldset>
+
+    <fieldset class="q">
+      <legend id="state-legend" data-t="q_state"></legend>
+      <select id="state-select" class="state-select" aria-labelledby="state-legend"></select>
+    </fieldset>
+
+    <div id="scheme-qs" class="scheme" hidden>
+      <div class="yn" data-name="hospital_empanelled"><span data-t="q_empanelled"></span><div class="seg tri"></div></div>
+      <div class="yn" data-name="scheme_booked"><span data-t="q_booked"></span><div class="seg tri"></div></div>
+      <div class="yn" data-name="patient_paid"><span data-t="q_paid"></span><div class="seg tri"></div></div>
+      <div class="yn" data-name="scheme_limit_exhausted"><span data-t="q_limit"></span><div class="seg tri"></div></div>
+    </div>
+
+    <fieldset class="q">
+      <legend data-t="q_treatment"></legend>
+      <div class="ask">
+        <input id="treatment" type="text" autocomplete="off">
+        <button type="button" class="mic" id="mic" aria-label="Speak">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8.5" y="2.5" width="7" height="12" rx="3.5" fill="currentColor"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="chips" id="chips">
+        <button type="button" data-chip="chip_angio"></button>
+        <button type="button" data-chip="chip_knee"></button>
+        <button type="button" data-chip="chip_cataract"></button>
+        <button type="button" data-chip="chip_csec"></button>
+        <button type="button" data-chip="chip_dialysis"></button>
+      </div>
+      <div id="packages"></div>
+    </fieldset>
+
+    <label class="tick"><input id="tablets" type="checkbox"><span data-t="q_tablets"></span></label>
+    <label class="field narrow" id="dis-wrap"><span data-t="dis_date"></span><input id="discharge" type="date"></label>
+    <p class="hint privacy" data-t="privacy"></p>
+
+    <div class="nav">
+      <button type="button" class="ghost" id="back-1" data-t="btn_back"></button>
+      <button type="button" class="primary" id="check" data-t="btn_check"></button>
+    </div>
+  </section>
+
+  <!-- loading -->
+  <section class="panel loading" id="loading" hidden>
+    <div class="scan" aria-hidden="true"><i></i><i></i><i class="short"></i><i></i><i class="short"></i><i></i><b></b></div>
+    <p class="load1" data-t="reading"></p>
+    <p class="load2 hint" data-t="reading2"></p>
+  </section>
+
+  <!-- step 3: result -->
+  <section id="step-3" hidden>
+    <div class="verdict-card" id="verdict-card">
+      <div class="seal" id="seal"></div>
+      <div class="verdict-side">
+        <div class="ask-amount" id="ask-amount"></div>
+        <div class="bar" id="bar" aria-hidden="true"></div>
+        <ul class="legend" id="legend"></ul>
+      </div>
+    </div>
+
+    <div class="remedy" id="remedy"></div>
+
+    <section class="panel savings" id="savings" aria-labelledby="sav-title" hidden></section>
+
+    <section class="panel voice" id="voice" aria-labelledby="voice-title">
+      <div class="v-head">
+        <button type="button" class="v-play" id="v-play" aria-label="Play">
+          <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>
+          <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+        </button>
+        <div>
+          <h3 id="voice-title" data-t="voice_title"></h3>
+          <p class="hint" data-t="voice_sub"></p>
+        </div>
+      </div>
+      <div class="v-langs" id="v-langs" role="group"></div>
+      <div class="v-controls">
+        <button type="button" class="ghost small" id="v-stop" data-t="v_stop"></button>
+        <label class="v-rate"><span data-t="v_speed"></span>
+          <select id="v-rate"><option value="0.8">0.8×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option></select>
+        </label>
+        <label class="v-ai"><input type="checkbox" id="v-ai" checked> <span data-t="v_ai"></span></label>
+      </div>
+      <p class="v-status" id="v-status" aria-live="polite"></p>
+      <ol class="v-captions" id="v-captions"></ol>
+      <audio id="v-audio" preload="none" hidden></audio>
+    </section>
+
+    <section class="panel chat" id="chat" aria-labelledby="chat-title">
+      <h3 id="chat-title" data-t="chat_title"></h3>
+      <div class="chat-log" id="chat-log" aria-live="polite"></div>
+      <div class="chat-chips" id="chat-chips"></div>
+      <form class="chat-form" id="chat-form">
+        <input type="text" id="chat-in" autocomplete="off" maxlength="300">
+        <button type="button" class="chat-mic" id="chat-mic" aria-label="Speak">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V22h2v-3.1A7 7 0 0 0 19 12z"/></svg>
+        </button>
+        <button type="submit" class="primary" id="chat-send" data-t="chat_send"></button>
+      </form>
+      <label class="chat-voice"><input type="checkbox" id="chat-voice" checked> <span data-t="chat_speak"></span></label>
+    </section>
+
+    <section class="panel coverage" id="coverage" aria-labelledby="cov-title">
+      <h3 id="cov-title" data-t="cov_title"></h3>
+      <div class="cov-bar" id="cov-bar" aria-hidden="true"></div>
+      <ul class="cov-key" id="cov-key"></ul>
+      <div class="cov-lines" id="cov-lines"></div>
+    </section>
+
+    <div class="panel confirm" id="confirm" hidden>
+      <h3 data-t="confirm_title"></h3>
+      <p class="hint" data-t="confirm_sub"></p>
+      <div id="confirm-lines"></div>
+      <button type="button" class="primary" id="confirm-btn" data-t="btn_confirm"></button>
+    </div>
+
+    <nav class="tabs" role="tablist" id="tabs">
+      <button type="button" role="tab" data-tab="bill" class="on" data-t="tab_bill"></button>
+      <button type="button" role="tab" data-tab="findings" data-t="tab_findings"></button>
+      <button type="button" role="tab" data-tab="next" data-t="tab_next"></button>
+      <button type="button" role="tab" data-tab="explain" data-t="tab_explain"></button>
+    </nav>
+
+    <div class="tabpanel" id="tab-bill">
+      <div class="switch small" id="bill-views" hidden>
+        <button type="button" data-view="receipt" class="on" data-t="view_receipt"></button>
+        <button type="button" data-view="photo" data-t="view_photo"></button>
+      </div>
+      <div class="receipt" id="receipt"></div>
+      <div id="photo-view" hidden></div>
+    </div>
+
+    <div class="tabpanel" id="tab-findings" hidden>
+      <div class="filters" id="filters"></div>
+      <div id="findings"></div>
+    </div>
+
+    <div class="tabpanel" id="tab-next" hidden>
+      <div class="calls" id="calls">
+        <h4 data-t="call_title"></h4>
+        <p class="hint" data-t="call_sub"></p>
+        <div id="call-list"></div>
+        <audio id="call-audio" preload="none"></audio>
+      </div>
+      <p class="hint" data-t="letters_sub"></p>
+      <ol class="letters" id="letters"></ol>
+      <details class="panel insurance" id="insurance"></details>
+    </div>
+
+    <div class="tabpanel" id="tab-explain" hidden>
+      <button type="button" class="primary" id="explain-btn" data-t="btn_explain"></button>
+      <p class="explain" id="explain"></p>
+      <div class="guard" id="guard">
+        <h4 data-t="guard_title"></h4>
+        <p class="hint" data-t="guard_sub"></p>
+        <div class="chips" id="guard-chips"></div>
+        <form id="guard-form">
+          <input type="text" id="guard-in" maxlength="400" autocomplete="off">
+          <button type="submit" class="primary" data-t="guard_btn"></button>
+        </form>
+        <div id="guard-out" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a class="ghost" id="report" target="_blank" rel="noopener" data-t="btn_report"></a>
+      <button type="button" class="ghost" id="edit" data-t="btn_edit"></button>
+      <button type="button" class="ghost" id="new" data-t="btn_new"></button>
+      <button type="button" class="ghost danger" id="delete" data-t="btn_delete"></button>
+    </div>
+  </section>
+</main>
+
+<dialog id="proof" class="sheet">
+  <button type="button" class="close" id="proof-close" aria-label="Close">✕</button>
+  <div id="proof-body"></div>
+</dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="/static/i18n.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

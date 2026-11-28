@@ -1,0 +1,655 @@
+# Source register. Every reference row and every rule must point to an id here.
+# Each entry records where the official text can be read. Keep a copy of every
+# downloaded PDF in data/raw/ with its sha256 (scripts/refresh.py does this).
+
+nppa_stent_2026:
+  title: "NPPA notification revising ceiling prices of coronary stents w.e.f. 01.04.2026"
+  publisher: "National Pharmaceutical Pricing Authority (Gazette of India, Extraordinary)"
+  date: "2026-03-25"
+  urls:
+    - "https://advocategandhi.com/wp-content/uploads/2026/03/Department-of-Pharmaceuticals-–-NPPA-Order-on-Coronary-Stent-Price-Revision.pdf"
+    - "https://medicaldialogues.in/news/industry/medical-devices/nppa-revises-coronary-stent-prices-des-at-rs-39186-and-bms-at-rs-10762-from-april-2026-168192"
+  notes: "Ceiling prices exclusive of GST. BMS 10,762.15; DES incl. BVS/biodegradable 39,186.03."
+  tax_basis: exclusive_of_gst
+  tax_quote: >-
+    NPPA fixes coronary stent ceiling prices "exclusive of Goods and Services Tax as applicable"
+    (S.O. 1551(E), 26.03.2024; the 2026 revision is reported with the same basis), and GST may be
+    added "only if they have paid actually or if it is payable to the Government" (Note (b)).
+    So the most a patient can be charged is ceiling + GST. Kharcha Kavach always allows GST,
+    even when the bill shows none, which can only lower a claimed excess.
+  tax_quote_urls:
+    - "https://medicaldialogues.in/pdf_upload/13-so1551-dt-26032024-1-237462.pdf"
+    - "https://medicaldialogues.in/news/industry/medical-devices/nppa-revises-coronary-stent-prices-des-at-rs-39186-and-bms-at-rs-10762-from-april-2026-168192"
+
+nppa_knee_2024:
+  title: "S.O. 3869(E) dated 10.09.2024 - ceiling prices of orthopaedic knee implants (continued w.e.f. 16.09.2024)"
+  publisher: "National Pharmaceutical Pricing Authority"
+  date: "2024-09-10"
+  urls:
+    - "https://www.carehospitals.com/assets/documents/care-hospitals-implant-pricing.pdf"
+    - "https://medicaldialogues.in/news/industry/pharma/nppa-extends-ceiling-prices-of-knee-implants-till-september-2025-134989"
+  notes: "15 rows (11 primary, 4 revision). Prices exclusive of GST. Notes (b)-(t) of S.O. 2668(E) apply."
+  tax_basis: exclusive_of_gst
+  tax_quote: >-
+    For knee implants "the ceiling price is the maximum price to the retailer (excluding taxes, if any)".
+    Hospitals bill on that basis: the CARE Hospitals implant price list shows the femoral component at
+    51,562.94 without GST and 54,141 with GST at 5%. Kharcha Kavach allows ceiling + GST, which can only
+    lower a claimed excess.
+  tax_quote_urls:
+    - "https://medicaldialogues.in/news/industry/pharma/nppa-extends-ceiling-prices-of-knee-implants-till-september-2025-134989"
+    - "https://www.carehospitals.com/assets/documents/care-hospitals-implant-pricing.pdf"
+
+nppa_knee_ext_2026:
+  title: "S.O. 6222(E) dated 13.11.2026 - knee implant ceiling prices extended to 15.01.2027"
+  publisher: "National Pharmaceutical Pricing Authority"
+  date: "2026-11-13"
+  urls:
+    - "https://medicaldialogues.in/news/industry/pharma/nppa-extends-knee-implant-price-caps-until-january-2027-183347"
+    - "https://www.gktoday.in/nppa-extends-knee-implant-price-cap-to-2027/"
+  notes: "Chain of extensions: S.O. 4171(E) 15.09.2025 -> S.O. 5190(E) 14.11.2025 -> S.O. 6222(E) 13.11.2026."
+
+gst_2025_devices_medicines:
+  title: "56th GST Council decisions: medical devices and most medicines moved to 5% w.e.f. 22.09.2025"
+  publisher: "GST Council / CBIC rate notifications"
+  date: "2025-09-03"
+  urls:
+    - "https://www.taxscan.in/gst/will-reduced-gst-rate-on-medical-devices-lead-to-inverted-duty-structure-know-more-1431935"
+    - "https://wockhardthospitals.com/stents/"
+  notes: "Replace these secondary links with the CBIC rate notification PDF when ingesting."
+
+nppa_so1581_2026:
+  title: "NPPA order S.O. 1581(E): revised ceiling prices of scheduled formulations w.e.f. 01.04.2026 (WPI 0.64956%)"
+  publisher: "National Pharmaceutical Pricing Authority (Gazette of India, Extraordinary, No. 1516, 25.03.2026)"
+  date: "2026-03-25"
+  urls:
+    - "https://medicaldialogues.in/pdf_upload/2026/04/02/0d883ca9b600c8a13cec452376176fc4-339037.pdf"
+    - "https://medicaldialogues.in/news/industry/pharma/nppa-revises-ceiling-prices-of-138-essential-drugs-with-wpi-linked-hike-effective-april-1-167836"
+    - "https://egazette.gov.in"
+  notes: >-
+    Gazette copy signed by Bhiva Ram Yadav, Assistant Director, NPPA. Supersedes S.O. 1487(E) of 27.03.2025
+    for the listed rows. 20 rows (sodium chloride, Ringer lactate, paracetamol injection, tramadol injection,
+    diclofenac capsule) were read from the Gazette copy and from the published table, and both readings agree.
+    Staged in data/staged/ for a person to check against the PDF before approval.
+  tax_basis: exclusive_of_gst
+  tax_quote: >-
+    NPPA fixes these prices "as ceiling prices exclusive of Goods and Services Tax applicable, if any"
+    (S.O. 1581(E), 25.03.2026). So the most a patient can be charged is ceiling + GST. Kharcha Kavach
+    always allows GST, even when the bill shows none, which can only lower a claimed excess.
+
+nppa_scheduled_ceilings:
+  title: "NPPA ceiling prices of scheduled formulations (DPCO 2013, NLEM 2022)"
+  publisher: "National Pharmaceutical Pricing Authority"
+  date: "2025-12-01"
+  urls:
+    - "https://www.nppa.gov.in"
+    - "https://pib.gov.in/PressReleasePage.aspx?PRID=2200935"
+  notes: "935 scheduled formulations as on 01.12.2025. Import with scripts/import_nppa.py from the official PDFs."
+
+dpco_2013:
+  title: "Drugs (Prices Control) Order, 2013"
+  publisher: "Department of Pharmaceuticals"
+  date: "2013-05-15"
+  urls:
+    - "https://www.pharma-dept.gov.in/sites/default/files/DPCO%202013.pdf"
+
+legal_metrology_mrp:
+  title: "Legal Metrology (Packaged Commodities) Rules, 2011 - retail sale price (MRP)"
+  publisher: "Department of Consumer Affairs"
+  date: "2011-04-01"
+  urls:
+    - "https://consumeraffairs.nic.in"
+
+nha_operation_manual_2022:
+  title: "AB PM-JAY Operation Manual for empanelled hospitals (NHA, April 2022)"
+  publisher: "National Health Authority"
+  date: "2022-04-01"
+  urls:
+    - "https://nha.gov.in/img/resources/Operation%20Manual%20for%20AB%20PM-JAY.pdf"
+  rule_ref: "Annexure-1, Don'ts for empanelled hospitals"
+  rule_quote: >-
+    Don't: "Charge from the beneficiaries in any form as the benefit package includes the entire cost of treatment"
+  notes: >-
+    Same annexure also lists as Don'ts collecting money for follow-up consultation and medicines, and for
+    blood or blood products. Chapter V: packages "are provided on a cashless basis to the beneficiaries".
+
+nha_adhikar_patra:
+  title: "PM-JAY Adhikar Patra (beneficiary entitlement letter)"
+  publisher: "National Health Authority"
+  urls:
+    - "https://nha.gov.in/img/resources/Adhikar-Patra.pdf"
+  rule_ref: "Adhikar Patra (beneficiary rights letter), list of benefits"
+  rule_quote: >-
+    "Free medicines, drugs, implants and food during the treatment"
+  notes: "Also: up to 3 days pre- and 15 days post-hospitalisation diagnostics and medicines; nursing, boarding and bed charges (general ward). Grievances: 14555, grievance.pmjay.gov.in. It does not itself say 'cashless'; the Operation Manual does."
+
+hbp_2022:
+  title: "Health Benefit Package 2022 master (1,961 procedures)"
+  publisher: "National Health Authority"
+  urls:
+    - "https://pmjay.gov.in/hospital/hbc"
+    - "https://eparlib.sansad.in/bitstream/123456789/2997506/1/AU1010_xngq7y.pdf"
+    - "https://cmhis.nagaland.gov.in/storage/pageFiles/381.pdf"
+  notes: "All packages are bundled and all-inclusive except mapped implant cost. Import with scripts/import_hbp.py."
+
+pmjay_empanelment:
+  title: "AB PM-JAY empanelled hospital list"
+  publisher: "National Health Authority / State Health Agencies"
+  urls:
+    - "https://hospitals.pmjay.gov.in/Search"
+  notes: "Include suspended and de-empanelled lists published by State Health Agencies with their dates."
+
+abdm_hfr:
+  title: "ABDM Health Facility Registry"
+  publisher: "National Health Authority"
+  urls:
+    - "https://facility.abdm.gov.in/searchV2"
+
+cghs_2025:
+  title: "CGHS revised package rates w.e.f. 13.10.2025 (about 2,000 procedures)"
+  publisher: "Ministry of Health and Family Welfare"
+  date: "2025-10-03"
+  urls:
+    - "https://cghs.mohfw.gov.in"
+  notes: "Benchmark only; not a legal limit for cash patients."
+
+is_19493_2025:
+  title: "IS 19493:2025 Requirements and recommendations for template/format of hospital bills"
+  publisher: "Bureau of Indian Standards"
+  date: "2025-12-24"
+  urls:
+    - "https://www.services.bis.gov.in"
+  notes: "Voluntary standard."
+
+patients_charter_2021:
+  title: "Charter of Patients' Rights and Responsibilities (updated 23.08.2021)"
+  publisher: "National Council for Clinical Establishments, MoHFW"
+  date: "2021-08-23"
+  urls:
+    - "https://clinicalestablishments.mohfw.gov.in/sites/default/files/2023-06/3181.pdf"
+  notes: "Right iii: detailed (itemised) bill. Right xiv: care according to prescribed rates wherever relevant."
+
+ka_fda_circular_2026:
+  title: "Karnataka FSDA circular dated 01.10.2026 on disclosure of landing price, MRP and price charged"
+  publisher: "Commissioner, Food Safety and Drug Administration, Karnataka"
+  date: "2026-10-01"
+  urls:
+    - "https://www.scconline.com/blog/?p=400817"
+  notes: "Not insisted upon by order of the Karnataka High Court pending hearing. Info only."
+
+hospital_stent_lists:
+  title: "Coronary stent price lists that hospitals publish under the NPPA display requirement"
+  publisher: "Apollo Hospitals, Breach Candy Hospital, Fortis Healthcare, CARE Hospitals, Ruby Hall Clinic"
+  date: "2026-11-27"
+  urls:
+    - "https://breachcandyhospital.org/stents"
+    - "https://apollohospitals.com/bangalore/departments/heart/our-stents-pricing"
+    - "https://www.apollohospitals.com/delhi/heart/heart-stent-prices"
+    - "https://indore.apollohospitals.com/departments/cardiology/our-stents-pricing/"
+    - "https://www.fortishealthcare.com/stent-pricing"
+    - "https://www.carehospitals.com/assets/documents/care-hospitals-stent-pricing.pdf"
+    - "https://rubyhall.com/stent-rates/"
+  notes: >-
+    Real brand names as hospitals write them on price lists and bills, with the hospital's own
+    DES/BMS label where it gives one. Used only to recognise that a line is a coronary stent.
+    A brand's type is used only when it is DES (the higher ceiling); a brand labelled BMS is still
+    checked against the DES ceiling unless the line itself says bare metal, so a brand table
+    can never inflate a claim.
+
+# ---------------------------------------------------------------- scheme covers
+# Used by data/schemes.yaml (kk/schemes.py). Notes are our own summary; open the link to read.
+# Covers last checked 2026-11-28.
+
+scheme_pmjay:
+  title: "Ayushman Bharat PM-JAY - cover of Rs 5 lakh per family per year"
+  publisher: "Ministry of Health and Family Welfare (PIB)"
+  date: "2024-09-23"
+  urls:
+    - "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/sep/doc2024923400001.pdf"
+  notes: "Secondary and tertiary hospitalisation up to 5,00,000 per family per year for eligible (SECC and added) families. Eligibility check at beneficiary.nha.gov.in; helpline 14555."
+scheme_vay_vandana:
+  title: "Ayushman Vay Vandana card - Rs 5 lakh for every senior citizen aged 70+"
+  publisher: "Ministry of Health and Family Welfare (PIB)"
+  date: "2024-12-13"
+  urls:
+    - "https://pib.gov.in/PressReleasePage.aspx?PRID=2082288"
+  notes: "All citizens aged 70 and above, irrespective of income: 5,00,000 per family per year. Seniors in PM-JAY families get a separate top-up of up to 5,00,000."
+scheme_esic:
+  title: "ESIC - medical benefit, no ceiling on expenditure; wage limit Rs 21,000 a month"
+  publisher: "Employees' State Insurance Corporation"
+  date: "2017-01-01"
+  urls:
+    - "https://esic.gov.in/coverage"
+    - "https://dmd.esic.gov.in/information-benefits"
+  notes: "Full medical care for the insured person and family from the first day of insurable employment, with no ceiling on treatment cost. Coverage for wages up to 21,000 a month (25,000 for persons with disability)."
+scheme_cghs:
+  title: "CGHS - cashless treatment at empanelled hospitals at CGHS package rates (revised 13.10.2025)"
+  publisher: "Directorate General of CGHS, MoHFW"
+  date: "2025-10-13"
+  urls:
+    - "https://cghs.mohfw.gov.in"
+    - "https://eparlib.nic.in/bitstream/123456789/2979097/1/AU1930_DII7uR.pdf"
+  notes: "Central government pensioners and other eligible card holders get cashless treatment at empanelled hospitals; hospitals are paid CGHS package rates. No yearly money cap."
+scheme_echs:
+  title: "ECHS FAQs - cashless and capless care, no monetary ceiling"
+  publisher: "Ex-Servicemen Contributory Health Scheme, Ministry of Defence"
+  date: "2023-04-10"
+  urls:
+    - "https://www.echs.gov.in/assets/policy/Final%20ECHS%20FAQs%2010%20Apr%202023.pdf"
+  notes: "Cashless and capless cover for ex-servicemen and eligible dependants at polyclinics, military and empanelled hospitals; no monetary ceiling on treatment."
+scheme_capf:
+  title: "Ayushman CAPF - cashless and capless treatment at CGHS rates"
+  publisher: "Ministry of Home Affairs (PIB)"
+  date: "2023-03-28"
+  urls:
+    - "https://pib.gov.in/PressReleasePage.aspx?PRID=1910315"
+  notes: "For Central Armed Police Forces personnel and dependants; built on the CGHS model, cashless and capless at CGHS rates."
+scheme_ran:
+  title: "Umbrella Scheme of Rashtriya Arogya Nidhi - up to Rs 15 lakh one-time assistance"
+  publisher: "Ministry of Health and Family Welfare"
+  date: "2023-07-21"
+  urls:
+    - "https://pib.gov.in/PressReleasePage.aspx?PRID=1941461"
+    - "https://main.mohfw.gov.in/sites/default/files/RAN_Guideline_2019.pdf"
+  notes: "One-time help for poor patients below the state poverty line with life-threatening disease, only at government hospitals with super-speciality facilities; private hospitals are not eligible."
+scheme_ap_ntr:
+  title: "Dr NTR Vaidya Seva with AB PM-JAY - up to Rs 25 lakh per family"
+  publisher: "Government of Andhra Pradesh (reported by PTI / Medical Dialogues)"
+  date: "2025-09-06"
+  urls:
+    - "https://medicaldialogues.in/news/health/government-policies/andhra-pradesh-cabinet-approves-universal-health-policy-expansion-154705"
+    - "https://www.policybazaar.com/health-insurance/govt-scheme/dr-ntr-vaidya-seva-andhra-pradesh/"
+  notes: "Insurer pays up to 2,50,000; the NTR Vaidya Seva Trust pays from 2,50,000 up to 25,00,000 for BPL families."
+scheme_ar_cmaay:
+  title: "Chief Minister Arogya Arunachal Yojana - Rs 5 lakh per family per year"
+  publisher: "Government of Arunachal Pradesh (district portal)"
+  date: "2026-01-01"
+  urls:
+    - "https://tawang.nic.in/?p=25647"
+    - "https://arunachal.mygov.in/group-issue/providing-affordable-and-quality-healthcare-services-arunachal-chief-minister-aarogya"
+  notes: "Cashless cover up to 5,00,000 per family per year for APST resident families and listed state employees."
+scheme_as_aammjay:
+  title: "Ayushman Asom - Mukhya Mantri Jan Arogya Yojana - Rs 5 lakh, NFSA families not in PM-JAY"
+  publisher: "Directorate of Information and Public Relations, Assam"
+  date: "2023-05-10"
+  urls:
+    - "https://dipr.assam.gov.in/sites/default/files/swf_utility_folder/departments/dipr_webcomindia_org_oid_4/menu/document/cm_launches_ayushman_asom_-_mukhya_mantri_jan_arogya_yojana_10.05.2023.pdf"
+    - "https://medicaldialogues.in/state-news/assam/assam-rs-5-lakh-per-year-cashless-treatment-for-26-lakh-families-under-ayushman-asom-111299"
+  notes: "NFSA ration-card families with Aadhaar not covered by PM-JAY: cashless up to 5,00,000 per family per year."
+scheme_br_mmjay:
+  title: "Mukhyamantri Jan Arogya Yojana (Bihar) - Rs 5 lakh for ration-card families not in PM-JAY"
+  publisher: "Ditto (summary of Bihar state scheme)"
+  date: "2026-11-01"
+  urls:
+    - "https://joinditto.in/articles/health-insurance/mukhyamantri-jan-arogya-yojana/"
+  notes: "Same 5,00,000 cashless cover as PM-JAY for NFSA ration-card families the central list missed, free to the family."
+scheme_cg_svnsasy:
+  title: "Shaheed Veer Narayan Singh Ayushman Swasthya Yojana - Rs 5 lakh (priority cards) / Rs 50,000 (others)"
+  publisher: "Government of Chhattisgarh (summary by govtschemes.in)"
+  date: "2026-07-18"
+  urls:
+    - "https://www.govtschemes.in/node/123795"
+    - "https://govthealth.cg.gov.in/sna/"
+  notes: "Antyodaya and priority ration-card families: up to 5,00,000. Other ration-card families: up to 50,000. Renamed from Dr Khoobchand Baghel scheme in June 2024."
+scheme_ga_ddssy:
+  title: "Deen Dayal Swasthya Seva Yojana - cover raised; families up to three members now Rs 4 lakh"
+  publisher: "Government of Goa, Public Health Department (reported by The Goan)"
+  date: "2026-07-03"
+  urls:
+    - "https://www.thegoan.net/goa-news/booster-for-goans-govt-hikes-ddssy-health-insurance/150517.html"
+    - "https://www.goa.gov.in/wp-content/uploads/2026/07/Notification-805.pdf"
+  notes: "Families up to three members: 4,00,000 a year (up from 2,50,000); larger families were already at 4,00,000 or more. Small yearly premium. Government employees are not covered. Empanelled hospitals in Goa."
+scheme_gj_pmjay_ma:
+  title: "PMJAY-MA (Gujarat) - cover doubled to Rs 10 lakh from 11 July 2023"
+  publisher: "Government of Gujarat (reported by PTI / Business Standard)"
+  date: "2023-07-11"
+  urls:
+    - "https://business-standard.com/india-news/gujarat-govt-launches-revamped-pmjay-ma-scheme-with-rs-10-lakh-health-cover-123071100613_1.html"
+    - "https://deshgujarat.com/2025/12/18/over-1-crore-families-in-gujarat-covered-under-ab-pmjay-ma-govt"
+  notes: "All PMJAY-MA card-holder families: 10,00,000 per family per year."
+scheme_hr_chirayu:
+  title: "Ayushman Bharat - Chirayu Haryana - Rs 5 lakh; free up to Rs 1.80 lakh income, contribution above"
+  publisher: "State Health Agency Haryana; PTI"
+  date: "2026-10-27"
+  urls:
+    - "https://ayushmanbharat.haryana.gov.in/?p=6650"
+    - "https://theprint.in/india/haryana-to-extend-chirayu-health-cover-to-middle-income-families-from-nov-1/3083397/"
+  notes: "Families with PPP-verified income up to 1,80,000: free. 1.8-3 lakh: 1,500 a year. From 1 Nov 2026 families above 3 lakh can join by paying a yearly contribution. Cover 5,00,000 per family per year."
+scheme_hp_himcare:
+  title: "HIMCARE - Rs 5 lakh per family per year for families not covered by Ayushman Bharat"
+  publisher: "Himachal Pradesh Swasthya Bima Yojana Society"
+  date: "2019-01-01"
+  urls:
+    - "https://hpsbys.in/content/mmmn"
+    - "https://nha.gov.in/img/pmjay-files/Amitabh-Avasthi-sir-Ayorgya-Manthan-3-0-PPT.pdf"
+  notes: "Cashless cover up to 5,00,000 per family per year; premium by category (nil for some)."
+scheme_jh_massy:
+  title: "Mukhyamantri Abua Swasthya Suraksha Yojana - Rs 15 lakh per family per year"
+  publisher: "Government of Jharkhand (PTI; MyGov)"
+  date: "2024-06-28"
+  urls:
+    - "https://theprint.in/india/jharkhand-cabinet-nod-to-healthcare-scheme-for-those-deprived-of-ayushman-bharat-33-lakh-to-benefit/2152324"
+    - "https://www.myscheme.gov.in/schemes/massy"
+  notes: "For ration-card families left out of Ayushman Bharat: up to 15,00,000 per family per year."
+scheme_ka_abark:
+  title: "Ayushman Bharat - Arogya Karnataka - BPL Rs 5 lakh; APL 30% of package up to Rs 1.5 lakh"
+  publisher: "Suvarna Arogya Suraksha Trust, Government of Karnataka"
+  date: "2018-10-30"
+  urls:
+    - "https://arogya.karnataka.gov.in"
+    - "https://www.deccanherald.com/india/karnataka/ayushman-bharat-arogya-703164.html"
+  notes: "NFSA (BPL) families: up to 5,00,000 per family per year. Other (APL) families: the state pays 30% of the package rate, capped at 1,50,000 per family per year."
+scheme_kl_kasp:
+  title: "Karunya Arogya Suraksha Padhathi (KASP) - Rs 5 lakh per family per year"
+  publisher: "State Health Agency Kerala (reported by Onmanorama)"
+  date: "2025-10-22"
+  urls:
+    - "https://www.onmanorama.com/news/kerala/2025/10/22/karunya-health-insurance-scheme-additional-fund-sanction.html"
+  notes: "About 42 lakh poor and vulnerable families (bottom 40%): up to 5,00,000 per family per year."
+scheme_mp_niramayam:
+  title: "Ayushman Bharat Niramayam (Madhya Pradesh) - Rs 5 lakh per family per year"
+  publisher: "Government of Madhya Pradesh (reported by Free Press Journal; MyScheme)"
+  date: "2025-01-01"
+  urls:
+    - "https://www.freepressjournal.in/bhopal/ayushman-bharat-niramayam-scheme-expanded-to-cover-new-worker-categories-ensuring-health-benefits-upto-5-lakh-per-family"
+    - "https://myscheme.gov.in/schemes/masabsn"
+  notes: "PM-JAY as run in Madhya Pradesh, extended to listed worker groups: up to 5,00,000 per family per year."
+scheme_mh_mjpjay:
+  title: "MJPJAY with PM-JAY - Rs 5 lakh for all families in Maharashtra from 1 July 2024"
+  publisher: "Zilla Parishad Yavatmal (Govt of Maharashtra); Business Today"
+  date: "2024-07-01"
+  urls:
+    - "https://zpyavatmal.gov.in/?p=7617"
+    - "https://www.businesstoday.in/personal-finance/insurance/story/maharashtra-govt-to-directly-pay-cashless-claims-under-mjpjay-scheme-check-details-446631-2024-09-19"
+  notes: "GR of 28 July 2023: all families with a ration card and domicile; 5,00,000 per family per year."
+scheme_mn_cmht:
+  title: "Chief Minister-gi Hakshelgi Tengbang - cover raised to Rs 5 lakh"
+  publisher: "Government of Manipur (CM dashboard; Medical Dialogues)"
+  date: "2022-04-05"
+  urls:
+    - "https://cmdashboard.mn.gov.in/?p=1656"
+    - "https://medicaldialogues.in/news/health/government-policies/manipur-govt-increases-hospitalization-benefits-from-rs2-lakh-to-rs5-lakh-per-family-per-year-under-chief-minister-gi-hakshelgi-tengbang-cmht-scheme-91007"
+  notes: "Listed poor, AAY, widow and disabled families: up to 5,00,000 per family per year."
+scheme_ml_mhis:
+  title: "Megha Health Insurance Scheme - Rs 5.30 lakh per family, all residents except government employees"
+  publisher: "Government of Meghalaya; Reliance General (PTI)"
+  date: "2023-08-08"
+  urls:
+    - "https://meghealth.gov.in/news/MHIS%20Policy%20Service%20Contract%20Final.pdf"
+    - "https://business-standard.com/companies/news/reliance-bags-contract-for-meghalaya-universal-health-insurance-scheme-123080800532_1.html"
+  notes: "Universal for residents except state and central government employees; MHIS 6 with PM-JAY: 5,30,000 per family per policy year."
+scheme_mz_muhcs:
+  title: "Mizoram Universal Health Care Scheme - Rs 5 lakh, all families (from 1 April 2025)"
+  publisher: "Government of Mizoram (PTI; India Today NE)"
+  date: "2026-02-19"
+  urls:
+    - "https://theprint.in/india/mizoram-govt-to-soon-launch-new-healthcare-scheme/2550373"
+    - "https://www.indiatodayne.in/mizoram/story/over-1154-lakh-beneficiaries-registered-under-mizoram-universal-healthcare-scheme-minister-1348748-2026-02-19"
+  notes: "All bona fide residents; PM-JAY families pay nothing, others pay a yearly contribution; cover aligned with PM-JAY at 5,00,000."
+scheme_nl_cmhis:
+  title: "Nagaland CMHIS - Rs 5 lakh general, Rs 20 lakh employees and pensioners"
+  publisher: "Government of Nagaland (cmhis.nagaland.gov.in; MyScheme)"
+  date: "2022-10-14"
+  urls:
+    - "https://cmhis.nagaland.gov.in/"
+    - "https://myscheme.gov.in/hi/schemes/cmhisn"
+  notes: "CMHIS (GEN): 5,00,000 per family per year for residents not covered by PM-JAY. CMHIS (EP): 20,00,000 for state employees and pensioners."
+scheme_od_gjay:
+  title: "Gopabandhu Jan Arogya Yojana with PM-JAY - Rs 5 lakh, plus Rs 5 lakh for women"
+  publisher: "New India Samachar (PIB), September 2025"
+  date: "2025-09-16"
+  urls:
+    - "https://newindiasamachar.pib.gov.in/WriteReadData/flipbook/2025/Sep/2nd/English/files/basic-html/page14.html"
+  notes: "Odisha: 5,00,000 per family per year, with an additional 5,00,000 provision for women members."
+scheme_pb_mmsy:
+  title: "Mukh Mantri Sehat Yojana (Punjab) - Rs 10 lakh for every family"
+  publisher: "Government of Punjab (Medical Dialogues; Tribune)"
+  date: "2026-01-26"
+  urls:
+    - "https://medicaldialogues.in/amp/news/health/punjab-govt-launches-rs-10-lakh-free-healthcare-scheme-for-every-family-163323"
+    - "https://www.tribuneindia.com/news/punjab/mukh-mantri-sehat-bima-yojana-to-be-launched-in-punjab-from-january-22/"
+  notes: "Every family in Punjab (Punjab Aadhaar / voter ID): cashless up to 10,00,000 per year."
+scheme_rj_maa:
+  title: "Mukhyamantri Ayushman Arogya Yojana (Rajasthan) - Rs 25 lakh per family per year"
+  publisher: "Government of Rajasthan (PTI; Medical Dialogues)"
+  date: "2026-01-03"
+  urls:
+    - "https://theprint.in/india/rajasthan-residents-availing-cm-health-scheme-to-get-free-treatment-at-30000-facilities-outside-state/2818159"
+    - "https://medicaldialogues.in/news/health/hospital-diagnostics/rajasthan-offers-rs-25-lakh-cashless-treatment-at-31000-hospitals-across-india-167355"
+  notes: "Up to 25,00,000 per family per year (plus separate accident cover); free for listed families, a yearly fee for others. Helpline 181."
+scheme_sk_su_swastha:
+  title: "Su-Swastha Yojana (Sikkim) - Rs 10 lakh base cover for state employees"
+  publisher: "Government of Sikkim (MyScheme)"
+  date: "2021-04-01"
+  urls:
+    - "https://myscheme.gov.in/schemes/su-swastha-yojna"
+  notes: "Regular Sikkim government employees and up to five dependants: 10,00,000 base cover. Other Sikkim families: PM-JAY and central schemes."
+scheme_tn_cmchis:
+  title: "CMCHIS (Tamil Nadu) - Rs 5 lakh for income up to Rs 1.20 lakh; Rs 25 lakh announced"
+  publisher: "Vikaspedia (MeitY); Outlook Money"
+  date: "2026-08-19"
+  urls:
+    - "https://en.vikaspedia.in/viewcontent/schemesall/state-specific-schemes/welfare-schemes-of-tamil-nadu/chief-minister-s-comprehensive-health-insurance-scheme-cmchis-of-tamil-nadu?lgn=en"
+    - "https://www.outlookmoney.com/personal-finance/tamil-nadu-health-scheme-cover-raised-fivefold-to-rs-25-lakh-what-beneficiaries-should-know"
+  notes: "Family income up to 1,20,000 and a TN family card: 5,00,000 per family per year now. A rise to 25,00,000 was announced and applies once official guidelines are issued."
+scheme_tg_aarogyasri:
+  title: "Rajiv Aarogyasri (Telangana) - cover raised to Rs 10 lakh (December 2023)"
+  publisher: "Government of Telangana (The Hindu; Deccan Chronicle)"
+  date: "2023-12-09"
+  urls:
+    - "https://www.deccanchronicle.com/southern-states/telangana/65-new-medical-procedures-added-under-arogyasri-in-telangana-898016"
+    - "https://www.rajivaarogyasri.telangana.gov.in/"
+  notes: "BPL (food security card) families: up to 10,00,000 per family per year."
+scheme_tr_cmjay:
+  title: "Chief Minister Jan Arogya Yojana (Tripura) - Rs 5 lakh for families not in PM-JAY"
+  publisher: "Government of Tripura (PTI; Outlook)"
+  date: "2024-02-15"
+  urls:
+    - "https://www.outlookindia.com/national/tripura-cm-launches-rs-5-lakh-health-insurance-scheme-for-415-lakh-families"
+    - "https://panchayat.tripura.gov.in/sites/default/files/2024-09/Health%20Schemes.pdf"
+  notes: "About 4.15 lakh families not covered by PM-JAY or another public scheme, including government employees: 5,00,000 per family per year."
+scheme_up_mmjaa:
+  title: "Mukhyamantri Jan Arogya Abhiyan (Uttar Pradesh) - Rs 5 lakh for families left out of PM-JAY"
+  publisher: "Lok Sabha unstarred question; Business Standard"
+  date: "2019-03-01"
+  urls:
+    - "https://eparlib.nic.in/bitstream/123456789/2979105/1/AU1937_KSguEi.pdf"
+    - "https://business-standard.com/article/economy-policy/yogi-launches-up-version-of-modicare-with-free-medical-aid-to-5-6-mn-poor-119030100710_1.html"
+  notes: "Families identified by the state outside the PM-JAY list (including Antyodaya cards): 5,00,000 per family per year."
+scheme_uk_aauy:
+  title: "Atal Ayushman Uttarakhand Yojana - Rs 5 lakh for all families"
+  publisher: "Government of Uttarakhand (Nagar Nigam Rishikesh)"
+  date: "2020-01-01"
+  urls:
+    - "https://nnrishikesh.uk.gov.in/?p=6958"
+    - "https://sha.uk.gov.in/Home/about.html"
+  notes: "All 23 lakh families of Uttarakhand: up to 5,00,000 per family per year."
+scheme_wb_swasthya_sathi:
+  title: "Swasthya Sathi (West Bengal) - Rs 5 lakh per family per year"
+  publisher: "Government of West Bengal (swasthyasathi.gov.in)"
+  date: "2016-12-30"
+  urls:
+    - "https://swasthyasathi.gov.in"
+  notes: "Residents of West Bengal not covered by another government health scheme: up to 5,00,000 per family per year."
+scheme_dl_topup:
+  title: "Ayushman Bharat in Delhi - Rs 5 lakh top-up on the central Rs 5 lakh"
+  publisher: "New India Samachar (PIB), September 2025"
+  date: "2025-09-16"
+  urls:
+    - "https://newindiasamachar.pib.gov.in/WriteReadData/flipbook/2025/Sep/2nd/English/files/basic-html/page14.html"
+  notes: "Delhi adds 5,00,000 to the PM-JAY 5,00,000 for eligible families: 10,00,000 in all."
+scheme_jk_sehat:
+  title: "AB PM-JAY SEHAT - Rs 5 lakh for all residents of Jammu and Kashmir"
+  publisher: "PIB; Drishti IAS"
+  date: "2020-12-26"
+  urls:
+    - "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2022/may/doc202251656301.pdf"
+  notes: "All residents of J&K, including employees: free cover up to 5,00,000 per family per year."
+scheme_py_convergence:
+  title: "AB PM-JAY convergence scheme (Puducherry) - Rs 5 lakh for all BPL ration-card holders"
+  publisher: "Government of Puducherry Gazette, 13.01.2021"
+  date: "2021-01-13"
+  urls:
+    - "https://styandptg.py.gov.in/2021/JANUARY/EXTRAORDINARYPART-II/1/02-PART-II%20dated%2013-01-2021.pdf"
+  notes: "All PM-JAY and non-PM-JAY beneficiaries among BPL (AAY and PHH) ration-card holders: 5,00,000 per family per year."
+
+# ---------------------------------------------------------------- GST on health care (TAX-GST)
+gst_circular32_2018:
+  title: "CBIC Circular No. 32/06/2018-GST (12.02.2018), Sl. No. 5: GST on services by hospitals"
+  publisher: "Ministry of Finance, Department of Revenue, Tax Research Unit (CBIC)"
+  date: "2018-02-12"
+  urls:
+    - "https://gstcouncil.gov.in/sites/default/files/2024-06/circularno-32-cgst.pdf"
+  rule_ref: "Sl. No. 5, clarification (1) to (3); refers to Sl. No. 74 and para 2(zg) of Notification 12/2017-CT(Rate)"
+  rule_quote: >-
+    "Health care services provided by a clinical establishment, an authorised medical practitioner or para-medics are exempt."
+  notes: >-
+    Same entry: "The entire amount charged by them from the patients including the retention money and the fee/payments
+    made to the doctors etc., is towards the healthcare services provided by the hospitals to the patients and is exempt."
+    Food supplied to in-patients as advised by the doctor/nutritionists is part of the composite supply of healthcare and
+    not separately taxable; food for patients not admitted, attendants or visitors is taxable. Para 2(zg) of Notification
+    12/2017 excludes hair transplant and cosmetic or plastic surgery, except to restore or reconstruct anatomy or
+    functions affected by congenital defects, developmental abnormalities, injury or trauma; such lines are grey here.
+
+gst_n04_2022_room:
+  title: "Notification No. 04/2022-Central Tax (Rate), 13.07.2022, amending Sl. No. 74 of Notification 12/2017: hospital rooms above Rs 5000 a day"
+  publisher: "Ministry of Finance, Department of Revenue (Gazette of India, Extraordinary)"
+  date: "2022-07-13"
+  effective: "2022-07-18"
+  urls:
+    - "https://gstcouncil.gov.in/sites/default/files/2024-05/04_2022-ctr-eng_1.pdf"
+    - "https://rsdebate.nic.in/bitstream/123456789/730645/1/PQ_257_26072022_U1038_p262_p262.pdf"
+  rule_ref: "Para 1(s): proviso inserted in Sl. No. 74, column (3), clause (a); in force from 18.07.2022"
+  rule_quote: >-
+    "Provided that nothing in this entry shall apply to the services provided by a clinical establishment by way of
+    providing room [other than Intensive Care Unit (ICU)/Critical Care Unit (CCU)/Intensive Cardiac Care Unit
+    (ICCU)/Neo natal Intensive Care Unit (NICU)] having room charges exceeding Rs. 5000 per day to a person receiving
+    health care services."
+  notes: >-
+    Rajya Sabha answer (26.07.2022): GST will not be applicable on ICU/CCU charges irrespective of the amount; rooms up to
+    Rs 5000 per day for a person remain exempt. Before 18.07.2022 every hospital room was exempt.
+
+gst_n03_2022_room_rate:
+  title: "Notification No. 03/2022-Central Tax (Rate), 13.07.2022: new entry 31A in Notification 11/2017, room charges above Rs 5000 a day"
+  publisher: "Ministry of Finance, Department of Revenue (Gazette of India, Extraordinary)"
+  date: "2022-07-13"
+  effective: "2022-07-18"
+  urls:
+    - "https://gstcouncil.gov.in/sites/default/files/2024-05/03_2022-ctr-eng_1.pdf"
+  rule_ref: "Entry 31A, Heading 9993: central tax 2.5% without input tax credit; with equal state tax the GST is 5%"
+  notes: "47th GST Council: room rent (excluding ICU) above Rs 5000 per day per patient taxed at 5% without ITC."
+
+# ---------------------------------------------------------------- health insurance (insurance deduction check)
+irdai_mc_standardization_2020:
+  title: "IRDAI Master Circular on Standardization of Health Insurance Products, IRDAI/HLT/REG/CIR/193/07/2020 (22.07.2020): lists of items not payable or subsumed"
+  publisher: "Insurance Regulatory and Development Authority of India"
+  date: "2020-07-22"
+  urls:
+    - "https://irdai.gov.in/document-detail?documentId=395035"
+    - "https://taxguru.in/corporate-law/modification-guidelines-standardization-health-insurance.html"
+    - "https://www.paramounttpa.com/Home/Download/Modification_Guidelines_on_Standardzation.pdf"
+  rule_ref: "Annexure (from IRDAI/HLT/REG/CIR/176/09/2019, 27.09.2019): List I optional items; List II subsumed into room charges; List III into procedure charges; List IV into costs of treatment"
+  rule_quote: >-
+    List II "Items specified in the list shall form part of room charges"; insurers shall ensure such items are not
+    billed to the policyholders by the hospitals, and make this part of the service level agreement with network hospitals.
+  notes: >-
+    Item lists were read from two copies of the 2019 circular (TPA copy and a full-text reproduction) and agree item for
+    item. IRDAI lists the 2020 master circular as non-archived. For reimbursement claims from providers outside the
+    network, claims are settled as per policy terms.
+
+irdai_mc_health_2024:
+  title: "IRDAI Master Circular on Health Insurance Business, IRDAI/HLT/CIR/PRO/84/5/2024 (29.05.2024)"
+  publisher: "Insurance Regulatory and Development Authority of India"
+  date: "2024-05-29"
+  urls:
+    - "https://mail.caalley.com/irda24/Master_Circular_on_Health_Insurance_Business_29052024.pdf"
+    - "https://policyholder.gov.in/web/guest/circulars"
+  rule_ref: "Chapter II para 17(b): reasons for repudiation or partial disallowance; Chapter I para 15(b), 16(a): cashless timelines"
+  rule_quote: >-
+    Where a claim is repudiated or partially disallowed, the "details shall be conveyed to the claimant along with full
+    details giving reference to the specific terms" of the policy.
+  notes: "Cashless: decide within one hour of request (15(b)); final authorisation within three hours of the discharge request (16(a))."
+
+irdai_proportionate_2020:
+  title: "IRDAI Modified Guidelines on Product Filing in Health Insurance: Norms on Proportionate Deductions (11.06.2020)"
+  publisher: "Insurance Regulatory and Development Authority of India"
+  date: "2020-06-11"
+  urls:
+    - "https://compfie.aparajitha.com/wp-content/uploads/2020/06/13062020_FCC_04.pdf"
+  rule_ref: "Para 4: pharmacy and consumables, implants and medical devices, and diagnostics cannot be associate medical expenses; para 6: not where the hospital has no differential billing; para 7: not for ICU charges"
+  rule_quote: >-
+    "Insurers are not permitted to apply proportionate deduction for 'ICU charges' as different categories of ICU are not there."
+  notes: >-
+    Reference number read from a scan as IRDAI/HLT/REG/CIR/150/06/2020. Applies to products filed on or after
+    01.10.2020. Whether the 2024 master circulars retain it is not confirmed here, so this is used only to suggest a
+    question to the insurer, never a claimed amount.
+
+irdai_grievance_tat:
+  title: "IRDAI Policyholders' Protection and Grievance Redressal: insurer must resolve a grievance within two weeks"
+  publisher: "Insurance Regulatory and Development Authority of India (policyholder.gov.in)"
+  date: "2026-08-14"
+  urls:
+    - "https://policyholder.gov.in/web/guest/grievance-cell-cad"
+    - "https://policyholder.gov.in/web/guest/functions"
+  rule_ref: "Grievance cell FAQ (Regulation 4(4), Protection of Policyholders' Interests Regulations)"
+  rule_quote: >-
+    "An insurance company is required to resolve a grievance within two weeks of its receipt."
+  notes: >-
+    If not resolved in two weeks, unattended, or not resolved to satisfaction, escalate to IRDAI: Bima Bharosa portal
+    https://bimabharosa.irdai.gov.in, toll free 155255 or 1800 4254 732, complaints@irdai.gov.in. Department of Financial
+    Services statement of 14.08.2026 repeats the 14-day resolution time.
+
+ombudsman_rules_2017:
+  title: "Insurance Ombudsman Rules, 2017 (as amended 18.05.2021), Rule 14(3)"
+  publisher: "Ministry of Finance, Department of Financial Services"
+  date: "2021-05-18"
+  urls:
+    - "https://financialservices.gov.in/beta/sites/default/files/2025-09/The-Insurance-Ombudsman-Rules-2017%20-Last-amended-on-18.5.2021.pdf"
+    - "https://www.cioins.co.in/"
+  rule_ref: "Rule 14(3)(a): written representation to the insurer first, then rejection, no reply within one month, or reply not satisfactory; Rule 14(3)(b): complaint within one year"
+  rule_quote: >-
+    "The complaint is made within one year- (i) after the order of the insurer rejecting the representation is received"
+  notes: "Filing is free; complaints are lodged with the Council for Insurance Ombudsmen (Bima Lokpal)."
+
+# ---------------------------------------------------------------- complaint tracker
+cpa_2019_s69:
+  title: "Consumer Protection Act, 2019, section 69: limitation period"
+  publisher: "Government of India (Gazette of India)"
+  date: "2019-08-09"
+  urls:
+    - "https://www.advocatekhoj.com/library/bareacts/consumerprotection2019/69.php"
+    - "https://e-jagriti.gov.in"
+  rule_ref: "Section 69(1); 69(2) allows a later complaint if the commission accepts there was sufficient cause"
+  rule_quote: >-
+    "The District Commission, the State Commission or the National Commission shall not admit a complaint unless it is
+    filed within two years from the date on which the cause of action has arisen."
+
+nch_contact:
+  title: "National Consumer Helpline (Department of Consumer Affairs): contact details"
+  publisher: "Department of Consumer Affairs, Government of India"
+  date: "2026-11-28"
+  urls:
+    - "https://consumerhelpline.gov.in/public/contact"
+    - "https://consumerhelpline.gov.in/public/about"
+  rule_ref: "Call 1915 or 1800 11 4000; NCH is a pre-litigation step"
+  notes: "Short code 1915 allotted by DoT to the Department of Consumer Affairs (2022)."
+
+pmjay_grievance_2021:
+  title: "AB PM-JAY Grievance Redressal Guidelines (National Health Authority, December 2021)"
+  publisher: "National Health Authority"
+  date: "2021-12-01"
+  urls:
+    - "https://nha.gov.in/img/resources/OM-Grievance-Redressal-Guideline-Dec-2021.pdf"
+  rule_ref: "Escalation matrix; section 7.2; section 7.2(d)"
+  rule_quote: >-
+    "If grievance is not resolved by DGNO/SGNO within 15 days, case shall be referred to DGRC/SGRC."
+  notes: >-
+    Section 7.2: each grievance shall be addressed by the Grievance Redressal Committee within 30 days; 7.2(d): appeal
+    within 30 days to the higher committee. File on CGRMS (https://cgrms.pmjay.gov.in) or call 14555.
+
+kk_suggested_waits:
+  title: "Kharcha Kavach suggested follow-up waits (a suggestion, not a legal time limit)"
+  publisher: "Kharcha Kavach (Team LongClaw)"
+  date: "2026-11-28"
+  urls: []
+  rule_ref: "Used only where no official reply time was found: hospital desk, hospital grievance officer, NCH, NPPA, Bima Bharosa"
+  notes: "Shown to the family as a suggestion. Never used to claim that an office has broken a rule."

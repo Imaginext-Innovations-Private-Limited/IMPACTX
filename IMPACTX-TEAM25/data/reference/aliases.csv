@@ -1,0 +1,9 @@
+alias,item_key,lang,source
+drug eluting stent,stent_des,en,official name in nppa_stent_2026
+drug-eluting stent,stent_des,en,official name in nppa_stent_2026
+des,stent_des,en,abbreviation used in nppa_stent_2026
+bioresorbable vascular scaffold,stent_des,en,official name in nppa_stent_2026
+bvs,stent_des,en,abbreviation used in nppa_stent_2026
+biodegradable stent,stent_des,en,official name in nppa_stent_2026
+bare metal stent,stent_bms,en,official name in nppa_stent_2026
+bms,stent_bms,en,abbreviation used in nppa_stent_2026

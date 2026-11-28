@@ -1,0 +1,222 @@
+{
+  "notice": "TEST BILL - NOT A REAL PATIENT - NOT VALID FOR ANY CLAIM. Fictional test fixture; never use as evaluation data.",
+  "file": "bill1_cardiac_cash.pdf",
+  "answers": {
+    "payer": "cash",
+    "state": "karnataka"
+  },
+  "bill": {
+    "header": {
+      "hospital_name": "Sample Heart Hospital",
+      "gstin": "29TESTB0000T1Z5",
+      "admission_date": "2026-11-18",
+      "discharge_date": "2026-11-20",
+      "bill_type": "final",
+      "total": "182785.00"
+    },
+    "lines": [
+      {
+        "description": "Drug Eluting Stent (Everolimus) 3.0x28",
+        "section": "implant",
+        "date": "2026-11-19",
+        "batch": "XB2611",
+        "expiry": "30/06/2028",
+        "qty": "1",
+        "rate": "58000.00",
+        "mrp": null,
+        "amount": "58000.00"
+      },
+      {
+        "description": "Coronary Stent Xience Alpine 3.5x18",
+        "section": "implant",
+        "date": "2026-11-19",
+        "batch": "XA7781",
+        "expiry": "31/12/2027",
+        "qty": "1",
+        "rate": "44000.00",
+        "mrp": null,
+        "amount": "44000.00"
+      },
+      {
+        "description": "PTCA Guide Wire 0.014",
+        "section": "consumables",
+        "date": "2026-11-19",
+        "batch": "GW5521",
+        "expiry": "31/03/2028",
+        "qty": "2",
+        "rate": "3500.00",
+        "mrp": null,
+        "amount": "7500.00"
+      },
+      {
+        "description": "Balloon Catheter 2.5x15",
+        "section": "consumables",
+        "date": "2026-11-19",
+        "batch": "BC3310",
+        "expiry": "30/09/2027",
+        "qty": "1",
+        "rate": "9800.00",
+        "mrp": null,
+        "amount": "9800.00"
+      },
+      {
+        "description": "Inj Enoxaparin 40mg",
+        "section": "pharmacy",
+        "date": "2026-11-19",
+        "batch": "EN4410",
+        "expiry": "31/05/2027",
+        "qty": "4",
+        "rate": "520.00",
+        "mrp": "455.00",
+        "amount": "2080.00"
+      },
+      {
+        "description": "Tab Clopidogrel 75mg",
+        "section": "pharmacy",
+        "date": "2026-11-20",
+        "batch": "CL9902",
+        "expiry": null,
+        "qty": "10",
+        "rate": "8.50",
+        "mrp": "9.20",
+        "amount": "85.00"
+      },
+      {
+        "description": "Tab Atorvastatin 40mg",
+        "section": "pharmacy",
+        "date": "2026-11-20",
+        "batch": "AT1201",
+        "expiry": "31/01/2028",
+        "qty": "10",
+        "rate": "22.00",
+        "mrp": "24.50",
+        "amount": "220.00"
+      },
+      {
+        "description": "Lipid Profile",
+        "section": "diagnostics",
+        "date": "2026-11-18",
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "650.00",
+        "mrp": null,
+        "amount": "650.00"
+      },
+      {
+        "description": "Lipid Profile",
+        "section": "diagnostics",
+        "date": "2026-11-18",
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "650.00",
+        "mrp": null,
+        "amount": "650.00"
+      },
+      {
+        "description": "ECG",
+        "section": "diagnostics",
+        "date": "2026-11-25",
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "300.00",
+        "mrp": null,
+        "amount": "300.00"
+      },
+      {
+        "description": "Room Rent Twin Sharing",
+        "section": "room",
+        "date": "2026-11-18",
+        "batch": null,
+        "expiry": null,
+        "qty": "5",
+        "rate": "2500.00",
+        "mrp": null,
+        "amount": "12500.00"
+      },
+      {
+        "description": "PTCA Procedure Charges",
+        "section": "procedure",
+        "date": "2026-11-19",
+        "batch": null,
+        "expiry": null,
+        "qty": "1",
+        "rate": "45000.00",
+        "mrp": null,
+        "amount": "45000.00"
+      }
+    ]
+  },
+  "expected": {
+    "recoverable": "20469.34",
+    "amber_total": "2650.00",
+    "findings": [
+      {
+        "rule_id": "PRC-STENT",
+        "match": "Everolimus",
+        "verdict": "red",
+        "excess": "16854.67",
+        "why": "1 x 39,186.03 x 1.05 = 41,145.33 allowed; billed 58,000"
+      },
+      {
+        "rule_id": "PRC-STENT",
+        "match": "Xience",
+        "verdict": "red",
+        "excess": "2854.67",
+        "why": "stent type not printed: higher DES ceiling used (condition shown)"
+      },
+      {
+        "rule_id": "ARI-QTYRATE",
+        "match": "Guide Wire",
+        "verdict": "red",
+        "excess": "500.00",
+        "why": "2 x 3,500 = 7,000 but billed 7,500"
+      },
+      {
+        "rule_id": "PRC-MRP",
+        "match": "Enoxaparin",
+        "verdict": "red",
+        "excess": "260.00",
+        "why": "4 x MRP 455 = 1,820 but billed 2,080"
+      },
+      {
+        "rule_id": "CONV-DUPLICATE",
+        "match": "Lipid",
+        "verdict": "amber",
+        "excess": "650.00"
+      },
+      {
+        "rule_id": "CONV-OUTSIDE-STAY",
+        "match": "ECG",
+        "verdict": "amber"
+      },
+      {
+        "rule_id": "CONV-ROOMDAYS",
+        "verdict": "amber",
+        "why": "5 room days for 2 nights"
+      },
+      {
+        "rule_id": "ARI-TOTAL",
+        "verdict": "amber",
+        "excess": "2000.00",
+        "why": "lines add to 1,80,785 but grand total is 1,82,785"
+      },
+      {
+        "rule_id": "FMT-MISSING",
+        "verdict": "amber",
+        "why": "Clopidogrel has no expiry date"
+      },
+      {
+        "rule_id": "STATE-KA-DISCLOSURE",
+        "verdict": "info"
+      }
+    ],
+    "not_expected": [
+      "ENT-COVERED",
+      "ENT-CASH-DENIAL",
+      "RGT-ITEMISED"
+    ]
+  }
+}
