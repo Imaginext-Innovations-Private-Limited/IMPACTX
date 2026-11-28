@@ -45,11 +45,15 @@ def test_ocr_english_if_available():
     try:
         from PIL import Image, ImageDraw
         import pytesseract
+        from scamshield import main
+        t_cmd = main._resolve_tesseract_cmd()
+        if t_cmd:
+            pytesseract.pytesseract.tesseract_cmd = t_cmd
         _=pytesseract.get_tesseract_version()
     except Exception:
         pytest.skip("Tesseract not installed")
     im=Image.new("RGB",(760,125),"white")
-    ImageDraw.Draw(im).text((20,25),"Share your OTP right now",fill="black",stroke_width=1)
+    ImageDraw.Draw(im).text((20,25),"Share your OTP right now",fill="black",font_size=28)
     bio=BytesIO(); im.save(bio,"PNG")
     r=client.post("/api/ocr",files={"file":("message.png",bio.getvalue(),"image/png")})
     assert r.status_code==200, r.text

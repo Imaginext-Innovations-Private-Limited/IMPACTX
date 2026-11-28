@@ -45,10 +45,13 @@ def cloud_text(text):
     return text
 
 
-def ask(text, language, key, model=MODEL):
+def ask(text, language, key, model=MODEL, offline_evidence=None):
+    user_payload = {'output_language': LANGUAGE_NAMES[language][0], 'message': text}
+    if offline_evidence:
+        user_payload['offline_evidence'] = offline_evidence
     response = httpx.post(URL, headers={'Authorization': 'Bearer '+key}, json={
         'model': model, 'messages': [{'role': 'system', 'content': SYSTEM},
-            {'role': 'user', 'content': json.dumps({'output_language': LANGUAGE_NAMES[language][0], 'message': text}, ensure_ascii=False)}],
+            {'role': 'user', 'content': json.dumps(user_payload, ensure_ascii=False)}],
         'reasoning_effort': 'low', 'max_completion_tokens': 2048,
         'response_format': {'type': 'json_schema', 'json_schema': {'name': 'fraud_assessment', 'strict': True, 'schema': Assessment.model_json_schema()}},
     }, timeout=httpx.Timeout(10, connect=3), follow_redirects=False)
@@ -71,6 +74,23 @@ def ask(text, language, key, model=MODEL):
     return result
 
 
+def _build_offline_evidence(local):
+    """Build masked, structured offline evidence for optional cloud context."""
+    id_info = local.get('identity') or {}
+    qr_info = local.get('qr_analysis') or {}
+    return {
+        'local_level': local.get('level'),
+        'categories': (local.get('categories') or [])[:4],
+        'indicators': [cloud_text(i.get('title', '')) for i in (local.get('indicators') or [])[:6]],
+        'qr_types': [p.get('type') for p in (qr_info.get('payloads') or [])[:4]],
+        'identity': {
+            'claimed_organisations': (id_info.get('claimed_organisations') or [])[:3],
+            'official_domain_match': bool(id_info.get('official_domain_match')),
+            'sender_authenticated': False,
+        },
+    }
+
+
 def hybrid(text, local, language):
     local['analysis_mode'] = 'offline_fallback'
     key = os.environ.get('GROQ_API_KEY', '').strip()
@@ -78,11 +98,12 @@ def hybrid(text, local, language):
         local['analysis_note'] = 'Groq key not configured. Local assessment only.'
         return local
     safe_text = cloud_text(text)
+    offline_evidence = _build_offline_evidence(local)
     failures = []
     for model in (MODEL, BACKUP_MODEL):
         retryable = False
         try:
-            result = ask(safe_text, language, key, model)
+            result = ask(safe_text, language, key, model, offline_evidence=offline_evidence)
         except httpx.HTTPStatusError as exc:
             status = exc.response.status_code
             reason = f'HTTP {status}'

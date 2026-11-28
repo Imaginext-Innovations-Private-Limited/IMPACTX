@@ -30,7 +30,7 @@ def test_reward_rule_does_not_escalate_prevention(text):
 def test_new_controls_keep_single_analysis_and_local_rescue():
     html = (ROOT / 'static/index.html').read_text(encoding='utf-8')
     js = (ROOT / 'static/app.js').read_text(encoding='utf-8')
-    for control in ('tab-text', 'tab-image', 'tab-voice', 'tab-audio', 'language', 'image-drop', 'rescue-steps'):
+    for control in ('tab-text', 'tab-file', 'tab-voice', 'voice-sub-mic', 'voice-sub-audio', 'language', 'image-drop', 'rescue-steps'):
         assert f'id="{control}"' in html
     assert html.count('id="analyze-btn"') == 1
     assert 'English guidance for this release' in html

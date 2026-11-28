@@ -1,0 +1,54 @@
+{
+  "uci_sms_5574": {
+    "total_messages": 5574,
+    "ham_total": 4827,
+    "spam_total": 747,
+    "ham_levels": {
+      "no_clear_signal": 4189,
+      "review": 507,
+      "unknown": 129,
+      "caution": 2
+    },
+    "spam_levels": {
+      "no_clear_signal": 601,
+      "review": 115,
+      "caution": 29,
+      "unknown": 2
+    },
+    "ham_caution_high_fp_rate": 0.0004,
+    "avg_latency_ms": 0.98,
+    "note": "UCI SMS spam includes promotional/marketing messages, not exclusively financial fraud."
+  },
+  "phiusiil_heldout_2000": {
+    "train_test_domain_overlap": 0,
+    "threat_db_exact_matches_in_sample": 25,
+    "avg_latency_ms": 2.79,
+    "url_classifier_only": {
+      "samples": 2000,
+      "accuracy": 0.902,
+      "precision": 0.9791,
+      "recall": 0.7828,
+      "f1": 0.87,
+      "false_positives": 14,
+      "false_negatives": 182
+    },
+    "full_engine_all_samples": {
+      "samples": 2000,
+      "accuracy": 0.9015,
+      "precision": 0.9762,
+      "recall": 0.784,
+      "f1": 0.8696,
+      "false_positives": 16,
+      "false_negatives": 181
+    },
+    "full_engine_excluding_threat_db_hits": {
+      "samples": 1975,
+      "accuracy": 0.9003,
+      "precision": 0.9753,
+      "recall": 0.7774,
+      "f1": 0.8652,
+      "false_positives": 16,
+      "false_negatives": 181
+    }
+  }
+}

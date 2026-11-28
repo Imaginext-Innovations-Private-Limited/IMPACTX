@@ -27,10 +27,51 @@ app = FastAPI(title="ScamShield AI", version=__version__,
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 
 class AnalysisInput(BaseModel):
-    text: str = Field(min_length=1, max_length=MAX_TEXT)
-    channel: str = "message"
+    text: str = Field(default="", max_length=MAX_TEXT)
+    channel: str = "auto"
     language: str = "en"
     cloud_consent: bool = False
+    qr_payloads: list[str] | None = Field(default=None, max_length=10)
+    qr_status: str | None = None
+    email_meta: dict | None = None
+
+
+class QRPayloadDetail(BaseModel):
+    model_config = ConfigDict(extra="allow")
+    type: str
+    qr_type: str | None = None
+    raw: str
+    destination: str | None = None
+    protocol: str | None = None
+    registered_domain: str | None = None
+    cross_modal_mismatch: bool | None = None
+    mismatch_reason: str | None = None
+    upi: dict | None = None
+    url_assessment: dict | None = None
+
+
+class QRAnalysisOut(BaseModel):
+    model_config = ConfigDict(extra="allow")
+    qr_count: int
+    payloads: list[QRPayloadDetail]
+
+
+class AnalysisResponse(BaseModel):
+    model_config = ConfigDict(extra="allow")
+    level: str
+    title: str
+    summary: str
+    score: int
+    score_label: str
+    indicators: list[dict]
+    categories: list[str]
+    actions: list[str]
+    channel: str
+    analysis_mode: str
+    qr_analysis: QRAnalysisOut | None = None
+    identity: dict | None = None
+    engine_contributions: dict | None = None
+    live_reputation: dict | None = None
 
 @app.get("/", include_in_schema=False)
 def home():
@@ -39,9 +80,13 @@ def home():
 @app.get("/api/health")
 def health():
     from .training_data import SUSPICIOUS, BENIGN
+    from . import live_reputation
+    from .url_classifier import threat_db_metadata
     return {"status": "ok", "version": __version__, "privacy": "No content persisted by server",
             "training_samples": len(SUSPICIOUS) + len(BENIGN), "offline_engine": "tfidf-linear-svm-regional-context",
-            "groq_configured": bool(os.environ.get("GROQ_API_KEY", "").strip())}
+            "groq_configured": bool(os.environ.get("GROQ_API_KEY", "").strip()),
+            "live_reputation_configured": live_reputation.configured(),
+            "threat_db": threat_db_metadata()}
 
 @app.get("/api/voice-prompts")
 def voice_prompts():
@@ -94,18 +139,68 @@ def generate_voice(data: VoiceInput, request: Request):
     return {"cached": True}
 
 
-@app.post("/api/analyze")
+@app.post("/api/analyze", response_model=AnalysisResponse)
 def analyze_message(data: AnalysisInput, request: Request):
     try:
         if data.cloud_consent:
             origin = request.headers.get("origin")
             if origin and origin not in {"http://127.0.0.1:8000", "http://localhost:8000"}:
                 raise HTTPException(status_code=403, detail="Local origin required")
-        result = analyze(data.text, data.channel, data.language)
+        result = analyze(
+            data.text, data.channel, data.language,
+            qr_payloads=data.qr_payloads, email_meta=data.email_meta, qr_status=data.qr_status,
+        )
+        ind_ids = {i.get("id") for i in result.get("indicators", [])}
+        contributions = {
+            "local_rules": True,
+            "text_ml": result.get("model_signal", "unavailable"),
+            "url_ml": "flagged" if ind_ids & {"url_ml_phishing", "url_ml_review", "qr_url_ml_phishing", "qr_url_ml_review"} else "checked",
+            "local_threat_db": "matched" if ind_ids & {"url_threat_db", "qr_url_threat_db"} else "checked_no_match",
+            "qr_decoder": "decoded" if result.get("qr_analysis") else ("detected_unreadable" if data.qr_status == "detected_unreadable" else "none"),
+            "identity_verifier": "checked" if result.get("identity") else "none",
+            "live_url_reputation": "not_requested",
+            "cloud_llm": "not_requested",
+        }
         if data.cloud_consent:
-            from .cloud import hybrid
-            return hybrid(data.text, result, data.language)
-        result["analysis_mode"] = "offline"
+            from . import live_reputation
+            urls = list(result.get("entities", {}).get("urls", []))
+            for link in (result.get("identity") or {}).get("hyperlinks", []):
+                if link.get("href") and link["href"] not in urls:
+                    urls.append(link["href"])
+            for p in (result.get("qr_analysis") or {}).get("payloads", []):
+                if p.get("url") and p["url"] not in urls:
+                    urls.append(p["url"])
+            live_res = live_reputation.check_urls_live(urls)
+            result["live_reputation"] = live_res
+            contributions["live_url_reputation"] = live_res["status"]
+            matched_urls = {m["url"] for m in live_res.get("matches", [])}
+            for p in (result.get("qr_analysis") or {}).get("payloads", []):
+                if p.get("type") in {"url", "apk_download"}:
+                    ua = p.setdefault("url_assessment", {})
+                    ua["live_reputation_status"] = live_res["status"]
+                    ua["live_reputation_matched"] = p.get("url") in matched_urls
+            if live_res["status"] == "threat_match":
+                for match in live_res["matches"][:3]:
+                    result["indicators"].insert(0, {
+                        "id": "live_url_threat",
+                        "title": "Live URL reputation matched a verified threat",
+                        "explanation": f"Matched {match['threat_type']} via {match['provider']}.",
+                        "weight": 7,
+                        "evidence": match["url"][:160],
+                        "start": 0, "end": 0,
+                        "advice": "Do not open this link.",
+                    })
+                result["level"] = "high"
+                result["score"] = max(int(result.get("score", 0)), 8)
+            if data.text.strip():
+                from .cloud import hybrid
+                result = hybrid(data.text, result, data.language)
+                contributions["cloud_llm"] = result.get("analysis_mode", "offline_fallback")
+            else:
+                result["analysis_mode"] = "offline"
+        else:
+            result["analysis_mode"] = "offline"
+        result["engine_contributions"] = contributions
         return result
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
@@ -202,6 +297,27 @@ def _sarvam_batch_transcribe(audio: bytes, suffix: str, language_code: str, api_
                 return transcript
     return ""
 
+def _resolve_tesseract_cmd() -> str | None:
+    """Locate the Tesseract OCR executable across PATH and standard Windows paths."""
+    found = shutil.which("tesseract")
+    if found:
+        return found
+    if os.name == "nt":
+        bases = (
+            os.environ.get("ProgramFiles", "C:/Program Files"),
+            os.environ.get("ProgramFiles(x86)", "C:/Program Files (x86)"),
+            os.environ.get("LOCALAPPDATA", ""),
+        )
+        for base in bases:
+            if not base:
+                continue
+            for rel in ("Tesseract-OCR/tesseract.exe", "Programs/Tesseract-OCR/tesseract.exe"):
+                candidate = Path(base) / rel
+                if candidate.is_file():
+                    return str(candidate)
+    return None
+
+
 @app.post("/api/ocr")
 async def ocr_image(file: UploadFile = File(...), language: str = Query("auto")):
     if language not in {*LANGUAGE_NAMES, "auto"}:
@@ -212,6 +328,12 @@ async def ocr_image(file: UploadFile = File(...), language: str = Query("auto"))
     await file.close()
     if len(data) > 4 * 1024 * 1024:
         raise HTTPException(status_code=413, detail="Image limit is 4 MB.")
+    from .qr_decoder import classify_qr_payload, decode_qr_detailed_from_bytes
+    qr_payloads: list[str] = []
+    qr_analysis: list[dict] = []
+    qr_status = "none"
+    qr_decoder_used: str | None = None
+    ocr_unavailable_reason: str | None = None
     try:
         from PIL import Image, ImageOps, UnidentifiedImageError
         import pytesseract
@@ -220,11 +342,15 @@ async def ocr_image(file: UploadFile = File(...), language: str = Query("auto"))
                 raise HTTPException(status_code=415, detail="Not a supported image format.")
             if raw.width * raw.height > 12_000_000:
                 raise HTTPException(status_code=413, detail="Image resolution too large.")
+            qr_res = decode_qr_detailed_from_bytes(data)
+            qr_status = qr_res["status"]
+            qr_decoder_used = qr_res["decoder_used"]
+            qr_payloads = qr_res["payloads"]
+            qr_analysis = [classify_qr_payload(p) for p in qr_payloads]
             im = ImageOps.exif_transpose(raw).convert("RGB")
-            if os.name == "nt" and not shutil.which("tesseract"):
-                candidate = Path(os.environ.get("ProgramFiles", "C:/Program Files")) / "Tesseract-OCR" / "tesseract.exe"
-                if candidate.is_file():
-                    pytesseract.pytesseract.tesseract_cmd = str(candidate)
+            t_cmd = _resolve_tesseract_cmd()
+            if t_cmd:
+                pytesseract.pytesseract.tesseract_cmd = t_cmd
             installed = pytesseract.get_languages(config="")
             desired = {"en":"eng", "hi":"hin", "bn":"ben", "kn":"kan", "te":"tel", "or":"ori", "mr":"mar", "ta":"tam", "ml":"mal", "gu":"guj", "pa":"pan"}
             if language != "auto" and desired[language] not in installed:
@@ -239,8 +365,54 @@ async def ocr_image(file: UploadFile = File(...), language: str = Query("auto"))
     except (UnidentifiedImageError, OSError, ValueError) as exc:
         raise HTTPException(status_code=422, detail="Image could not be read.") from exc
     except (RuntimeError, pytesseract.TesseractError, pytesseract.TesseractNotFoundError) as exc:
-        raise HTTPException(status_code=503, detail="OCR is unavailable: install Tesseract OCR and the desired language data.") from exc
+        if not qr_payloads and qr_status != "detected_unreadable":
+            raise HTTPException(status_code=503, detail="OCR is unavailable: install Tesseract OCR and the desired language data.") from exc
+        extracted = ""
+        selected = []
+        ocr_unavailable_reason = "Tesseract OCR unavailable; QR code inspected locally."
     text = extracted.strip()[:MAX_TEXT]
+    if not text and not qr_payloads and qr_status != "detected_unreadable":
+        raise HTTPException(status_code=422, detail="No legible text or QR code was found. Try a clearer screenshot.")
+    note = ocr_unavailable_reason or "OCR may contain errors. Check transcription before interpreting results."
+    return {
+        "text": text,
+        "characters": len(text),
+        "ocr_languages": selected,
+        "qr_status": qr_status,
+        "qr_decoder": qr_decoder_used,
+        "qr_payloads": qr_payloads,
+        "qr_analysis": qr_analysis,
+        "note": note,
+    }
+
+
+@app.post("/api/parse-email")
+async def parse_email_file(file: UploadFile = File(...)):
+    """Parse an uploaded .eml file locally without executing HTML or fetching remote resources."""
+    suffix = Path(file.filename or "").suffix.lower()
+    if suffix != ".eml" and file.content_type not in {"message/rfc822", "text/plain", "application/octet-stream"}:
+        await file.close()
+        raise HTTPException(status_code=415, detail="Upload a .eml email file.")
+    raw = await file.read(4 * 1024 * 1024 + 1)
+    await file.close()
+    if not raw:
+        raise HTTPException(status_code=422, detail="The selected .eml file is empty.")
+    if len(raw) > 4 * 1024 * 1024:
+        raise HTTPException(status_code=413, detail="Email file limit is 4 MB.")
+    from .identity_verifier import parse_eml_bytes
+    parsed = parse_eml_bytes(raw)
+    text = parsed["combined_text"].strip()[:MAX_TEXT]
     if not text:
-        raise HTTPException(status_code=422, detail="No legible text was found. Try a clearer screenshot.")
-    return {"text": text, "characters": len(text), "ocr_languages": selected, "note": "OCR may contain errors. Check transcription before interpreting results."}
+        raise HTTPException(status_code=422, detail="No readable email content found.")
+    return {
+        "text": text,
+        "email_meta": {
+            "from_raw": parsed["from_raw"],
+            "reply_to_raw": parsed["reply_to_raw"],
+            "subject": parsed["subject"],
+            "auth_raw": parsed["auth_raw"],
+            "links": parsed["links"],
+            "attachments": parsed["attachments"],
+        },
+        "note": "Email parsed locally without loading remote images or scripts. Header claims are not independently verified.",
+    }
