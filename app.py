@@ -1175,7 +1175,7 @@ def download_event_report(event_id):
 
     checksum_path = report_dir / f"forensic-event-report-{event_id}.pdf.sha256"
     checksum_path.write_text(
-        f"{pdf_hash}  forensic-event-report-{event_id}.pdf\\n",
+        f"{pdf_hash}  forensic-event-report-{event_id}.pdf\n",
         encoding="utf-8"
     )
 
