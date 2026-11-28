@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-hero">
+  <div>
+    <h2>Settings &amp; Governance Configuration</h2>
+    <p>Inspect screening thresholds, model parameters, API status, and manage in-memory caches.</p>
+  </div>
+</div>
+
+<div class="grid-2 mb-20">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title"><i data-lucide="sliders"></i> Active Configuration (Read-Only)</h3>
+    </div>
+    <div class="alert alert-info mb-16" style="font-size:12.5px; padding:10px 14px;">
+      <i data-lucide="info"></i>
+      <div>These values are computed from <code>src/fairness.py</code> and <code>src/models.py</code>. To change them, edit those source files and restart the server.</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><td><strong>Practical Ratio (Fine)</strong></td><td><code>≥ {{ thresholds.practical_ratio }}</code></td></tr>
+          <tr><td><strong>Four-Fifths Screening Line (Flag)</strong></td><td><code>&lt; {{ thresholds.screen_ratio }}</code></td></tr>
+          <tr><td><strong>Minimum Testable Group Size</strong></td><td><code>{{ thresholds.min_group }} applicants</code></td></tr>
+          <tr><td><strong>Fisher Exact Significance (α)</strong></td><td><code>{{ thresholds.alpha }}</code></td></tr>
+          <tr><td><strong>Default Model Decision Cutoff</strong></td><td><code>{{ thresholds.model_threshold }}</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title"><i data-lucide="key-round"></i> Environment &amp; Cache</h3>
+    </div>
+    <div class="alert {{ 'alert-success' if sys_status.groq_configured else 'alert-warning' }} mb-16">
+      <i data-lucide="{{ 'check-circle-2' if sys_status.groq_configured else 'alert-triangle' }}"></i>
+      <div>
+        <strong>Groq API Key:</strong>
+        {{ 'Configured in environment (.env).' if sys_status.groq_configured else 'Not configured. Add GROQ_API_KEY to .env to enable LLM prose generation.' }}
+      </div>
+    </div>
+
+    <div class="form-group mb-16" style="border:1px solid var(--border); border-radius:10px; padding:14px;">
+      <label for="auditDateInput" style="font-weight:600; display:block; margin-bottom:6px;">
+        <i data-lucide="calendar" style="width:14px; height:14px; vertical-align:middle;"></i>
+        Audit Date
+        <span style="font-weight:400; color:var(--text-muted); font-size:12px; margin-left:6px;">— used for all legal applicability checks</span>
+      </label>
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+        <input type="date" id="auditDateInput" class="form-control" value="{{ sys_status.audit_date }}" style="width:180px;" />
+        <button class="btn btn-secondary" id="setAuditDateBtn"><i data-lucide="calendar-check"></i> Apply</button>
+      </div>
+      <div id="auditDateMsg" class="text-success" style="font-size:13px; margin-top:6px;"></div>
+    </div>
+
+    <p class="text-muted" style="font-size:13px; margin-bottom:14px;">
+      Datasets and 5-fold cross-fitted ML models are cached in memory for fast interactive response. Clear the cache to force fresh fitting.
+    </p>
+    <button class="btn btn-secondary" id="clearCacheBtn">
+      <i data-lucide="refresh-cw"></i> Clear Model &amp; Dataset Cache
+    </button>
+    <div id="cacheMsg" class="text-success" style="font-size:13px; margin-top:10px;"></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById("clearCacheBtn").addEventListener("click", async () => {
+  const res = await fetch("/api/settings/clear-cache", { method: "POST" });
+  const data = await res.json();
+  document.getElementById("cacheMsg").textContent = data.message || "Cache cleared.";
+});
+
+document.getElementById("setAuditDateBtn").addEventListener("click", async () => {
+  const val = document.getElementById("auditDateInput").value;
+  if (!val) { document.getElementById("auditDateMsg").textContent = "Please pick a date."; return; }
+  const res = await fetch("/api/settings/set-audit-date", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ audit_date: val })
+  });
+  const data = await res.json();
+  const msg = document.getElementById("auditDateMsg");
+  msg.textContent = data.message || "Updated.";
+  msg.className = res.ok ? "text-success" : "text-danger";
+  msg.style.fontSize = "13px";
+  msg.style.marginTop = "6px";
+  // Update topbar badge
+  const badge = document.getElementById("topbarAuditDate");
+  if (badge && data.audit_date) badge.textContent = data.audit_date;
+  RGCA.refreshIcons();
+});
+</script>
+{% endblock %}
