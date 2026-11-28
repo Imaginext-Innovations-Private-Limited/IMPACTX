@@ -249,16 +249,4 @@ How the three test bills were built, line by line, is in `tests/fixtures/sample_
 What the real lines changed: a line whose amount exceeds quantity × rate by exactly a standard
 GST rate is now amber ("may include tax"), not red.
 
-## Pilot
 
-`pilot/README.md` is the protocol for real evidence: consent, anonymising with
-`scripts/anonymise_bill.py`, two-person labels, and what to report. Nothing is claimed yet.
-
-## Limits (stated to users)
-
-Lines with no official price limit loaded (most consumables, procedures, nursing, doctor fees,
-and medicines outside the loaded NPPA list) get only arithmetic, duplicate and date checks, and
-the result says so. Room, doctor and procedure fees for cash patients are mostly not price-regulated nationally,
-so they are only compared with CGHS/HBP rates (amber). Non-scheduled medicines are checked
-against MRP only. Scheme card status comes from the user. Handwritten or damaged bills give
-grey lines. Nothing here is legal or medical advice; the hospital or an authority decides.
