@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#133d38">
+  <title>JalNetra � Lake observations</title>
+  <link rel="stylesheet" href="/style.css?v=operator-demo">
+  <script type="module" src="/app.js?v=operator-map"></script>
+  <script type="module" src="/community-drives.js"></script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="/" aria-label="JalNetra home"><span class="brand-icon" aria-hidden="true">�</span> JalNetra</a>
+    <span id="app-mode" class="scope"><span></span> Local mode</span>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="title">
+      <p class="eyebrow">LAKE MONITORING</p>
+      <h1 id="title">Report a shoreline observation</h1>
+      <p id="intro-description">Choose a lake and shoreline zone, then share a photo and any readings with the lake operator.</p>
+      <p class="pilot-actions"><a id="shared-reporting" href="/pilot.html?role=citizen" >Citizen lake map and guest reporting</a><a id="operator-reporting" href="/pilot.html?role=operator#pilot-operator">Operator sign in</a><a id="try-demo" href="/?demo=1" hidden>Try demo</a><a id="leave-demo" href="/" hidden>Back to shared reporting</a></p>
+    </section>
+    <p><a href="/community.html">Community drives</a></p>
+    <section class="card history" id="today-drives" aria-labelledby="today-drives-title" hidden>
+      <div class="card-head"><div><h2 id="today-drives-title">Today’s cleanup drives</h2><p id="today-drives-date"></p></div>
+        <a href="/community.html">View drives and register</a></div>
+      <div id="today-drives-list"></div>
+    </section>
+    <section class="card city-explorer" id="city-explorer" aria-labelledby="city-title">
+      <div class="card-head"><div><h2 id="city-title">Bengaluru lake map</h2><p>Drag to explore or zoom in to see more lake names.</p></div><button id="map-expand" class="secondary" type="button" aria-controls="city-grid" aria-expanded="false">Expand map</button></div>
+      <div class="city-grid" id="city-grid">
+        <div class="city-map-frame" id="city-map-frame">
+          <div class="map city-map" id="city-map" tabindex="0" role="region" aria-label="Interactive Bengaluru map. Arrow keys pan, plus and minus zoom, Home resets.">
+            <div id="city-map-tiles" class="map-tiles" aria-hidden="true"></div>
+            <div id="city-landmarks" class="map-zones" aria-hidden="true"></div>
+            <div id="city-markers" class="map-zones" aria-label="Bengaluru lakes on the map"></div>
+            <div class="map-zones demo-overlay" id="demo-alert-layer"><span class="demo-map-alert" id="demo-alert-marker" data-map-id="demo-alert" hidden>Demo alert</span></div>
+          </div>
+          <div class="city-controls" aria-label="Map controls">
+            <button id="map-zoom-in" type="button" aria-label="Zoom in" title="Zoom in">+</button>
+            <button id="map-zoom-out" type="button" aria-label="Zoom out" title="Zoom out">&minus;</button>
+            <button id="map-reset" type="button" aria-label="Show all Bengaluru" title="Show all Bengaluru">&#8962;</button>
+          </div>
+          <a class="map-attribution" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">&copy; OpenStreetMap contributors</a>
+        </div>
+        <div class="city-sidebar">
+          <div id="city-search-panel">
+            <label for="lake-search">Find a lake</label>
+            <input type="search" id="lake-search" placeholder="Search name or area">
+            <p id="lake-count" class="hint" role="status">Loading lakes&hellip;</p>
+            <div id="lake-choices" class="lake-choices" aria-label="Select a Bengaluru lake"></div>
+          </div>
+          <section id="lake-profile" aria-labelledby="profile-name" hidden>
+            <button id="close-lake" type="button" class="inline-action back-to-lakes">&larr; Back to lake search</button>
+            <h3 id="profile-name"></h3>
+            <p id="profile-locality"></p>
+            <p id="profile-description"></p>
+            <p id="profile-observations"></p>
+            <h4 id="sector-title">Shoreline sides</h4>
+            <p class="sector-help">Select a side to upload a photo and add readings or notes. Reporting sectors are approximate.</p>
+            <div id="sector-choices" class="sector-choices" role="group" aria-labelledby="sector-title"></div>
+            <div class="profile-links">
+              <button id="show-photo" type="button" class="inline-action">Upload a photo</button>
+              <a id="profile-report" href="/pilot.html?role=citizen" hidden>Report to lake operator</a>
+              <a id="lake-reference" target="_blank" rel="noopener">Lake reference</a>
+              <span id="city-gps"></span>
+            </div>
+            <details id="concern-box" class="card concern-card">
+              <summary>Raise a concern</summary>
+              <form id="concern-form">
+                <p class="hint">Describe what you observed. Please leave out names and contact details.</p>
+                <label for="concern-zone">Shoreline side</label>
+                <select id="concern-zone" name="zoneId" required></select>
+                <label for="concern-type">Concern type</label>
+                <select id="concern-type" name="category" required>
+                  <option value="">Choose a concern type</option>
+                  <option value="dumping">Garbage or waste dumping</option>
+                  <option value="suspected-discharge">Suspected industrial or wastewater discharge</option>
+                  <option value="sewage">Sewage or drain overflow</option>
+                  <option value="other">Other shoreline concern</option>
+                </select>
+                <label for="concern-description">What did you see?</label>
+                <textarea id="concern-description" name="description" maxlength="500" rows="3" placeholder="Describe what happened and add a nearby landmark if helpful." required></textarea>
+                <button class="primary" id="save-concern" type="submit">Save concern</button>
+                <p class="hint">Your concern stays in this browser's demo session. Download a copy to share it yourself.</p>
+                <p id="concern-status" class="feedback" role="status"></p>
+              </form>
+              <ul id="concern-list" class="concern-list" aria-label="Your saved concerns"></ul>
+            </details>
+            <div id="city-report"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+    <section class="card evidence-panel history" id="demo-concern-tools" aria-label="Demonstrate a shoreline concern" hidden>
+      <div class="pilot-actions"><button class="primary" type="button" id="send-demo-concern">Send demo concern</button><a id="open-demo-operator" hidden>Open demo in operator workspace</a></div>
+      <p class="hint">Show the reporting workflow with a sample photo and a simulated map alert.</p>
+      <p id="demo-concern-feedback" role="status"></p>
+    </section>
+    <section id="rehearsal-tools" class="rehearsal" aria-label="Demo rehearsal" hidden>
+      <button id="restart-rehearsal" class="secondary" type="button">Start rehearsal</button>
+      <p id="rehearsal-status" role="status">Start with one foam observation at North Inlet. Rehearsal data is cleared when the server stops.</p>
+    </section>
+    <div class="workspace" id="demo-workspace" hidden>
+      <section class="card map-card" aria-labelledby="map-title">
+        <div class="card-head"><div><h2 id="map-title">Demo Lake</h2><p>Shoreline zone map</p></div><span id="map-kind" class="tag">Illustrative</span></div>
+        <div class="map-controls">
+          <div><label for="lake-select">Lake</label><select id="lake-select"></select></div>
+          <button id="gps-zone" class="secondary" type="button" hidden>Suggest zone from GPS</button>
+        </div>
+        <div class="map" id="lake-map">
+          <div id="map-tiles" class="map-tiles" aria-hidden="true" hidden></div>
+          <svg id="illustrative-map" viewBox="0 0 500 320" preserveAspectRatio="none" aria-hidden="true">
+            <defs><pattern id="grid" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M25 0H0V25" stroke="#57897c" stroke-opacity=".14" fill="none"/></pattern></defs>
+            <rect width="500" height="320" fill="url(#grid)"/>
+            <path d="M-10 93C76 44 108 83 167 44S320 10 376 41 423 71 518 48M-12 270C73 218 101 285 192 296S364 302 411 259 473 258 522 236" class="contour"/>
+            <path d="M119 137C126 106 153 100 169 75S242 62 276 81C319 107 355 89 371 121 390 159 357 182 327 195S309 243 260 253 204 230 181 213 111 185 119 137Z" class="shore"/>
+            <path d="M125 143C132 113 167 103 178 82S243 72 273 89C318 115 348 100 363 127 382 157 349 177 322 187S304 233 259 244 211 222 186 206 117 179 125 143Z" class="lake"/>
+            <path d="M165 151c30-8 45-1 67 4s40 3 57-3m-102 29c26-5 49 14 78 8m-28-68c23 11 47 15 68 10" class="water-lines"/>
+            <path d="M453 280v-26l-5 7m5-7 5 7" class="north"/>
+            <text x="453" y="245" text-anchor="middle" class="north-label">N</text>
+          </svg>
+          <div id="map-zones" class="map-zones" aria-label="Select a zone on the map"></div>
+          <a id="map-attribution" class="map-attribution" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" hidden>c OpenStreetMap contributors</a>
+        </div>
+        <p id="map-help" class="map-help">Select a marker to see that zone's evidence or choose a zone in the form.</p>
+        <p id="gps-status" class="map-help" role="status" hidden></p>
+        <p id="selected-shoreline" class="map-help" hidden><span id="selected-shoreline-label"></span> <a href="#photo">Go to photo upload</a></p>
+        <section class="evidence-panel" aria-labelledby="evidence-title">
+          <h3 id="evidence-title">Zone evidence</h3>
+          <div id="evidence-content" aria-live="polite"></div>
+        </section>
+      </section>
+      <section class="card form-card" id="observation-card" aria-labelledby="form-title">
+        <div class="card-head"><div><h2 id="form-title" tabindex="-1">New observation</h2><p>Photo, location and observation time</p></div></div>
+        <form id="report-form">
+          <label for="zone">Shoreline zone</label>
+          <select id="zone" name="zoneId" required><option value="">Choose a zone</option></select>
+          <label for="observed-at">Observed at <span class="hint">(device time)</span></label>
+          <input id="observed-at" name="observedAt" type="datetime-local" required>
+          <label for="photo">Shoreline photo</label>
+          <div class="upload">
+            <input id="photo" type="file" accept="image/jpeg,image/png" aria-describedby="photo-help" required>
+            <p id="photo-help">JPEG or PNG, up to 5 MB</p>
+            <div id="sample-controls" hidden>
+              <label for="demo-sample">Offline demo images</label>
+              <select id="demo-sample"><option value="">Choose a labelled sample</option></select>
+              <p>Illustrated fixtures use simulated results.</p>
+            </div>
+            <img id="preview" alt="Selected shoreline photo" hidden>
+          </div>
+          <details>
+            <summary>Optional readings and notes</summary>
+            <div class="readings">
+              <div><label for="ph">pH</label><input id="ph" name="ph" type="number" min="0" max="14" step="any"></div>
+              <div><label for="temperature">Temperature (�C)</label><input id="temperature" name="temperatureC" type="number" min="-20" max="100" step="any"></div>
+            </div>
+            <label for="note">Notes</label>
+            <textarea id="note" name="note" maxlength="500" rows="2"></textarea>
+          </details>
+          <button id="submit" class="primary" type="submit">Save observation</button>
+          <p id="form-status" class="feedback" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </div>
+    <div id="city-evidence" class="card history" hidden></div>
+    <section class="card history" aria-labelledby="readings-title" hidden>
+      <div class="card-head">
+        <div><h2 id="readings-title">Water readings</h2><p>Last 30 days � up to 100 observations � IST</p></div>
+        <div class="reading-filter"><label for="reading-zone">Reading zone</label><select id="reading-zone"></select></div>
+      </div>
+      <p id="reading-status" class="readings-status" role="status"></p>
+      <div class="reading-charts">
+        <section aria-labelledby="ph-title"><h3 id="ph-title">pH</h3><canvas id="ph-chart" width="520" height="186" role="img" hidden></canvas><p id="ph-empty">No pH readings in this view.</p></section>
+        <section aria-labelledby="temp-title"><h3 id="temp-title">Temperature (�C)</h3><canvas id="temperature-chart" width="520" height="186" role="img" hidden></canvas><p id="temperature-empty">No temperature readings in this view.</p></section>
+      </div>
+      <div id="readings-table" class="readings-table" hidden>
+        <table>
+          <caption>Recorded water readings</caption>
+          <thead><tr><th scope="col">Observed (IST)</th><th scope="col">Zone</th><th scope="col">pH</th><th scope="col">Temperature (�C)</th><th scope="col">Source</th></tr></thead>
+          <tbody id="reading-rows"></tbody>
+        </table>
+      </div>
+    </section>
+    <dialog id="draft-dialog" aria-labelledby="draft-title">
+      <div class="card-head">
+        <div><h2 id="draft-title">Civic complaint draft</h2><p>Review the wording and verify the recipient.</p></div>
+        <button id="close-draft" type="button" class="secondary">Close</button>
+      </div>
+      <form id="draft-form">
+        <label for="recipient">Recipient</label>
+        <input id="recipient" maxlength="160" placeholder="Verify civic body">
+        <label for="draft-text">Draft text</label>
+        <textarea id="draft-text" maxlength="20000" rows="11" required></textarea>
+        <p id="draft-evidence" class="hint"></p>
+        <div class="draft-actions">
+          <button class="secondary" id="save-draft" type="submit">Save changes</button>
+          <button class="primary" id="download-draft" type="button">Download draft</button>
+        </div>
+        <p id="draft-status" class="feedback" role="status"></p>
+      </form>
+    </dialog>
+    <section class="card history" aria-labelledby="history-title" hidden>
+      <div class="card-head"><div><h2 id="history-title">Recent observations</h2><p>Times shown in IST</p></div></div>
+      <p id="history-status" role="status">Loading observations.</p>
+      <ul id="report-list" class="report-list"></ul>
+    </section>
+  </main>
+</body>
+</html>
+

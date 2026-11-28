@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>JalNetra — Shared lake reporting</title>
+  <link rel="stylesheet" href="/style.css?v=shoreline-map">
+  <script type="module" src="/pilot-app.js?v=community-follow-up"></script>
+</head>
+<body>
+  <header class="top"><a class="brand" href="/">JalNetra</a><a class="scope" href="/community.html#organizers">Community drives</a><a class="scope" id="pilot-map-link" href="/">Bengaluru lake map</a></header>
+<main>
+  <section class="intro"><h1>Shared lake reporting</h1><p>Browse lake conditions and submit shoreline reports as a guest. Lake operators can sign in to review reports.</p></section>
+  <p id="pilot-status" class="feedback" role="status"></p>
+  <div id="pilot-auth" hidden>
+    <section class="card" id="pilot-operator" aria-labelledby="pilot-operator-title">
+      <div class="card-head"><div><h2 id="pilot-operator-title">Operator sign in</h2><p>Review reports for your assigned lakes.</p></div></div>
+      <form id="pilot-operator-login">
+        <label for="operator-email">Email</label><input type="email" id="operator-email" name="email" required maxlength="254" autocomplete="email">
+        <label for="operator-password">Password</label><input type="password" id="operator-password" name="password" required minlength="8" maxlength="128" autocomplete="current-password">
+        <button class="primary" type="submit" value="signin">Operator sign in</button>
+        <button class="inline-action" data-reset-password type="button">Forgot password?</button>
+      </form>
+    </section>
+  </div>
+  <section class="card" id="pilot-reset" hidden aria-labelledby="pilot-reset-title">
+    <div class="card-head"><h2 id="pilot-reset-title">Set a new password</h2></div>
+    <form id="pilot-reset-form">
+      <label for="pilot-new-password">New password</label>
+      <input type="password" id="pilot-new-password" required minlength="8" maxlength="128" autocomplete="new-password">
+      <button class="primary" type="submit">Update password</button>
+    </form>
+  </section>
+  <div id="pilot-workspace" hidden>
+    <section class="card">
+      <div class="card-head"><div><h2 id="pilot-account">Your account</h2><p id="pilot-role"></p></div><button type="button" id="pilot-signout" class="secondary">Sign out</button></div>
+      <div class="map-controls"><div><label for="pilot-lake">Lake</label><select id="pilot-lake"></select></div></div>
+    </section>
+    <section class="card history" id="pilot-admin" hidden>
+      <div class="card-head"><div><h2>Manage lake roles</h2><p>People appear here after joining this lake.</p></div></div>
+      <form id="pilot-members">
+        <label for="pilot-member">Account ID</label><input id="pilot-member" required maxlength="36">
+        <label for="pilot-member-role">Role</label><select id="pilot-member-role"><option value="operator">Operator</option><option value="citizen">Citizen</option></select>
+        <button class="primary" type="submit">Update role</button>
+      </form>
+      <ul id="pilot-member-list" class="pilot-records"></ul>
+    </section>
+    <section class="card history" id="citizen-conditions" hidden aria-labelledby="citizen-conditions-title">
+      <div class="card-head"><div><h2 id="citizen-conditions-title">Lake conditions</h2><p>Shoreline observations from the last seven days. Use these reports to see visible issues around a lake.</p></div><button type="button" class="secondary" id="conditions-refresh">Refresh map</button></div>
+      <div class="map conditions-map" id="conditions-map">
+        <div class="map-tiles" id="conditions-tiles" aria-hidden="true"></div>
+        <div class="map-zones" id="conditions-markers" aria-label="Lake status markers"></div>
+        <a class="map-attribution" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>
+      </div>
+      <div class="evidence-panel">
+        <div class="pilot-actions conditions-legend" aria-label="Map legend">
+          <span data-state="verified">Verified concern</span><span data-state="pending">Awaiting review</span>
+          <span data-state="clear">No visible issue in reviewed photo</span><span data-state="unknown">No recent information</span>
+        </div>
+        <p class="hint">A photo cannot establish water quality or whether a lake is safe to enter.</p>
+        <div id="conditions-detail" aria-live="polite"></div>
+      </div>
+    </section>
+    <section class="card history" aria-labelledby="community-board-title">
+      <div class="card-head"><div><h2 id="community-board-title">Community action</h2>
+        <a id="community-drive-link" href="/community.html">Community drives</a></div>
+        <button type="button" class="secondary" id="community-refresh">Refresh</button></div>
+      <p id="community-status" role="status"></p>
+      <div id="community-alerts" aria-live="polite" hidden></div>
+      <div id="community-board"></div>
+    </section>
+    <div class="workspace history" id="pilot-intake" hidden>
+      <section class="card"><div class="card-head"><h2>Submit a shoreline photo</h2></div>
+        <form id="pilot-photo-form">
+          <p id="pilot-follow-up-status" class="hint" hidden></p>
+          <button id="pilot-follow-up-cancel" class="secondary" type="button" hidden>Switch to shoreline observation</button>
+          <label for="pilot-zone">Shoreline side</label><select id="pilot-zone" name="zone_id" required></select>
+          <label for="pilot-observed">Observed at (device time)</label><input type="datetime-local" id="pilot-observed" required>
+          <label for="pilot-photo">Photo (JPEG or PNG, up to 5 MB)</label><input type="file" id="pilot-photo" accept="image/jpeg,image/png" required>
+          <p class="hint">Water readings are optional. Enter values only if you measured them. Lake operators can review the photo and request automated image analysis.</p>
+          <div class="readings"><div><label for="pilot-ph">pH</label><input id="pilot-ph" name="ph" type="number" min="0" max="14" step="any"></div><div><label for="pilot-temp">Temperature (°C)</label><input id="pilot-temp" name="temperature_c" type="number" min="-20" max="100" step="any"></div></div>
+          <label for="pilot-note">Optional notes</label><textarea id="pilot-note" name="note" maxlength="500" rows="2"></textarea>
+          <button class="primary" type="submit">Save and analyze photo</button>
+          <div id="pilot-preliminary" aria-live="polite"></div>
+        </form>
+      </section>
+      <section class="card"><div class="card-head"><h2>Raise a concern</h2></div>
+        <form id="pilot-concern-form">
+          <label for="pilot-concern-zone">Shoreline side</label><select id="pilot-concern-zone" name="zone_id" required></select>
+          <label for="pilot-concern-type">Concern type</label>
+          <select id="pilot-concern-type" name="category" required><option value="dumping">Waste dumping</option><option value="suspected-discharge">Suspected industrial or wastewater discharge</option><option value="sewage">Sewage or drain overflow</option><option value="other">Other shoreline concern</option></select>
+          <label for="pilot-concern-text">What did you observe?</label><textarea id="pilot-concern-text" name="description" maxlength="500" rows="4" required></textarea>
+          <p class="hint" id="pilot-linked-report" hidden></p>
+          <p class="hint">Describe what you saw and omit names and contact details. Authorized lake operators can view your submission.</p>
+          <button class="primary" type="submit">Save shared concern</button>
+        </form>
+      </section>
+    </div>
+    <section class="card history" id="operator-demo-concern" hidden aria-labelledby="operator-demo-title">
+      <div class="card-head"><div><h2 id="operator-demo-title">Demo concern</h2><p>Simulated evidence for the presentation</p></div>
+      <button type="button" class="secondary" id="refresh-demo-concern">Refresh demo</button></div>
+      <div class="map conditions-map shoreline-map" id="operator-demo-map" role="region" aria-label="Simulated concern location" hidden>
+        <div class="shoreline-map-name" id="operator-demo-map-name"></div><span class="shoreline-north" aria-label="North is up">↑ N</span>
+        <div class="map-zones demo-overlay" id="operator-demo-markers"><span class="demo-map-alert" id="operator-demo-marker">Demo alert</span></div>
+        <span class="shoreline-map-caption">Approximate sector location</span>
+        <a class="map-attribution" id="operator-demo-street-map" target="_blank" rel="noopener">Open street map</a>
+      </div>
+      <div class="evidence-panel" id="operator-demo-content" aria-live="polite"></div>
+    </section>
+    <section class="card history"><div class="card-head"><div><h2>Lake reports</h2><p id="pilot-report-scope"></p></div><button class="secondary" id="pilot-reload" type="button">Refresh</button></div><div class="map-controls" id="pilot-report-controls">
+      <div id="pilot-review-filter" hidden><label for="pilot-review-state">Review queue</label><select id="pilot-review-state"><option value="">All reports</option><option value="pending">Needs review</option></select></div>
+      <button class="secondary" id="pilot-prev" type="button" disabled>Previous</button><button class="secondary" id="pilot-next" type="button" disabled>Next</button>
+    </div><ul id="pilot-reports" class="pilot-records"></ul></section>
+    <section class="card history"><div class="card-head"><h2>Lake concerns</h2></div><ul id="pilot-concerns" class="pilot-records"></ul></section>
+    <dialog id="pilot-complaint" aria-labelledby="pilot-complaint-title">
+      <div class="card-head"><h2 id="pilot-complaint-title">Civic complaint draft</h2><button id="pilot-complaint-close" class="secondary" type="button">Close</button></div>
+      <p id="pilot-complaint-routing" class="hint"></p>
+      <div class="pilot-actions" id="pilot-complaint-links"></div>
+      <form id="pilot-complaint-form">
+        <label for="pilot-complaint-recipient">Recipient</label>
+        <input id="pilot-complaint-recipient" maxlength="160" required>
+        <label for="pilot-complaint-text">Draft text</label>
+        <textarea id="pilot-complaint-text" rows="12" required></textarea>
+        <div class="pilot-actions"><button class="primary" type="submit">Download draft</button><button class="secondary" id="pilot-export-evidence" type="button">Download draft with photos</button></div><p id="pilot-export-status" class="feedback" role="status"></p>
+      </form>
+    </dialog>
+  </div>
+</main>
+</body>
+</html>
