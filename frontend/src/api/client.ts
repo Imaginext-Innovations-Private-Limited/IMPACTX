@@ -186,6 +186,14 @@ export interface CXConversationTurn {
 export type CXConversationAction =
   | { kind: "route"; source?: string; destination?: string }
   | { kind: "weather"; hours?: number; day?: "today" | "tomorrow"; at_end?: boolean; focus?: "rain_probability" }
+  | { kind: "show-place"; query: string }
+  | { kind: "layer"; layer: "floodDepth" | "heat" | "cityRoads" | "surfaceTemperature" | "combined"; enabled?: boolean }
+  | { kind: "workspace"; panel: "map" | "rainfall" | "drive" | "weatherReport" | "outlook" | "replay" | "data" | "compare" }
+  | { kind: "pan"; direction: "left" | "right" | "up" | "down" | "north" | "south" | "east" | "west" }
+  | { kind: "zoom"; steps: number }
+  | { kind: "simulation"; preset: "light" | "moderate" | "heavy" }
+  | { kind: "simulation"; intensity: number; duration: number }
+  | { kind: "flood-demo" } | { kind: "stop-simulation" } | { kind: "reset-map" }
   | { kind: "eta" | "direction" };
 
 type CXConversationResponse = { status: "ready"; reply: string; action?: CXConversationAction }
@@ -208,6 +216,11 @@ export interface CityFloodCell {
 export type CityFloodResponse =
   | { status: "unavailable"; message: string }
   | { status: "ready"; rainfall_mm: number; grid_m: number; source: string; model: string; cells: CityFloodCell[] };
+
+export type RoadRunoffForecast =
+  | { status: "unavailable"; message: string }
+  | { status: "ready"; forecast_through: string; forecast_points: number; grid_m: number;
+      cells: Pick<CityFloodCell, "rings" | "screen_mm">[] };
 
 export interface GeoLineString {
   type: "LineString";
@@ -302,7 +315,7 @@ export type WeatherAvailabilityResponse =
       model_note: string;
       cell_selection: string;
       requested_location: { latitude: number; longitude: number };
-      grid_cell_center: { latitude: number; longitude: number; elevation_m: number };
+      grid_cell_center: { latitude: number; longitude: number; elevation_m: number | null };
       spatial_resolution_m: number | null;
       spatial_resolution_note: string;
       timezone: string;
@@ -515,6 +528,33 @@ export const api = {
     request<PlaceSearchResponse>(`/api/places/search?query=${encodeURIComponent(query)}`, { signal }),
   getCityFlood: (rainfallMm: number, signal: AbortSignal) =>
     request<CityFloodResponse>(`/api/flood/city?rainfall_mm=${rainfallMm}`, { signal }),
+  getRoadRunoffForecast: async (signal: AbortSignal): Promise<RoadRunoffForecast> => {
+    const forecast = await request<RoadRunoffForecast>("/api/weather/road-runoff", { signal }).catch(() => {
+      signal.throwIfAborted();
+      return { status: "unavailable" as const, message: "Could not load the Bengaluru road forecast." };
+    });
+    if (forecast.status === "ready") return forecast;
+
+    // Use the central Bengaluru hourly forecast and the existing municipal
+    // model while the multi-point weather endpoint is unavailable.
+    try {
+      const weather = await api.getWeatherNowcast(signal);
+      if (weather.status !== "ready" || weather.is_stale || !(Date.parse(weather.forecast_through) > Date.now())) return forecast;
+      const rainfall = Number((weather.recent_rain_mm + weather.upcoming_rain_mm).toFixed(2));
+      if (!(rainfall >= 0 && rainfall <= 500)) return forecast;
+      const result = await api.getCityFlood(rainfall, signal);
+      if (result.status === "ready") return {
+        status: "ready",
+        forecast_points: 1,
+        forecast_through: weather.forecast_through,
+        grid_m: result.grid_m,
+        cells: result.cells.filter((cell) => cell.screen_mm !== null && cell.screen_mm >= 1),
+      };
+    } catch {
+      signal.throwIfAborted();
+    }
+    return forecast;
+  },
   listStormBacktests: (signal: AbortSignal) =>
     request<{ events: StormBacktestEvent[] }>("/api/backtest", { signal }),
   getStormBacktest: (eventId: string, signal: AbortSignal) =>

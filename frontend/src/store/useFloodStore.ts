@@ -28,6 +28,10 @@ export interface LayerVisibility {
 
 export type VehicleType = "ambulance" | "fire" | "rescue" | "police";
 export const floodDemoPreset = { id: "flood-demo", intensity: 100, duration: 120 } as const;
+export const rainfallLimits = {
+  intensity: { min: 5, max: 150 },
+  duration: { min: 15, max: 180 },
+} as const;
 
 export interface AppliedRainfallScenario {
   revision: number;
@@ -72,6 +76,7 @@ interface FloodStore {
   runScenario: (scenarioId: string, offsets: TemperatureOffsets) => Promise<void>;
   runCustomRainfall: (intensity: number, duration: number, offsets: TemperatureOffsets, floodDemo?: boolean) => Promise<void>;
   stopSimulation: () => void;
+  hasPendingRainfall: () => boolean;
   computeRoute: (start: LatLng, end: LatLng, vehicle?: VehicleType) => Promise<void>;
   setVehicleType: (vt: VehicleType) => void;
   setSelectedRouteId: (id: string) => void;
@@ -214,6 +219,8 @@ export const useFloodStore = create<FloodStore>((set, get) => {
       intensity, duration, floodDemo ? floodDemoPreset.id : null, offsets,
       (signal) => api.simulate(intensity, duration, signal)),
 
+    hasPendingRainfall: () => scenarioRequest !== null,
+
     stopSimulation: () => {
       scenarioRequest?.abort();
       scenarioRequest = null;
@@ -229,7 +236,7 @@ export const useFloodStore = create<FloodStore>((set, get) => {
         route: null,
         loading: false,
         error: null,
-        layerVisibility: { ...state.layerVisibility, cityRunoff: false, pilotFlood: false, cityRoads: false, pilotExposure: false },
+        layerVisibility: { ...state.layerVisibility, cityRunoff: false, pilotFlood: false, pilotExposure: false },
       }));
     },
 

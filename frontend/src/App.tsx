@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Route, Routes } from "react-router-dom";
 import { api, type CityFloodResponse, type LatLng } from "./api/client";
 import FloodProvenancePanel from "./components/FloodProvenancePanel";
 import HistoricalFloodTimeline from "./components/HistoricalFloodTimeline";
@@ -11,6 +10,7 @@ import KpiStatsRow from "./components/KpiStatsRow";
 import { useDrivingPlanner, type Endpoint } from "./map/drivingPlanner";
 import MapView from "./components/MapView";
 import MapMascot from "./components/mascot/MapMascot";
+import type { CXCameraAction, CXSiteAction } from "./components/mascot/cxCommands";
 import PlaceSearch, { type MapPlace } from "./components/PlaceSearch";
 import RouteComparisonPanel from "./components/RouteComparisonPanel";
 import ScenarioComparison from "./components/ScenarioComparison";
@@ -22,12 +22,13 @@ import TwoDayWeatherReport from "./components/TwoDayWeatherReport";
 import WardInspector, { type WardSummary } from "./components/WardInspector";
 import { summarizeWardRunoff, type WardEvidenceIndex } from "./map/wardEvidence";
 import UncertaintyPanel from "./components/UncertaintyPanel";
-import { useFloodStore } from "./store/useFloodStore";
+import { floodDemoPreset, rainfallLimits, useFloodStore } from "./store/useFloodStore";
 import { loadIndiaCities } from "./map/indiaCities";
-import { isBengaluruWard } from "./map/places";
+import { isBengaluruWard, supportsBengaluruSimulation } from "./map/places";
 
 const layers = [
   { key: "floodDepth", name: "Flood", icon: "flood", description: "24-hour rainfall screening proxy" },
+  { key: "cityRoads", name: "Road flood risk", icon: "route", description: "Bengaluru road segments" },
   { key: "heat", name: "Heat", icon: "heat", description: "2 m air-temperature forecast" },
   { key: "surfaceTemperature", name: "Surface temperature", icon: "heat", description: "Daily daytime satellite imagery" },
   { key: "combined", name: "Combined", icon: "heat", description: "Rain and air-temperature overlap screen" },
@@ -56,16 +57,17 @@ const workspaces: { id: ToolPanel | null; label: string }[] = [
 ];
 
 const BENGALURU_DEFAULT: LatLng = { lat: 12.97194, lng: 77.59369 };
+const BENGALURU_ROAD_VIEW: MapPlace = {
+  id: "bengaluru-road-view", name: "Bengaluru", center: [BENGALURU_DEFAULT.lng, BENGALURU_DEFAULT.lat],
+  bounds: [77.49, 12.88, 77.70, 13.06],
+};
 
-function isBengaluruArea(place: MapPlace | null) {
-  return Boolean(place && /bengaluru|bangalore|bellandur/i.test(place.name)
-    && place.center[0] >= 77.39 && place.center[0] <= 77.85
-    && place.center[1] >= 12.57 && place.center[1] <= 13.21);
-}
-
-function MapLayers({ cityFlood }: { cityFlood: CityFloodResponse | null }) {
+function MapLayers({ cityFlood, onRoadToggle, onBengaluru }: {
+  cityFlood: CityFloodResponse | null; onRoadToggle: () => void; onBengaluru?: () => void;
+}) {
   const visibility = useFloodStore((s) => s.layerVisibility);
   const toggleLayer = useFloodStore((s) => s.toggleLayer);
+  const simulationActive = useFloodStore((s) => s.simulationActive);
   const heatOffset = useFloodStore((s) => s.heatOffsetC);
   const heatStatus = "India-wide 2 m air-temperature forecast, where data is available.";
   const surfaceTemperatureStatus = "Daily daytime satellite land-surface temperature imagery; separate from air temperature and may have cloud gaps.";
@@ -73,7 +75,8 @@ function MapLayers({ cityFlood }: { cityFlood: CityFloodResponse | null }) {
   const floodStatus = cityFlood?.status === "ready" ?
     `Local 24-hour runoff screening · ${Number(cityFlood.rainfall_mm.toFixed(1))} mm scenario` :
     `Local runoff screening · ${cityFlood?.message ?? "Data unavailable."}`;
-  const status = { floodDepth: floodStatus, heat: heatStatus, surfaceTemperature: surfaceTemperatureStatus, combined: combinedStatus };
+  const status = { floodDepth: floodStatus, heat: heatStatus, surfaceTemperature: surfaceTemperatureStatus, combined: combinedStatus,
+    cityRoads: simulationActive ? "Colors follow the active rainfall scenario." : "Colors show modeled runoff for the next 3 hours." };
 
   return (
     <section className="layer-bar" aria-labelledby="layer-title">
@@ -82,7 +85,7 @@ function MapLayers({ cityFlood }: { cityFlood: CityFloodResponse | null }) {
         {layers.map(({ key, name, icon, description }) => (
           <div key={key} className={`layer-item layer-${icon}`}>
             <label className="layer-row">
-              <input type="checkbox" checked={visibility[key]} onChange={() => toggleLayer(key)}
+              <input type="checkbox" checked={visibility[key]} onChange={key === "cityRoads" ? onRoadToggle : () => toggleLayer(key)}
                 aria-labelledby={`label-${key}`}
                 aria-describedby={visibility[key] ? `status-${key}` : undefined} />
               <span className="layer-symbol"><Icon name={icon} /></span>
@@ -95,6 +98,8 @@ function MapLayers({ cityFlood }: { cityFlood: CityFloodResponse | null }) {
             <div className="layer-note" aria-live="polite">
               {visibility[key] && <p id={`status-${key}`}>{status[key]}{key === "heat" && heatOffset !== 0 &&
                 ` · ${heatOffset > 0 ? "+" : ""}${heatOffset} °C scenario offset`}</p>}
+              {key === "cityRoads" && visibility.cityRoads && onBengaluru &&
+                <button className="pick-button" type="button" onClick={onBengaluru}>View Bengaluru roads</button>}
             </div>
           </div>
         ))}
@@ -103,7 +108,7 @@ function MapLayers({ cityFlood }: { cityFlood: CityFloodResponse | null }) {
   );
 }
 
-function Dashboard() {
+export default function App() {
   const loadInitial = useFloodStore((s) => s.loadInitial);
   const error = useFloodStore((s) => s.error);
   const simulationActive = useFloodStore((s) => s.simulationActive);
@@ -118,7 +123,7 @@ function Dashboard() {
   const [wardRequest, setWardRequest] = useState(0);
   const currentPlace = useRef(place);
   currentPlace.current = place;
-  const showCityFlood = useFloodStore((s) => s.simulationActive && isBengaluruArea(place)
+  const showCityFlood = useFloodStore((s) => s.simulationActive && supportsBengaluruSimulation(place)
     && (s.layerVisibility.floodDepth || s.layerVisibility.cityRoads || Boolean(place?.corporation)));
   const [currentArea, setCurrentArea] = useState<{ location: LatLng; name: string } | null>(null);
   const [cityFlood, setCityFlood] = useState<{ rainfallMm: number; value: CityFloodResponse } | null>(null);
@@ -128,19 +133,20 @@ function Dashboard() {
   const [reloadCount, setReloadCount] = useState(0);
   const [picking, setPicking] = useState<Endpoint | null>(null);
   const drive = useDrivingPlanner();
+  const cameraControl = useRef<((action: CXCameraAction) => void) | null>(null);
   const weatherLocation = drive.navigationLocation ?? (place
     ? { lat: place.center[1], lng: place.center[0] } : currentArea?.location ?? BENGALURU_DEFAULT);
   const weatherLocationName = drive.navigationLocation ? "Current location"
     : place?.id === "device-location" ? currentArea?.name ?? "Current location"
       : place?.name.split(",")[0] ?? currentArea?.name ?? "Bengaluru";
-  const selectPlace = useCallback((nextPlace: MapPlace | null) => {
+  const selectPlace = useCallback((nextPlace: MapPlace | null, keepPanelOpen = false) => {
     setPlace(nextPlace);
-    if (nextPlace && toolsOpen) {
+    if (nextPlace && toolsOpen && !keepPanelOpen) {
       setPanel(null);
       setToolsOpen(false);
     }
     if (useFloodStore.getState().simulationActive
-      && (currentPlace.current?.id !== nextPlace?.id || !isBengaluruArea(nextPlace))) stopSimulation();
+      && (currentPlace.current?.id !== nextPlace?.id || !supportsBengaluruSimulation(nextPlace))) stopSimulation();
   }, [stopSimulation, toolsOpen]);
   const handleCurrentLocation = useCallback((location: LatLng) => {
     setCurrentArea({ location, name: "Your area" });
@@ -222,7 +228,86 @@ function Dashboard() {
     return () => controller.abort();
   }, [rainfallMm, showCityFlood, reloadCount]);
 
-  const displayedFlood = cityFlood?.rainfallMm === rainfallMm ? cityFlood.value : null;
+  const displayedFlood = showCityFlood && cityFlood?.rainfallMm === rainfallMm ? cityFlood.value : null;
+  function toggleRoadForecast() {
+    toggleLayer("cityRoads");
+    if (useFloodStore.getState().layerVisibility.cityRoads && !place) selectPlace(BENGALURU_ROAD_VIEW);
+  }
+  async function performCXAction(action: CXSiteAction) {
+    if (action.kind === "pan" || action.kind === "zoom" || action.kind === "reset-map") {
+      if (drive.navigationMode !== "idle" && drive.navigationMode !== "error") {
+        return "The map is following your trip. Stop navigation or the car demo before moving it with CX.";
+      }
+      if (!cameraControl.current) return "The map is unavailable right now.";
+      cameraControl.current(action);
+      if (action.kind === "reset-map") return "Showing all of India.";
+      if (action.kind === "pan") return `Panned the map ${action.direction}.`;
+      return `Zoomed ${action.steps > 0 ? "in" : "out"} ${Math.abs(action.steps)} ${Math.abs(action.steps) === 1 ? "level" : "levels"}.`;
+    }
+    if (action.kind === "simulation-help") {
+      return "Say run a moderate storm, run flood demo, or simulate 60 millimetres per hour for 90 minutes.";
+    }
+    if (action.kind === "flood-demo" || action.kind === "simulation") {
+      const store = useFloodStore.getState();
+      const preset = action.kind === "simulation" && "preset" in action
+        ? store.scenarios.find((item) => item.label.toLowerCase().startsWith(action.preset))
+        : undefined;
+      if (action.kind === "simulation" && "preset" in action && !preset) {
+        return `The ${action.preset} rainfall preset is unavailable. Try again or give me a rainfall intensity and duration.`;
+      }
+      const custom = action.kind === "simulation" && "intensity" in action ? action : floodDemoPreset;
+      const { intensity, duration } = rainfallLimits;
+      const valid = custom.intensity >= intensity.min && custom.intensity <= intensity.max
+        && custom.duration >= duration.min && custom.duration <= duration.max;
+      if (!preset && !valid) {
+        return `Use ${intensity.min} to ${intensity.max} millimetres per hour and a duration of ${duration.min} to ${duration.max} minutes.`;
+      }
+      const previous = store.appliedRainfall?.revision;
+      if (!supportsBengaluruSimulation(place)) selectPlace(BENGALURU_ROAD_VIEW);
+      const offsets = { air: store.heatOffsetC, surface: store.surfaceOffsetC };
+      if (preset) await store.runScenario(preset.scenario_id, offsets);
+      else await store.runCustomRainfall(custom.intensity, custom.duration, offsets, action.kind === "flood-demo");
+      const applied = useFloodStore.getState().appliedRainfall;
+      if (!applied || applied.revision === previous) return "The rainfall simulation didn’t start. Check Scenarios and try again.";
+      return action.kind === "flood-demo" ? "The Bengaluru flood demo is running with 200 millimetres of hypothetical rainfall over two hours."
+        : `Applied a Bengaluru rainfall simulation of ${Number(applied.rainfallMm.toFixed(1))} millimetres over ${applied.durationMin} minutes. The map shows modeled runoff.`;
+    }
+    if (action.kind === "stop-simulation") {
+      const store = useFloodStore.getState();
+      if (!store.simulationActive && !store.hasPendingRainfall()) return "There’s no rainfall simulation running.";
+      stopSimulation();
+      return "Stopped the rainfall simulation.";
+    }
+    if (action.kind === "select-place") {
+      if (drive.navigationMode !== "idle" && drive.navigationMode !== "error") {
+        return "The map is following your trip. Stop navigation or the car demo before moving it with CX.";
+      }
+      const { id, name, lat, lng } = action.place;
+      selectPlace({ id, name, center: [lng, lat], bounds: [lng - 0.08, lat - 0.08, lng + 0.08, lat + 0.08] });
+      return `Showing ${name.split(",").slice(0, 3).join(",")} on the map.`;
+    }
+    if (action.kind === "layer") {
+      const current = useFloodStore.getState().layerVisibility[action.layer];
+      const enabled = action.enabled ?? !current;
+      if (current !== enabled) toggleLayer(action.layer);
+      if (action.layer === "cityRoads" && enabled && !supportsBengaluruSimulation(place)) {
+        selectPlace(BENGALURU_ROAD_VIEW);
+      }
+      return `The ${action.label} layer is ${enabled ? "on" : "off"}.`;
+    }
+    setPicking(null);
+    setWeatherOpen(action.panel === "outlook");
+    if (action.panel === "map" || action.panel === "outlook") {
+      setToolsOpen(false);
+      setPanel(null);
+    } else {
+      workspaceTrigger.current = null;
+      setPanel(action.panel);
+      setToolsOpen(true);
+    }
+    const label = toolOptions.find((option) => option.id === action.panel)?.label ?? "map";
+    return `Opened ${label.toLowerCase()}.`;
+  }
   const selectedWard = isBengaluruWard(place) ? place : null;
   const selectedWardId = selectedWard?.id;
   const selectedWardEvidence = selectedWard ? wardIndex?.[selectedWard.id] ?? null : null;
@@ -260,8 +345,8 @@ function Dashboard() {
     <div className="cityshield">
       <a className="skip-link" href="#atlas">Skip to atlas</a>
       <header className="site-header">
-        <a className="wordmark" href="/" aria-label="CityShield home">
-          <span>CityShield</span>
+        <a className="wordmark" href="/welcome" aria-label="About CityShield">
+          CityShield
         </a>
         <PlaceSearch selected={place} onSelect={selectPlace} placeholder="City, town or landmark in India" />
         <button ref={toolsTrigger} className="tools-trigger" type="button"
@@ -291,11 +376,13 @@ function Dashboard() {
 
       <main id="atlas" className="atlas" aria-label="India map" tabIndex={-1}>
         <section className="map-workspace" aria-labelledby="map-title">
-          <MapView place={place} onCurrentLocation={handleCurrentLocation}
-            assistant={<MapMascot drive={drive} cityFlood={displayedFlood} weatherLocation={weatherLocation} weatherLocationName={weatherLocationName} />}
+          <MapView place={place} onCurrentLocation={handleCurrentLocation} cameraControl={cameraControl}
+            assistant={<MapMascot drive={drive} cityFlood={displayedFlood} weatherLocation={weatherLocation}
+              weatherLocationName={weatherLocationName} onSiteCommand={performCXAction} />}
             weatherWidget={<ThreeHourOutlook open={weatherOpen} location={weatherLocation} locationName={weatherLocationName} onOpen={() => setWeatherOpen(true)}
               onClose={() => setWeatherOpen(false)} />}
             cityFlood={displayedFlood?.status === "ready" ? displayedFlood : null}
+            scenarioRoadError={displayedFlood?.status === "unavailable" ? displayedFlood.message : null}
             onReset={() => selectPlace(null)}
             drivePoints={drive.points} drivingRoutes={drive.result?.routes} selectedDrivingId={drive.selectedId}
             scenarioRoute={scenarioRoute} trafficSegments={drive.liveTrafficSegments}
@@ -322,7 +409,8 @@ function Dashboard() {
                 setToolsOpen(true);
               }}>Cancel</button>}
             </div>
-            {!picking && <MapLayers cityFlood={displayedFlood} />}
+            {!picking && <MapLayers cityFlood={displayedFlood} onRoadToggle={toggleRoadForecast}
+              onBengaluru={supportsBengaluruSimulation(place) ? undefined : () => selectPlace(BENGALURU_ROAD_VIEW)} />}
             {selectedWard && <WardInspector place={selectedWard} summary={wardSummary} flood={displayedFlood}
               heat={null} failed={wardFailed} onRetry={() => { setWardIndex(null); setWardRequest((count) => count + 1); }}
               onCompare={() => { setPanel("compare"); setToolsOpen(true); }} />}
@@ -368,7 +456,7 @@ function Dashboard() {
             <p className="research-note"><Icon name="info" /><span>Research prototype. Follow official alerts for flood and heat warnings.</span></p>
           </div>}
           <div className="tool-content" hidden={panel !== "rainfall"}>
-            <ScenarioSlider selectedPlace={place} onSelectPlace={selectPlace} />
+            <ScenarioSlider selectedPlace={place} onSelectPlace={(city) => selectPlace(city, true)} />
           </div>
           {panel === "compare" && <div className="tool-content">
             <ScenarioComparison currentFlood={displayedFlood} place={selectedWard} ward={wardSummary} heat={null}
@@ -392,8 +480,8 @@ function Dashboard() {
               <h3>Local flood screening</h3>
               <p>Elevation and land-cover inputs support a local terrain runoff screen for the selected rainfall. Field validation is unavailable.</p>
               <label className="pilot-layer-option">
-                <input type="checkbox" checked={showRoads} disabled={!simulationActive} onChange={() => toggleLayer("cityRoads")} />
-                Show local road runoff
+                <input type="checkbox" checked={showRoads} onChange={toggleRoadForecast} />
+                Show road flood risk
               </label>
               <p>Road colors show where mapped roads cross screened 300 m cells. Road depth and passability require separate validation.</p>
               <label className="pilot-layer-option">
@@ -435,13 +523,5 @@ function Dashboard() {
         </aside>
       </main>
     </div>
-  );
-}
-
-export default function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Dashboard />} />
-    </Routes>
   );
 }

@@ -6,10 +6,13 @@ from typing import Any
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 
+from app.api.routes_city_flood import load_grid, screen_values
 from app.core.config import settings
-from app.routing.conditions import WEATHER_LOCATION, get_two_day_forecast, get_weather
+from app.routing.conditions import (
+    RUNOFF_THRESHOLD_MM, WEATHER_LOCATION, get_alert_weather, get_two_day_forecast,
+    get_weather, nearest_forecast_points,
+)
 from app.routing.air_quality import get_air_quality
-from app.routing.google_maps import get_point_air_quality, get_point_weather
 from app.routing.meteoblue import get_meteoblue_forecast
 from app.routing.noaa_gfs import get_national_weather_grid
 
@@ -51,6 +54,46 @@ def get_weather_report(latitude: float = Query(WEATHER_LOCATION["latitude"], ge=
     return _public_forecast_payload(get_two_day_forecast(latitude, longitude))
 
 
+@router.get("/api/weather/road-runoff")
+def get_road_runoff_forecast() -> dict:
+    forecasts = get_alert_weather()
+    now = datetime.now(timezone.utc)
+    current = [
+        weather for weather in forecasts
+        if not weather.get("is_stale") and datetime.fromisoformat(weather["forecast_through"]) > now
+    ]
+    if not current:
+        return {"status": "unavailable", "message": "A current Bengaluru rainfall forecast is unavailable."}
+
+    try:
+        grid = load_grid()
+    except FileNotFoundError:
+        return {"status": "unavailable", "message": "The Bengaluru runoff grid is unavailable."}
+
+    rain_by_point = {}
+    for weather in current:
+        center = weather["provenance"]["grid_cell_center"]
+        rain_by_point[center["longitude"], center["latitude"]] = round(
+            weather["recent_rain_mm"] + weather["upcoming_rain_mm"], 2,
+        )
+    rainfall = tuple(rain_by_point.values())
+    zones = nearest_forecast_points(tuple(rain_by_point)) if len(rainfall) > 1 else (0,) * len(grid["cells"])
+    values = {rain: screen_values(grid, rain) for rain in set(rainfall)}
+    cells = []
+    for index, ((cell_id, rings, *_), zone) in enumerate(zip(grid["cells"], zones)):
+        runoff = values[rainfall[zone]][index]
+        if runoff is not None and runoff >= RUNOFF_THRESHOLD_MM:
+            cells.append({"id": cell_id, "rings": rings, "screen_mm": runoff})
+
+    return {
+        "status": "ready",
+        "grid_m": grid["grid_m"],
+        "forecast_points": len(rainfall),
+        "forecast_through": min(weather["forecast_through"] for weather in current),
+        "cells": cells,
+    }
+
+
 @router.post("/api/weather/grid")
 def get_weather_grid(request: WeatherGridRequest) -> dict:
     points = [location.model_dump() for location in request.locations]
@@ -72,15 +115,9 @@ def get_selected_location_forecast(
     longitude: float = Query(..., ge=68, le=98),
 ) -> dict:
     lat, lng = round(latitude, 4), round(longitude, 4)
-    forecast: dict | None = None
     if settings.METEOBLUE_API_KEY is not None:
         forecast = get_meteoblue_forecast(lat, lng, int(time() // 300))
-    elif settings.GOOGLE_MAPS_API_KEY is not None:
-        try:
-            forecast = get_point_weather(lat, lng, int(time() // 300))
-        except HTTPException:
-            pass
-    if forecast is None:
+    else:
         fallback = get_two_day_forecast(lat, lng)
         if fallback.get("status") != "ready":
             raise HTTPException(status_code=503, detail=fallback.get("message", "The point forecast is unavailable."))
@@ -110,13 +147,6 @@ def get_selected_location_air_quality(
     latitude: float = Query(..., ge=6, le=38),
     longitude: float = Query(..., ge=68, le=98),
 ) -> dict:
-    if settings.GOOGLE_MAPS_API_KEY is not None:
-        try:
-            return _public_forecast_payload(get_point_air_quality(
-                round(latitude, 3), round(longitude, 3), int(time() // 1800),
-            ))
-        except HTTPException:
-            pass
     return _public_forecast_payload(get_air_quality(
         round(latitude, 3), round(longitude, 3), int(time() // 1800),
     ))

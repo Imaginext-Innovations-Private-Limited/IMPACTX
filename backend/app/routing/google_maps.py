@@ -250,7 +250,5 @@ def _load_nearby_facilities(latitude: float, longitude: float, radius_m: int) ->
     }
 
 
-@lru_cache(maxsize=128)
-def get_nearby_facilities(latitude: float, longitude: float, radius_m: int, cache_window: int) -> dict:
-    del cache_window
+def get_nearby_facilities(latitude: float, longitude: float, radius_m: int) -> dict:
     return _load_nearby_facilities(latitude, longitude, radius_m)
