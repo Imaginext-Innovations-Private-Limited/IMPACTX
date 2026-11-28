@@ -24,3 +24,5 @@ voice_cache/
 !static/fonts/**
 
 demo_assets/
+data/external/
+
