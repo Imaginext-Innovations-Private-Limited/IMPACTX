@@ -1,66 +1,85 @@
-# ScamShield AI v2.1.1 — Digital Arrest and UPI Fraud Detector
+# ScamShield AI — Multimodal Fraud Intelligence & Safety Screening
 
-Track B · Problem Statement 5 · Wisework × Imagenext internship hackathon
+Track B · Problem Statement 5 · Wisework × Imagenext Internship Hackathon
 
-ScamShield is a local-first safety assessment prototype for suspicious messages, UPI requests, screenshots and user-supplied call transcripts. It shows warning signs and practical next steps. It does not prove fraud or intercept calls, read private chats or verify senders.
+ScamShield AI is an offline-first, privacy-conscious fraud screening prototype covering **digital arrest, UPI fraud, smishing, vishing transcripts, quishing (QR phishing), phishing URLs, and deceptive emails**. It provides explainable indicators, structured QR/UPI/identity inspection, and actionable next steps without claiming to prove fraud or certify safety.
 
-## Run on Windows
+> **Branch & Attribution Note:**
+> - **Original Team Submission (`main` / tag `v2.1.1`):** Multilingual rules engine, 394-row synthetic TF-IDF + Linear SVM, Tesseract OCR, Sarvam STT/TTS, optional Groq hybrid, 11 Indian languages, and Rescue Assistant.
+> - **Individual Innovation Upgrade (`dipankar-individual-innovation`, Dipankar Maity):** Incremental commits extending `v2.1.1` with offline QR/UPI decoding, URL-only ML + PhishTank SHA-256 DB, PSL email/identity verification, MeAJOR email phishing ML, live Google Safe Browsing v4, Automatic Analysis, and consolidated 3-tab UI.
 
-Use Python 3.11 or newer with compatible dependencies (tested on Python 3.14.6 / scikit-learn 1.9.1). Install Tesseract separately for OCR. Add traineddata for desired languages: eng, hin, ben, kan, tel, ori, mar, tam, mal, guj, pan.
+---
 
-```cmd
-run.bat setup
-run.bat offline
-```
+## Architecture & Algorithms
 
-First setup needs internet to install missing Python packages from `requirements.txt`; no transformer model download is needed. Normal `run.bat` also installs missing dependencies and privately prompts for optional Groq and Sarvam keys. Press Enter to skip either. Open http://127.0.0.1:8000 after startup. Stop the server with Ctrl+C before restarting; the launcher checks that port 8000 is available. Use `run.bat setup` to explicitly refresh the dependency installation (no automatic upgrade on every launch).
+- **Backend:** FastAPI (`scamshield/main.py`) with zero persistent scan history.
+- **Offline Multimodal & Identity Pipeline (`scamshield/engine.py`):**
+  1. **Multilingual Rules & Context (`engine.py`, `context_rules.py`, `multilingual_signals.py`, `regional_context.py`):** Regex + compositional rules across 11 Indian languages (`en`, `hi`, `bn`, `kn`, `te`, `or`, `mr`, `ta`, `ml`, `gu`, `pa`) with awareness/OTP-notice guards.
+  2. **QR & UPI Quishing (`scamshield/qr_decoder.py`):** Dual offline decoder (`zxing-cpp` + OpenCV `QRCodeDetector`) with 6-stage preprocessing (quiet-zone padding, CLAHE contrast, multi-scale, adaptive/Otsu/inverted thresholding, skew rotation), `upi://pay` parser, cross-modal intent mismatch checks, and explicit `decoded` / `detected_unreadable` / `none` / `error` status handling.
+  3. **Offline Email & Identity Verifier (`scamshield/identity_verifier.py`):** Mozilla Public Suffix List (`publicsuffix2`) domain parsing, curated `ORG_DOMAIN_REGISTRY`, safe `.eml` & HTML link/text extraction (no scripts or remote fetches), unverified `SPF`/`DKIM`/`DMARC` header display, and detection of sender mismatches, `Reply-To` mismatches, Punycode/Unicode homographs, misleading subdomains, and deceptive hyperlink labels.
+  4. **URL Phishing Classifier + Threat DB (`scamshield/url_classifier.py`):** `TfidfVectorizer(char_wb, 3–5)` + 25 URL-only lexical features + `LogisticRegression` (`148.5 KB`) paired with a local SQLite SHA-256 PhishTank lookup (`verified_threats.db`, `42,314` hashes).
+  5. **Specialized Email Phishing Classifier (`scamshield/email_classifier.py`):** Word (`1–2`) + Char (`3–5`) TF-IDF + `LogisticRegression` (`470.0 KB`) trained on cross-source MeAJOR (`trec5+trec6`).
+  6. **Baseline Multilingual Text SVM (`training_data.py`):** Retained 394-row char TF-IDF + `LinearSVC` as a secondary weak signal (`Review`-only, margin `0.20`).
+- **Online Protection (Consented, Optional):**
+  - **Live URL Reputation (`scamshield/live_reputation.py`):** Google Safe Browsing Lookup API v4 (`GOOGLE_SAFE_BROWSING_API_KEY`) with 4s timeout and HTTP 429 handling (never visits suspicious URLs).
+  - **Cloud Contextual AI (`scamshield/cloud.py`):** Groq GPT-OSS 120B with GPT-OSS 20B backup (`GROQ_API_KEY`), receiving masked text + structured `offline_evidence` without suppressing confirmed offline findings.
+  - **Automatic Fallback:** Retains local assessment whenever keys are absent or providers fail.
 
-`run.bat offline` disables the Groq/Sarvam cloud keys, not the entire computer network. After setup, text analysis and bundled audio work without internet; OCR needs the local executable and language files. Browser dictation may still use its provider. Uploaded recording transcription needs configured Sarvam and consent. Keys are not saved by the launcher. Never commit keys, private messages or personal recordings.
+---
 
-## Use the app
+## API Responsibilities
 
-1. Paste text or a UPI request, upload a screenshot and review OCR, or review a dictated/transcribed recording.
-2. Analyze locally; optionally opt in to online AI when configured. Consent is off on page load. Analysis never starts automatically.
-3. Read the evidence and safety actions. **No Clear Signal** means no known scam signals were found, not that the message is legitimate. Review is a recommendation to verify, not confirmed fraud.
-4. Choose English, Hindi, Bengali, Kannada, Telugu, Odia, Marathi, Tamil, Malayalam, Gujarati or Punjabi for written/spoken guidance. Press Hear warning. Saved clips and bundled basic voices are fixed safety scripts, not arbitrary user text. Detailed evidence and Rescue Assistant may remain English. Native-speaker review is incomplete.
-5. If affected, use Rescue Assistant and contact your bank promptly if money or credentials were exposed. For Indian financial cybercrime, guidance includes 1930 and https://cybercrime.gov.in/. The app does not submit reports itself.
+| Endpoint | Purpose | Network Calls |
+|---|---|---|
+| `GET /` | Serves consolidated 3-tab UI (`Text & Links`, `Upload File`, `Voice & Audio`) | None |
+| `GET /api/health` | Reports version, configured providers, and threat DB age/hash count | None |
+| `POST /api/analyze` | Runs offline engine (+ optional consented Safe Browsing & Groq); exposes Swagger schema at `/docs` | Optional (consented) |
+| `POST /api/ocr` | Runs `zxing-cpp` + OpenCV QR decoding and Tesseract OCR on PNG/JPEG/WebP | None |
+| `POST /api/parse-email` | Safely parses `.eml` headers, body, and `<a href>` links | None |
+| `POST /api/transcribe-audio` | Consented audio transcription via Sarvam AI | Optional (consented) |
+| `GET/POST /api/voice/*` | Fixed-template spoken safety warnings (cached/Sarvam/browser/basic MP3) | Optional |
 
-## Architecture
+---
 
-- FastAPI, HTML/CSS/JS, Pillow and Tesseract OCR.
-- Offline: contextual rules plus character TF-IDF + Linear SVM (394 balanced synthetic training messages; decision margin 0.20). SVM-only alerts are limited to Review; the margin is not a probability. Native-script contextual rules combine arrest, recruitment, prize and UPI-PIN action concepts in ten Indian-language lexicons; the existing English rules remain in place.
-- Optional online AI: Groq GPT-OSS 120B with bounded GPT-OSS 20B backup on eligible failures, structured evidence, best-effort masking and local fallback. The higher warning level is retained on disagreement.
-- Sarvam optional transcription and fixed warning synthesis, local cached audio, browser and bundled basic fallback. No user message is sent for fixed-script synthesis.
-- The IndicSBERT and combined-feature candidates were evaluated but excluded from this release; no PyTorch or sentence-transformers dependency is required.
+## Genuine Datasets, Licences & Benchmark Results
 
-## Tests and evidence
+| Dataset | Source & Licence | Scale | Usage & Evaluation Results |
+|---|---|---|---|
+| **UCI PhiUSIIL Phishing URL** | UCI (`CC BY 4.0`) | 235,795 rows / 234,687 dedup URLs | Domain-grouped 80/20 split (`0` domain overlap). Held-out 2,000-URL engine eval: **Acc 0.9015, Prec 0.9762, Rec 0.7840, F1 0.8696** (`2.79 ms`/URL). 500-URL comparison vs `v2.1.1`: Recall **0.0000 → 0.7674**, F1 **0.0000 → 0.8594**. |
+| **Zenodo MeAJOR** | Zenodo `18471483` (`CC BY 4.0`) | 108,685 emails (`trec5/6/7`) | Cross-source (`trec5+6` train → `trec7` unseen test, `3,000` emails): Word+Char LogReg **Acc 0.8743, Prec 0.8968, Rec 0.8460, F1 0.8707** (vs `v2.1.1` SVM F1 `0.1553`). |
+| **UCI SMS Spam Collection** | UCI (`CC BY 4.0`) | 5,574 genuine SMS | On `4,827` `ham`: `0` `high`, `2` `caution` (**0.04%** FP rate, `0.98 ms`/msg). |
+| **PhishTank Online Valid** | `phishtank.org` (Non-commercial/research feed) | 42,467 rows / 42,314 SHA-256 hashes | Local offline threat lookup (`tools/refresh_threat_db.py`). **Redistribution note:** Verify PhishTank commercial/redistribution terms before public non-research distribution, or regenerate locally. |
+
+- **Live Online vs Offline Verification (`benchmark/live_offline_verification.json`):** Verified with live `GROQ_API_KEY` and `GOOGLE_SAFE_BROWSING_API_KEY`: **9/9** scenarios completed in live `hybrid` mode (`7/7` attacks flagged `caution`/`high`, `0/2` benign false positives; `679–2074 ms` live latency vs `4.7–26 ms` offline).
+
+---
+
+## Installation & Running on Windows
+
+1. **Prerequisites:** Python 3.11+ (tested on `3.14.6`) and optional [Tesseract OCR](https://github.com/UB-Mannheim/tesseract/wiki) (`C:\Program Files\Tesseract-OCR\tesseract.exe`).
+2. **Install dependencies:**
+   ```cmd
+   run.bat setup
+   ```
+3. **Run Offline Protection (zero API keys required):**
+   ```cmd
+   run.bat offline
+   ```
+4. **Run with Optional Online Protection (keys stay in process memory only):**
+   ```cmd
+   run.bat
+   ```
+   Open `http://127.0.0.1:8000` (Swagger API docs at `http://127.0.0.1:8000/docs`).
+
+## Verification
 
 ```cmd
 .venv\Scripts\python.exe -m pytest -v -s
-.venv\Scripts\python.exe benchmark\final_comparison.py
 ```
+See [docs/INDIVIDUAL_INNOVATION.md](docs/INDIVIDUAL_INNOVATION.md) for detailed milestone logs and [LICENSE](LICENSE) (`MIT`).
 
-### Individual Innovation Extensions (`dipankar-individual-innovation`)
-- **Offline Multimodal & Identity Screening:** Added OpenCV `QRCodeDetector` + `upi://pay` parser (`scamshield/qr_decoder.py`), PSL-based email/identity verification + `.eml` upload (`scamshield/identity_verifier.py`), and an offline URL-only phishing classifier + SHA-256 PhishTank lookup DB (`scamshield/url_classifier.py`).
-- **Auto Protect & Online Protection:** Automatically screens pasted text and completed uploads locally with zero API keys; optional consented Online Protection adds Google Safe Browsing v4 (`GOOGLE_SAFE_BROWSING_API_KEY`) and Groq GPT-OSS (`GROQ_API_KEY`) with automatic offline fallback.
-- See [individual innovation report](docs/INDIVIDUAL_INNOVATION.md) for dataset provenance, held-out metrics, and live demonstration steps.
-
-Previous v2.1.0 package verified on Windows: 615 passed, 1 skipped; offline release smoke passed. v2.1.1 verified in Linux (Python 3.13.5, scikit-learn 1.8.0): 627 passed, zero failed/skipped, including 11 research-tool tests. Actual English OCR, 121 cached warning endpoints and 242 MP3 streams checked. Seven Chromium DOM smoke groups passed using an in-process API bridge and simulated provider/microphone events. This is not a live browser/provider test. Run Windows acceptance for this revision before distribution.
-
-Run the final full-engine comparison: `.venv\Scripts\python.exe benchmark\final_comparison.py`. Against the uploaded 350-example engine in the same Linux environment, the 394-example candidate flags 34/55 suspicious and 5/55 benign messages on the earlier selection set (previously 34/55 and 11/55). On the prior small holdout it flags 22/22 suspicious and 2/22 benign (previously 22/22 and 6/22). On a regional development audit it flags 44/44 suspicious and 13/44 benign (previously 35/44 and 13/44). These are synthetic, scenario-related development cases, not independent real-world accuracy. All four previously missed regional messages now have rule evidence and receive Caution. See [benchmark guide](benchmark/README.md) and [release verification](docs/RELEASE_VERIFICATION.md).
-
-## Research and known limitations
-
-The 10,164-message external-data research did not justify a production replacement. The new ensemble evaluator is fixture-tested but real external files were absent from the submitted archive, so its performance is pending. Run `run_research.bat` only if you retain the original cached datasets and research environment. No model export or runtime integration occurs. See [research guide](benchmark/research/external/README.md). The new 44-message synthetic audit flagged 16/22 suspicious messages and 5/22 benign messages. Actual OCR returned text for all 11 synthetic language examples, but Odia and Malayalam lost the warning after recognition errors. Review all extracted text. No claim of real-world reliability or equal per-language detection.
-
-## Project layout
-
-- `scamshield/` — detection and backend
-- `static/` — interface, fonts and bundled basic audio
-- `tools/` — launch and optional voice generation
-- `tests/` — regression and integration tests (cloud responses mocked)
-- `benchmark/` — standalone classifier and full-engine comparisons
-- `docs/` — engineering and demonstration notes; older version-labelled documents describe historical behavior, not the current release
-- `voice_cache/` — locally generated audio excluded from Git; distribute only with appropriate provider rights
-
-See [final release guide](docs/FINAL_RELEASE.md), [demo script](docs/DEMO_SCRIPT.md) and [historical SVM migration](docs/SVM_MIGRATION.md). The prototype has not received independent financial, security or production validation; do not treat any warning as proof of fraud or safety. License: MIT.
+## Known Limitations
+- Absence of warnings (`NO CLEAR SIGNAL`) or absence from PhishTank/Safe Browsing **never proves a message, QR code, or URL is safe**.
+- Lexical URL ML cannot detect bare root phishing domains that lack path, brand, or TLD cues without live reputation or email context.
+- Automated OCR defaults to English + Hindi (`eng+hin`); select other Indian scripts manually when needed.
+- Regional translations beyond English/Hindi still benefit from native-speaker review.

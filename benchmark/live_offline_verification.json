@@ -1,15 +1,15 @@
 {
-  "groq_configured": false,
-  "google_safe_browsing_configured": false,
+  "groq_configured": true,
+  "google_safe_browsing_configured": true,
   "cases": [
     {
       "case": "polished_phishing_email",
       "offline_level": "high",
-      "offline_ms": 730.69,
+      "offline_ms": 823.45,
       "online_level": "high",
-      "online_mode": "offline_fallback",
-      "online_ms": 9.81,
-      "live_url_status": "unavailable",
+      "online_mode": "hybrid",
+      "online_ms": 2074.11,
+      "live_url_status": "no_match",
       "engines": {
         "local_rules": true,
         "text_ml": "not_triggered",
@@ -17,17 +17,17 @@
         "local_threat_db": "checked_no_match",
         "qr_decoder": "none",
         "identity_verifier": "checked",
-        "live_url_reputation": "unavailable",
-        "cloud_llm": "offline_fallback"
+        "live_url_reputation": "no_match",
+        "cloud_llm": "hybrid"
       }
     },
     {
       "case": "genuine_professional_email",
       "offline_level": "no_clear_signal",
-      "offline_ms": 11.25,
+      "offline_ms": 13.52,
       "online_level": "no_clear_signal",
-      "online_mode": "offline_fallback",
-      "online_ms": 4.61,
+      "online_mode": "hybrid",
+      "online_ms": 679.65,
       "live_url_status": "not_applicable",
       "engines": {
         "local_rules": true,
@@ -37,16 +37,16 @@
         "qr_decoder": "none",
         "identity_verifier": "checked",
         "live_url_reputation": "not_applicable",
-        "cloud_llm": "offline_fallback"
+        "cloud_llm": "hybrid"
       }
     },
     {
       "case": "digital_arrest_scam",
       "offline_level": "high",
-      "offline_ms": 4.36,
+      "offline_ms": 5.06,
       "online_level": "high",
-      "online_mode": "offline_fallback",
-      "online_ms": 4.38,
+      "online_mode": "hybrid",
+      "online_ms": 1148.93,
       "live_url_status": "not_applicable",
       "engines": {
         "local_rules": true,
@@ -56,16 +56,16 @@
         "qr_decoder": "none",
         "identity_verifier": "checked",
         "live_url_reputation": "not_applicable",
-        "cloud_llm": "offline_fallback"
+        "cloud_llm": "hybrid"
       }
     },
     {
       "case": "upi_refund_fraud",
       "offline_level": "high",
-      "offline_ms": 4.13,
+      "offline_ms": 5.02,
       "online_level": "high",
-      "online_mode": "offline_fallback",
-      "online_ms": 3.68,
+      "online_mode": "hybrid",
+      "online_ms": 1027.68,
       "live_url_status": "not_applicable",
       "engines": {
         "local_rules": true,
@@ -75,16 +75,16 @@
         "qr_decoder": "none",
         "identity_verifier": "checked",
         "live_url_reputation": "not_applicable",
-        "cloud_llm": "offline_fallback"
+        "cloud_llm": "hybrid"
       }
     },
     {
       "case": "quishing_upi_refund",
       "offline_level": "high",
-      "offline_ms": 23.61,
+      "offline_ms": 26.38,
       "online_level": "high",
-      "online_mode": "offline_fallback",
-      "online_ms": 3.91,
+      "online_mode": "hybrid",
+      "online_ms": 823.39,
       "live_url_status": "not_applicable",
       "engines": {
         "local_rules": true,
@@ -94,17 +94,17 @@
         "qr_decoder": "decoded",
         "identity_verifier": "checked",
         "live_url_reputation": "not_applicable",
-        "cloud_llm": "offline_fallback"
+        "cloud_llm": "hybrid"
       }
     },
     {
       "case": "suspicious_phishing_url",
       "offline_level": "caution",
-      "offline_ms": 4.37,
+      "offline_ms": 4.74,
       "online_level": "caution",
-      "online_mode": "offline_fallback",
-      "online_ms": 5.04,
-      "live_url_status": "unavailable",
+      "online_mode": "hybrid",
+      "online_ms": 1054.67,
+      "live_url_status": "no_match",
       "engines": {
         "local_rules": true,
         "text_ml": "not_triggered",
@@ -112,18 +112,18 @@
         "local_threat_db": "checked_no_match",
         "qr_decoder": "none",
         "identity_verifier": "checked",
-        "live_url_reputation": "unavailable",
-        "cloud_llm": "offline_fallback"
+        "live_url_reputation": "no_match",
+        "cloud_llm": "hybrid"
       }
     },
     {
       "case": "unseen_phishing_url",
       "offline_level": "caution",
-      "offline_ms": 4.09,
+      "offline_ms": 5.36,
       "online_level": "caution",
-      "online_mode": "offline_fallback",
-      "online_ms": 4.85,
-      "live_url_status": "unavailable",
+      "online_mode": "hybrid",
+      "online_ms": 1217.62,
+      "live_url_status": "no_match",
       "engines": {
         "local_rules": true,
         "text_ml": "not_triggered",
@@ -131,18 +131,18 @@
         "local_threat_db": "checked_no_match",
         "qr_decoder": "none",
         "identity_verifier": "checked",
-        "live_url_reputation": "unavailable",
-        "cloud_llm": "offline_fallback"
+        "live_url_reputation": "no_match",
+        "cloud_llm": "hybrid"
       }
     },
     {
       "case": "legitimate_official_url",
       "offline_level": "no_clear_signal",
-      "offline_ms": 4.55,
+      "offline_ms": 5.28,
       "online_level": "no_clear_signal",
-      "online_mode": "offline_fallback",
-      "online_ms": 4.23,
-      "live_url_status": "unavailable",
+      "online_mode": "hybrid",
+      "online_ms": 1372.94,
+      "live_url_status": "no_match",
       "engines": {
         "local_rules": true,
         "text_ml": "not_triggered",
@@ -150,17 +150,17 @@
         "local_threat_db": "checked_no_match",
         "qr_decoder": "none",
         "identity_verifier": "checked",
-        "live_url_reputation": "unavailable",
-        "cloud_llm": "offline_fallback"
+        "live_url_reputation": "no_match",
+        "cloud_llm": "hybrid"
       }
     },
     {
       "case": "sender_impersonation",
       "offline_level": "caution",
-      "offline_ms": 4.12,
+      "offline_ms": 6.6,
       "online_level": "caution",
-      "online_mode": "offline_fallback",
-      "online_ms": 3.72,
+      "online_mode": "hybrid",
+      "online_ms": 1312.9,
       "live_url_status": "not_applicable",
       "engines": {
         "local_rules": true,
@@ -170,7 +170,7 @@
         "qr_decoder": "none",
         "identity_verifier": "checked",
         "live_url_reputation": "not_applicable",
-        "cloud_llm": "offline_fallback"
+        "cloud_llm": "hybrid"
       }
     }
   ]
