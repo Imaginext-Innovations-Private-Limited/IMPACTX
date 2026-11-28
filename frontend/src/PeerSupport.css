@@ -1,0 +1,386 @@
+
+.peer-page {
+  padding: 28px;
+  color: #263449;
+  width: 100%;
+}
+
+.peer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.peer-eyebrow {
+  color: #8b79c5;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.peer-header h1 {
+  font-size: 30px;
+  margin: 8px 0;
+  color: #263449;
+}
+
+.peer-header p {
+  color: #8290a4;
+  font-size: 14px;
+}
+
+.peer-header-icon {
+  width: 65px;
+  height: 65px;
+  border-radius: 20px;
+  background: #eee9fb;
+  color: #8975c4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.peer-welcome {
+  background: linear-gradient(120deg, #eee9fb, #f7effb);
+  padding: 24px;
+  border-radius: 18px;
+  margin-bottom: 25px;
+}
+
+.peer-welcome h3 {
+  color: #66539d;
+  font-size: 19px;
+  margin-bottom: 8px;
+}
+
+.peer-welcome p {
+  color: #746b91;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.peer-create-card,
+.peer-post-card,
+.peer-empty,
+.peer-guidelines {
+  background: #ffffff;
+  border: 1px solid #edf0f5;
+  border-radius: 18px;
+  padding: 23px;
+  margin-bottom: 22px;
+  box-shadow: 0 5px 18px rgba(35, 48, 70, 0.04);
+}
+
+.peer-create-card h2 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #33415a;
+}
+
+.peer-create-card h2 svg {
+  color: #927acb;
+}
+
+.peer-create-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.peer-create-card input,
+.peer-create-card textarea,
+.peer-reply-input input {
+  width: 100%;
+  border: 1px solid #e6e9f0;
+  border-radius: 11px;
+  padding: 13px 15px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #344054;
+  background: #fcfcfe;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.peer-create-card input:focus,
+.peer-create-card textarea:focus,
+.peer-reply-input input:focus {
+  border-color: #a18bd8;
+}
+
+.peer-create-card textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.peer-post-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  align-self: flex-end;
+  background: #8873c2;
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.peer-post-btn:hover {
+  background: #735db0;
+}
+
+.peer-post-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.peer-alert {
+  padding: 13px 16px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  font-size: 13px;
+}
+
+.peer-error {
+  background: #fff0f0;
+  color: #bd4242;
+}
+
+.peer-success {
+  background: #edf9f1;
+  color: #287b49;
+}
+
+.peer-feed-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px 0 18px;
+}
+
+.peer-feed-heading h2 {
+  font-size: 20px;
+  color: #344054;
+}
+
+.peer-feed-heading p {
+  color: #929bad;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.peer-refresh-btn {
+  border: 1px solid #e8e5f2;
+  background: white;
+  color: #8873c2;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.peer-post-card {
+  margin-bottom: 17px;
+}
+
+.peer-post-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.peer-avatar {
+  width: 43px;
+  height: 43px;
+  background: #eee9fb;
+  color: #7964b4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.peer-author {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.peer-author strong {
+  font-size: 14px;
+  color: #344054;
+}
+
+.peer-author span,
+.peer-reply span {
+  font-size: 11px;
+  color: #9aa3b2;
+}
+
+.peer-delete {
+  margin-left: auto;
+}
+
+.peer-delete button {
+  border: none;
+  background: transparent;
+  color: #cf7777;
+  cursor: pointer;
+}
+
+.peer-post-body {
+  padding: 20px 0;
+}
+
+.peer-post-body h3 {
+  font-size: 17px;
+  margin-bottom: 9px;
+  color: #344054;
+}
+
+.peer-post-body p {
+  color: #68758a;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.peer-post-actions {
+  display: flex;
+  gap: 25px;
+  border-top: 1px solid #f0f1f5;
+  padding-top: 15px;
+}
+
+.peer-post-actions button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: #8791a3;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.peer-post-actions button.liked {
+  color: #df6f91;
+}
+
+.peer-reply-section {
+  background: #faf9fd;
+  border-radius: 12px;
+  padding: 17px;
+  margin-top: 18px;
+}
+
+.peer-reply-section h4 {
+  font-size: 14px;
+  margin-bottom: 15px;
+  color: #51436f;
+}
+
+.peer-reply {
+  background: white;
+  padding: 13px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.peer-reply strong {
+  color: #66539d;
+  font-size: 13px;
+}
+
+.peer-reply p {
+  color: #68758a;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 7px 0;
+}
+
+.peer-no-replies {
+  color: #9aa3b2;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+.peer-reply-input {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.peer-reply-input button {
+  background: #8873c2;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  min-width: 45px;
+  cursor: pointer;
+}
+
+.peer-empty {
+  text-align: center;
+  padding: 45px 20px;
+  color: #9585c5;
+}
+
+.peer-empty h3 {
+  margin: 12px 0 7px;
+  color: #4d5870;
+}
+
+.peer-empty p {
+  font-size: 13px;
+  color: #929bad;
+}
+
+.peer-guidelines {
+  background: #faf9fd;
+}
+
+.peer-guidelines h3 {
+  color: #66539d;
+  margin-bottom: 13px;
+  font-size: 16px;
+}
+
+.peer-guidelines ul {
+  padding-left: 20px;
+}
+
+.peer-guidelines li {
+  color: #7c8495;
+  font-size: 13px;
+  line-height: 2;
+}
+
+@media (max-width: 768px) {
+  .peer-page {
+    padding: 16px;
+  }
+
+  .peer-header h1 {
+    font-size: 25px;
+  }
+
+  .peer-create-card,
+  .peer-post-card,
+  .peer-guidelines {
+    padding: 17px;
+  }
+
+  .peer-post-actions {
+    gap: 15px;
+  }
+}

@@ -1,0 +1,253 @@
+
+.counselling-page {
+  padding: 28px;
+  color: #26352f;
+}
+
+.counselling-hero {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 28px;
+  background: linear-gradient(120deg, #e8f5ed, #f3f8f3);
+  border-radius: 18px;
+  margin-bottom: 22px;
+}
+
+.counselling-hero-icon {
+  width: 65px;
+  height: 65px;
+  border-radius: 16px;
+  background: #d3eadb;
+  color: #28764b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.counselling-hero h1 {
+  margin: 0 0 8px;
+  font-size: 27px;
+}
+
+.counselling-hero p,
+.counselling-subtitle {
+  color: #718078;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.counselling-info {
+  display: flex;
+  gap: 13px;
+  padding: 17px;
+  background: #f0f6ff;
+  color: #345a82;
+  border-radius: 12px;
+  margin-bottom: 25px;
+}
+
+.counselling-info p {
+  margin: 5px 0 0;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.counselling-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.counselling-form-card,
+.counselling-requests-card {
+  background: white;
+  padding: 25px;
+  border: 1px solid #e8eee9;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(30, 70, 45, 0.04);
+}
+
+.counselling-form-card h2,
+.counselling-requests-card h2 {
+  font-size: 19px;
+  margin: 0 0 7px;
+}
+
+.counselling-subtitle {
+  font-size: 13px;
+  margin-bottom: 23px;
+}
+
+.counselling-form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.counselling-form-card label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 7px;
+}
+
+.counselling-form-card input,
+.counselling-form-card textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dce5df;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.counselling-form-card input:focus,
+.counselling-form-card textarea:focus {
+  border-color: #45966a;
+}
+
+.counselling-form-card textarea {
+  resize: vertical;
+}
+
+.counselling-submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  background: #28764b;
+  color: white;
+  border: none;
+  border-radius: 9px;
+  padding: 13px;
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.counselling-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.counselling-message {
+  margin-top: 15px;
+  color: #28764b;
+  font-size: 14px;
+}
+
+.counselling-empty {
+  text-align: center;
+  padding: 40px 10px;
+  color: #87948b;
+}
+
+.counselling-empty h3 {
+  color: #42564a;
+  margin-bottom: 7px;
+}
+
+.counselling-empty p {
+  font-size: 13px;
+}
+
+.counselling-request-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.counselling-request-item {
+  padding: 17px;
+  border: 1px solid #e8eee9;
+  border-radius: 12px;
+  background: #fbfdfb;
+}
+
+.request-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 13px;
+}
+
+.request-item-top h3 {
+  font-size: 15px;
+  margin: 0;
+}
+
+.request-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.request-status.pending {
+  color: #b7791f;
+}
+
+.request-status.approved {
+  color: #24834b;
+}
+
+.request-status.rejected,
+.request-status.cancelled {
+  color: #c04b4b;
+}
+
+.counselling-request-item > p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #65766b;
+  font-size: 13px;
+}
+
+.counselling-request-item .request-reason {
+  display: block;
+  padding: 10px;
+  background: #f1f5f1;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.counselling-cancel-btn {
+  border: 1px solid #e7bebe;
+  background: #fff5f5;
+  color: #bd4545;
+  padding: 8px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+@media (max-width: 850px) {
+  .counselling-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .counselling-page {
+    padding: 15px;
+  }
+
+  .counselling-hero {
+    padding: 20px;
+    align-items: flex-start;
+  }
+
+  .counselling-hero h1 {
+    font-size: 22px;
+  }
+}
+
