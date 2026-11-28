@@ -27,10 +27,11 @@ app = FastAPI(title="ScamShield AI", version=__version__,
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 
 class AnalysisInput(BaseModel):
-    text: str = Field(min_length=1, max_length=MAX_TEXT)
+    text: str = Field(default="", max_length=MAX_TEXT)
     channel: str = "message"
     language: str = "en"
     cloud_consent: bool = False
+    qr_payloads: list[str] | None = Field(default=None, max_length=10)
 
 @app.get("/", include_in_schema=False)
 def home():
@@ -101,8 +102,8 @@ def analyze_message(data: AnalysisInput, request: Request):
             origin = request.headers.get("origin")
             if origin and origin not in {"http://127.0.0.1:8000", "http://localhost:8000"}:
                 raise HTTPException(status_code=403, detail="Local origin required")
-        result = analyze(data.text, data.channel, data.language)
-        if data.cloud_consent:
+        result = analyze(data.text, data.channel, data.language, qr_payloads=data.qr_payloads)
+        if data.cloud_consent and data.text.strip():
             from .cloud import hybrid
             return hybrid(data.text, result, data.language)
         result["analysis_mode"] = "offline"
@@ -212,6 +213,10 @@ async def ocr_image(file: UploadFile = File(...), language: str = Query("auto"))
     await file.close()
     if len(data) > 4 * 1024 * 1024:
         raise HTTPException(status_code=413, detail="Image limit is 4 MB.")
+    from .qr_decoder import classify_qr_payload, decode_qr_from_bytes
+    qr_payloads: list[str] = []
+    qr_analysis: list[dict] = []
+    ocr_unavailable_reason: str | None = None
     try:
         from PIL import Image, ImageOps, UnidentifiedImageError
         import pytesseract
@@ -220,6 +225,8 @@ async def ocr_image(file: UploadFile = File(...), language: str = Query("auto"))
                 raise HTTPException(status_code=415, detail="Not a supported image format.")
             if raw.width * raw.height > 12_000_000:
                 raise HTTPException(status_code=413, detail="Image resolution too large.")
+            qr_payloads = decode_qr_from_bytes(data)
+            qr_analysis = [classify_qr_payload(p) for p in qr_payloads]
             im = ImageOps.exif_transpose(raw).convert("RGB")
             if os.name == "nt" and not shutil.which("tesseract"):
                 candidate = Path(os.environ.get("ProgramFiles", "C:/Program Files")) / "Tesseract-OCR" / "tesseract.exe"
@@ -239,8 +246,20 @@ async def ocr_image(file: UploadFile = File(...), language: str = Query("auto"))
     except (UnidentifiedImageError, OSError, ValueError) as exc:
         raise HTTPException(status_code=422, detail="Image could not be read.") from exc
     except (RuntimeError, pytesseract.TesseractError, pytesseract.TesseractNotFoundError) as exc:
-        raise HTTPException(status_code=503, detail="OCR is unavailable: install Tesseract OCR and the desired language data.") from exc
+        if not qr_payloads:
+            raise HTTPException(status_code=503, detail="OCR is unavailable: install Tesseract OCR and the desired language data.") from exc
+        extracted = ""
+        selected = []
+        ocr_unavailable_reason = "Tesseract OCR unavailable; QR code decoded locally."
     text = extracted.strip()[:MAX_TEXT]
-    if not text:
-        raise HTTPException(status_code=422, detail="No legible text was found. Try a clearer screenshot.")
-    return {"text": text, "characters": len(text), "ocr_languages": selected, "note": "OCR may contain errors. Check transcription before interpreting results."}
+    if not text and not qr_payloads:
+        raise HTTPException(status_code=422, detail="No legible text or QR code was found. Try a clearer screenshot.")
+    note = ocr_unavailable_reason or "OCR may contain errors. Check transcription before interpreting results."
+    return {
+        "text": text,
+        "characters": len(text),
+        "ocr_languages": selected,
+        "qr_payloads": qr_payloads,
+        "qr_analysis": qr_analysis,
+        "note": note,
+    }

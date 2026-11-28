@@ -206,6 +206,32 @@ def _url_findings(text: str, language: str) -> list[dict[str, Any]]:
                 "advice": "Do not open it. Type the official website address yourself or use the official app.",
                 "_category": "Suspicious link",
             }
+        # Offline URL-only ML classifier and local verified-threat DB lookup
+        from .url_classifier import SHORTENER_DOMAINS, classify_url, registered_domain
+        url_info = classify_url(raw)
+        is_shortener = registered_domain(host) in SHORTENER_DOMAINS
+        if url_info["threat_db_match"] and "url_threat_db" not in found:
+            found["url_threat_db"] = {
+                "id": "url_threat_db",
+                "title": "Link matches a verified phishing threat database" if language != "hi" else "लिंक सत्यापित फ़िशिंग डेटाबेस से मेल खाता है",
+                "explanation": f"This link matches a verified phishing entry in the local {url_info['threat_db_source']} database.",
+                "weight": 7, "evidence": raw[:160], "start": m.start(), "end": m.start() + len(raw),
+                "advice": "Do not open this link. Navigate independently to the official website or app.",
+                "_category": "Verified phishing link",
+            }
+        elif not flags and not is_shortener and url_info["ml_flag"] in {"high", "review"}:
+            fid = "url_ml_phishing" if url_info["ml_flag"] == "high" else "url_ml_review"
+            if fid not in found:
+                reasons = ", ".join(url_info["reasons"][:3]) or "suspicious URL structure"
+                found[fid] = {
+                    "id": fid,
+                    "title": "Offline URL model flagged suspicious link" if language != "hi" else "ऑफ़लाइन URL मॉडल ने संदिग्ध लिंक पहचाना",
+                    "explanation": f"URL-only classifier flagged lexical patterns ({reasons}). Absence of a flag never guarantees safety.",
+                    "weight": 4 if fid == "url_ml_phishing" else 2,
+                    "evidence": raw[:160], "start": m.start(), "end": m.start() + len(raw),
+                    "advice": "Do not open unfamiliar links; verify the domain independently.",
+                    "_category": "Suspicious link",
+                }
     return list(found.values())
 
 
@@ -303,11 +329,17 @@ def _ml_suspicious(model, text: str) -> bool:
     return float(model.decision_function([text])[0]) >= SVM_REVIEW_MARGIN
 
 
-def analyze(text: str, channel: str = "message", language: str = "en") -> dict[str, Any]:
+def analyze(
+    text: str,
+    channel: str = "message",
+    language: str = "en",
+    qr_payloads: list[str] | None = None,
+) -> dict[str, Any]:
     if not isinstance(text, str):
         raise ValueError("Message must be text.")
     text = text.strip()
-    if not text:
+    has_qr = bool(qr_payloads and any(isinstance(p, str) and p.strip() for p in qr_payloads))
+    if not text and not has_qr:
         raise ValueError("Enter a message or transcript to analyze.")
     if len(text) > MAX_TEXT:
         raise ValueError(f"Text must be at most {MAX_TEXT} characters.")
@@ -368,6 +400,49 @@ def analyze(text: str, channel: str = "message", language: str = "en") -> dict[s
         total += finding["weight"]
         cat_scores[finding.pop("_category")] += finding["weight"]
         matched.append(finding)
+
+    qr_analysis = None
+    clean_qr = [p.strip()[:1024] for p in (qr_payloads or []) if isinstance(p, str) and p.strip()]
+    if clean_qr:
+        from .qr_decoder import analyze_qr_payloads
+        from .url_classifier import classify_url
+
+        qr_analysis = analyze_qr_payloads(clean_qr, surrounding_text=text)
+        for finding in qr_analysis["indicators"]:
+            total += finding["weight"]
+            cat_scores[finding.pop("_category")] += finding["weight"]
+            matched.append(finding)
+        for item in qr_analysis["payloads"]:
+            if item["type"] in {"url", "apk_download"}:
+                url_info = classify_url(item["url"])
+                item["url_assessment"] = {
+                    "official_domain": url_info["official_domain"],
+                    "threat_db_match": url_info["threat_db_match"],
+                    "phishing_probability": url_info["phishing_probability"],
+                    "ml_flag": url_info["ml_flag"],
+                    "reasons": url_info["reasons"],
+                }
+                if url_info["threat_db_match"]:
+                    total += 7
+                    cat_scores["Verified phishing link"] += 7
+                    matched.append({
+                        "id": "qr_url_threat_db",
+                        "title": "QR link matches a verified phishing database",
+                        "explanation": f"Decoded QR URL matches a verified phishing entry in {url_info['threat_db_source']}.",
+                        "weight": 7, "evidence": item["url"][:160], "start": 0, "end": 0,
+                        "advice": "Do not open the QR link. Navigate independently to the official site.",
+                    })
+                elif url_info["ml_flag"] in {"high", "review"}:
+                    w = 4 if url_info["ml_flag"] == "high" else 2
+                    total += w
+                    cat_scores["Quishing"] += w
+                    matched.append({
+                        "id": "qr_url_ml_phishing" if w == 4 else "qr_url_ml_review",
+                        "title": "Offline URL model flagged decoded QR link",
+                        "explanation": "URL-only classifier flagged suspicious lexical patterns in the decoded QR destination.",
+                        "weight": w, "evidence": item["url"][:160], "start": 0, "end": 0,
+                        "advice": "Do not open this QR link; verify the domain independently.",
+                    })
 
     # The combination is riskier than a short URL or a KYC reminder alone.
     ids = {m["id"] for m in matched}
@@ -470,7 +545,7 @@ def analyze(text: str, channel: str = "message", language: str = "en") -> dict[s
         cat_scores.clear()
         total = 0
 
-    sufficient_context = (len(text) >= 18 and len(text.split()) >= 3) or any(
+    sufficient_context = (len(text) >= 18 and len(text.split()) >= 3) or bool(clean_qr) or any(
         m["id"] == "credential_reward_context" for m in matched
     )
     strong = any(m["weight"] >= 5 for m in matched)
@@ -553,6 +628,7 @@ def analyze(text: str, channel: str = "message", language: str = "en") -> dict[s
         "entities": entities,
         "complaint": complaint,
         "otp_notice": otp_notice,
+        "qr_analysis": qr_analysis,
         "disclaimer": "Prototype screening only. Not a verdict on the sender's identity, legal advice, or proof of fraud. Always verify independently.",
     }
     result = localize_result(result, language)
