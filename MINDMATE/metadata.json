@@ -1,0 +1,6 @@
+{
+  "name": "MINDMATE – Student Wellbeing Companion",
+  "description": "A privacy-first student wellbeing platform for mood check-ins, smart study planning, Pomodoro focus sessions, stress relief, peer support, and empathetic AI companionship.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

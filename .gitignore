@@ -221,3 +221,16 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# MINDMATE exclusions
+node_modules/
+.env*
+!.env.example
+mindmate.db
+mindmate.db-shm
+mindmate.db-wal
+*.log
+
+# Python cache files
+__pycache__/
+*.py[cod]
