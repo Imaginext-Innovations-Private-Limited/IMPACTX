@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kisan Mitra - Voice Farm Advisor</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="icon" type="image/svg+xml" href="/static/logo.svg">
+<link rel="apple-touch-icon" href="/static/logo.png">
+<style>
+:root{--bg:#f1f6ec;--card:#fff;--ink:#1d2a1b;--g:#2e7d32;--gd:#1e5128;--gold:#f2c14e;--mut:#66745f;--line:#d3e0cb;--me:#dff0d2;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);display:flex;flex-direction:column;height:100vh;font-size:18px}
+header{display:flex;align-items:center;gap:12px;padding:12px 18px;background:var(--gd);color:#fff}
+header img{width:44px;height:44px}
+header b{font-size:22px;display:block;line-height:1.1}header span{font-size:14px;color:#cfe3c8}
+.bar{display:flex;gap:10px;padding:12px 16px;flex-wrap:wrap;background:var(--card);border-bottom:1px solid var(--line)}
+select,input{padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:#fff;color:var(--ink);font-size:17px;font-family:inherit}
+select:focus,input:focus{outline:none;border-color:var(--g)}
+#loc{flex:1;min-width:150px}
+.bar select,.bar input.pl{flex:1;min-width:140px}
+.mapbtn{padding:0 16px;border-radius:12px;border:2px solid var(--g);background:#fff;color:var(--gd);font-size:17px;font-weight:600;cursor:pointer}
+#mapbox{display:none;padding:0 16px 12px;background:var(--card);border-bottom:1px solid var(--line)}
+#map{height:300px;border-radius:12px;border:2px solid var(--line)}
+#maphint{font-size:14px;color:var(--mut);margin:6px 0 0}
+.m img{display:block;max-width:240px;max-height:240px;border-radius:12px}
+.photo{display:flex;align-items:center;gap:8px;padding:0 16px;border-radius:12px;border:2px solid var(--g);background:#fff;color:var(--gd);font-size:17px;font-weight:600;cursor:pointer}
+.chips{display:flex;gap:8px;padding:10px 16px 0;flex-wrap:wrap}
+.chip{padding:8px 14px;border-radius:20px;border:1px solid var(--g);background:#fff;color:var(--gd);font-size:15px;cursor:pointer}
+.chip:hover{background:var(--me)}
+#log{flex:1;overflow:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.m{max-width:85%;padding:12px 16px;border-radius:16px;background:var(--card);white-space:pre-wrap;line-height:1.45;border:1px solid var(--line)}
+.me{align-self:flex-end;background:var(--me);border-color:#c3dfb0}
+.tool{font-size:14px;color:var(--mut);background:none;border:0;padding:0 4px}
+.dock{display:flex;align-items:center;gap:12px;padding:12px 16px 16px;background:var(--card);border-top:1px solid var(--line)}
+.micwrap{display:flex;flex-direction:column;align-items:center;gap:2px}
+#mic{width:72px;height:72px;border-radius:50%;border:0;background:var(--g);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 3px 8px rgba(30,81,40,.35)}
+#mic.on{background:#c62828;animation:p 1s infinite}
+#mic:disabled{background:#9aa}
+@keyframes p{50%{box-shadow:0 0 0 12px rgba(198,40,40,.2)}}
+#mictxt{font-size:12px;color:var(--mut)}
+#txt{flex:1}
+#send{padding:14px 20px;border-radius:12px;border:0;background:var(--gd);color:#fff;font-size:17px;font-weight:600;cursor:pointer}
+</style></head><body>
+<header><img src="/static/logo.svg" alt=""><div><b>Kisan Mitra</b><span>Your voice farm advisor</span></div></header>
+<div class="bar">
+ <select id="lang">
+
+  <option value="kn">ಕನ್ನಡ Kannada</option><option value="hi">हिन्दी Hindi</option><option value="te">తెలుగు Telugu</option>
+  <option value="ta">தமிழ் Tamil</option><option value="mr">मराठी Marathi</option><option value="ml">മലയാളം Malayalam</option>
+  <option value="bn">বাংলা Bengali</option><option value="gu">ગુજરાતી Gujarati</option><option value="pa">ਪੰਜਾਬੀ Punjabi</option><option value="en">English</option>
+  </select>
+ <input id="st" class="pl" list="stl" placeholder="State" autocomplete="off"><datalist id="stl"></datalist>
+ <input id="dt" class="pl" list="dtl" placeholder="District" autocomplete="off"><datalist id="dtl"></datalist>
+ <input id="tk" class="pl" list="tkl" placeholder="Taluk" autocomplete="off"><datalist id="tkl"></datalist>
+ <button class="mapbtn" id="mapbtn" type="button">📍 Pick on map</button>
+ <input id="loc" type="hidden">
+ <button class="photo" onclick="photo.click()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Photo</button>
+ <input type="file" id="photo" accept="image/*" capture="environment" hidden>
+</div>
+<div id="mapbox"><div id="map"></div><p id="maphint">Tap your place on the map, or press "My location".&nbsp;<button class="chip" id="gps" type="button">My location</button></p></div>
+<div class="chips"><span class="chip">Should I irrigate my ragi today?</span><span class="chip">Which crop suits my soil this kharif?</span><span class="chip">Is it a good time to sell tomato?</span></div>
+<div id="log"></div>
+<div class="dock">
+ <div class="micwrap"><button id="mic" aria-label="Speak"><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></button><span id="mictxt">Tap to speak</span></div>
+ <input id="txt" placeholder="Or type your question here...">
+ <button id="send">Send</button>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/static/places.js"></script>
+<script>
+const BCP={kn:'kn-IN',hi:'hi-IN',te:'te-IN',ta:'ta-IN',mr:'mr-IN',ml:'ml-IN',bn:'bn-IN',gu:'gu-IN',pa:'pa-IN',en:'en-IN'};
+const sid=crypto.randomUUID(),log=document.getElementById('log'),$=id=>document.getElementById(id);
+function add(t,c){const d=document.createElement('div');d.className='m '+c;d.textContent=t;log.appendChild(d);log.scrollTop=1e9;}
+
+// ---- State / District / Taluk (dropdown lists + map) ----
+let coords=null;
+function fill(id,arr){$(id).innerHTML=arr.map(x=>'<option value="'+x.replace(/"/g,'&quot;')+'">').join('');}
+function refreshLists(){
+  const st=$('st').value.trim(),dt=$('dt').value.trim(),d=PLACES[st]||{};
+  fill('dtl',Object.keys(d));fill('tkl',d[dt]||[]);
+  $('loc').value=[$('tk').value.trim(),dt,st].filter(Boolean).join(', ')+(coords?' @'+coords.lat.toFixed(4)+','+coords.lon.toFixed(4):'');
+}
+fill('stl',STATES);
+$('st').oninput=()=>{coords=null;refreshLists()};
+$('dt').oninput=()=>{coords=null;refreshLists()};
+$('tk').oninput=()=>{coords=null;refreshLists()};
+const norm=x=>(x||'').toLowerCase().replace(/\b(district|taluk|taluka|tehsil|division)\b/g,'').replace(/\s+/g,' ').trim();
+function match(v,list){const n=norm(v);return list.find(x=>norm(x)===n)||list.find(x=>norm(x).includes(n)||n.includes(norm(x)))||v;}
+let map,marker;
+async function pickPoint(lat,lon){
+  coords={lat,lon};
+  if(marker)marker.setLatLng([lat,lon]);else marker=L.marker([lat,lon]).addTo(map);
+  $('maphint').firstChild.textContent='Finding place...';
+  try{
+    const r=await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=12&addressdetails=1&accept-language=en&lat='+lat+'&lon='+lon);
+    const a=(await r.json()).address||{};
+    const st=match((a.state||'').trim(),STATES);
+    const d=PLACES[st]||{};
+    const dt=match(a.state_district||a.county||a.city||'',Object.keys(d));
+    const tk=match(a.county&&a.state_district?a.county:(a.city||a.town||a.suburb||a.village||''),d[dt]||[]);
+    $('st').value=st;$('dt').value=dt;$('tk').value=tk;
+    $('maphint').firstChild.textContent='Selected: '+[tk,dt,st].filter(Boolean).join(', ')+' ';
+  }catch(e){$('maphint').firstChild.textContent='Could not read the place name, but the pin location will still be used. ';}
+  refreshLists();
+}
+$('mapbtn').onclick=()=>{
+  const box=$('mapbox');box.style.display=box.style.display==='block'?'none':'block';
+  if(box.style.display==='block'){
+    if(!map){map=L.map('map').setView([15.3,75.7],6);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap'}).addTo(map);
+      map.on('click',e=>pickPoint(e.latlng.lat,e.latlng.lng));}
+    setTimeout(()=>map.invalidateSize(),50);
+  }
+};
+$('gps').onclick=()=>navigator.geolocation?.getCurrentPosition(p=>{map.setView([p.coords.latitude,p.coords.longitude],11);pickPoint(p.coords.latitude,p.coords.longitude)},()=>alert('Location permission denied'));
+async function safeJson(r){const t=await r.text();try{return JSON.parse(t)}catch{return{reply:'Server error: '+t.slice(0,200)+' (see the terminal running uvicorn)',tools_used:[]}}}
+function addImg(f){const d=document.createElement('div');d.className='m me';const i=document.createElement('img');i.src=URL.createObjectURL(f);i.alt='';d.appendChild(i);log.appendChild(d);log.scrollTop=1e9;}
+function speak(t){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang=BCP[$('lang').value];speechSynthesis.speak(u);}
+async function ask(text){
+  if(!text.trim())return;add(text,'me');$('txt').value='';add('…thinking','tool');
+  try{
+    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:text,session_id:sid,language:$('lang').value,location:$('loc').value})});
+    const d=await safeJson(r);log.lastChild.remove();
+    if(d.tools_used?.length)add('Checked: '+d.tools_used.map(t=>t.tool.replace('get_','').replace('_',' ')).join(', '),'tool');
+    add(d.reply,'bot');speak(d.reply);
+  }catch(e){log.lastChild.remove();add('Error: '+e,'bot');}
+}
+$('send').onclick=()=>ask($('txt').value);
+$('txt').onkeydown=e=>{if(e.key==='Enter')ask($('txt').value)};
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(!SR){$('mic').disabled=true;$('mic').title='Use Chrome/Edge for voice input';}
+else{const rec=new SR();rec.interimResults=false;
+ rec.onresult=e=>ask(e.results[0][0].transcript);
+ rec.onend=()=>$('mic').classList.remove('on');$('mictxt').textContent='Tap to speak';
+ $('mic').onclick=()=>{speechSynthesis.cancel();rec.lang=BCP[$('lang').value];$('mic').classList.add('on');$('mictxt').textContent='Listening...';rec.start();};}
+$('photo').onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;addImg(f);add('…analysing','tool');
+  const fd=new FormData();fd.append('image',f);fd.append('language',$('lang').value);fd.append('crop','');
+  const d=await safeJson(await fetch('/api/diagnose',{method:'POST',body:fd}));
+  log.lastChild.remove();add(d.reply,'bot');speak(d.reply);
+};
+add('Namaste! Ask me about crops, irrigation or selling prices. Choose your state, district and taluk (or pick on the map) first, then tap the big mic.','bot');
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>ask(c.textContent));
+</script></body></html>

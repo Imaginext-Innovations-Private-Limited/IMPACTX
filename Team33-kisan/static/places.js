@@ -1,0 +1,36 @@
+// State -> District -> Taluk data. Karnataka is complete; other states list their states only
+// (districts/taluks for them fill in automatically when you pick a point on the map, or can be typed).
+const STATES = ["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal","Andaman and Nicobar Islands","Chandigarh","Delhi","Jammu and Kashmir","Ladakh","Puducherry"];
+const PLACES = {"Karnataka":{
+"Bagalkot":["Bagalkot","Badami","Bilgi","Hungund","Ilkal","Jamkhandi","Mudhol","Rabkavi Banhatti","Guledgudda"],
+"Ballari":["Ballari","Kurugodu","Sandur","Siruguppa","Kampli"],
+"Belagavi":["Belagavi","Athani","Bailhongal","Chikkodi","Gokak","Hukkeri","Khanapur","Mudalagi","Nippani","Raibag","Ramdurg","Saundatti","Kagawad","Yaragatti"],
+"Bengaluru Rural":["Devanahalli","Doddaballapura","Hosakote","Nelamangala"],
+"Bengaluru Urban":["Bengaluru North","Bengaluru South","Bengaluru East","Anekal","Yelahanka","Bengaluru West"],
+"Bidar":["Bidar","Aurad","Basavakalyan","Bhalki","Humnabad","Chitaguppa","Hulsoor","Kamalnagar"],
+"Chamarajanagar":["Chamarajanagar","Gundlupet","Kollegal","Yelandur","Hanur"],
+"Chikkaballapura":["Chikkaballapura","Bagepalli","Chintamani","Gauribidanur","Gudibanda","Sidlaghatta","Manchenahalli"],
+"Chikkamagaluru":["Chikkamagaluru","Kadur","Koppa","Mudigere","Narasimharajapura","Sringeri","Tarikere","Ajjampura","Kalasa"],
+"Chitradurga":["Chitradurga","Challakere","Hiriyur","Holalkere","Hosadurga","Molakalmuru","Bharamasagara"],
+"Dakshina Kannada":["Mangaluru","Bantwal","Belthangady","Puttur","Sullia","Moodabidri","Kadaba","Mulki","Ullal"],
+"Davanagere":["Davanagere","Channagiri","Harapanahalli","Harihar","Honnali","Jagalur","Nyamathi"],
+"Dharwad":["Dharwad","Hubballi","Hubballi City","Kalghatgi","Kundgol","Navalgund","Alnavar","Annigeri"],
+"Gadag":["Gadag","Gajendragad","Laxmeshwar","Mundargi","Naragund","Ron","Shirhatti"],
+"Hassan":["Hassan","Alur","Arakalagud","Arsikere","Belur","Channarayapatna","Holenarasipura","Sakleshpur"],
+"Haveri":["Haveri","Byadgi","Hanagal","Hirekerur","Ranebennur","Savanur","Shiggaon","Rattihalli"],
+"Kalaburagi":["Kalaburagi","Afzalpur","Aland","Chincholi","Chitapur","Jewargi","Sedam","Kamalapur","Shahabad","Yedrami","Kalagi"],
+"Kodagu":["Madikeri","Virajpet","Somwarpet","Kushalnagar","Ponnampet"],
+"Kolar":["Kolar","Bangarapet","Malur","Mulbagal","Srinivaspur","Kgf"],
+"Koppal":["Koppal","Gangavathi","Kushtagi","Yelburga","Karatagi","Kanakagiri","Kukanur"],
+"Mandya":["Mandya","K R Pete","Maddur","Malavalli","Nagamangala","Pandavapura","Srirangapatna"],
+"Mysuru":["Mysuru","Hunsur","Krishnarajanagara","Nanjangud","Periyapatna","T Narasipura","Heggadadevanakote","Saragur","Bannur","Sargur"],
+"Raichur":["Raichur","Devadurga","Lingasugur","Manvi","Sindhanur","Maski","Sirwar"],
+"Ramanagara":["Ramanagara","Channapatna","Kanakapura","Magadi","Harohalli"],
+"Shivamogga":["Shivamogga","Bhadravati","Hosanagara","Sagara","Shikaripura","Soraba","Thirthahalli"],
+"Tumakuru":["Tumakuru","Chikkanayakanahalli","Gubbi","Koratagere","Kunigal","Madhugiri","Pavagada","Sira","Tiptur","Turuvekere","Hebbur"],
+"Udupi":["Udupi","Karkala","Kundapura","Brahmavara","Byndoor","Hebri","Kaup"],
+"Uttara Kannada":["Karwar","Ankola","Bhatkal","Haliyal","Honnavar","Joida","Kumta","Mundgod","Siddapur","Sirsi","Yellapur","Dandeli"],
+"Vijayanagara":["Hosapete","Hagaribommanahalli","Harapanahalli","Hadagalli","Kotturu","Kudligi"],
+"Vijayapura":["Vijayapura","Basavana Bagevadi","Indi","Muddebihal","Sindagi","Talikoti","Chadchan","Devar Hipparagi","Kolhar","Babaleshwar","Tikota","Almel"],
+"Yadgir":["Yadgir","Shahapur","Shorapur","Gurmitkal","Hunasagi","Wadagera"]
+}};
