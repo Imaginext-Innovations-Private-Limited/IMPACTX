@@ -1,0 +1,63 @@
+/*
+ * Sahaaya AI - Responsive Layout & Breakpoints Stylesheet
+ * Handles Mobile, Tablet, and Desktop screen sizes gracefully.
+ */
+
+@media (max-width: 991.98px) {
+  .hero-title {
+    font-size: 2.25rem;
+  }
+  .hero-subtitle {
+    font-size: 1.05rem;
+  }
+  .chat-window {
+    height: 520px;
+  }
+  .message-bubble {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .hero-section {
+    padding: 3rem 0 2.5rem;
+  }
+  .hero-title {
+    font-size: 1.85rem;
+  }
+  .hero-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+  .hero-search-box {
+    flex-direction: column;
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+  .hero-search-box .btn {
+    width: 100%;
+  }
+  .sahaaya-card-header,
+  .sahaaya-card-body {
+    padding: 1rem;
+  }
+  .chat-window {
+    height: 480px;
+  }
+  .message-bubble {
+    max-width: 95%;
+  }
+  .table-responsive-stack td,
+  .table-responsive-stack th {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .navbar-brand-sahaaya {
+    font-size: 1.15rem;
+  }
+  .brand-badge {
+    display: none;
+  }
+}

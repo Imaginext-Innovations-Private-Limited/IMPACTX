@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block title %}{{ scheme.name }} - Details &amp; Eligibility - Welfare Scheme Navigator{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mb-3 small">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('views.home') }}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('views.schemes_discovery') }}">Schemes</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ scheme.name }}</li>
+    </ol>
+  </nav>
+
+  <!-- Scheme Header Card -->
+  <div class="sahaaya-card p-4 mb-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-3">
+      <div>
+        <div class="d-flex flex-wrap gap-2 align-items-center mb-2">
+          <span class="badge {% if scheme.government_level == 'State' %}bg-primary{% else %}bg-secondary{% endif %}">
+            {{ scheme.government_level }} Government
+          </span>
+          <span class="badge bg-light text-dark border">{{ scheme.category }}</span>
+          <span class="badge bg-light text-dark border">{{ scheme.state or 'All India' }}</span>
+          
+          {% if scheme.verification_status == 'Verified' %}
+          <span class="badge-verified-official">
+            <i class="bi bi-patch-check-fill"></i> VERIFIED OFFICIAL DOCUMENT
+          </span>
+          {% elif scheme.verification_status == 'Demo Only' or 'demo' in scheme.verification_status.lower() %}
+          <span class="badge-demo-only">
+            <i class="bi bi-exclamation-triangle-fill"></i> DEMO ONLY – LOCALLY GENERATED MATERIAL
+          </span>
+          {% else %}
+          <span class="badge-unverified">
+            <i class="bi bi-question-circle-fill"></i> UNVERIFIED SOURCE
+          </span>
+          {% endif %}
+        </div>
+
+        <h1 class="fw-bold mb-2">{{ scheme.name }}</h1>
+        <p class="text-secondary mb-2">
+          <i class="bi bi-building me-1"></i> Department: <strong>{{ scheme.department }}</strong>
+        </p>
+        <p class="text-muted mb-0">{{ scheme.description }}</p>
+      </div>
+
+      <div class="d-flex flex-column gap-2 text-md-end">
+        <a href="{{ scheme.official_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary btn-sm d-flex align-items-center justify-content-center gap-1">
+          <i class="bi bi-box-arrow-up-right"></i> Official Portal
+        </a>
+        {% if scheme.application_url and scheme.application_url != scheme.official_url %}
+        <a href="{{ scheme.application_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sahaaya-teal btn-sm d-flex align-items-center justify-content-center gap-1">
+          <i class="bi bi-send-check"></i> Apply Online
+        </a>
+        {% endif %}
+        <button id="saveSchemeBtn" class="btn btn-outline-secondary btn-sm" onclick="toggleSaveScheme('{{ scheme.slug }}', '{{ scheme.name }}')">
+          <i class="bi bi-bookmark"></i> <span id="saveBtnText">Save Scheme</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left Column: Benefits & Eligibility -->
+    <div class="col-lg-7">
+      <!-- Benefits Section -->
+      <div class="sahaaya-card mb-4">
+        <div class="sahaaya-card-header">
+          <h5 class="fw-bold m-0 text-primary"><i class="bi bi-gift-fill me-2"></i>Scheme Benefits</h5>
+        </div>
+        <div class="sahaaya-card-body">
+          <div class="p-3 rounded-3 bg-light border text-dark fs-6">
+            {{ scheme.benefits }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Eligibility Criteria Rules -->
+      <div class="sahaaya-card mb-4">
+        <div class="sahaaya-card-header d-flex justify-content-between align-items-center">
+          <h5 class="fw-bold m-0"><i class="bi bi-ui-checks-grid me-2"></i>Eligibility Criteria</h5>
+          <a href="{{ url_for('views.eligibility_checker') }}?scheme={{ scheme.slug }}" class="btn btn-sahaaya-teal btn-sm">
+            <i class="bi bi-check-circle me-1"></i> Test My Eligibility
+          </a>
+        </div>
+        <div class="sahaaya-card-body p-0">
+          {% if scheme.rules and scheme.rules|length > 0 %}
+          <div class="list-group list-group-flush">
+            {% for rule in scheme.rules %}
+            <div class="list-group-item p-3">
+              <div class="d-flex justify-content-between align-items-start mb-1">
+                <span class="fw-semibold text-dark">{{ rule.rule_name }}</span>
+                {% if rule.is_verified %}
+                <span class="badge-verified-official">Verified</span>
+                {% else %}
+                <span class="badge-unverified">Unverified</span>
+                {% endif %}
+              </div>
+              <div class="text-secondary small mb-2">{{ rule.description }}</div>
+              <div class="d-flex flex-wrap gap-2 small text-muted">
+                <span class="badge bg-light text-dark border">Field: <code>{{ rule.field_name }}</code></span>
+                <span class="badge bg-light text-dark border">Condition: <code>{{ rule.operator }} {{ rule.expected_value }}</code></span>
+              </div>
+              {% if rule.source_reference %}
+              <div class="mt-2 small text-muted fst-italic">
+                <i class="bi bi-file-earmark-text me-1"></i> Source: {{ rule.source_reference }}
+              </div>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="p-4 text-center text-muted small">
+            No specific deterministic eligibility criteria recorded for this scheme.
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Application Steps -->
+      <div class="sahaaya-card mb-4">
+        <div class="sahaaya-card-header">
+          <h5 class="fw-bold m-0"><i class="bi bi-list-ol me-2"></i>Official Application Procedure</h5>
+        </div>
+        <div class="sahaaya-card-body">
+          {% if scheme.steps and scheme.steps|length > 0 %}
+          <ol class="list-group list-group-numbered list-group-flush">
+            {% for step in scheme.steps %}
+            <li class="list-group-item d-flex justify-content-between align-items-start p-3">
+              <div class="ms-2 me-auto">
+                <div class="fw-medium text-dark">{{ step.instruction }}</div>
+                {% if step.official_url %}
+                <a href="{{ step.official_url }}" target="_blank" rel="noopener noreferrer" class="small text-primary text-decoration-none mt-1 d-inline-block">
+                  <i class="bi bi-box-arrow-up-right me-1"></i> Open Procedure Link
+                </a>
+                {% endif %}
+              </div>
+            </li>
+            {% endfor %}
+          </ol>
+          {% else %}
+          <div class="text-center text-muted small py-3">
+            Please visit the official department portal for step-by-step submission instructions.
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Documents & Verification Details -->
+    <div class="col-lg-5">
+      <!-- Required Documents Card -->
+      <div class="sahaaya-card mb-4">
+        <div class="sahaaya-card-header d-flex justify-content-between align-items-center">
+          <h5 class="fw-bold m-0"><i class="bi bi-folder-check me-2"></i>Required Documents</h5>
+          <a href="{{ url_for('views.document_checklist', slug=scheme.slug) }}" class="btn btn-outline-primary btn-sm">
+            Checklist
+          </a>
+        </div>
+        <div class="sahaaya-card-body p-0">
+          {% if scheme.documents and scheme.documents|length > 0 %}
+          <div class="list-group list-group-flush">
+            {% for doc in scheme.documents %}
+            <div class="list-group-item p-3">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fw-semibold text-dark">{{ doc.document_name }}</span>
+                {% if doc.is_mandatory %}
+                <span class="badge bg-danger-subtle text-danger border">Mandatory</span>
+                {% else %}
+                <span class="badge bg-secondary-subtle text-secondary border">Optional</span>
+                {% endif %}
+              </div>
+              <p class="text-muted small mb-1">{{ doc.description or 'Required for verification at official center.' }}</p>
+              <div class="text-muted small fst-italic">
+                <i class="bi bi-quote"></i> {{ doc.source_reference }}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="p-3 text-center text-muted small">
+            Standard identification documents required.
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Source Verification & Responsible AI Metadata -->
+      <div class="sahaaya-card mb-4">
+        <div class="sahaaya-card-header">
+          <h6 class="fw-bold m-0"><i class="bi bi-shield-check text-info me-1"></i> Official Grounding Metadata</h6>
+        </div>
+        <div class="sahaaya-card-body small">
+          <div class="d-flex justify-content-between py-1 border-bottom">
+            <span class="text-muted">Verification Status:</span>
+            <strong class="text-dark">{{ scheme.verification_status }}</strong>
+          </div>
+          <div class="d-flex justify-content-between py-1 border-bottom">
+            <span class="text-muted">Last Verified Date:</span>
+            <span>
+              {% if scheme.last_verified_at %}
+                {{ scheme.last_verified_at.strftime('%Y-%m-%d') }}
+              {% else %}
+                Not recorded
+              {% endif %}
+            </span>
+          </div>
+          <div class="d-flex justify-content-between py-1 border-bottom">
+            <span class="text-muted">Government Jurisdiction:</span>
+            <span>{{ scheme.government_level }} ({{ scheme.state or 'National' }})</span>
+          </div>
+          <div class="d-flex justify-content-between py-1">
+            <span class="text-muted">Official Portal:</span>
+            <a href="{{ scheme.official_url }}" target="_blank" rel="noopener noreferrer" class="text-truncate" style="max-width: 180px;">
+              {{ scheme.official_url }}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mandatory Legal & Indicative Disclaimer -->
+      <div class="disclaimer-box m-0">
+        <div class="fw-bold text-dark mb-1"><i class="bi bi-exclamation-triangle-fill text-warning me-1"></i> Indicative Assessment Disclaimer:</div>
+        <div class="small">
+          Welfare Scheme Navigator provides indicative eligibility assessment only based on published guidelines. It does not constitute guaranteed government approval. Final approval is subject to document verification by competent government authorities.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Mark scheme as explored in local session
+  document.addEventListener('DOMContentLoaded', function() {
+    markSchemeExplored('{{ scheme.slug }}');
+    checkIfSchemeSaved('{{ scheme.slug }}');
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Compare Government Schemes - Welfare Scheme Navigator{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <!-- Page Header -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+      <span class="badge bg-secondary-subtle text-secondary border mb-1">Side-by-Side Analysis</span>
+      <h2 class="fw-bold mb-1">Compare Government Welfare Schemes</h2>
+      <p class="text-muted small mb-0">Select 2 or 3 schemes to compare benefits, eligibility rules, mandatory documents, and official procedures.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('views.schemes_discovery') }}" class="btn btn-outline-primary btn-sm">
+        <i class="bi bi-collection"></i> Scheme Directory
+      </a>
+      <a href="{{ url_for('views.assistant_page') }}" class="btn btn-sahaaya-primary btn-sm">
+        <i class="bi bi-chat-dots"></i> Ask AI Assistant
+      </a>
+    </div>
+  </div>
+
+  <!-- Scheme Selector Card -->
+  <div class="sahaaya-card p-4 mb-4">
+    <h6 class="fw-bold mb-3"><i class="bi bi-check2-square text-primary me-2"></i>Select Schemes to Compare (Choose 2 or 3)</h6>
+    <div class="row g-3" id="schemeCheckboxesContainer">
+      {% for s in schemes %}
+      <div class="col-lg-3 col-md-4 col-6">
+        <div class="form-check p-2 rounded border bg-light">
+          <input class="form-check-input ms-1 me-2 compare-checkbox" type="checkbox" value="{{ s.slug }}" id="cmp_{{ s.slug }}">
+          <label class="form-check-label small fw-medium text-dark text-truncate d-block" for="cmp_{{ s.slug }}" title="{{ s.name }}">
+            {{ s.name }}
+          </label>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+      <span class="text-muted small">Selected: <strong id="selectedCountText">0</strong> / 3 schemes (select 2 or 3)</span>
+      <div class="d-flex gap-2">
+        <button id="clearCompareBtn" class="btn btn-outline-secondary btn-sm" onclick="clearSelectedCompare()">Clear</button>
+        <button id="runCompareBtn" class="btn btn-sahaaya-teal btn-sm" onclick="executeComparison()" disabled>
+          <i class="bi bi-arrow-left-right me-1"></i> Compare Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison Error Alert Banner -->
+  <div id="comparisonAlert" class="alert alert-danger d-none mb-4 py-2 small" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+    <span id="comparisonAlertText"></span>
+  </div>
+
+  <!-- Comparison Results View -->
+  <div id="comparisonLoading" class="sahaaya-card p-5 text-center d-none">
+    <div class="spinner-border text-primary mb-3" role="status">
+      <span class="visually-hidden">Comparing schemes...</span>
+    </div>
+    <h6 class="fw-bold">Retrieving Verified Scheme Records...</h6>
+  </div>
+
+  <div id="comparisonTableWrapper" class="sahaaya-card p-0 mb-4 d-none">
+    <div class="sahaaya-card-header d-flex justify-content-between align-items-center">
+      <h5 class="fw-bold m-0"><i class="bi bi-table text-primary me-2"></i>Side-by-Side Comparison Table</h5>
+      <span class="badge bg-light text-dark border" id="comparedCountBadge">2 Schemes</span>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered align-top mb-0" id="comparisonTable">
+        <thead class="table-light" id="comparisonTableHead">
+          <!-- Populated by compare.js -->
+        </thead>
+        <tbody id="comparisonTableBody">
+          <!-- Populated by compare.js -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Comparison Guidance Notes -->
+  <div id="comparisonNotesBox" class="disclaimer-box d-none">
+    <div class="fw-bold text-dark mb-1"><i class="bi bi-info-circle me-1"></i> Scheme Comparison Notes:</div>
+    <ul class="mb-0 ps-3 small text-secondary" id="comparisonNotesList">
+      <!-- Populated by compare.js -->
+    </ul>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/compare.js') }}"></script>
+{% endblock %}

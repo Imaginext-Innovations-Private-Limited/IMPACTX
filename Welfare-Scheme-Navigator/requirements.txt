@@ -1,0 +1,29 @@
+# Sahaaya AI - Dependencies
+# Python 3.11 Windows Compatible
+
+# Web Framework & Core
+Flask>=3.0.0,<3.2.0
+Flask-SQLAlchemy>=3.1.0
+Werkzeug>=3.0.0,<3.2.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+
+# Database & ORM
+SQLAlchemy>=2.0.0,<2.1.0
+
+# Official Gemini API SDK
+google-genai>=1.0.0
+
+# RAG & Semantic Retrieval
+langchain>=0.3.0
+langchain-community>=0.3.0
+sentence-transformers>=3.0.0
+faiss-cpu>=1.8.0
+pypdf>=4.0.0
+
+# Fallback & Similarity Engine
+scikit-learn>=1.4.0
+
+# Testing & Utilities
+pytest>=8.0.0
+requests>=2.31.0

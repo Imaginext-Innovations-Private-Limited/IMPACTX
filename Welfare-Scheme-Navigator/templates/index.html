@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Welfare Scheme Navigator{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container position-relative">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-light bg-opacity-10 text-white small mb-3 border border-light border-opacity-10">
+          <i class="bi bi-stars text-info"></i>
+          <span>Track A: Agentic AI for Communities</span>
+        </div>
+        <h1 class="hero-title">Your Personal Government Scheme Guide</h1>
+        <p class="hero-subtitle">
+          Discover government welfare schemes, understand eligibility, prepare documents and get guided assistance with Welfare Scheme Navigator.
+        </p>
+
+        <!-- Search Box -->
+        <form action="{{ url_for('views.schemes_discovery') }}" method="GET" class="hero-search-box mb-4">
+          <i class="bi bi-search text-muted fs-5 align-self-center ps-2"></i>
+          <input type="text" name="q" class="hero-search-input" placeholder="Search by scheme name, benefit, or category (e.g. Gruha Lakshmi, farmer)..." aria-label="Search Government Schemes">
+          <button type="submit" class="btn btn-sahaaya-teal px-4">
+            <span>Explore Schemes</span>
+          </button>
+        </form>
+
+        <div class="d-flex flex-wrap gap-3">
+          <a href="{{ url_for('views.schemes_discovery') }}" class="btn btn-light fw-semibold px-4 py-2 rounded-2">
+            <i class="bi bi-collection me-1"></i> Browse All Schemes
+          </a>
+          <a href="{{ url_for('views.eligibility_checker') }}" class="btn btn-outline-light fw-semibold px-4 py-2 rounded-2">
+            <i class="bi bi-check2-circle me-1"></i> Check Your Eligibility
+          </a>
+          <a href="{{ url_for('views.assistant_page') }}" class="btn btn-info text-dark fw-semibold px-4 py-2 rounded-2">
+            <i class="bi bi-chat-dots-fill me-1"></i> Ask AI Assistant
+          </a>
+        </div>
+      </div>
+
+      <div class="col-lg-5 d-none d-lg-block">
+        <div class="sahaaya-card p-4 shadow-lg border-0 bg-white text-dark">
+          <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+            <h6 class="fw-bold m-0 text-primary"><i class="bi bi-shield-check me-1"></i> Government Scheme Catalog</h6>
+            <span class="badge bg-success-subtle text-success">Source Status Available</span>
+          </div>
+          <div class="d-flex flex-column gap-3">
+            <div class="p-3 rounded-3 bg-light border">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <strong class="text-dark">Karnataka Guarantee Schemes</strong>
+                <span class="badge bg-primary">State Level</span>
+              </div>
+              <div class="small text-muted">Gruha Lakshmi, Yuva Nidhi, Gruha Jyothi, Shakti Scheme, Anna Bhagya</div>
+            </div>
+            <div class="p-3 rounded-3 bg-light border">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <strong class="text-dark">Central Welfare Schemes</strong>
+                <span class="badge bg-secondary">Central Level</span>
+              </div>
+              <div class="small text-muted">PM-KISAN, Ayushman Bharat PM-JAY, PMAY Housing, Sukanya Samriddhi</div>
+            </div>
+            <div class="p-3 rounded-3 bg-info-subtle border border-info-subtle">
+              <div class="d-flex align-items-center gap-2 text-info-emphasis small fw-medium">
+                <i class="bi bi-info-circle-fill"></i>
+                <span>Rule-based eligibility checks and source-linked information help reduce unsupported answers.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How Welfare Scheme Navigator Works -->
+<section class="py-5 bg-white border-bottom">
+  <div class="container">
+    <div class="text-center max-w-xl mx-auto mb-5">
+      <span class="text-teal fw-bold text-uppercase small" style="color: var(--secondary-teal);">Transparent Process</span>
+      <h2 class="fw-bold mt-1">How Welfare Scheme Navigator Empowers Citizens</h2>
+      <p class="text-muted">Simple 4-step path from scheme discovery to official application submission.</p>
+    </div>
+
+    <div class="row g-4 text-center">
+      <div class="col-md-3">
+        <div class="p-4 rounded-4 bg-light h-100 border">
+          <div class="rounded-circle bg-primary-subtle text-primary d-inline-flex p-3 fs-3 mb-3">
+            <i class="bi bi-search"></i>
+          </div>
+          <h5 class="fw-bold">1. Discover Schemes</h5>
+          <p class="text-muted small">Search Central and Karnataka state welfare programs tailored to your community and household needs.</p>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="p-4 rounded-4 bg-light h-100 border">
+          <div class="rounded-circle bg-teal-subtle text-teal d-inline-flex p-3 fs-3 mb-3" style="color: var(--secondary-teal); background-color: var(--secondary-teal-light);">
+            <i class="bi bi-ui-checks-grid"></i>
+          </div>
+          <h5 class="fw-bold">2. Check Eligibility</h5>
+          <p class="text-muted small">Answer non-sensitive criteria. Our deterministic engine evaluates rules without collecting Aadhaar or PAN.</p>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="p-4 rounded-4 bg-light h-100 border">
+          <div class="rounded-circle bg-warning-subtle text-warning d-inline-flex p-3 fs-3 mb-3">
+            <i class="bi bi-folder-check"></i>
+          </div>
+          <h5 class="fw-bold">3. Prepare Documents</h5>
+          <p class="text-muted small">Access verified checklists of mandatory and optional documents before visiting Seva Kendras.</p>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="p-4 rounded-4 bg-light h-100 border">
+          <div class="rounded-circle bg-info-subtle text-info d-inline-flex p-3 fs-3 mb-3">
+            <i class="bi bi-box-arrow-up-right"></i>
+          </div>
+          <h5 class="fw-bold">4. Apply on Official Portal</h5>
+          <p class="text-muted small">Follow verified step-by-step instructions with direct links to official government application portals.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Popular Schemes Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+      <div>
+        <span class="text-uppercase small fw-bold text-muted">Featured Welfare Programs</span>
+        <h2 class="fw-bold mb-0">Popular Government Schemes</h2>
+      </div>
+      <a href="{{ url_for('views.schemes_discovery') }}" class="btn btn-outline-primary btn-sm">
+        View All Schemes <i class="bi bi-arrow-right"></i>
+      </a>
+    </div>
+
+    <div class="row g-4">
+      {% for scheme in popular_schemes %}
+      <div class="col-lg-4 col-md-6">
+        <div class="sahaaya-card h-100 d-flex flex-column">
+          <div class="sahaaya-card-header d-flex justify-content-between align-items-center">
+            <span class="badge {% if scheme.government_level == 'State' %}bg-primary{% else %}bg-secondary{% endif %}">
+              {{ scheme.government_level }} Level
+            </span>
+            <span class="badge bg-light text-dark border">{{ scheme.category }}</span>
+          </div>
+          <div class="sahaaya-card-body flex-grow-1">
+            <h5 class="fw-bold mb-2">{{ scheme.name }}</h5>
+            <p class="text-muted small mb-3 text-truncate-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+              {{ scheme.description }}
+            </p>
+            <div class="p-2 rounded bg-light small mb-3 border">
+              <strong>Benefits:</strong> <span class="text-secondary">{{ scheme.benefits }}</span>
+            </div>
+            <div class="d-flex align-items-center justify-content-between text-muted small">
+              <span><i class="bi bi-building me-1"></i> {{ scheme.state or 'All India' }}</span>
+              <span class="badge-verified-official">
+                <i class="bi bi-patch-check-fill"></i> Verified
+              </span>
+            </div>
+          </div>
+          <div class="p-3 bg-light border-top d-flex gap-2">
+            <a href="{{ url_for('views.scheme_detail', slug=scheme.slug) }}" class="btn btn-sm btn-outline-primary flex-grow-1">
+              View Details
+            </a>
+            <a href="{{ url_for('views.eligibility_checker') }}" class="btn btn-sm btn-sahaaya-teal">
+              Check
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Responsible AI & Safety Notice Section -->
+<section class="py-5 bg-white border-top">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <h4 class="fw-bold mb-2"><i class="bi bi-shield-lock-fill text-primary me-2"></i> Responsible AI &amp; Citizen Privacy Protection</h4>
+        <p class="text-muted mb-3">
+          Welfare Scheme Navigator is engineered for community trust. We adhere to strict architectural safeguards:
+        </p>
+        <ul class="list-unstyled d-flex flex-column gap-2 text-secondary small">
+          <li><i class="bi bi-check-circle-fill text-success me-2"></i><strong>No Sensitive PII:</strong> We never ask for or store 12-digit Aadhaar numbers, PAN cards, or bank credentials.</li>
+          <li><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Deterministic Eligibility:</strong> Eligibility rules are executed by pure Python logic, not generative AI approximations.</li>
+          <li><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Source Grounding:</strong> RAG retrieval references verified PDFs and government gazettes with page citations.</li>
+          <li><i class="bi bi-check-circle-fill text-success me-2"></i><strong>Indicative Assessment Only:</strong> Final approval is always determined by the competent government authority.</li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <div class="disclaimer-box m-0">
+          <div class="fw-bold text-dark mb-1"><i class="bi bi-exclamation-triangle-fill text-warning me-1"></i> Mandatory Disclaimer</div>
+          <div class="small">
+            Welfare Scheme Navigator provides indicative eligibility assessments only based on published guidelines. It does not constitute guaranteed government approval. Final approval is subject to document verification by competent government authorities.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

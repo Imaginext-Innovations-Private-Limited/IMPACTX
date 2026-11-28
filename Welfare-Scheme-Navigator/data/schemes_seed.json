@@ -1,0 +1,807 @@
+[
+  {
+    "name": "Gruha Lakshmi Scheme",
+    "slug": "gruha-lakshmi",
+    "description": "A flagship welfare initiative by the Government of Karnataka providing financial empowerment to women heads of families by granting direct monthly financial assistance.",
+    "category": "Women & Child Development",
+    "government_level": "State",
+    "state": "Karnataka",
+    "department": "Department of Women and Child Development, Government of Karnataka",
+    "official_url": "https://sevasindhu.karnataka.gov.in/",
+    "application_url": "https://sevasindhugs.karnataka.gov.in/",
+    "benefits": "Financial assistance of ₹2,000 per month transferred directly via Direct Benefit Transfer (DBT) into the bank account of the registered woman head of the family.",
+    "active_status": "Active",
+    "verification_status": "Verified",
+    "last_verified_at": "2026-11-24T00:00:00Z",
+    "rules": [
+      {
+        "rule_name": "Karnataka Domicile",
+        "field_name": "state",
+        "operator": "==",
+        "expected_value": "Karnataka",
+        "description": "Applicant family must be permanent residents of Karnataka.",
+        "source_reference": "https://sevasindhu.karnataka.gov.in/ (Govt Order No. WCD 129 MMD 2023)",
+        "is_verified": true
+      },
+      {
+        "rule_name": "Woman Head of Household",
+        "field_name": "is_female_head_of_family",
+        "operator": "==",
+        "expected_value": "True",
+        "description": "Applicant must be designated as the woman head of the family in the official ration card.",
+        "source_reference": "https://sevasindhu.karnataka.gov.in/Guidelines/GruhaLakshmi.pdf",
+        "is_verified": true
+      },
+      {
+        "rule_name": "Eligible Ration Card Holder",
+        "field_name": "ration_card_type",
+        "operator": "in",
+        "expected_value": "[\"BPL\", \"AAY\", \"APL\"]",
+        "description": "Family must possess a valid Antyodaya (AAY), Below Poverty Line (BPL), or Above Poverty Line (APL) ration card issued by Food & Civil Supplies Dept.",
+        "source_reference": "https://ahara.kar.nic.in/ (Gruha Lakshmi Eligibility Circular)",
+        "is_verified": true
+      },
+      {
+        "rule_name": "Gender Qualification",
+        "field_name": "gender",
+        "operator": "==",
+        "expected_value": "Female",
+        "description": "Direct beneficiary must be female.",
+        "source_reference": "https://sevasindhu.karnataka.gov.in/",
+        "is_verified": true
+      }
+    ],
+    "documents": [
+      {
+        "document_name": "Ration Card (AAY / BPL / APL)",
+        "description": "Valid Karnataka Ration Card listing the applicant as female head of the family.",
+        "is_mandatory": true,
+        "source_reference": "https://sevasindhu.karnataka.gov.in/"
+      },
+      {
+        "document_name": "Aadhaar Card",
+        "description": "Aadhaar card of the woman head of household for biometric e-KYC.",
+        "is_mandatory": true,
+        "source_reference": "https://sevasindhu.karnataka.gov.in/"
+      },
+      {
+        "document_name": "Aadhaar-Linked Bank Account Passbook",
+        "description": "Bank account linked with NPCI / Aadhaar seeding for direct cash transfer.",
+        "is_mandatory": true,
+        "source_reference": "https://sevasindhu.karnataka.gov.in/"
+      }
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "instruction": "Verify ration card status and confirm that applicant is registered as the woman head of family on Ahara Karnataka portal.",
+        "official_url": "https://ahara.kar.nic.in/"
+      },
+      {
+        "step_number": 2,
+        "instruction": "Visit designated Seva Kendra (Grama One, Bangalore One, Karnataka One, or Bapuji Seva Kendra).",
+        "official_url": "https://sevasindhu.karnataka.gov.in/"
+      },
+      {
+        "step_number": 3,
+        "instruction": "Provide Ration Card Number and Aadhaar number for biometric e-KYC authentication.",
+        "official_url": "https://sevasindhugs.karnataka.gov.in/"
+      },
+      {
+        "step_number": 4,
+        "instruction": "Receive application acknowledgement receipt with unique registration tracking ID.",
+        "official_url": "https://sevasindhugs.karnataka.gov.in/"
+      }
+    ]
+  },
+  {
+    "name": "Yuva Nidhi Scheme",
+    "slug": "yuva-nidhi",
+    "description": "Unemployment assistance scheme for educated youth in Karnataka who have graduated or completed diplomas and have remained unemployed for more than 180 days.",
+    "category": "Employment & Skill Development",
+    "government_level": "State",
+    "state": "Karnataka",
+    "department": "Department of Employment and Training, Government of Karnataka",
+    "official_url": "https://sevasindhu.karnataka.gov.in/",
+    "application_url": "https://sevasindhugs.karnataka.gov.in/",
+    "benefits": "Monthly financial aid of ₹3,000 for degree holders (Graduates) and ₹1,500 for diploma holders for a period of up to 2 years or until employment/self-employment is secured.",
+    "active_status": "Active",
+    "verification_status": "Verified",
+    "last_verified_at": "2026-11-24T00:00:00Z",
+    "rules": [
+      {
+        "rule_name": "Karnataka Domicile / Education",
+        "field_name": "state",
+        "operator": "==",
+        "expected_value": "Karnataka",
+        "description": "Candidate must have studied in Karnataka for at least 6 consecutive years.",
+        "source_reference": "https://sevasindhu.karnataka.gov.in/ (Govt Order on Yuva Nidhi 2023)",
+        "is_verified": true
+      },
+      {
+        "rule_name": "Higher Education Qualification",
+        "field_name": "student_degree_level",
+        "operator": "in",
+        "expected_value": "[\"Undergraduate\", \"Postgraduate\", \"Diploma\"]",
+        "description": "Must possess a recognized degree or diploma from a recognized university/board in Karnataka.",
+        "source_reference": "https://sevasindhugs.karnataka.gov.in/",
+        "is_verified": true
+      },
+      {
+        "rule_name": "Unemployment Status",
+        "field_name": "occupation",
+        "operator": "in",
+        "expected_value": "[\"Unemployed Youth\", \"Unemployed\", \"Job Seeker\"]",
+        "description": "Must not be employed in public or private sector and not pursuing higher education.",
+        "source_reference": "https://sevasindhugs.karnataka.gov.in/",
+        "is_verified": true
+      }
+    ],
+    "documents": [
+      {
+        "document_name": "Degree / Diploma Passing Certificate and Marks Cards",
+        "description": "Official convocation / provisional degree certificate and final semester marks cards.",
+        "is_mandatory": true,
+        "source_reference": "https://sevasindhu.karnataka.gov.in/"
+      },
+      {
+        "document_name": "Karnataka Study / Domicile Certificate",
+        "description": "Study certificate proving a minimum of 6 years study in Karnataka or domicile certificate.",
+        "is_mandatory": true,
+        "source_reference": "https://sevasindhu.karnataka.gov.in/"
+      },
+      {
+        "document_name": "Aadhaar Card",
+        "description": "Aadhaar card for biometric identity verification.",
+        "is_mandatory": true,
+        "source_reference": "https://sevasindhu.karnataka.gov.in/"
+      },
+      {
+        "document_name": "Bank Passbook seeded with NPCI / Aadhaar",
+        "description": "Bank account where DBT financial assistance will be deposited.",
+        "is_mandatory": true,
+        "source_reference": "https://sevasindhu.karnataka.gov.in/"
+      }
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "instruction": "Open Seva Sindhu Guarantee Scheme Portal and select Yuva Nidhi.",
+        "official_url": "https://sevasindhugs.karnataka.gov.in/"
+      },
+      {
+        "step_number": 2,
+        "instruction": "Authenticate using Aadhaar number and OTP.",
+        "official_url": "https://sevasindhugs.karnataka.gov.in/"
+      },
+      {
+        "step_number": 3,
+        "instruction": "Enter Degree / Diploma registration number to fetch academic records from Karnataka University database.",
+        "official_url": "https://sevasindhugs.karnataka.gov.in/"
+      },
+      {
+        "step_number": 4,
+        "instruction": "Submit self-declaration confirming unemployment status and monthly reporting requirement.",
+        "official_url": "https://sevasindhugs.karnataka.gov.in/"
+      }
+    ]
+  },
+  {
+    "name": "Gruha Jyothi Scheme",
+    "slug": "gruha-jyothi",
+    "description": "A welfare scheme providing free domestic electricity of up to 200 units per month for households in Karnataka.",
+    "category": "Energy & Power",
+    "government_level": "State",
+    "state": "Karnataka",
+    "department": "Energy Department (BESCOM, MESCOM, CESC, HESCOM, GESCOM), Government of Karnataka",
+    "official_url": "https://sevasindhu.karnataka.gov.in/",
+    "application_url": "https://sevasindhugs.karnataka.gov.in/gruhajyothi",
+    "benefits": "Zero electricity bill for monthly domestic consumption within entitlement limit (average consumption of previous 12 months + 10% buffer, capped at a maximum of 200 units).",
+    "active_status": "Active",
+    "verification_status": "Verified",
+    "last_verified_at": "2026-11-24T00:00:00Z",
+    "rules": [
+      {
+        "rule_name": "Karnataka Residence",
+        "field_name": "state",
+        "operator": "==",
+        "expected_value": "Karnataka",
+        "description": "Domestic electricity connection must be located within Karnataka state.",
+        "source_reference": "https://karnataka.gov.in/energy/ (Govt Order EN 33 PSR 2023)",
+        "is_verified": true
+      },
+      {
+        "rule_name": "Domestic Consumption Cap",
+        "field_name": "monthly_electricity_consumption_units",
+        "operator": "<=",
+        "expected_value": "200",
+        "description": "Monthly electricity consumption must not exceed 200 units on average. Commercial connections are strictly excluded.",
+        "source_reference": "https://sevasindhugs.karnataka.gov.in/gruhajyothi",
+        "is_verified": true
+      }
+    ],
+    "documents": [
+      {
+        "document_name": "Electricity Consumer Account ID (Account ID on Bill)",
+        "description": "Unique 10-digit Account ID mentioned on domestic monthly electricity bill.",
+        "is_mandatory": true,
+        "source_reference": "https://sevasindhugs.karnataka.gov.in/gruhajyothi"
+      },
+      {
+        "document_name": "Aadhaar Card of Consumer / Occupant",
+        "description": "Aadhaar number of the homeowner or tenant residing in the premises.",
+        "is_mandatory": true,
+        "source_reference": "https://sevasindhugs.karnataka.gov.in/gruhajyothi"
+      },
+      {
+        "document_name": "Rental / Tenancy Agreement or Voter ID (for Tenants)",
+        "description": "Proof of occupancy in case applicant is a tenant living in rented accommodation.",
+        "is_mandatory": false,
+        "source_reference": "https://sevasindhugs.karnataka.gov.in/gruhajyothi"
+      }
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "instruction": "Access Seva Sindhu Gruha Jyothi portal or visit Grama One / Bangalore One center.",
+        "official_url": "https://sevasindhugs.karnataka.gov.in/gruhajyothi"
+      },
+      {
+        "step_number": 2,
+        "instruction": "Select your Electricity Supply Company (ESCOM: BESCOM, MESCOM, CESC, HESCOM, or GESCOM).",
+        "official_url": "https://sevasindhugs.karnataka.gov.in/gruhajyothi"
+      },
+      {
+        "step_number": 3,
+        "instruction": "Enter your Consumer Account ID and complete Aadhaar authentication.",
+        "official_url": "https://sevasindhugs.karnataka.gov.in/gruhajyothi"
+      },
+      {
+        "step_number": 4,
+        "instruction": "Download acknowledgement receipt confirming registration for zero electricity billing.",
+        "official_url": "https://sevasindhugs.karnataka.gov.in/gruhajyothi"
+      }
+    ]
+  },
+  {
+    "name": "Shakti Scheme",
+    "slug": "shakti-scheme",
+    "description": "Free public bus travel initiative for women and transgender residents across state-operated road transport buses throughout Karnataka.",
+    "category": "Transport & Mobility",
+    "government_level": "State",
+    "state": "Karnataka",
+    "department": "Transport Department (KSRTC, BMTC, NWKRTC, KKRTC), Government of Karnataka",
+    "official_url": "https://sevasindhu.karnataka.gov.in/",
+    "application_url": "https://sevasindhu.karnataka.gov.in/",
+    "benefits": "100% free bus travel in ordinary and express city and intercity bus services operated by KSRTC, BMTC, NWKRTC, and KKRTC within the state of Karnataka.",
+    "active_status": "Active",
+    "verification_status": "Verified",
+    "last_verified_at": "2026-11-24T00:00:00Z",
+    "rules": [
+      {
+        "rule_name": "Karnataka Domicile",
+        "field_name": "state",
+        "operator": "==",
+        "expected_value": "Karnataka",
+        "description": "Beneficiary must be a resident of Karnataka.",
+        "source_reference": "https://ksrtc.in/ (Govt Order TRD 64 SMY 2023)",
+        "is_verified": true
+      },
+      {
+        "rule_name": "Gender Qualification",
+        "field_name": "gender",
+        "operator": "in",
+        "expected_value": "[\"Female\", \"Transgender\"]",
+        "description": "Eligible for all women and transgender residents.",
+        "source_reference": "https://ksrtc.in/pages/shakti-scheme.html",
+        "is_verified": true
+      }
+    ],
+    "documents": [
+      {
+        "document_name": "Government Photo ID with Karnataka Address",
+        "description": "Any valid government photo ID card proving Karnataka residency (Aadhaar, Voter ID, Driving License, or Ration Card).",
+        "is_mandatory": true,
+        "source_reference": "https://ksrtc.in/pages/shakti-scheme.html"
+      }
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "instruction": "Board any eligible ordinary or express bus operated by BMTC, KSRTC, NWKRTC, or KKRTC within Karnataka.",
+        "official_url": "https://ksrtc.in/"
+      },
+      {
+        "step_number": 2,
+        "instruction": "Show your original government photo identity card proving Karnataka residence to the bus conductor.",
+        "official_url": "https://ksrtc.in/"
+      },
+      {
+        "step_number": 3,
+        "instruction": "The conductor verifies the ID and issues a zero-fare ticket for your journey.",
+        "official_url": "https://ksrtc.in/"
+      }
+    ]
+  },
+  {
+    "name": "Anna Bhagya Scheme",
+    "slug": "anna-bhagya",
+    "description": "Food security scheme providing 10 kg of foodgrains per person per month for Antyodaya and BPL ration cardholder families across Karnataka.",
+    "category": "Food & Civil Supplies",
+    "government_level": "State",
+    "state": "Karnataka",
+    "department": "Food, Civil Supplies & Consumer Affairs Department, Government of Karnataka",
+    "official_url": "https://ahara.kar.nic.in/",
+    "application_url": "https://ahara.kar.nic.in/status2/status_dbt.aspx",
+    "benefits": "Entitlement of 10 kg foodgrains per person per month (5 kg Central PMGKAY foodgrain + 5 kg additional grain or direct cash transfer of ₹34 per kg for the additional 5 kg via DBT during procurement constraints).",
+    "active_status": "Active",
+    "verification_status": "Verified",
+    "last_verified_at": "2026-11-24T00:00:00Z",
+    "rules": [
+      {
+        "rule_name": "Karnataka Residence",
+        "field_name": "state",
+        "operator": "==",
+        "expected_value": "Karnataka",
+        "description": "Beneficiary must reside in Karnataka with active ration card record.",
+        "source_reference": "https://ahara.kar.nic.in/ (Govt Order FCS 45 RPR 2023)",
+        "is_verified": true
+      },
+      {
+        "rule_name": "BPL / Antyodaya Ration Card",
+        "field_name": "ration_card_type",
+        "operator": "in",
+        "expected_value": "[\"BPL\", \"AAY\"]",
+        "description": "Must possess an active Priority Household (BPL) or Antyodaya Anna Yojana (AAY) ration card.",
+        "source_reference": "https://ahara.kar.nic.in/",
+        "is_verified": true
+      },
+      {
+        "rule_name": "BPL Status Confirmed",
+        "field_name": "is_bpl_card_holder",
+        "operator": "==",
+        "expected_value": "True",
+        "description": "Applicant family must be officially certified below poverty line.",
+        "source_reference": "https://ahara.kar.nic.in/",
+        "is_verified": true
+      }
+    ],
+    "documents": [
+      {
+        "document_name": "Karnataka BPL / Antyodaya (AAY) Ration Card",
+        "description": "Official ration card issued by Food, Civil Supplies & Consumer Affairs Department.",
+        "is_mandatory": true,
+        "source_reference": "https://ahara.kar.nic.in/"
+      },
+      {
+        "document_name": "Aadhaar Card of Family Members",
+        "description": "Aadhaar cards linked to the RCMS database for biometric authentication.",
+        "is_mandatory": true,
+        "source_reference": "https://ahara.kar.nic.in/"
+      },
+      {
+        "document_name": "Aadhaar-Linked Bank Account (for DBT Cash Component)",
+        "description": "Active bank account seeded with Aadhaar and NPCI for cash payment transfers.",
+        "is_mandatory": true,
+        "source_reference": "https://ahara.kar.nic.in/"
+      }
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "instruction": "Visit the Karnataka Ahara portal and check your Ration Card status and member details.",
+        "official_url": "https://ahara.kar.nic.in/"
+      },
+      {
+        "step_number": 2,
+        "instruction": "Verify that your bank account is active and seeded with NPCI/Aadhaar on the Ahara DBT status portal.",
+        "official_url": "https://ahara.kar.nic.in/status2/status_dbt.aspx"
+      },
+      {
+        "step_number": 3,
+        "instruction": "Collect free foodgrains from your assigned Fair Price Shop (FPS) using e-POS biometric authentication.",
+        "official_url": "https://ahara.kar.nic.in/"
+      }
+    ]
+  },
+  {
+    "name": "State Scholarship Portal (SSP) Post-Matric Scholarships",
+    "slug": "ssp-post-matric-scholarship",
+    "description": "Unified Karnataka scholarship portal providing financial support and fee reimbursement to SC, ST, OBC, Minority, and EWS students pursuing post-matric courses.",
+    "category": "Education & Scholarships",
+    "government_level": "State",
+    "state": "Karnataka",
+    "department": "Social Welfare, Tribal Welfare, BCWD, and Minorities Welfare Departments, Government of Karnataka",
+    "official_url": "https://ssp.postmatric.karnataka.gov.in/",
+    "application_url": "https://ssp.postmatric.karnataka.gov.in/",
+    "benefits": "Tuition fee reimbursement, examination fee waiver, and monthly maintenance allowance directly credited to the student's Aadhaar-linked bank account.",
+    "active_status": "Active",
+    "verification_status": "Verified",
+    "last_verified_at": "2026-11-24T00:00:00Z",
+    "rules": [
+      {
+        "rule_name": "Karnataka Resident",
+        "field_name": "state",
+        "operator": "==",
+        "expected_value": "Karnataka",
+        "description": "Student must be a resident of Karnataka.",
+        "source_reference": "https://ssp.postmatric.karnataka.gov.in/docs/SSP_Guidelines.pdf",
+        "is_verified": true
+      },
+      {
+        "rule_name": "Student Enrolled in Post-Matric Course",
+        "field_name": "is_student",
+        "operator": "==",
+        "expected_value": "True",
+        "description": "Must be actively studying in PUC, Diploma, ITI, Graduate, Post-Graduate, or Doctoral degree.",
+        "source_reference": "https://ssp.postmatric.karnataka.gov.in/",
+        "is_verified": true
+      },
+      {
+        "rule_name": "Eligible Category",
+        "field_name": "caste_category",
+        "operator": "in",
+        "expected_value": "[\"SC\", \"ST\", \"OBC\", \"Minority\", \"General\"]",
+        "description": "SC, ST, OBC, Minority or General category students with valid Nadakacheri income certificate.",
+        "source_reference": "https://ssp.postmatric.karnataka.gov.in/",
+        "is_verified": true
+      },
+      {
+        "rule_name": "Annual Household Income Limit",
+        "field_name": "annual_household_income",
+        "operator": "<=",
+        "expected_value": "250000",
+        "description": "Annual household income must not exceed ₹2.5 Lakhs (up to ₹10 Lakhs for select SC/ST fee concession categories).",
+        "source_reference": "https://ssp.postmatric.karnataka.gov.in/",
+        "is_verified": true
+      }
+    ],
+    "documents": [
+      {
+        "document_name": "Student SATS ID / College Registration Number",
+        "description": "Student Achievement Tracking System ID or university admission number.",
+        "is_mandatory": true,
+        "source_reference": "https://ssp.postmatric.karnataka.gov.in/"
+      },
+      {
+        "document_name": "Caste & Income Certificate RD Number (Nadakacheri)",
+        "description": "Official Nadakacheri RD number for digital verification of caste and income.",
+        "is_mandatory": true,
+        "source_reference": "https://ssp.postmatric.karnataka.gov.in/"
+      },
+      {
+        "document_name": "Fee Receipt and Bonafide Certificate",
+        "description": "College fee receipt and bonafide student study certificate.",
+        "is_mandatory": true,
+        "source_reference": "https://ssp.postmatric.karnataka.gov.in/"
+      },
+      {
+        "document_name": "Aadhaar Card & NPCI-Seeded Bank Account",
+        "description": "Student's Aadhaar and bank account seeded with NPCI for DBT transfer.",
+        "is_mandatory": true,
+        "source_reference": "https://ssp.postmatric.karnataka.gov.in/"
+      }
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "instruction": "Create account on Karnataka State Scholarship Portal (SSP) using student Aadhaar number.",
+        "official_url": "https://ssp.postmatric.karnataka.gov.in/"
+      },
+      {
+        "step_number": 2,
+        "instruction": "Fetch Caste and Income Certificate details by submitting the Nadakacheri RD Number.",
+        "official_url": "https://ssp.postmatric.karnataka.gov.in/"
+      },
+      {
+        "step_number": 3,
+        "instruction": "Enter college, course, and hostel details for electronic verification by the institution.",
+        "official_url": "https://ssp.postmatric.karnataka.gov.in/"
+      },
+      {
+        "step_number": 4,
+        "instruction": "Submit application and monitor verification status through the SSP dashboard.",
+        "official_url": "https://ssp.postmatric.karnataka.gov.in/"
+      }
+    ]
+  },
+  {
+    "name": "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
+    "slug": "pm-kisan",
+    "description": "Central sector income support scheme providing direct financial transfer to all landholding farmer families across India.",
+    "category": "Agriculture & Farmer Welfare",
+    "government_level": "Central",
+    "state": "All India",
+    "department": "Ministry of Agriculture and Farmers Welfare, Government of India",
+    "official_url": "https://pmkisan.gov.in/",
+    "application_url": "https://pmkisan.gov.in/RegistrationFormNew.aspx",
+    "benefits": "Direct income benefit of ₹6,000 per year transferred in three equal four-monthly installments of ₹2,000 directly into the bank accounts of farmer families.",
+    "active_status": "Active",
+    "verification_status": "Verified",
+    "last_verified_at": "2026-11-24T00:00:00Z",
+    "rules": [
+      {
+        "rule_name": "Farmer Occupation",
+        "field_name": "occupation",
+        "operator": "in",
+        "expected_value": "[\"Farmer\", \"Agriculture\", \"Cultivator\"]",
+        "description": "Applicant must be a farmer family owning cultivable land.",
+        "source_reference": "https://pmkisan.gov.in/Documents/OperationalGuidelines_PMKISAN.pdf",
+        "is_verified": true
+      },
+      {
+        "rule_name": "Cultivable Landholding",
+        "field_name": "landholding_acres",
+        "operator": ">",
+        "expected_value": "0.0",
+        "description": "Must possess cultivable land registered in State land records in the farmer's name.",
+        "source_reference": "https://pmkisan.gov.in/",
+        "is_verified": true
+      }
+    ],
+    "documents": [
+      {
+        "document_name": "Land Record Documents (Record of Rights / RTC / Patta / Khata)",
+        "description": "Official land title document verifying land ownership in the applicant's name.",
+        "is_mandatory": true,
+        "source_reference": "https://pmkisan.gov.in/"
+      },
+      {
+        "document_name": "Aadhaar Card",
+        "description": "Aadhaar card mandatory for beneficiary identity and DBT transfer.",
+        "is_mandatory": true,
+        "source_reference": "https://pmkisan.gov.in/"
+      },
+      {
+        "document_name": "Aadhaar-Seeded Bank Account Passbook",
+        "description": "Active bank account seeded with Aadhaar and mapped with NPCI mapper.",
+        "is_mandatory": true,
+        "source_reference": "https://pmkisan.gov.in/"
+      }
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "instruction": "Visit PM-KISAN portal -> Farmers Corner -> Click 'New Farmer Registration'.",
+        "official_url": "https://pmkisan.gov.in/RegistrationFormNew.aspx"
+      },
+      {
+        "step_number": 2,
+        "instruction": "Select Rural or Urban Farmer Registration, enter Aadhaar number, state, and mobile number.",
+        "official_url": "https://pmkisan.gov.in/RegistrationFormNew.aspx"
+      },
+      {
+        "step_number": 3,
+        "instruction": "Enter land holding survey number, dag/khasra number, and upload land ownership certificate.",
+        "official_url": "https://pmkisan.gov.in/"
+      },
+      {
+        "step_number": 4,
+        "instruction": "Complete biometric or OTP-based e-KYC to activate installment payments.",
+        "official_url": "https://pmkisan.gov.in/"
+      }
+    ]
+  },
+  {
+    "name": "Pradhan Mantri Awas Yojana (PMAY)",
+    "slug": "pmay-housing",
+    "description": "Comprehensive housing mission providing financial assistance to homeless families and households living in kutcha or dilapidated houses to build pucca homes.",
+    "category": "Housing & Urban Development",
+    "government_level": "Central",
+    "state": "All India",
+    "department": "Ministry of Housing and Urban Affairs & Ministry of Rural Development, Government of India",
+    "official_url": "https://pmaymis.gov.in/",
+    "application_url": "https://pmaymis.gov.in/Open/Check_Aadhar_Existence.aspx",
+    "benefits": "Direct grant of ₹1.2 Lakh (plain areas) to ₹1.3 Lakh (hilly/difficult areas) for rural construction, or interest subsidy up to ₹2.67 Lakhs on home loans for urban beneficiaries.",
+    "active_status": "Active",
+    "verification_status": "Verified",
+    "last_verified_at": "2026-11-24T00:00:00Z",
+    "rules": [
+      {
+        "rule_name": "Annual Household Income Cap",
+        "field_name": "annual_household_income",
+        "operator": "<=",
+        "expected_value": "600000",
+        "description": "Household income up to ₹3 Lakhs for EWS and ₹3 to ₹6 Lakhs for LIG category.",
+        "source_reference": "https://pmaymis.gov.in/PDF/PMAY_Guidelines.pdf",
+        "is_verified": true
+      }
+    ],
+    "documents": [
+      {
+        "document_name": "Identity & Address Proof (Aadhaar / Voter ID)",
+        "description": "Government photo identity proof of applicant and family members.",
+        "is_mandatory": true,
+        "source_reference": "https://pmaymis.gov.in/"
+      },
+      {
+        "document_name": "Income Certificate / BPL Card",
+        "description": "Certificate from competent revenue authority confirming household annual income.",
+        "is_mandatory": true,
+        "source_reference": "https://pmaymis.gov.in/"
+      },
+      {
+        "document_name": "Land / Plot Ownership Document or Allotment Letter",
+        "description": "Proof of land ownership where the house will be constructed.",
+        "is_mandatory": true,
+        "source_reference": "https://pmaymis.gov.in/"
+      },
+      {
+        "document_name": "Affidavit of No Pucca House Ownership",
+        "description": "Self-declaration confirming that neither the applicant nor family members own a pucca house in India.",
+        "is_mandatory": true,
+        "source_reference": "https://pmaymis.gov.in/"
+      }
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "instruction": "Open PMAY Citizen Assessment portal or approach the local Gram Panchayat / Urban Local Body.",
+        "official_url": "https://pmaymis.gov.in/"
+      },
+      {
+        "step_number": 2,
+        "instruction": "Verify Aadhaar number and fill socio-economic details under Citizen Assessment.",
+        "official_url": "https://pmaymis.gov.in/Open/Check_Aadhar_Existence.aspx"
+      },
+      {
+        "step_number": 3,
+        "instruction": "Submit land details, current house type (kutcha), and bank account details.",
+        "official_url": "https://pmaymis.gov.in/"
+      },
+      {
+        "step_number": 4,
+        "instruction": "Undergo physical inspection and geotagging of house construction progress to receive installment grants.",
+        "official_url": "https://pmaymis.gov.in/"
+      }
+    ]
+  },
+  {
+    "name": "Ayushman Bharat Pradhan Mantri Jan Arogya Yojana (PM-JAY)",
+    "slug": "ayushman-bharat-pmjay",
+    "description": "The world's largest health assurance scheme providing free hospitalization health insurance coverage to vulnerable and low-income families across India.",
+    "category": "Healthcare & Insurance",
+    "government_level": "Central",
+    "state": "All India",
+    "department": "National Health Authority (NHA), Ministry of Health and Family Welfare, Government of India",
+    "official_url": "https://nha.gov.in/",
+    "application_url": "https://beneficiary.nha.gov.in/",
+    "benefits": "Cashless and paperless inpatient healthcare cover of up to ₹5,00,000 per family per year for secondary and tertiary care hospitalization across empaneled public and private hospitals.",
+    "active_status": "Active",
+    "verification_status": "Verified",
+    "last_verified_at": "2026-11-24T00:00:00Z",
+    "rules": [
+      {
+        "rule_name": "BPL / Priority Household Status",
+        "field_name": "is_bpl_card_holder",
+        "operator": "==",
+        "expected_value": "True",
+        "description": "Family must be listed in SECC 2011 deprivation criteria or hold a valid BPL / NFSA ration card.",
+        "source_reference": "https://nha.gov.in/PM-JAY-Guidelines",
+        "is_verified": true
+      },
+      {
+        "rule_name": "Ration Card Qualification",
+        "field_name": "ration_card_type",
+        "operator": "in",
+        "expected_value": "[\"BPL\", \"AAY\"]",
+        "description": "Must possess a BPL or Antyodaya (AAY) ration card for state-aligned health schemes (like AB-ArK in Karnataka).",
+        "source_reference": "https://beneficiary.nha.gov.in/",
+        "is_verified": true
+      }
+    ],
+    "documents": [
+      {
+        "document_name": "BPL / NFSA Ration Card",
+        "description": "Ration card verifying family enrollment in priority household database.",
+        "is_mandatory": true,
+        "source_reference": "https://beneficiary.nha.gov.in/"
+      },
+      {
+        "document_name": "Aadhaar Card",
+        "description": "Aadhaar card of all family members to create Ayushman Cards.",
+        "is_mandatory": true,
+        "source_reference": "https://beneficiary.nha.gov.in/"
+      }
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "instruction": "Open the official NHA Beneficiary Portal to check family eligibility using mobile number or ration card.",
+        "official_url": "https://beneficiary.nha.gov.in/"
+      },
+      {
+        "step_number": 2,
+        "instruction": "Select your state (e.g. Karnataka) and search by Ration Card (Family ID) or Aadhaar.",
+        "official_url": "https://beneficiary.nha.gov.in/"
+      },
+      {
+        "step_number": 3,
+        "instruction": "Complete e-KYC for each family member using Aadhaar OTP, iris, or fingerprint.",
+        "official_url": "https://beneficiary.nha.gov.in/"
+      },
+      {
+        "step_number": 4,
+        "instruction": "Download the Ayushman Card for cashless admission at any empaneled hospital nationwide.",
+        "official_url": "https://beneficiary.nha.gov.in/"
+      }
+    ]
+  },
+  {
+    "name": "Sukanya Samriddhi Yojana (SSY)",
+    "slug": "sukanya-samriddhi-yojana",
+    "description": "Government-backed savings scheme aimed at the welfare and higher education of girl children, featuring guaranteed high interest and triple tax benefits under Section 80C.",
+    "category": "Financial Inclusion & Child Welfare",
+    "government_level": "Central",
+    "state": "All India",
+    "department": "Department of Posts / Department of Economic Affairs, Ministry of Finance, Government of India",
+    "official_url": "https://www.indiapost.gov.in/",
+    "application_url": "https://www.myscheme.gov.in/schemes/ssy",
+    "benefits": "Government-guaranteed interest rate (8.2% p.a.), exempt-exempt-exempt (EEE) tax status, partial withdrawal for higher education after age 18, and maturity on reaching 21 years.",
+    "active_status": "Active",
+    "verification_status": "Verified",
+    "last_verified_at": "2026-11-24T00:00:00Z",
+    "rules": [
+      {
+        "rule_name": "Gender Qualification",
+        "field_name": "gender",
+        "operator": "==",
+        "expected_value": "Female",
+        "description": "Account can only be opened for a girl child.",
+        "source_reference": "https://www.indiapost.gov.in/Financial/Pages/Content/SSY.aspx",
+        "is_verified": true
+      },
+      {
+        "rule_name": "Age Eligibility",
+        "field_name": "age",
+        "operator": "<=",
+        "expected_value": "10",
+        "description": "Account must be opened from the birth of the girl child up to the age of 10 years.",
+        "source_reference": "https://www.indiapost.gov.in/Financial/Pages/Content/SSY.aspx",
+        "is_verified": true
+      }
+    ],
+    "documents": [
+      {
+        "document_name": "Birth Certificate of the Girl Child",
+        "description": "Official birth certificate issued by municipal corporation, hospital, or registrar of births.",
+        "is_mandatory": true,
+        "source_reference": "https://www.indiapost.gov.in/Financial/Pages/Content/SSY.aspx"
+      },
+      {
+        "document_name": "Identity & Address Proof of Parent / Legal Guardian",
+        "description": "Aadhaar card, Voter ID, or Passport of the parent/guardian opening the account.",
+        "is_mandatory": true,
+        "source_reference": "https://www.indiapost.gov.in/Financial/Pages/Content/SSY.aspx"
+      },
+      {
+        "document_name": "Photographs of Child and Parent / Guardian",
+        "description": "Passport-sized photographs for bank or post office passbook.",
+        "is_mandatory": true,
+        "source_reference": "https://www.indiapost.gov.in/Financial/Pages/Content/SSY.aspx"
+      }
+    ],
+    "steps": [
+      {
+        "step_number": 1,
+        "instruction": "Visit any authorized Post Office or commercial bank branch (e.g. SBI, Canara Bank, PNB, Bank of Baroda).",
+        "official_url": "https://www.indiapost.gov.in/"
+      },
+      {
+        "step_number": 2,
+        "instruction": "Fill out the Sukanya Samriddhi Account Opening Form-1.",
+        "official_url": "https://www.myscheme.gov.in/schemes/ssy"
+      },
+      {
+        "step_number": 3,
+        "instruction": "Submit the form along with the girl child's birth certificate and guardian's ID proof.",
+        "official_url": "https://www.indiapost.gov.in/"
+      },
+      {
+        "step_number": 4,
+        "instruction": "Make the initial deposit (minimum ₹250) and collect the Sukanya Samriddhi Passbook.",
+        "official_url": "https://www.indiapost.gov.in/"
+      }
+    ]
+  }
+]

@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block title %}Eligibility Checker - Welfare Scheme Navigator{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <!-- Page Header -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+      <span class="badge bg-teal text-white mb-1" style="background-color: var(--secondary-teal);">Deterministic Engine</span>
+      <h2 class="fw-bold mb-1">Check Your Government Scheme Eligibility</h2>
+      <p class="text-muted small mb-0">Evaluate your non-sensitive demographic profile against verified government criteria. Safe, private, and deterministic.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('views.schemes_discovery') }}" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-collection"></i> Browse Schemes
+      </a>
+      <a href="{{ url_for('views.assistant_page') }}" class="btn btn-sahaaya-primary btn-sm">
+        <i class="bi bi-chat-dots"></i> Ask AI Assistant
+      </a>
+    </div>
+  </div>
+
+  <!-- Privacy & No-PII Notice -->
+  <div class="alert alert-info d-flex align-items-center gap-3 p-3 mb-4 rounded-3" role="alert">
+    <i class="bi bi-shield-check fs-3 text-primary"></i>
+    <div class="small">
+      <strong>Zero Sensitive Data Collection:</strong> Welfare Scheme Navigator <u>never</u> asks for Aadhaar numbers, PAN cards, bank account numbers, or document uploads. All assessments use only basic demographic parameters and are evaluated locally using deterministic Python logic.
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Form Column -->
+    <div class="col-lg-5">
+      <div class="sahaaya-card p-4">
+        <h5 class="fw-bold mb-3"><i class="bi bi-person-lines-fill text-primary me-2"></i>Citizen Profile</h5>
+        
+        <!-- Validation Error Alert Banner -->
+        <div id="formValidationAlert" class="alert alert-danger d-none mb-3 py-2 small" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-1"></i>
+          <span id="formValidationAlertText">Please correct the highlighted fields before proceeding.</span>
+        </div>
+
+        <form id="eligibilityForm" novalidate>
+          <!-- Scheme Selection (Optional: All vs Specific) -->
+          <div class="mb-3">
+            <label for="schemeSelect" class="form-label fw-semibold small">Target Scheme</label>
+            <select class="form-select form-select-sm" id="schemeSelect">
+              <option value="ALL">Evaluate Across All Schemes (Recommended)</option>
+              {% for s in schemes %}
+              <option value="{{ s.slug }}">{{ s.name }} ({{ s.government_level }})</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <hr class="my-3 text-muted">
+
+          <!-- Basic Demographics -->
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label for="applicantAge" class="form-label fw-semibold small">Age (Years)</label>
+              <input type="number" class="form-control form-control-sm" id="applicantAge" min="18" max="120" placeholder="e.g. 28">
+              <div class="invalid-feedback" id="applicantAgeFeedback">Please enter a valid applicant age.</div>
+            </div>
+            <div class="col-6">
+              <label for="applicantGender" class="form-label fw-semibold small">Gender</label>
+              <select class="form-select form-select-sm" id="applicantGender">
+                <option value="">Select Gender</option>
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+                <option value="Transgender">Transgender</option>
+                <option value="Other">Other</option>
+              </select>
+              <div class="invalid-feedback" id="applicantGenderFeedback">Please select a valid gender.</div>
+            </div>
+          </div>
+
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label for="applicantState" class="form-label fw-semibold small">Permanent State</label>
+              <select class="form-select form-select-sm" id="applicantState">
+                <option value="Karnataka" selected>Karnataka</option>
+                <option value="Other">Other State</option>
+              </select>
+              <div class="invalid-feedback" id="applicantStateFeedback">Please select a valid state.</div>
+            </div>
+            <div class="col-6">
+              <label for="applicantCaste" class="form-label fw-semibold small">Social Category</label>
+              <select class="form-select form-select-sm" id="applicantCaste">
+                <option value="">Select Category</option>
+                <option value="General">General</option>
+                <option value="OBC">OBC</option>
+                <option value="SC">SC</option>
+                <option value="ST">ST</option>
+                <option value="Minority">Minority</option>
+              </select>
+              <div class="invalid-feedback" id="applicantCasteFeedback">Please select a valid social category.</div>
+            </div>
+          </div>
+
+          <!-- Socio-Economic Attributes -->
+          <div class="mb-3">
+            <label for="annualIncome" class="form-label fw-semibold small">Annual Household Income (₹)</label>
+            <input type="number" class="form-control form-control-sm" id="annualIncome" min="0" step="5000" placeholder="e.g. 150000">
+            <div class="invalid-feedback" id="annualIncomeFeedback">Annual household income cannot be negative.</div>
+            <div class="form-text small">Approximate total annual income of the household.</div>
+            <!-- Zero Income Confirmation Banner -->
+            <div id="zeroIncomeConfirmation" class="alert alert-warning py-2 px-3 mt-2 mb-0 small d-none" role="alert">
+              <div class="d-flex align-items-start gap-2 mb-1">
+                <i class="bi bi-question-circle-fill text-warning flex-shrink-0 mt-1"></i>
+                <div>
+                  <strong>Income Confirmation:</strong> Your annual household income is entered as ₹0. Please confirm that this is correct.
+                </div>
+              </div>
+              <div class="form-check mt-1">
+                <input class="form-check-input" type="checkbox" id="confirmZeroIncomeCheckbox">
+                <label class="form-check-label small fw-semibold text-dark" for="confirmZeroIncomeCheckbox">
+                  Yes, I confirm my annual household income is ₹0.
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="applicantOccupation" class="form-label fw-semibold small">Primary Occupation</label>
+            <select class="form-select form-select-sm" id="applicantOccupation">
+              <option value="">Select Occupation</option>
+              <option value="Farmer">Farmer</option>
+              <option value="Student">Student</option>
+              <option value="Unemployed Youth">Unemployed Youth / Graduate</option>
+              <option value="Homemaker">Homemaker</option>
+              <option value="Salaried Employee">Salaried Employee</option>
+              <option value="Self-Employed">Self-Employed / Business</option>
+              <option value="Daily Wage Laborer">Daily Wage Laborer</option>
+            </select>
+            <div class="invalid-feedback" id="applicantOccupationFeedback">Please select a valid occupation.</div>
+          </div>
+
+          <!-- Ration Card & Welfare Markers -->
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label for="rationCardType" class="form-label fw-semibold small">Ration Card Type</label>
+              <select class="form-select form-select-sm" id="rationCardType">
+                <option value="">Select Type</option>
+                <option value="BPL">BPL (Below Poverty Line)</option>
+                <option value="AAY">AAY (Antyodaya Anna Yojana)</option>
+                <option value="APL">APL (Above Poverty Line)</option>
+                <option value="None">No Ration Card</option>
+              </select>
+              <div class="invalid-feedback" id="rationCardTypeFeedback">Please select a valid ration card type.</div>
+            </div>
+            <div class="col-6">
+              <label for="graduationYear" class="form-label fw-semibold small">Graduation Year</label>
+              <input type="number" class="form-control form-control-sm" id="graduationYear" min="1950" max="2027" placeholder="e.g. 2024">
+              <div class="invalid-feedback" id="graduationYearFeedback">Please enter a valid graduation year.</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-check form-switch mb-2">
+              <input class="form-check-input" type="checkbox" id="femaleHeadOfFamily">
+              <label class="form-check-label small" for="femaleHeadOfFamily">Listed as woman head of family on ration card</label>
+            </div>
+            <div class="form-check form-switch mb-2">
+              <input class="form-check-input" type="checkbox" id="isStudent">
+              <label class="form-check-label small" for="isStudent">Currently enrolled as an active student</label>
+            </div>
+            <div class="form-check form-switch mb-2">
+              <input class="form-check-input" type="checkbox" id="hasDisability">
+              <label class="form-check-label small" for="hasDisability">Person with certified physical disability</label>
+            </div>
+          </div>
+
+          <!-- Other Parameters (Landholding, Electricity) -->
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label for="landholdingAcres" class="form-label fw-semibold small">Landholding (Acres)</label>
+              <input type="number" class="form-control form-control-sm" id="landholdingAcres" min="0" step="0.5" placeholder="e.g. 2.0">
+              <div class="invalid-feedback" id="landholdingAcresFeedback">Landholding must be a non-negative number.</div>
+            </div>
+            <div class="col-6">
+              <label for="electricityUnits" class="form-label fw-semibold small">Monthly Electricity (Units)</label>
+              <input type="number" class="form-control form-control-sm" id="electricityUnits" min="0" placeholder="e.g. 120">
+              <div class="invalid-feedback" id="electricityUnitsFeedback">Electricity units must be a non-negative whole number.</div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-sahaaya-teal w-100 py-2 fw-semibold" id="evaluateBtn">
+            <i class="bi bi-calculator me-1"></i> Check Eligibility Now
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Results Column -->
+    <div class="col-lg-7">
+      <!-- Initial State Notice -->
+      <div id="initialPromptCard" class="sahaaya-card p-5 text-center">
+        <i class="bi bi-shield-check text-muted" style="font-size: 3.5rem;"></i>
+        <h5 class="fw-bold mt-3">Ready to Evaluate Your Profile</h5>
+        <p class="text-muted small max-w-md mx-auto">
+          Fill in your basic demographic details on the left and click "Check Eligibility Now". The deterministic Python engine will safely compute your potential eligibility against government rules.
+        </p>
+      </div>
+
+      <!-- Evaluation Loading Spinner -->
+      <div id="evaluationLoading" class="sahaaya-card p-5 text-center d-none">
+        <div class="spinner-border text-primary mb-3" role="status">
+          <span class="visually-hidden">Evaluating eligibility...</span>
+        </div>
+        <h6 class="fw-bold">Evaluating Eligibility Rules...</h6>
+        <p class="text-muted small">Executing deterministic rules against verified government guidelines.</p>
+      </div>
+
+      <!-- Dynamic Evaluation Results Container -->
+      <div id="resultsContainer" class="d-none">
+        <!-- Injected dynamically via static/js/eligibility.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Mandatory Disclaimer Box -->
+  <div class="disclaimer-box mt-4">
+    <div class="fw-bold text-dark mb-1"><i class="bi bi-exclamation-triangle-fill text-warning me-1"></i> Indicative Assessment Disclaimer:</div>
+    <div class="small">
+      Welfare Scheme Navigator provides indicative eligibility assessment only based on published guidelines. It does not constitute guaranteed government approval. Final approval is subject to document verification by competent government authorities.
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/eligibility.js') }}"></script>
+{% endblock %}
