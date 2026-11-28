@@ -54,9 +54,10 @@
         <textarea id="message" maxlength="6000" placeholder="Example: Your parcel is seized. Police will arrest you unless you transfer ₹20,000 right now…" rows="5" spellcheck="false"></textarea>
         <details class="examples"><summary>Try an example</summary><div class="example-buttons"><button data-demo="arrest">Digital arrest</button><button data-demo="upi">UPI scam</button><button data-demo="kyc">KYC</button><button data-demo="courier">Courier</button><button data-demo="phish">Phishing link</button><button data-demo="mistake">"Sent by mistake"</button><button data-demo="hinglish">Hinglish arrest</button><button data-demo="otp">Genuine OTP SMS</button><button data-demo="safe">Normal message</button></div></details>
         <div class="cloud-choice">
-          <label class="cloud-toggle" for="auto-protect"><input type="checkbox" id="auto-protect" checked/><span><strong>Auto Protect (offline-first)</strong><small>Automatically screens pasted text and completed uploads locally without API keys.</small></span></label>
-          <label class="cloud-toggle" for="cloud-consent"><input type="checkbox" id="cloud-consent" disabled aria-describedby="cloud-help"/><span><strong>Use online AI</strong><small id="cloud-state" role="status" aria-live="polite">Checking availability…</small></span></label>
-          <p id="cloud-help" class="helper">Optional: sends message text to Groq with best-effort masking. Remove private details and share only text you have permission to send. Off means local-only analysis. If your device goes offline, this control is paused until the network returns. No scan starts automatically.</p>
+          <label class="cloud-toggle" for="auto-protect"><input type="checkbox" id="auto-protect" checked/><span><strong>Auto Protect (Offline Protection)</strong><small>Automatically screens pasted text and uploads locally with zero external requests.</small></span></label>
+          <label class="cloud-toggle" for="cloud-consent"><input type="checkbox" id="cloud-consent" disabled aria-describedby="cloud-help"/><span><strong>Online Protection (consented)</strong><small id="cloud-state" role="status" aria-live="polite">Checking availability…</small></span></label>
+          <p id="threat-db-status" class="helper" role="status"></p>
+          <p id="cloud-help" class="helper">Optional: sends masked text/URLs to configured online services (Groq / live URL reputation) with explicit consent. Offline Protection always runs locally without API keys.</p>
         </div>
         <div class="button-row"><button id="analyze-btn" class="primary-btn" type="button"><span aria-hidden="true">✦</span> Analyze <span class="arrow" aria-hidden="true">→</span></button><button id="clear-btn" class="ghost-btn" type="button">Clear</button></div>
         <p class="helper">If online AI is unavailable, local analysis continues.</p>
@@ -68,6 +69,7 @@
         <div id="results" class="results hidden" aria-live="polite">
           <div class="risk-head"><div><span class="mini-label">ASSESSMENT</span><h3 id="risk-title"></h3></div><span id="risk-level" class="risk-badge"></span></div>
           <p id="analysis-mode" class="helper"></p>
+          <p id="engine-contributions" class="helper hidden"></p>
           <p id="risk-summary" class="risk-summary"></p>
           <p id="safety-note" class="safety-note hidden"></p>
           <p id="coverage-note" lang="en" class="helper hidden"></p>
