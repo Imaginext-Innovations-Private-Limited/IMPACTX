@@ -41,9 +41,13 @@ def home():
 @app.get("/api/health")
 def health():
     from .training_data import SUSPICIOUS, BENIGN
+    from . import live_reputation
+    from .url_classifier import threat_db_metadata
     return {"status": "ok", "version": __version__, "privacy": "No content persisted by server",
             "training_samples": len(SUSPICIOUS) + len(BENIGN), "offline_engine": "tfidf-linear-svm-regional-context",
-            "groq_configured": bool(os.environ.get("GROQ_API_KEY", "").strip())}
+            "groq_configured": bool(os.environ.get("GROQ_API_KEY", "").strip()),
+            "live_reputation_configured": live_reputation.configured(),
+            "threat_db": threat_db_metadata()}
 
 @app.get("/api/voice-prompts")
 def voice_prompts():
@@ -104,10 +108,51 @@ def analyze_message(data: AnalysisInput, request: Request):
             if origin and origin not in {"http://127.0.0.1:8000", "http://localhost:8000"}:
                 raise HTTPException(status_code=403, detail="Local origin required")
         result = analyze(data.text, data.channel, data.language, qr_payloads=data.qr_payloads, email_meta=data.email_meta)
-        if data.cloud_consent and data.text.strip():
-            from .cloud import hybrid
-            return hybrid(data.text, result, data.language)
-        result["analysis_mode"] = "offline"
+        ind_ids = {i.get("id") for i in result.get("indicators", [])}
+        contributions = {
+            "local_rules": True,
+            "text_ml": result.get("model_signal", "unavailable"),
+            "url_ml": "flagged" if ind_ids & {"url_ml_phishing", "url_ml_review", "qr_url_ml_phishing", "qr_url_ml_review"} else "checked",
+            "local_threat_db": "matched" if ind_ids & {"url_threat_db", "qr_url_threat_db"} else "checked_no_match",
+            "qr_decoder": "decoded" if result.get("qr_analysis") else "none",
+            "identity_verifier": "checked" if result.get("identity") else "none",
+            "live_url_reputation": "not_requested",
+            "cloud_llm": "not_requested",
+        }
+        if data.cloud_consent:
+            from . import live_reputation
+            urls = list(result.get("entities", {}).get("urls", []))
+            for link in (result.get("identity") or {}).get("hyperlinks", []):
+                if link.get("href") and link["href"] not in urls:
+                    urls.append(link["href"])
+            for p in (result.get("qr_analysis") or {}).get("payloads", []):
+                if p.get("url") and p["url"] not in urls:
+                    urls.append(p["url"])
+            live_res = live_reputation.check_urls_live(urls)
+            result["live_reputation"] = live_res
+            contributions["live_url_reputation"] = live_res["status"]
+            if live_res["status"] == "threat_match":
+                for match in live_res["matches"][:3]:
+                    result["indicators"].insert(0, {
+                        "id": "live_url_threat",
+                        "title": "Live URL reputation matched a verified threat",
+                        "explanation": f"Matched {match['threat_type']} via {match['provider']}.",
+                        "weight": 7,
+                        "evidence": match["url"][:160],
+                        "start": 0, "end": 0,
+                        "advice": "Do not open this link.",
+                    })
+                result["level"] = "high"
+                result["score"] = max(int(result.get("score", 0)), 8)
+            if data.text.strip():
+                from .cloud import hybrid
+                result = hybrid(data.text, result, data.language)
+                contributions["cloud_llm"] = result.get("analysis_mode", "offline_fallback")
+            else:
+                result["analysis_mode"] = "offline"
+        else:
+            result["analysis_mode"] = "offline"
+        result["engine_contributions"] = contributions
         return result
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc

@@ -186,6 +186,34 @@ def _sha256_hex(value: str) -> str:
     return hashlib.sha256(value.encode("utf-8")).hexdigest()
 
 
+def threat_db_metadata(db_path: Path = THREAT_DB_PATH) -> dict[str, Any]:
+    """Return local verified-threat DB provenance, count, and age in hours."""
+    import json
+    import time
+
+    meta_path = db_path.with_suffix(".meta.json")
+    if not db_path.is_file():
+        return {"present": False, "unique_hashes": 0, "age_hours": None, "source": None, "updated_at": None}
+    age_hours = round(max(0.0, (time.time() - db_path.stat().st_mtime) / 3600.0), 1)
+    if meta_path.is_file():
+        try:
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+            meta["present"] = True
+            meta["age_hours"] = age_hours
+            return meta
+        except Exception:
+            pass
+    try:
+        conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
+        try:
+            cnt = conn.execute("SELECT COUNT(*) FROM threats").fetchone()[0]
+        finally:
+            conn.close()
+    except sqlite3.Error:
+        cnt = 0
+    return {"present": True, "unique_hashes": cnt, "age_hours": age_hours, "source": "PhishTank", "updated_at": None}
+
+
 def lookup_threat(raw_url: str, db_path: Path = THREAT_DB_PATH) -> dict[str, Any]:
     """Check if normalized URL hash exists in local verified-threat SQLite DB.
 
