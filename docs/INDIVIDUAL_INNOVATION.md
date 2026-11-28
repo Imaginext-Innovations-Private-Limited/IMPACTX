@@ -28,3 +28,4 @@ ScamShield AI v2.1.1 provides strong regex + contextual + weak-SVM screening for
 
 ## 4. Technical Decisions & Milestones
 - **Milestone 1 (Baseline & Dataset Audit):** Verified `v2.1.1` test suite (`626 passed, 1 skipped` — Tesseract unavailable), installed `opencv-python-headless==5.1.0.95`, downloaded and audited official UCI & PhishTank datasets into gitignored `data/external/`.
+- **Milestone 2 (Offline QR Decoder & UPI Parser):** Implemented `scamshield/qr_decoder.py` using `cv2.QRCodeDetector` with Pillow/NumPy grayscale, upscale, Otsu, and inverted-threshold fallbacks, `upi://pay` URI parsing, payload classification, and cross-modal intent verification (`tests/test_qr_decoder.py`: `6 passed in 0.31s`).
