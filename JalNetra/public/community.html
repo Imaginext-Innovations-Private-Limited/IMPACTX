@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#133d38">
+  <title>JalNetra | Community drives</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/community-drives.js?v=community-follow-up"></script>
+</head>
+<body>
+  <header class="top"><a class="brand" href="/">JalNetra</a><a class="scope" href="/">Citizen home</a></header>
+  <main>
+    <section class="intro">
+      <h1>Community cleanup drives</h1>
+      <p>Find a scheduled lake cleanup or sign in to propose a drive for your community.</p>
+      <a href="#organizers">Community sign in</a>
+    </section>
+    <section class="card history">
+      <div class="card-head"><h2>Scheduled drives</h2><button class="secondary" id="drive-refresh" type="button">Refresh</button></div>
+      <p id="drive-status" role="status"></p>
+      <div id="drive-list"></div>
+    </section>
+    <section class="card history" id="organizers">
+      <div class="card-head"><h2>Community organizers</h2><button class="secondary" id="drive-signout" type="button" hidden>Sign out</button></div>
+      <p id="organizer-status" role="status"></p>
+      <form id="drive-auth">
+        <label for="community-email">Email</label>
+        <input id="community-email" name="email" type="email" required autocomplete="email">
+        <label for="community-password">Password</label>
+        <input id="community-password" name="password" type="password" required minlength="8" maxlength="128" autocomplete="current-password">
+        <div class="pilot-actions">
+          <button class="primary" value="signin" type="submit">Sign in</button>
+          <button class="secondary" value="signup" type="submit">Create account</button>
+        </div>
+      </form>
+      <div id="drive-workspace" hidden>
+        <h3>Propose a drive</h3>
+        <p>Your drive appears on the public schedule after a lake operator approves it.</p>
+        <form id="drive-form">
+          <label for="drive-organization">Organization or community group</label>
+          <input id="drive-organization" name="organization" required maxlength="120">
+          <label for="drive-lake">Lake</label>
+          <select id="drive-lake" name="lakeId" required></select>
+          <label for="drive-title">Drive title</label>
+          <input id="drive-title" name="title" required maxlength="120">
+          <label for="drive-start">Start date and time (IST)</label>
+          <input id="drive-start" name="startsAt" type="datetime-local" required>
+          <label for="drive-details">Meeting point and safety instructions</label>
+          <textarea id="drive-details" name="details" required maxlength="500" rows="3"></textarea>
+          <button class="primary" type="submit">Submit for review</button>
+        </form>
+        <h3>Drive submissions</h3>
+        <div id="drive-proposals"></div>
+        <section id="drive-management" hidden>
+          <label for="drive-management-lake">Assigned lake for cleanup management</label>
+          <select id="drive-management-lake"></select>
+          <div id="drive-management-list"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
