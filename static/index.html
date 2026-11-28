@@ -27,16 +27,18 @@
         <div class="tabs" role="tablist" aria-label="Input method">
           <button id="tab-text" role="tab" aria-selected="true" class="tab active" data-tab="text"><span aria-hidden="true">⌨</span> Text / UPI</button>
           <button id="tab-image" role="tab" aria-selected="false" class="tab" data-tab="image"><span aria-hidden="true">▧</span> Screenshot</button>
+          <button id="tab-email" role="tab" aria-selected="false" class="tab" data-tab="email"><span aria-hidden="true">✉</span> Email (.eml)</button>
           <button id="tab-voice" role="tab" aria-selected="false" class="tab" data-tab="voice"><span aria-hidden="true">◉</span> Speak</button>
           <button id="tab-audio" role="tab" aria-selected="false" class="tab" data-tab="audio"><span aria-hidden="true">♫</span> Recording</button>
         </div>
         <div class="input-options">
-          <label for="channel">Source <select id="channel"><option value="message">Message / Other</option><option value="sms">SMS</option><option value="whatsapp">WhatsApp</option><option value="call">Call transcript</option><option value="upi">UPI / payment request</option><option value="image">Screenshot OCR</option></select></label>
+          <label for="channel">Source <select id="channel"><option value="message">Message / Other</option><option value="sms">SMS</option><option value="whatsapp">WhatsApp</option><option value="email">Email (.eml / headers)</option><option value="call">Call transcript</option><option value="upi">UPI / payment request</option><option value="image">Screenshot OCR</option></select></label>
           <label id="response-select-label" for="language">Response language <select id="language" aria-label="Response language" aria-describedby="response-language-help"><option value="bn">Bangla · বাংলা</option><option value="en" selected>English</option><option value="gu">Gujarati · ગુજરાતી</option><option value="hi">Hindi · हिन्दी</option><option value="kn">Kannada · ಕನ್ನಡ</option><option value="ml">Malayalam · മലയാളം</option><option value="mr">Marathi · मराठी</option><option value="or">Odia · ଓଡ଼ିଆ</option><option value="pa">Punjabi · ਪੰਜਾਬੀ</option><option value="ta">Tamil · தமிழ்</option><option value="te">Telugu · తెలుగు</option></select></label>
         </div>
         <p id="response-language-help" class="helper response-language-help">Choose the language for written and spoken guidance. Input can be different.</p>
         <div id="input-language-tools" class="tool-area hidden"><label for="input-language">Input language (OCR / audio / microphone) <select id="input-language"><option value="bn">Bangla · বাংলা</option><option value="en" selected>English</option><option value="gu">Gujarati · ગુજરાતી</option><option value="hi">Hindi · हिन्दी</option><option value="kn">Kannada · ಕನ್ನಡ</option><option value="ml">Malayalam · മലയാളം</option><option value="mr">Marathi · मराठी</option><option value="or">Odia · ଓଡ଼ିଆ</option><option value="pa">Punjabi · ਪੰਜਾਬੀ</option><option value="ta">Tamil · தமிழ்</option><option value="te">Telugu · తెలుగు</option></select></label></div>
         <div id="image-tools" class="tool-area hidden"><label id="image-drop" class="upload" for="image-input" tabindex="0" role="button" aria-label="Choose or drop a screenshot"><span class="upload-icon">⇧</span><strong>Choose or drop a screenshot</strong><small>PNG, JPG or WebP · up to 4 MB · processed on this server</small></label><input id="image-input" type="file" accept="image/png,image/jpeg,image/webp" hidden/><p id="image-file-name" class="helper" role="status"></p><p id="qr-preview" class="helper hidden" role="status"></p><p class="helper">OCR uses the selected input language if its Tesseract language data is installed. Review it before trusting the assessment.</p></div>
+        <div id="email-tools" class="tool-area hidden"><label class="upload" for="email-input" tabindex="0" role="button" aria-label="Choose an .eml email file"><span class="upload-icon">✉</span><strong>Choose a saved .eml email</strong><small>RFC-822 .eml · up to 4 MB · parsed locally without loading remote images or scripts</small></label><input id="email-input" type="file" accept=".eml,message/rfc822" hidden/><p id="email-file-name" class="helper" role="status"></p></div>
         <div id="audio-tools" class="tool-area hidden">
           <label class="upload audio-upload" for="audio-input"><span class="upload-icon">♫</span><strong>Choose a voice recording</strong><small>MP3, WAV, M4A, AAC, OGG, WebM or FLAC · up to 20 MB · recordings up to 3 minutes</small></label>
           <input id="audio-input" type="file" accept=".mp3,.wav,.m4a,.mp4,.aac,.ogg,.opus,.webm,.flac,.amr,.wma,.aiff,audio/*" hidden />
@@ -52,6 +54,7 @@
         <textarea id="message" maxlength="6000" placeholder="Example: Your parcel is seized. Police will arrest you unless you transfer ₹20,000 right now…" rows="5" spellcheck="false"></textarea>
         <details class="examples"><summary>Try an example</summary><div class="example-buttons"><button data-demo="arrest">Digital arrest</button><button data-demo="upi">UPI scam</button><button data-demo="kyc">KYC</button><button data-demo="courier">Courier</button><button data-demo="phish">Phishing link</button><button data-demo="mistake">"Sent by mistake"</button><button data-demo="hinglish">Hinglish arrest</button><button data-demo="otp">Genuine OTP SMS</button><button data-demo="safe">Normal message</button></div></details>
         <div class="cloud-choice">
+          <label class="cloud-toggle" for="auto-protect"><input type="checkbox" id="auto-protect" checked/><span><strong>Auto Protect (offline-first)</strong><small>Automatically screens pasted text and completed uploads locally without API keys.</small></span></label>
           <label class="cloud-toggle" for="cloud-consent"><input type="checkbox" id="cloud-consent" disabled aria-describedby="cloud-help"/><span><strong>Use online AI</strong><small id="cloud-state" role="status" aria-live="polite">Checking availability…</small></span></label>
           <p id="cloud-help" class="helper">Optional: sends message text to Groq with best-effort masking. Remove private details and share only text you have permission to send. Off means local-only analysis. If your device goes offline, this control is paused until the network returns. No scan starts automatically.</p>
         </div>
@@ -68,6 +71,7 @@
           <p id="risk-summary" class="risk-summary"></p>
           <p id="safety-note" class="safety-note hidden"></p>
           <p id="coverage-note" lang="en" class="helper hidden"></p>
+          <p id="identity-note" lang="en" class="helper hidden"></p>
           <p id="model-only-note" class="model-only-note hidden"></p>
           <h4>What you should do</h4><ol id="actions" class="actions"></ol>
           <a class="rescue-shortcut" href="#rescue">Need help staying safe? Get guidance →</a>

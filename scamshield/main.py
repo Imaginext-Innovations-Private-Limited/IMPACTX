@@ -32,6 +32,7 @@ class AnalysisInput(BaseModel):
     language: str = "en"
     cloud_consent: bool = False
     qr_payloads: list[str] | None = Field(default=None, max_length=10)
+    email_meta: dict | None = None
 
 @app.get("/", include_in_schema=False)
 def home():
@@ -102,7 +103,7 @@ def analyze_message(data: AnalysisInput, request: Request):
             origin = request.headers.get("origin")
             if origin and origin not in {"http://127.0.0.1:8000", "http://localhost:8000"}:
                 raise HTTPException(status_code=403, detail="Local origin required")
-        result = analyze(data.text, data.channel, data.language, qr_payloads=data.qr_payloads)
+        result = analyze(data.text, data.channel, data.language, qr_payloads=data.qr_payloads, email_meta=data.email_meta)
         if data.cloud_consent and data.text.strip():
             from .cloud import hybrid
             return hybrid(data.text, result, data.language)
@@ -262,4 +263,36 @@ async def ocr_image(file: UploadFile = File(...), language: str = Query("auto"))
         "qr_payloads": qr_payloads,
         "qr_analysis": qr_analysis,
         "note": note,
+    }
+
+
+@app.post("/api/parse-email")
+async def parse_email_file(file: UploadFile = File(...)):
+    """Parse an uploaded .eml file locally without executing HTML or fetching remote resources."""
+    suffix = Path(file.filename or "").suffix.lower()
+    if suffix != ".eml" and file.content_type not in {"message/rfc822", "text/plain", "application/octet-stream"}:
+        await file.close()
+        raise HTTPException(status_code=415, detail="Upload a .eml email file.")
+    raw = await file.read(4 * 1024 * 1024 + 1)
+    await file.close()
+    if not raw:
+        raise HTTPException(status_code=422, detail="The selected .eml file is empty.")
+    if len(raw) > 4 * 1024 * 1024:
+        raise HTTPException(status_code=413, detail="Email file limit is 4 MB.")
+    from .identity_verifier import parse_eml_bytes
+    parsed = parse_eml_bytes(raw)
+    text = parsed["combined_text"].strip()[:MAX_TEXT]
+    if not text:
+        raise HTTPException(status_code=422, detail="No readable email content found.")
+    return {
+        "text": text,
+        "email_meta": {
+            "from_raw": parsed["from_raw"],
+            "reply_to_raw": parsed["reply_to_raw"],
+            "subject": parsed["subject"],
+            "auth_raw": parsed["auth_raw"],
+            "links": parsed["links"],
+            "attachments": parsed["attachments"],
+        },
+        "note": "Email parsed locally without loading remote images or scripts. Header claims are not independently verified.",
     }

@@ -334,6 +334,7 @@ def analyze(
     channel: str = "message",
     language: str = "en",
     qr_payloads: list[str] | None = None,
+    email_meta: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     if not isinstance(text, str):
         raise ValueError("Message must be text.")
@@ -343,7 +344,7 @@ def analyze(
         raise ValueError("Enter a message or transcript to analyze.")
     if len(text) > MAX_TEXT:
         raise ValueError(f"Text must be at most {MAX_TEXT} characters.")
-    if channel not in {"message", "sms", "whatsapp", "call", "upi", "image"}:
+    if channel not in {"message", "sms", "whatsapp", "call", "upi", "image", "email"}:
         raise ValueError("Invalid channel.")
     if language not in LANGUAGE_NAMES:
         raise ValueError("Invalid language.")
@@ -400,6 +401,57 @@ def analyze(
         total += finding["weight"]
         cat_scores[finding.pop("_category")] += finding["weight"]
         matched.append(finding)
+
+    # Offline identity & email verification (sender mismatch, Reply-To, homograph, deceptive links)
+    from .identity_verifier import verify_identity
+    identity_info = verify_identity(text, email_meta=email_meta)
+    seen_ids_now = {m["id"] for m in matched}
+    for finding in identity_info.pop("indicators"):
+        fid = finding["id"]
+        # Prevent double-counting correlated URL/identity indicators
+        if fid == "identity_homograph_or_punycode" and "url_obfuscated" in seen_ids_now:
+            continue
+        if fid == "identity_misleading_subdomain" and "url_lookalike" in seen_ids_now:
+            continue
+        seen_ids_now.add(fid)
+        total += finding["weight"]
+        cat_scores[finding.pop("_category")] += finding["weight"]
+        matched.append(finding)
+
+    # Also classify any HTML/Markdown hyperlink hrefs not already caught by URL_RE
+    seen_urls_text = set(URL_RE.findall(text))
+    for link in identity_info.get("hyperlinks", []):
+        href = link.get("href", "")
+        if not href or href in seen_urls_text or not href.lower().startswith(("http://", "https://")):
+            continue
+        seen_urls_text.add(href)
+        from .url_classifier import SHORTENER_DOMAINS, classify_url, registered_domain
+        uinfo = classify_url(href)
+        if uinfo["threat_db_match"] and "url_threat_db" not in seen_ids_now:
+            seen_ids_now.add("url_threat_db")
+            total += 7
+            cat_scores["Verified phishing link"] += 7
+            matched.append({
+                "id": "url_threat_db",
+                "title": "Link matches a verified phishing threat database",
+                "explanation": f"Hyperlink destination matches a verified phishing entry in {uinfo['threat_db_source']}.",
+                "weight": 7, "evidence": href[:160], "start": 0, "end": 0,
+                "advice": "Do not open this link. Navigate independently to the official website.",
+            })
+        elif not uinfo["official_domain"] and registered_domain(uinfo["host"]) not in SHORTENER_DOMAINS and uinfo["ml_flag"] in {"high", "review"}:
+            fid = "url_ml_phishing" if uinfo["ml_flag"] == "high" else "url_ml_review"
+            if fid not in seen_ids_now:
+                seen_ids_now.add(fid)
+                w = 4 if fid == "url_ml_phishing" else 2
+                total += w
+                cat_scores["Suspicious link"] += w
+                matched.append({
+                    "id": fid,
+                    "title": "Offline URL model flagged suspicious hyperlink",
+                    "explanation": "URL-only classifier flagged suspicious lexical patterns in hyperlink destination.",
+                    "weight": w, "evidence": href[:160], "start": 0, "end": 0,
+                    "advice": "Do not open unfamiliar links; verify the domain independently.",
+                })
 
     qr_analysis = None
     clean_qr = [p.strip()[:1024] for p in (qr_payloads or []) if isinstance(p, str) and p.strip()]
@@ -545,8 +597,22 @@ def analyze(
         cat_scores.clear()
         total = 0
 
-    sufficient_context = (len(text) >= 18 and len(text.split()) >= 3) or bool(clean_qr) or any(
-        m["id"] == "credential_reward_context" for m in matched
+    has_url = bool(URL_RE.search(text) or identity_info.get("hyperlinks"))
+    sufficient_context = (
+        (len(text) >= 18 and len(text.split()) >= 3)
+        or bool(clean_qr)
+        or has_url
+        or bool(identity_info.get("from_address"))
+        or any(
+            m["id"] in {
+                "credential_reward_context", "url_threat_db", "url_ml_phishing",
+                "url_ml_review", "url_lookalike", "url_ip", "url_obfuscated",
+                "url_tld", "identity_sender_mismatch", "identity_reply_to_mismatch",
+                "identity_homograph_or_punycode", "identity_misleading_subdomain",
+                "identity_deceptive_hyperlink",
+            }
+            for m in matched
+        )
     )
     strong = any(m["weight"] >= 5 for m in matched)
     if not sufficient_context:
@@ -629,6 +695,7 @@ def analyze(
         "complaint": complaint,
         "otp_notice": otp_notice,
         "qr_analysis": qr_analysis,
+        "identity": identity_info,
         "disclaimer": "Prototype screening only. Not a verdict on the sender's identity, legal advice, or proof of fraud. Always verify independently.",
     }
     result = localize_result(result, language)
