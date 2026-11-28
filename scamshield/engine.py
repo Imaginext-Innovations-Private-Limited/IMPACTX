@@ -343,12 +343,13 @@ def analyze(
     language: str = "en",
     qr_payloads: list[str] | None = None,
     email_meta: dict[str, Any] | None = None,
+    qr_status: str | None = None,
 ) -> dict[str, Any]:
     if not isinstance(text, str):
         raise ValueError("Message must be text.")
     text = text.strip()
     has_qr = bool(qr_payloads and any(isinstance(p, str) and p.strip() for p in qr_payloads))
-    if not text and not has_qr:
+    if not text and not has_qr and qr_status != "detected_unreadable":
         raise ValueError("Enter a message or transcript to analyze.")
     if len(text) > MAX_TEXT:
         raise ValueError(f"Text must be at most {MAX_TEXT} characters.")
@@ -503,6 +504,18 @@ def analyze(
                         "weight": w, "evidence": item["url"][:160], "start": 0, "end": 0,
                         "advice": "Do not open this QR link; verify the domain independently.",
                     })
+    elif qr_status == "detected_unreadable":
+        total += 2
+        cat_scores["Unreadable QR code"] += 2
+        matched.append({
+            "id": "qr_unreadable",
+            "title": "QR code detected but could not be decoded",
+            "explanation": "A QR code was detected in the image, but its payload could not be read. Its safety could not be assessed.",
+            "weight": 2,
+            "evidence": "Unreadable QR region in uploaded image",
+            "start": 0, "end": 0,
+            "advice": "Do not scan or pay via an unreadable QR code. Request a clear official payment or website link.",
+        })
 
     # The combination is riskier than a short URL or a KYC reminder alone.
     ids = {m["id"] for m in matched}
@@ -632,6 +645,7 @@ def analyze(
     sufficient_context = (
         (len(text) >= 18 and len(text.split()) >= 3)
         or bool(clean_qr)
+        or qr_status == "detected_unreadable"
         or has_url
         or bool(identity_info.get("from_address"))
         or any(

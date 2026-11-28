@@ -92,3 +92,10 @@ ScamShield AI v2.1.1 provides strong regex + contextual + weak-SVM screening for
   - Added Pydantic `AnalysisResponse` / `QRAnalysisOut` / `QRPayloadDetail` response models to `/api/analyze` in `scamshield/main.py` so the structured QR payload schema is visible in FastAPI Swagger UI (`/docs`), and attached `live_reputation_status` to QR URLs when Online Protection is requested.
   - Added an expandable `<details id="qr-details">` panel in `static/index.html` and `renderQrDetails()` in `static/app.js` using inert DOM text nodes (no `innerHTML`, no clickable links, no auto-opened URLs or payments).
   - **Verification (`tests/test_qr_details_ui.py` + full suite):** `.\.venv\Scripts\python.exe -m pytest -v -s` → **673 passed, 0 failed, 0 skipped in 9.32s**.
+
+- **Milestone 13 (Robust Real-World QR Detection):**
+  - **Root Cause:** `cv2.QRCodeDetector` alone failed on WhatsApp-forwarded payment QRs containing embedded center logos, tight/cropped quiet zones, JPEG compression artifacts, and tilted angles.
+  - **Dual-Decoder Multi-Stage Pipeline (`scamshield/qr_decoder.py`):** Added `zxing-cpp==3.2.0.post1` alongside OpenCV `QRCodeDetector` across progressive stages: (1) original image, (2) 36px white border quiet-zone padding, (3) grayscale + CLAHE contrast enhancement, (4) multi-resolution scaling (`2x`/`3x`/`0.5x`), (5) adaptive Gaussian thresholding, Otsu, and inverted binary, and (6) skew/rotation correction (`±15°`, `±30°`, `45°`).
+  - **Explicit QR Statuses (`decoded`, `detected_unreadable`, `none`, `error`):** Wired `qr_status` through `/api/ocr`, `static/app.js`, `/api/analyze`, and `scamshield/engine.py`. Unreadable QR regions surface `qr_unreadable` (`review`, never `no_clear_signal`).
+  - **Realistic QR Condition Benchmark (`tests/test_qr_robustness.py`):** **7/7 (100%)** decoded across WhatsApp-style JPEG (`quality=25`), low resolution (`box_size=3`), embedded center logo (`18%` center block with EC-H), `18°` rotation, low contrast (`#5f5f5f` on `#c3c3c3`), cropped borders (`border=0`), and multi-QR images.
+  - **Verification:** `.\.venv\Scripts\python.exe -m pytest -v -s` → **676 passed, 0 failed, 0 skipped in 8.44s**.

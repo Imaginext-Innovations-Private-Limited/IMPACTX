@@ -15,7 +15,7 @@ const examples = {
 let cloudPreference=false, cloudFallback=false;
 let lastResult=null, pendingRequest=null, groqConfigured=null, currentTab="text", voiceSubTab="mic", recognition=null, micActive=false;
 const supportedVoiceLocales={en:"en-IN",hi:"hi-IN",bn:"bn-IN",kn:"kn-IN",te:"te-IN",or:"or-IN",mr:"mr-IN",ta:"ta-IN",ml:"ml-IN",gu:"gu-IN",pa:"pa-IN"};
-let speakingUtterance=null, recordingClip=null, clipUrl=null, voiceMode=null, voiceCheck=0, playbackAttempt=0, inputRevision=0, imageRequest=null, emailRequest=null, audioRequest=null, audioDurationSeconds=null, audioSelection=0, extractedQrPayloads=[], parsedEmailMeta=null, autoTimer=null, lastSignature=null;
+let speakingUtterance=null, recordingClip=null, clipUrl=null, voiceMode=null, voiceCheck=0, playbackAttempt=0, inputRevision=0, imageRequest=null, emailRequest=null, audioRequest=null, audioDurationSeconds=null, audioSelection=0, extractedQrPayloads=[], extractedQrStatus=null, parsedEmailMeta=null, autoTimer=null, lastSignature=null;
 function setStatus(text,error=false){$("status").textContent=text;$("status").classList.toggle("error",error)}
 function setText(t){inputRevision++;$("message").value=t.slice(0,6000);$("char-count").textContent=`${$("message").value.length} / 6000`;}
 function make(tag, text, className){const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(className)el.className=className;return el}
@@ -39,23 +39,23 @@ function networkChanged(){
   updateCloudChoice();
   if(navigator.onLine!==false&&groqConfigured!==true)loadAnalysisAvailability();
 }
-function setQrPreview(payloads){extractedQrPayloads=Array.isArray(payloads)?payloads:[];const el=$("qr-preview");if(!el)return;if(!extractedQrPayloads.length){el.textContent="";el.classList.add("hidden");return;}el.textContent=`QR code decoded (${extractedQrPayloads.length}): ${extractedQrPayloads[0].slice(0,120)}`;el.classList.remove("hidden");}
-function currentSignature(useCloud){return JSON.stringify({t:$("message").value.trim(),c:$("channel").value,l:$("language").value,q:extractedQrPayloads,e:parsedEmailMeta?.from_raw||"",u:useCloud});}
+function setQrPreview(payloads, status=null){extractedQrPayloads=Array.isArray(payloads)?payloads:[];extractedQrStatus=status;const el=$("qr-preview");if(!el)return;if(extractedQrPayloads.length){el.textContent=`QR code decoded (${extractedQrPayloads.length}): ${extractedQrPayloads[0].slice(0,120)}`;el.classList.remove("hidden");return;}if(status==="detected_unreadable"){el.textContent="QR code detected, but its contents could not be decoded. Safety could not be assessed.";el.classList.remove("hidden");return;}el.textContent="";el.classList.add("hidden");}
+function currentSignature(useCloud){return JSON.stringify({t:$("message").value.trim(),c:$("channel").value,l:$("language").value,q:extractedQrPayloads,qs:extractedQrStatus,e:parsedEmailMeta?.from_raw||"",u:useCloud});}
 function scheduleAutoProtect(immediate=false){
   if(autoTimer){clearTimeout(autoTimer);autoTimer=null;}
   if(!$("auto-protect")?.checked)return;
   if(imageRequest||emailRequest||audioRequest||micActive)return;
-  if(!$("message").value.trim()&&!extractedQrPayloads.length)return;
+  if(!$("message").value.trim()&&!extractedQrPayloads.length&&extractedQrStatus!=="detected_unreadable")return;
   const run=()=>{autoTimer=null;if($("auto-protect")?.checked)requestAnalysis(true);};
   if(immediate)run(); else autoTimer=setTimeout(run,550);
 }
 async function scan(useCloud=false){
   useCloud=useCloud===true;const sig=currentSignature(useCloud);invalidateAssessment();const text=$("message").value.trim();
-  if(!text&&!extractedQrPayloads.length){setStatus("Enter a message or select a demo first.",true);return;}
+  if(!text&&!extractedQrPayloads.length&&extractedQrStatus!=="detected_unreadable"){setStatus("Enter a message or select a demo first.",true);return;}
   const ctrl=new AbortController(), revision=inputRevision;pendingRequest=ctrl;setAnalysisBusy(true);
   setStatus(useCloud?"Analyzing context with AI and local safety checks…":"Analyzing locally…");
   try{
-    const response=await fetch("/api/analyze",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,channel:$("channel").value,language:$("language").value,cloud_consent:useCloud,qr_payloads:extractedQrPayloads.length?extractedQrPayloads:null,email_meta:parsedEmailMeta}),signal:ctrl.signal});
+    const response=await fetch("/api/analyze",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,channel:$("channel").value,language:$("language").value,cloud_consent:useCloud,qr_payloads:extractedQrPayloads.length?extractedQrPayloads:null,qr_status:extractedQrStatus,email_meta:parsedEmailMeta}),signal:ctrl.signal});
     const data=await response.json();if(!response.ok)throw new Error(typeof data.detail==="string"?data.detail:"Analysis failed");
     if(pendingRequest!==ctrl||revision!==inputRevision)return;
     lastSignature=sig;cloudFallback=useCloud&&data.analysis_mode==="offline_fallback";updateCloudChoice();lastResult=data;render(data);$("results").querySelector(".evidence-details").open=false;if(window.matchMedia("(max-width: 760px)").matches)$("results-title").scrollIntoView({block:"start",behavior:"auto"});setStatus("Analysis complete. Indicators are signals, not proof.");
@@ -68,7 +68,7 @@ function readyToAnalyze(){invalidateAssessment();setStatus($("message").value.tr
 function requestAnalysis(isAuto=false){
   isAuto=isAuto===true;
   if(imageRequest||emailRequest||audioRequest||micActive){if(!isAuto)setStatus("Finish text extraction or stop transcription before analyzing.",true);return;}
-  if(!$("message").value.trim()&&!extractedQrPayloads.length){if(!isAuto)setStatus("Enter a message or select a demo first.",true);return;}
+  if(!$("message").value.trim()&&!extractedQrPayloads.length&&extractedQrStatus!=="detected_unreadable"){if(!isAuto)setStatus("Enter a message or select a demo first.",true);return;}
   updateCloudChoice();
   const useCloud=navigator.onLine!==false&&groqConfigured===true&&$("cloud-consent").checked;
   const sig=currentSignature(useCloud);
@@ -154,7 +154,7 @@ function renderQrDetails(data){
     list.append(card);
   });
 }
-async function extractImage(file){if(!file)return;invalidateAssessment();setText("");setQrPreview([]);parsedEmailMeta=null;$("image-file-name").textContent=file.name;if(file.size>4*1024*1024){setStatus("Screenshot must be under 4 MB.",true);return}if(imageRequest)imageRequest.abort();const ctrl=new AbortController();imageRequest=ctrl;const revision=inputRevision;const fd=new FormData();fd.append("file",file);const ocrLang=$("ocr-auto")?.checked?"auto":$("input-language").value;setStatus("Extracting text and QR codes from screenshot…");try{const response=await fetch("/api/ocr?language="+encodeURIComponent(ocrLang),{method:"POST",body:fd,signal:ctrl.signal});const data=await response.json();if(!response.ok)throw new Error(typeof data.detail==="string"?data.detail:"OCR failed");if(imageRequest!==ctrl||revision!==inputRevision)return;setText(data.text||"");setQrPreview(data.qr_payloads||[]);$("channel").value="image";setStatus(data.qr_payloads?.length?"QR code decoded from screenshot. Review and click Analyze.":"Screenshot text extracted. Review and correct the text, then click Analyze.");scheduleAutoProtect(true);}catch(err){if(err.name!=="AbortError"&&imageRequest===ctrl)setStatus(err.message,true)}finally{if(imageRequest===ctrl)imageRequest=null}}
+async function extractImage(file){if(!file)return;invalidateAssessment();setText("");setQrPreview([]);parsedEmailMeta=null;$("image-file-name").textContent=file.name;if(file.size>4*1024*1024){setStatus("Screenshot must be under 4 MB.",true);return}if(imageRequest)imageRequest.abort();const ctrl=new AbortController();imageRequest=ctrl;const revision=inputRevision;const fd=new FormData();fd.append("file",file);const ocrLang=$("ocr-auto")?.checked?"auto":$("input-language").value;setStatus("Extracting text and QR codes from screenshot…");try{const response=await fetch("/api/ocr?language="+encodeURIComponent(ocrLang),{method:"POST",body:fd,signal:ctrl.signal});const data=await response.json();if(!response.ok)throw new Error(typeof data.detail==="string"?data.detail:"OCR failed");if(imageRequest!==ctrl||revision!==inputRevision)return;setText(data.text||"");setQrPreview(data.qr_payloads||[],data.qr_status||null);$("channel").value="image";setStatus(data.qr_payloads?.length?"QR code decoded from screenshot. Review and click Analyze.":data.qr_status==="detected_unreadable"?"Unreadable QR code detected — safety could not be assessed.":"Screenshot text extracted. Review and correct the text, then click Analyze.");scheduleAutoProtect(true);}catch(err){if(err.name!=="AbortError"&&imageRequest===ctrl)setStatus(err.message,true)}finally{if(imageRequest===ctrl)imageRequest=null}}
 function handleUploadedFile(file){
   if(!file)return;
   const name=(file.name||"").toLowerCase();

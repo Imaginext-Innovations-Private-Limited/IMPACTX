@@ -12,6 +12,7 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 import cv2
 import numpy as np
+import zxingcpp
 from PIL import Image, ImageOps
 
 _RECEIVE_INTENT_RE = re.compile(
@@ -31,11 +32,14 @@ _APK_RE = re.compile(r"\.apk(?:$|[?#])", re.I)
 _VPA_RE = re.compile(r"^[a-zA-Z0-9._\-]{2,}@[a-zA-Z0-9.\-]{2,}$")
 
 
-def _try_decode(detector: cv2.QRCodeDetector, img: np.ndarray) -> list[str]:
-    """Run multi and single QR decode on an OpenCV image array."""
+def _try_opencv(detector: cv2.QRCodeDetector, img: np.ndarray) -> tuple[list[str], bool]:
+    """Run OpenCV multi and single QR decode; also report whether a QR box was detected."""
     found: list[str] = []
+    detected_box = False
     try:
-        ok, decoded_info, _points, _ = detector.detectAndDecodeMulti(img)
+        ok, decoded_info, points, _ = detector.detectAndDecodeMulti(img)
+        if points is not None and len(points) > 0:
+            detected_box = True
         if ok and decoded_info is not None:
             for item in decoded_info:
                 val = (item or "").strip()
@@ -45,53 +49,154 @@ def _try_decode(detector: cv2.QRCodeDetector, img: np.ndarray) -> list[str]:
         pass
     if not found:
         try:
-            val, _points, _ = detector.detectAndDecode(img)
+            val, points, _ = detector.detectAndDecode(img)
+            if points is not None and len(points) > 0:
+                detected_box = True
             val = (val or "").strip()
             if val:
                 found.append(val)
         except cv2.error:
             pass
-    return found
+    return found, detected_box
+
+
+def _try_zxing(img: np.ndarray) -> tuple[list[str], bool]:
+    """Run zxing-cpp QR decoding; also report if an unreadable QR candidate was seen."""
+    found: list[str] = []
+    detected_box = False
+    try:
+        barcodes = zxingcpp.read_barcodes(
+            img,
+            formats=zxingcpp.BarcodeFormat.QRCode,
+            try_rotate=True,
+            try_invert=True,
+            try_downscale=True,
+        )
+        for b in barcodes:
+            val = (b.text or "").strip()
+            if val and b.valid:
+                if val not in found:
+                    found.append(val)
+            else:
+                detected_box = True
+    except Exception:
+        pass
+    return found, detected_box
+
+
+def _add_quiet_zone(img: np.ndarray, pad: int = 32) -> np.ndarray:
+    val = (255, 255, 255) if img.ndim == 3 else 255
+    return cv2.copyMakeBorder(img, pad, pad, pad, pad, cv2.BORDER_CONSTANT, value=val)
+
+
+def _rotate_bound(img: np.ndarray, angle: float) -> np.ndarray:
+    h, w = img.shape[:2]
+    center = (w / 2.0, h / 2.0)
+    mat = cv2.getRotationMatrix2D(center, angle, 1.0)
+    cos = abs(mat[0, 0])
+    sin = abs(mat[0, 1])
+    nw = int((h * sin) + (w * cos))
+    nh = int((h * cos) + (w * sin))
+    mat[0, 2] += (nw / 2.0) - center[0]
+    mat[1, 2] += (nh / 2.0) - center[1]
+    val = (255, 255, 255) if img.ndim == 3 else 255
+    return cv2.warpAffine(img, mat, (nw, nh), borderValue=val)
+
+
+def decode_qr_detailed_from_pil(image: Image.Image) -> dict[str, Any]:
+    """Multi-stage offline QR decoding using zxing-cpp + OpenCV with preprocessing."""
+    rgb = np.array(ImageOps.exif_transpose(image).convert("RGB"))
+    bgr = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR)
+    detector = cv2.QRCodeDetector()
+    all_found: list[str] = []
+    used_decoders: set[str] = set()
+    detected_box = False
+
+    def run_stage(arr: np.ndarray, is_rgb: bool = False) -> bool:
+        nonlocal detected_box
+        zx_vals, zx_box = _try_zxing(arr)
+        cv_arr = cv2.cvtColor(arr, cv2.COLOR_RGB2BGR) if (is_rgb and arr.ndim == 3) else arr
+        cv_vals, cv_box = _try_opencv(detector, cv_arr)
+        if zx_box or cv_box:
+            detected_box = True
+        for v in zx_vals:
+            used_decoders.add("zxing-cpp")
+            if v not in all_found:
+                all_found.append(v)
+        for v in cv_vals:
+            used_decoders.add("opencv")
+            if v not in all_found:
+                all_found.append(v)
+        return bool(all_found)
+
+    # 1. Original image before preprocessing
+    if run_stage(rgb, is_rgb=True):
+        return {"status": "decoded", "payloads": all_found, "decoder_used": "+".join(sorted(used_decoders)), "error": None}
+
+    # 2. White border padding (restores cropped quiet zones)
+    if run_stage(_add_quiet_zone(rgb, 36), is_rgb=True):
+        return {"status": "decoded", "payloads": all_found, "decoder_used": "+".join(sorted(used_decoders)), "error": None}
+
+    # 3. Grayscale + CLAHE contrast enhancement + quiet zone
+    gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8)).apply(gray)
+    if run_stage(_add_quiet_zone(clahe, 32)):
+        return {"status": "decoded", "payloads": all_found, "decoder_used": "+".join(sorted(used_decoders)), "error": None}
+
+    # 4. Multiple scaling resolutions (upscale small QRs, downscale huge images)
+    h, w = gray.shape[:2]
+    scales = []
+    if min(h, w) < 600:
+        scales.append(2.0)
+    if min(h, w) < 300:
+        scales.append(3.0)
+    if max(h, w) > 1600:
+        scales.append(0.5)
+    for sc in scales:
+        resized = cv2.resize(clahe, None, fx=sc, fy=sc, interpolation=cv2.INTER_CUBIC if sc > 1 else cv2.INTER_AREA)
+        if run_stage(_add_quiet_zone(resized, 32)):
+            return {"status": "decoded", "payloads": all_found, "decoder_used": "+".join(sorted(used_decoders)), "error": None}
+
+    # 5. Adaptive thresholding, Otsu, and inverted binary (dark-mode / low-contrast)
+    work = _add_quiet_zone(
+        cv2.resize(gray, None, fx=2.0, fy=2.0, interpolation=cv2.INTER_CUBIC) if min(h, w) < 600 else gray,
+        32,
+    )
+    adaptive = cv2.adaptiveThreshold(work, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 31, 7)
+    _, otsu = cv2.threshold(work, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+    for variant in (adaptive, otsu, cv2.bitwise_not(otsu)):
+        if run_stage(variant):
+            return {"status": "decoded", "payloads": all_found, "decoder_used": "+".join(sorted(used_decoders)), "error": None}
+
+    # 6. Skew/rotation correction for angled phone captures
+    for angle in (-15.0, 15.0, -30.0, 30.0, 45.0):
+        rotated = _rotate_bound(_add_quiet_zone(clahe, 24), angle)
+        if run_stage(rotated):
+            return {"status": "decoded", "payloads": all_found, "decoder_used": "+".join(sorted(used_decoders)), "error": None}
+
+    status = "detected_unreadable" if detected_box else "none"
+    return {"status": status, "payloads": [], "decoder_used": None, "error": None}
+
+
+def decode_qr_detailed_from_bytes(image_bytes: bytes) -> dict[str, Any]:
+    """Decode QR payloads from raw bytes and return explicit status metadata."""
+    if not image_bytes:
+        return {"status": "error", "payloads": [], "decoder_used": None, "error": "Empty image bytes."}
+    try:
+        with Image.open(io.BytesIO(image_bytes)) as im:
+            return decode_qr_detailed_from_pil(im)
+    except Exception as exc:
+        return {"status": "error", "payloads": [], "decoder_used": None, "error": type(exc).__name__}
 
 
 def decode_qr_from_pil(image: Image.Image) -> list[str]:
-    """Decode QR code payloads from a Pillow Image using progressive fallbacks."""
-    rgb = ImageOps.exif_transpose(image).convert("RGB")
-    bgr = cv2.cvtColor(np.array(rgb), cv2.COLOR_RGB2BGR)
-    detector = cv2.QRCodeDetector()
-
-    results = _try_decode(detector, bgr)
-    if results:
-        return results
-
-    gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
-    h, w = gray.shape[:2]
-    if min(h, w) < 600:
-        scale = 2.0
-        gray = cv2.resize(gray, None, fx=scale, fy=scale, interpolation=cv2.INTER_CUBIC)
-        results = _try_decode(detector, gray)
-        if results:
-            return results
-
-    # Otsu threshold and inverted threshold (handles dark-mode / low-contrast QRs)
-    _, otsu = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-    for variant in (otsu, cv2.bitwise_not(otsu)):
-        results = _try_decode(detector, variant)
-        if results:
-            return results
-
-    return []
+    """Decode QR code payloads from a Pillow Image."""
+    return decode_qr_detailed_from_pil(image)["payloads"]
 
 
 def decode_qr_from_bytes(image_bytes: bytes) -> list[str]:
     """Decode QR payloads from raw image bytes. Returns [] on failure."""
-    if not image_bytes:
-        return []
-    try:
-        with Image.open(io.BytesIO(image_bytes)) as im:
-            return decode_qr_from_pil(im)
-    except Exception:
-        return []
+    return decode_qr_detailed_from_bytes(image_bytes)["payloads"]
 
 
 def parse_upi_uri(payload: str) -> dict[str, Any] | None:

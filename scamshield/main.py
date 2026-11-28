@@ -32,6 +32,7 @@ class AnalysisInput(BaseModel):
     language: str = "en"
     cloud_consent: bool = False
     qr_payloads: list[str] | None = Field(default=None, max_length=10)
+    qr_status: str | None = None
     email_meta: dict | None = None
 
 
@@ -145,14 +146,17 @@ def analyze_message(data: AnalysisInput, request: Request):
             origin = request.headers.get("origin")
             if origin and origin not in {"http://127.0.0.1:8000", "http://localhost:8000"}:
                 raise HTTPException(status_code=403, detail="Local origin required")
-        result = analyze(data.text, data.channel, data.language, qr_payloads=data.qr_payloads, email_meta=data.email_meta)
+        result = analyze(
+            data.text, data.channel, data.language,
+            qr_payloads=data.qr_payloads, email_meta=data.email_meta, qr_status=data.qr_status,
+        )
         ind_ids = {i.get("id") for i in result.get("indicators", [])}
         contributions = {
             "local_rules": True,
             "text_ml": result.get("model_signal", "unavailable"),
             "url_ml": "flagged" if ind_ids & {"url_ml_phishing", "url_ml_review", "qr_url_ml_phishing", "qr_url_ml_review"} else "checked",
             "local_threat_db": "matched" if ind_ids & {"url_threat_db", "qr_url_threat_db"} else "checked_no_match",
-            "qr_decoder": "decoded" if result.get("qr_analysis") else "none",
+            "qr_decoder": "decoded" if result.get("qr_analysis") else ("detected_unreadable" if data.qr_status == "detected_unreadable" else "none"),
             "identity_verifier": "checked" if result.get("identity") else "none",
             "live_url_reputation": "not_requested",
             "cloud_llm": "not_requested",
@@ -324,9 +328,11 @@ async def ocr_image(file: UploadFile = File(...), language: str = Query("auto"))
     await file.close()
     if len(data) > 4 * 1024 * 1024:
         raise HTTPException(status_code=413, detail="Image limit is 4 MB.")
-    from .qr_decoder import classify_qr_payload, decode_qr_from_bytes
+    from .qr_decoder import classify_qr_payload, decode_qr_detailed_from_bytes
     qr_payloads: list[str] = []
     qr_analysis: list[dict] = []
+    qr_status = "none"
+    qr_decoder_used: str | None = None
     ocr_unavailable_reason: str | None = None
     try:
         from PIL import Image, ImageOps, UnidentifiedImageError
@@ -336,7 +342,10 @@ async def ocr_image(file: UploadFile = File(...), language: str = Query("auto"))
                 raise HTTPException(status_code=415, detail="Not a supported image format.")
             if raw.width * raw.height > 12_000_000:
                 raise HTTPException(status_code=413, detail="Image resolution too large.")
-            qr_payloads = decode_qr_from_bytes(data)
+            qr_res = decode_qr_detailed_from_bytes(data)
+            qr_status = qr_res["status"]
+            qr_decoder_used = qr_res["decoder_used"]
+            qr_payloads = qr_res["payloads"]
             qr_analysis = [classify_qr_payload(p) for p in qr_payloads]
             im = ImageOps.exif_transpose(raw).convert("RGB")
             t_cmd = _resolve_tesseract_cmd()
@@ -356,19 +365,21 @@ async def ocr_image(file: UploadFile = File(...), language: str = Query("auto"))
     except (UnidentifiedImageError, OSError, ValueError) as exc:
         raise HTTPException(status_code=422, detail="Image could not be read.") from exc
     except (RuntimeError, pytesseract.TesseractError, pytesseract.TesseractNotFoundError) as exc:
-        if not qr_payloads:
+        if not qr_payloads and qr_status != "detected_unreadable":
             raise HTTPException(status_code=503, detail="OCR is unavailable: install Tesseract OCR and the desired language data.") from exc
         extracted = ""
         selected = []
-        ocr_unavailable_reason = "Tesseract OCR unavailable; QR code decoded locally."
+        ocr_unavailable_reason = "Tesseract OCR unavailable; QR code inspected locally."
     text = extracted.strip()[:MAX_TEXT]
-    if not text and not qr_payloads:
+    if not text and not qr_payloads and qr_status != "detected_unreadable":
         raise HTTPException(status_code=422, detail="No legible text or QR code was found. Try a clearer screenshot.")
     note = ocr_unavailable_reason or "OCR may contain errors. Check transcription before interpreting results."
     return {
         "text": text,
         "characters": len(text),
         "ocr_languages": selected,
+        "qr_status": qr_status,
+        "qr_decoder": qr_decoder_used,
         "qr_payloads": qr_payloads,
         "qr_analysis": qr_analysis,
         "note": note,

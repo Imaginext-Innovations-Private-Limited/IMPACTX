@@ -7,7 +7,7 @@ if not exist ".venv\Scripts\python.exe" (
 )
 if not exist ".venv\Scripts\python.exe" (echo Python setup failed. Install Python 3. & pause & exit /b 1)
 if /I "%~1"=="setup" goto setup
-".venv\Scripts\python.exe" -c "import fastapi,uvicorn,pydantic,multipart,PIL,pytesseract,sklearn,httpx,pytest,sarvamai,cv2,publicsuffix2" >nul 2>nul
+".venv\Scripts\python.exe" -c "import fastapi,uvicorn,pydantic,multipart,PIL,pytesseract,sklearn,httpx,pytest,sarvamai,cv2,zxingcpp,publicsuffix2" >nul 2>nul
 if errorlevel 1 (
   ".venv\Scripts\python.exe" -m pip install -r requirements.txt
   if errorlevel 1 (echo Dependency installation failed. & pause & exit /b 1)
