@@ -17,7 +17,10 @@ from urllib.parse import urlparse
 
 import joblib
 import numpy as np
+from publicsuffix2 import PublicSuffixList
 from scipy.sparse import csr_matrix, hstack
+
+_PSL = PublicSuffixList()
 
 DATA_DIR = Path(__file__).resolve().parent / "data"
 MODEL_PATH = DATA_DIR / "url_model.joblib"
@@ -72,13 +75,16 @@ def normalize_url(raw_url: str) -> str:
 
 
 def registered_domain(host: str) -> str:
-    """Best-effort eTLD+1 extraction without external PSL dependency."""
-    labels = [x for x in host.lower().split(".") if x]
-    if len(labels) >= 3 and labels[-2] in {"co", "com", "gov", "org", "ac", "nic", "net"} and len(labels[-1]) == 2:
-        return ".".join(labels[-3:])
-    if len(labels) >= 2:
-        return ".".join(labels[-2:])
-    return host.lower()
+    """Extract registered domain (eTLD+1) using bundled Mozilla Public Suffix List."""
+    h = (host or "").strip().lower().rstrip(".")
+    if not h or _IPV4_RE.match(h):
+        return h
+    sld = _PSL.get_sld(h)
+    tld = _PSL.get_tld(h)
+    if sld and sld != tld:
+        return sld
+    labels = [x for x in h.split(".") if x]
+    return ".".join(labels[-2:]) if len(labels) >= 2 else h
 
 
 def is_official_host(host: str) -> bool:
