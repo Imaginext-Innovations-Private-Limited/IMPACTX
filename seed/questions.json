@@ -1,0 +1,2408 @@
+{
+  "state": {
+    "id": "state",
+    "en": "Which state do you live in?",
+    "te": "మీరు ఏ రాష్ట్రంలో నివసిస్తున్నారు?",
+    "options": [
+      [
+        "AP",
+        "Andhra Pradesh",
+        "ఆంధ్రప్రదేశ్"
+      ],
+      [
+        "TS",
+        "Telangana",
+        "తెలంగాణ"
+      ],
+      [
+        "KA",
+        "Karnataka",
+        "కర్ణాటక"
+      ],
+      [
+        "other",
+        "Other Indian state / UT",
+        "ఇతర భారత రాష్ట్రం / కేంద్రపాలిత ప్రాంతం"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "आप किस राज्य में रहते हैं?"
+  },
+  "citizen": {
+    "id": "citizen",
+    "en": "Are you an Indian citizen?",
+    "te": "మీరు భారత పౌరులా?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "क्या आप भारतीय नागरिक हैं?"
+  },
+  "age": {
+    "id": "age",
+    "en": "What is your age in completed years?",
+    "te": "మీ వయస్సు ఎన్ని సంవత్సరాలు?",
+    "options": [],
+    "help": "Use Aadhaar-recorded age for senior health screening; skip if uncertain.",
+    "help_te": "ఆరోగ్య పథకం కోసం ఆధార్ ప్రకారం వయస్సు ఇవ్వండి.",
+    "hi": "आपकी पूरी आयु क्या है?"
+  },
+  "woman": {
+    "id": "woman",
+    "en": "Is the applicant a woman?",
+    "te": "దరఖాస్తుదారు మహిళా?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "क्या आवेदक महिला हैं?"
+  },
+  "poor": {
+    "id": "poor",
+    "en": "Does your household qualify as poor under the PMUY deprivation declaration?",
+    "te": "PMUY పేదరిక ప్రకటన ప్రకారం మీ కుటుంబం పేద కుటుంబమా?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "If unsure, select Not sure.",
+    "help_te": "తెలియకపోతే తెలియదు ఎంచుకోండి.",
+    "hi": "क्या आपका परिवार वंचना घोषणा की शर्तें पूरी करता है?"
+  },
+  "lpg": {
+    "id": "lpg",
+    "en": "Does anyone in your household already have an LPG connection?",
+    "te": "మీ కుటుంబంలో ఇప్పటికే LPG కనెక్షన్ ఉందా?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "क्या परिवार के पास पहले से एलपीजी कनेक्शन है?"
+  },
+  "land": {
+    "id": "land",
+    "en": "Does your farmer family own cultivable land?",
+    "te": "మీ రైతు కుటుంబానికి సాగు భూమి ఉందా?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "क्या किसान परिवार के नाम कृषि भूमि है?"
+  },
+  "kex": {
+    "id": "kex",
+    "en": "Do any PM-KISAN exclusions apply to your family?",
+    "te": "PM-KISAN మినహాయింపులు మీ కుటుంబానికి వర్తిస్తాయా?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "Institutional land, specified public office/government employment, pension ≥₹10,000 (specified exceptions), income tax in last assessment year, practising registered doctor/engineer/lawyer/CA/architect, or NRI family for new enrolment. Check official rules.",
+    "help_te": "సంస్థ భూమి, కొన్ని ప్రభుత్వ పదవులు/ఉద్యోగాలు, పెన్షన్, ఆదాయపు పన్ను, నమోదిత వృత్తి నిపుణులు, NRI కుటుంబం వంటి మినహాయింపులు. అధికారిక నిబంధనలు చూడండి.",
+    "hi": "क्या परिवार पर कोई पीएम-किसान अपवर्जन लागू है?"
+  },
+  "landcheck": {
+    "id": "landcheck",
+    "en": "Has the authority confirmed your land history and family eligibility?",
+    "te": "భూమి చరిత్ర, కుటుంబ అర్హతను అధికారులు నిర్ధారించారా?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "क्या भूमि रिकॉर्ड और परिवार का सत्यापन हुआ है?"
+  },
+  "white": {
+    "id": "white",
+    "en": "Do you have a BPL white ration card?",
+    "te": "మీకు BPL తెల్ల రేషన్ కార్డు ఉందా?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "क्या परिवार के पास पात्र राशन कार्ड है?"
+  },
+  "local": {
+    "id": "local",
+    "en": "Are you a local resident of your AP district?",
+    "te": "మీరు మీ ఏపీ జిల్లాలో స్థానిక నివాసితులా?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "क्या आप जिले के स्थानीय निवासी हैं?"
+  },
+  "destitute": {
+    "id": "destitute",
+    "en": "Do you lack sufficient means and reliable family support?",
+    "te": "మీకు సరిపడా ఆదాయం, కుటుంబ ఆధారం లేవా?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "क्या आजीविका और पारिवारिक सहारा अपर्याप्त है?"
+  },
+  "pension": {
+    "id": "pension",
+    "en": "Are you already covered by another pension scheme?",
+    "te": "మీకు ఇప్పటికే ఇతర పెన్షన్ పథకం ఉందా?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "क्या आपको कोई दूसरी पेंशन मिलती है?"
+  },
+  "pcheck": {
+    "id": "pcheck",
+    "en": "Have officials confirmed all additional BPL exclusion checks?",
+    "te": "అదనపు BPL నిబంధనలను అధికారులు నిర్ధారించారా?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "Employment, tax, land, vehicle and other exclusions require official verification.",
+    "help_te": "ఉద్యోగం, పన్ను, భూమి, వాహనం వంటి నిబంధనలు పరిశీలించాలి.",
+    "hi": "क्या अधिकारियों ने अतिरिक्त शर्तों की पुष्टि की है?"
+  },
+  "first": {
+    "id": "first",
+    "en": "Is this your first marriage, and will you be 18 or older at marriage?",
+    "te": "ఇది మీ మొదటి వివాహమా, వివాహానికి 18 ఏళ్లు నిండుతాయా?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "क्या यह पहला विवाह है और विवाह के समय आयु 18 वर्ष या अधिक है?"
+  },
+  "category": {
+    "id": "category",
+    "en": "Which ePASS eligibility category applies?",
+    "te": "మీకు ఏ ePASS వర్గం వర్తిస్తుంది?",
+    "options": [
+      [
+        "SC",
+        "SC",
+        "SC"
+      ],
+      [
+        "ST",
+        "ST",
+        "ST"
+      ],
+      [
+        "BC",
+        "BC / EBC",
+        "BC / EBC"
+      ],
+      [
+        "minority",
+        "Minority (Shaadi Mubarak)",
+        "మైనారిటీ"
+      ],
+      [
+        "other",
+        "Other",
+        "ఇతర"
+      ],
+      [
+        "unknown",
+        "Prefer not to answer / not sure",
+        "చెప్పలేను / తెలియదు"
+      ],
+      [
+        "general",
+        "General (school scholarship)",
+        "సాధారణ వర్గం"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "कौन सी ePASS श्रेणी लागू है?"
+  },
+  "area": {
+    "id": "area",
+    "en": "Is your residence rural or urban?",
+    "te": "మీ నివాసం గ్రామీణమా పట్టణమా?",
+    "options": [
+      [
+        "rural",
+        "Rural",
+        "గ్రామీణం"
+      ],
+      [
+        "urban",
+        "Urban",
+        "పట్టణం"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "निवास ग्रामीण है या शहरी?"
+  },
+  "income": {
+    "id": "income",
+    "en": "What is your parents’ combined annual income (₹)?",
+    "te": "మీ తల్లిదండ్రుల వార్షిక మొత్తం ఆదాయం (₹)?",
+    "options": [],
+    "help": "Use annual amount, not monthly. Skip if unsure.",
+    "help_te": "నెల ఆదాయం కాదు; వార్షిక ఆదాయం ఇవ్వండి.",
+    "hi": "माता-पिता की कुल वार्षिक आय कितनी है (₹)?"
+  },
+  "st": {
+    "id": "st",
+    "en": "Is the pension applicant a member of a Scheduled Tribe?",
+    "te": "దరఖాస్తుదారు షెడ్యూల్డ్ తెగకు చెందినవారా?",
+    "hi": "क्या आवेदक अनुसूचित जनजाति के सदस्य हैं?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ]
+  },
+  "grade": {
+    "id": "grade",
+    "en": "Is the applicant a fresh Class IX award candidate?",
+    "te": "దరఖాస్తుదారు తొమ్మిదో తరగతి కొత్త అభ్యర్థా?",
+    "hi": "क्या आवेदक कक्षा नौ के नए उम्मीदवार हैं?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ]
+  },
+  "school": {
+    "id": "school",
+    "en": "Government, aided or local-body school, excluding KVS, NVS and residential schools?",
+    "te": "అర్హత గల ప్రభుత్వ లేదా ఎయిడెడ్ పాఠశాలలో చదువుతున్నారా?",
+    "hi": "क्या स्कूल पात्र सरकारी या सहायता प्राप्त स्कूल है (KVS, NVS और आवासीय स्कूल छोड़कर)?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ]
+  },
+  "selected": {
+    "id": "selected",
+    "en": "Selected through the state NMMS examination?",
+    "te": "రాష్ట్ర NMMS పరీక్షలో ఎంపికయ్యారా?",
+    "hi": "क्या राज्य NMMS परीक्षा में चयन हुआ है?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ]
+  },
+  "house": {
+    "id": "house",
+    "en": "Does the family own a pucca house anywhere in India?",
+    "te": "కుటుంబానికి భారతదేశంలో పక్కా ఇల్లు ఉందా?",
+    "hi": "क्या परिवार के पास भारत में कहीं पक्का घर है?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ]
+  },
+  "allot": {
+    "id": "allot",
+    "en": "Was a government scheme house allotted in the last 20 years?",
+    "te": "గత 20 ఏళ్లలో ప్రభుత్వ పథకం ద్వారా ఇల్లు కేటాయించారా?",
+    "hi": "क्या पिछले 20 वर्षों में सरकारी आवास आवंटित हुआ?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ]
+  },
+  "houseincome": {
+    "id": "houseincome",
+    "en": "Annual household income in rupees?",
+    "te": "కుటుంబ వార్షిక ఆదాయం ఎంత?",
+    "hi": "परिवार की वार्षिक आय रुपये में कितनी है?",
+    "options": []
+  },
+  "vertical": {
+    "id": "vertical",
+    "en": "Did the urban authority confirm the selected housing component and local limits?",
+    "te": "ఎంచుకున్న గృహ విభాగం, స్థానిక పరిమితులను అధికారులు నిర్ధారించారా?",
+    "hi": "क्या स्थानीय निकाय ने आवास घटक और स्थानीय सीमा की पुष्टि की है?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ]
+  },
+  "trade": {
+    "id": "trade",
+    "en": "Do you practise an eligible traditional trade as a self-employed artisan?",
+    "te": "అర్హమైన సంప్రదాయ వృత్తిలో స్వయం ఉపాధి ఉందా?",
+    "hi": "क्या आप पात्र पारंपरिक व्यवसाय में स्वरोजगार करते हैं?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ]
+  },
+  "government": {
+    "id": "government",
+    "en": "Is anyone in the scheme-defined family a government employee?",
+    "te": "కుటుంబంలో ప్రభుత్వ ఉద్యోగి ఉన్నారా?",
+    "hi": "क्या परिवार में कोई सरकारी कर्मचारी है?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ]
+  },
+  "registered": {
+    "id": "registered",
+    "en": "Is another family member already registered for PM Vishwakarma?",
+    "te": "ఇప్పటికే మరో కుటుంబ సభ్యుడు ఈ పథకంలో నమోదయ్యారా?",
+    "hi": "क्या परिवार का अन्य सदस्य इस योजना में पंजीकृत है?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ]
+  },
+  "credit": {
+    "id": "credit",
+    "en": "Has the CSC verified credit history, applicable exceptions and remaining conditions?",
+    "te": "రుణ చరిత్ర, మినహాయింపులు, ఇతర నిబంధనలు CSC నిర్ధారించిందా?",
+    "hi": "क्या CSC ने ऋण इतिहास, छूट और शेष शर्तें जाँची हैं?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ]
+  },
+  "address": {
+    "id": "address",
+    "en": "Is the current address different from the Aadhaar address?",
+    "te": "ప్రస్తుత చిరునామా ఆధార్ చిరునామాకు భిన్నంగా ఉందా?",
+    "hi": "क्या वर्तमान पता आधार के पते से अलग है?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ]
+  },
+  "stconfirm": {
+    "id": "stconfirm",
+    "en": "Has the district confirmed that the ST age exception applies under the current order?",
+    "te": "ప్రస్తుతం ఈ ఎస్టీ వయస్సు మినహాయింపు వర్తిస్తుందని జిల్లా అధికారులు నిర్ధారించారా?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "Employment, tax, land, vehicle and other exclusions require official verification.",
+    "help_te": "ఉద్యోగం, పన్ను, భూమి, వాహనం వంటి నిబంధనలు పరిశీలించాలి.",
+    "hi": "क्या जिले ने वर्तमान आदेश के तहत जनजातीय आयु छूट की पुष्टि की है?"
+  },
+  "ka_condition_1": {
+    "id": "ka_condition_1",
+    "en": "Does the passenger belong to an eligible category under Shakti and plan to use a covered service within Karnataka?",
+    "te": "Does the passenger belong to an eligible category under Shakti and plan to use a covered service within Karnataka?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "Does the passenger belong to an eligible category under Shakti and plan to use a covered service within Karnataka?"
+  },
+  "ka_official_1": {
+    "id": "ka_official_1",
+    "en": "Has the issuing department confirmed the remaining conditions for Shakti for this household?",
+    "te": "Has the issuing department confirmed the remaining conditions for Shakti for this household?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "Has the issuing department confirmed the remaining conditions for Shakti for this household?"
+  },
+  "ka_condition_2": {
+    "id": "ka_condition_2",
+    "en": "Is the applicant the woman recorded as household head on the ration card?",
+    "te": "Is the applicant the woman recorded as household head on the ration card?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "Is the applicant the woman recorded as household head on the ration card?"
+  },
+  "ka_official_2": {
+    "id": "ka_official_2",
+    "en": "Has the issuing department confirmed the remaining conditions for Gruha Lakshmi for this household?",
+    "te": "Has the issuing department confirmed the remaining conditions for Gruha Lakshmi for this household?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "Has the issuing department confirmed the remaining conditions for Gruha Lakshmi for this household?"
+  },
+  "ka_condition_3": {
+    "id": "ka_condition_3",
+    "en": "Does the household have a domestic electricity connection?",
+    "te": "Does the household have a domestic electricity connection?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "Does the household have a domestic electricity connection?"
+  },
+  "ka_official_3": {
+    "id": "ka_official_3",
+    "en": "Has the issuing department confirmed the remaining conditions for Gruha Jyothi for this household?",
+    "te": "Has the issuing department confirmed the remaining conditions for Gruha Jyothi for this household?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "Has the issuing department confirmed the remaining conditions for Gruha Jyothi for this household?"
+  },
+  "ka_condition_4": {
+    "id": "ka_condition_4",
+    "en": "Is the applicant an unemployed graduate or diploma holder?",
+    "te": "Is the applicant an unemployed graduate or diploma holder?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "Is the applicant an unemployed graduate or diploma holder?"
+  },
+  "ka_official_4": {
+    "id": "ka_official_4",
+    "en": "Has the issuing department confirmed the remaining conditions for Yuva Nidhi for this household?",
+    "te": "Has the issuing department confirmed the remaining conditions for Yuva Nidhi for this household?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "Has the issuing department confirmed the remaining conditions for Yuva Nidhi for this household?"
+  },
+  "ka_condition_5": {
+    "id": "ka_condition_5",
+    "en": "Does the household have an eligible ration entitlement?",
+    "te": "Does the household have an eligible ration entitlement?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "Does the household have an eligible ration entitlement?"
+  },
+  "ka_official_5": {
+    "id": "ka_official_5",
+    "en": "Has the issuing department confirmed the remaining conditions for Anna Bhagya for this household?",
+    "te": "Has the issuing department confirmed the remaining conditions for Anna Bhagya for this household?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "",
+    "help_te": "",
+    "hi": "Has the issuing department confirmed the remaining conditions for Anna Bhagya for this household?"
+  },
+  "ka_review_73161bd3b731": {
+    "id": "ka_review_73161bd3b731",
+    "en": "For Incentive For The Intra Caste Marriage within Scheduled Tribe Community, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Incentive For The Intra Caste Marriage within Scheduled Tribe Community, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The couple should be residing in Karnataka. Both the partners should be from the Scheduled Tribe (ST) community but from different sub-castes. The combined annual income of the couple must be less than ₹2,00,000/-. The couple must apply to this scheme within one year of their marriage. The marriage should have taken place on or after 1st April 2018.",
+    "help_te": "",
+    "hi": "For Incentive For The Intra Caste Marriage within Scheduled Tribe Community, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_478e5101f8e9": {
+    "id": "ka_review_478e5101f8e9",
+    "en": "For Accident Assistance (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Accident Assistance (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "For Registration as a Building/ Construction Worker: The applicant should be a Building/ Construction Worker (Unorganised Worker). The applicant should be a minimum of 18 years of age. The applicant should have engaged in building and construction work for at least 90 days in a given year. For the Application of the Welfare Scheme: The applicant should be a registered construction worker Under the Building and Other Construction Workers Welfare Board of Karnataka. The accident must occur either during the course of employment or outside of work. <br>",
+    "help_te": "",
+    "hi": "For Accident Assistance (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_f810d5350f17": {
+    "id": "ka_review_f810d5350f17",
+    "en": "For Arivu Education Loan Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Arivu Education Loan Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The student should belong to the State Religious Minority Community. The student should be a permanent resident of the State. The annual income of the family should not exceed ₹8,00,000/-.",
+    "help_te": "",
+    "hi": "For Arivu Education Loan Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_788eb2efc526": {
+    "id": "ka_review_788eb2efc526",
+    "en": "For Ashadeepa Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Ashadeepa Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should be a resident of Karnataka. The applicant should belong to the Scheduled Castes (SC) or Scheduled Tribe (ST) category. Employment of the applicant should be in a private-sector industry or establishment. SC/ST candidates undergoing apprenticeship training under the Apprenticeship Act, of 1961, are eligible for stipend reimbursement. For candidates who complete an apprenticeship and are subsequently hired on a permanent basis, employers are eligible for reimbursement of a portion of the candidate’s salary. SC/ST candidates are eligible for skill development training organised by the Department of Skill Development, Government of Karnataka.",
+    "help_te": "",
+    "hi": "For Ashadeepa Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_f687bc3a3ea7": {
+    "id": "ka_review_f687bc3a3ea7",
+    "en": "For Assistance For Major Ailments (Karmika Chikitsa Bhagya) (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Assistance For Major Ailments (Karmika Chikitsa Bhagya) (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "For Registration as a Building/ Construction Worker: The applicant should be a Building/ Construction Worker (Unorganised Worker). The applicant should be a minimum of 18 years of age. The applicant should have engaged in building and construction work for at least 90 days in a given year. For the Application of the Welfare Scheme: The beneficiary should be a registered construction worker Under the Building and Other Construction Workers Welfare Board of Karnataka or his/her dependents. The worker or their dependents must suffer from a major ailment specified in the scheme.",
+    "help_te": "",
+    "hi": "For Assistance For Major Ailments (Karmika Chikitsa Bhagya) (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_0d6497d59245": {
+    "id": "ka_review_0d6497d59245",
+    "en": "For Bhagyalaxmi Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Bhagyalaxmi Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "Eligibility A girl’s birth must be registered within a year after her birth date. Girls shouldn’t engage in child labour. Benefits from the Bhagyalakshmi scheme are available to BPL families with up to 2 female children. Girls should have been immunized correctly in the health department’s program. Girl children must be born after 31 March 2006 in a BPL family. A girl must have completed the eighth grade to be eligible for the maturity amount She cannot have been married off before turning 18 years old.",
+    "help_te": "",
+    "hi": "For Bhagyalaxmi Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_3b8b91c75627": {
+    "id": "ka_review_3b8b91c75627",
+    "en": "For Charmashilpa Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Charmashilpa Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should be leather artisans/Artisans SHGs/Co-operative societies. The applicant should belongs to sub-castes Arundathiyar, Chammadiya, Chamar, Chambar, Chamagar, Madar, Madig, Madiga, Mini Madig, Jambavalu, Haralayya, Machigar, Mochigar, Mochi, muchi, Telugu Mochi, kamaati mocha, Rohidas, Dhor, kakkayya, Kankayya, Samagara, Samagar, Aadhi Anddra, Aadhi Dravida, Aadhi Karnataka among schedule castes. The age of the applicant should be 18 years. The applicant's annual family income should not exceed ₹30,000/ in rural areas and ₹25,000/- in urban areas. The applicant or their family members must not have received benefits from other schemes, except training programs. The applicant's family members should not be employed in government or semi-government organizations.",
+    "help_te": "",
+    "hi": "For Charmashilpa Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_06add78d9647": {
+    "id": "ka_review_06add78d9647",
+    "en": "For Community Based Training Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Community Based Training Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should belong to the religious minority community of the state. The applicant should be a permanent resident of Karnataka. The applicant's age should be between 18 to 35 years. The annual income of the applicant's family from all sources should be less than ₹1,03,000/- in urban areas and less than ₹96,000/- in rural areas. The selected applicants should compulsorily complete the training. The applicant must have a minimum qualification of SSLC. The applicant should not have previously taken training in any schemes of the state or central government.",
+    "help_te": "",
+    "hi": "For Community Based Training Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_8d3290f57761": {
+    "id": "ka_review_8d3290f57761",
+    "en": "For Continuation of Pension (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Continuation of Pension (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "For Registration as a Building/ Construction Worker: The applicant should be a Building/ Construction Worker (Unorganised Worker). The applicant should be a minimum of 18 years of age. The applicant should have engaged in building and construction work for at least 90 days in a given year. For the Application of the Welfare Scheme: The beneficiary should be a registered construction worker Under the Building and Other Construction Workers Welfare Board of Karnataka. The worker should have paid subscription fees for at least three (3) continuous years. The worker should remain an active construction worker. The worker’s age should be below 60 years. The worker shall not avail similar benefits under any of the Government Schemes.",
+    "help_te": "",
+    "hi": "For Continuation of Pension (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_6dd16e491d3c": {
+    "id": "ka_review_6dd16e491d3c",
+    "en": "For Direct Loan Scheme Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Direct Loan Scheme Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should be leather artisans. The applicant should belongs to sub-castes Arundathiyar, Chammadiya, Chamar, Chambar, Chamagar, Madar, Madig, Madiga, Mini Madig, Jambavalu, Haralayya, Machigar, Mochigar, Mochi, muchi, Telugu Mochi, kamaati mocha, Rohidas, Dhor, kakkayya, Kankayya, Samagara, Samagar, Aadhi Anddra, Aadhi Dravida, Aadhi Karnataka among scheduled castes. The age of the applicant should be 18 years. The applicant's annual family income should not exceed ₹30,000/- in rural areas and ₹25,000/- in urban areas. The applicant or their family members must not have received benefits from other schemes, except training programs. The applicant's family members should not be employed in government or semi-government organizations.",
+    "help_te": "",
+    "hi": "For Direct Loan Scheme Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_52e21dab9a17": {
+    "id": "ka_review_52e21dab9a17",
+    "en": "For Direct Loans For Business Enterprise, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Direct Loans For Business Enterprise, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "Applicant should be a resident of Karnataka state Applicant should belong to the  minority community Applicant should belong to a minority community Applicant Age should be between 18 to 55 years Business/Enterprise loan will be given to only one member of a family",
+    "help_te": "",
+    "hi": "For Direct Loans For Business Enterprise, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_bba4c37a67c8": {
+    "id": "ka_review_bba4c37a67c8",
+    "en": "For Disability Pension and Ex-Gratia (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Disability Pension and Ex-Gratia (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "For Registration as a Building/ Construction Worker: The applicant should be a Building/ Construction Worker (Unorganised Worker). The applicant should be a minimum of 18 years of age. The applicant should have engaged in building and construction work for at least 90 days in a given year. For the Application of the Welfare Scheme: The applicant should be a registered construction worker Under the Building and Other Construction Workers Welfare Board of Karnataka. The applicant should be partially disabled due to worksite accidents or diseases. The applicant should not have availed “Accident Benefits” for the same disability. The applicant must be below sixty (60) years of age. Note:  The Disability Pension granted shall be discontinued once the beneficiary attains the age of sixty (60) years. <br>",
+    "help_te": "",
+    "hi": "For Disability Pension and Ex-Gratia (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_2ea7d29642ec": {
+    "id": "ka_review_2ea7d29642ec",
+    "en": "For Dr. Babu Jagjivan Ram Living cum work shed Construction Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Dr. Babu Jagjivan Ram Living cum work shed Construction Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should be leather artisans. The applicant should belongs to sub-castes Arundathiyar, Chammadiya, Chamar, Chambar, Chamagar, Madar, Madig, Madiga, Mini Madig, Jambavalu, Haralayya, Machigar, Mochigar, Mochi, muchi, Telugu Mochi, kamaati mocha, Rohidas, Dhor, kakkayya, Kankayya, Samagara, Samagar, Aadhi Anddra, Aadhi Dravida, Aadhi Karnataka among schedule castes. The age of the applicant should be 18 years. The applicant's annual income should not exceed ₹32,000/- in rural areas and ₹87,600/- in urban areas. The applicant or their family members must not have received benefits from other schemes, except Training/Paaduke kuteera schemes. The applicant's family members should not be employed in government or semi-government organizations.",
+    "help_te": "",
+    "hi": "For Dr. Babu Jagjivan Ram Living cum work shed Construction Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_78fbeea614b7": {
+    "id": "ka_review_78fbeea614b7",
+    "en": "For Financial Assistance to Traditional Artisans (Panchavrutthi Scheme), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Financial Assistance to Traditional Artisans (Panchavrutthi Scheme), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should belong to the Vishwakarma community. The applicant should be a permanent resident of Karnataka. The applicant's age should be between 18 to 55 years. The applicant must be engaged in one of the traditional Vishwakarma occupations, including Gold & Silver work, Sculpture, Blacksmith, Woodwork & Handicrafts, or Metallurgy. The applicant or their family members should not have availed of any loan facility from the KVCDC in the previous years.",
+    "help_te": "",
+    "hi": "For Financial Assistance to Traditional Artisans (Panchavrutthi Scheme), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_a2b112d7edc2": {
+    "id": "ka_review_a2b112d7edc2",
+    "en": "For Financial Assistance to the Teachers/Lecturers Children who taken loan from Nationalised Banks for studying Medical/Engineering Courses, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Financial Assistance to the Teachers/Lecturers Children who taken loan from Nationalised Banks for studying Medical/Engineering Courses, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant parent should be a teacher/lecturer working in a government or aided institution with life membership of the Welfare Fund. The student must have passed each year or semester of the course on the first attempt. The student should have studied from 1 st  to 10 th  standard in government or aided schools in Karnataka. The applicant should have availed educational loan from a nationalized bank for professional education in medicine or engineering. The educational loan should be taken for courses within India. Only one child per family can avail of the financial assistance. Assistance is only available for final-year students in vocational medical, engineering, or postgraduate programs. \n- The retired teacher&#39;s children are not eligible for this scheme.",
+    "help_te": "",
+    "hi": "For Financial Assistance to the Teachers/Lecturers Children who taken loan from Nationalised Banks for studying Medical/Engineering Courses, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_9215e9149218": {
+    "id": "ka_review_9215e9149218",
+    "en": "For Funeral and Ex-Gratia (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Funeral and Ex-Gratia (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "For Registration as a Building/ Construction Worker: The applicant should be a Building/ Construction Worker (Unorganised Worker). The applicant should be a minimum of 18 years of age. The applicant should have engaged in building and construction work for at least 90 days in a given year. For the Application of the Welfare Scheme: The beneficiary should be a nominee of a deceased registered construction worker Under the Building and Other Construction Workers Welfare Board of Karnataka. <br>",
+    "help_te": "",
+    "hi": "For Funeral and Ex-Gratia (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_ca96bbe975e2": {
+    "id": "ka_review_ca96bbe975e2",
+    "en": "For Griha Lakshmi Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Griha Lakshmi Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should be a woman. The applicant should be listed as the head of the family on the ration card. The applicant should be the head of the family as per the ration card (BPL or APL). The family of the applicant should be a resident of Karnataka. Preference/Priority/Reservation/Relaxation Women from BPL families are given priority. In case of the death of the family head, the next eligible female member can be registered. \n- The families where the head of the household is a male.\n- The families where the woman head is paying income tax or GST.",
+    "help_te": "",
+    "hi": "For Griha Lakshmi Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_fea0fd3bb474": {
+    "id": "ka_review_fea0fd3bb474",
+    "en": "For Incentive For The Devadasi Children’s Marriage, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Incentive For The Devadasi Children’s Marriage, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "Applicant should be a resident of Karnataka state. Applicant should belong to the  SC community. Family income from all sources should be within Rs. 5 lakh per annum. The scheme is applicable within 18 months of marriage.",
+    "help_te": "",
+    "hi": "For Incentive For The Devadasi Children’s Marriage, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_1e4bc11e7482": {
+    "id": "ka_review_1e4bc11e7482",
+    "en": "For Incentive For The Devadasi Children’s Marriage to Schedule Tribe, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Incentive For The Devadasi Children’s Marriage to Schedule Tribe, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The couple should be residents of Karnataka. The couple should belong to the Hindu religion. The total annual income of the couple should be less than ₹5,00,000/-. The application should be submitted within 18 months of the marriage. One spouse should belong to the Scheduled Tribe community and should be a resident of Karnataka. The marriage should have been between: (a) An ST individual and a non-ST individual; (b) Two ST individuals. The marriage should have taken place on or after 1st April 2019.",
+    "help_te": "",
+    "hi": "For Incentive For The Devadasi Children’s Marriage to Schedule Tribe, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_8d8801589183": {
+    "id": "ka_review_8d8801589183",
+    "en": "For Incentive For The Inter Caste Marriage Couple (Scheduled Tribe), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Incentive For The Inter Caste Marriage Couple (Scheduled Tribe), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The couple should be residing in Karnataka. The couple should belong to the Hindu religion. One spouse should belong to the Scheduled Tribe (ST) community. Other spouse should belong to a community other than Scheduled Tribe (ST). The combined annual income of the couple should be less than ₹5,00,000/-. The couple should apply to the scheme within 18 months of marriage. The non-ST partner should be a Hindu. The non-ST partner should belong to the Scheduled Caste (SC) category. The marriage should have taken place on or after 7th February 2019.",
+    "help_te": "",
+    "hi": "For Incentive For The Inter Caste Marriage Couple (Scheduled Tribe), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_37a3ae9b98c7": {
+    "id": "ka_review_37a3ae9b98c7",
+    "en": "For Incentive For The Simple Marriage, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Incentive For The Simple Marriage, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "Karnataka State Resident: The applicant must be a resident of Karnataka state. SC Community: The applicant must belong to the SC community. Family Income: The family income from all sources should not exceed Rs. 2 lakhs per annum. Time Limit: The scheme is applicable only within 1 year of the marriage.",
+    "help_te": "",
+    "hi": "For Incentive For The Simple Marriage, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_bb780ce32ac6": {
+    "id": "ka_review_bb780ce32ac6",
+    "en": "For Incentive For The Simple Marriage (Scheduled Tribe), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Incentive For The Simple Marriage (Scheduled Tribe), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The couple should be residing in Karnataka. Both partners should belong to the Scheduled Tribe community. The combined annual income of the couple should be less than ₹2,00,000/-. The application should be submitted within one year of marriage. The marriage should have taken place on or after 11th August 2015.",
+    "help_te": "",
+    "hi": "For Incentive For The Simple Marriage (Scheduled Tribe), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_18ce1c2c6e5b": {
+    "id": "ka_review_18ce1c2c6e5b",
+    "en": "For Incentive Scheme for Sericulture Reelers, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Incentive Scheme for Sericulture Reelers, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should belong to the religious minority category of the state. The applicant should be a permanent resident of the state. The applicant's age should be between 18 to 55 years. The family income from all sources should not exceed more than ₹6,00,000/- No member of the applicant's family should be a State/Central Government employee. The applicant or his family members should not have availed of any loan/subsidy facility from the Corporation in the last 5 years except the Arivu education loan and Foreign Education Loan Scheme. The applicant should not be a sustainer of the corporation.",
+    "help_te": "",
+    "hi": "For Incentive Scheme for Sericulture Reelers, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_5252e5b546a7": {
+    "id": "ka_review_5252e5b546a7",
+    "en": "For Incentive for the Inter Caste Marriage Couple, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Incentive for the Inter Caste Marriage Couple, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The bride and groom should belong to the Hindu Category. The bride and groom should be residing in Karnataka. The marriage should be performed between Scheduled Caste and other communities. The income of the couple should not exceed ₹5,00,000/-. The age of the bride should be between 18 to 42 years at the time of marriage. The age of the groom should be between 21 to 45 years at the time of marriage.",
+    "help_te": "",
+    "hi": "For Incentive for the Inter Caste Marriage Couple, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_1de7999d8ffc": {
+    "id": "ka_review_1de7999d8ffc",
+    "en": "For Incentive for the Intra Caste Marriage within Scheduled Caste Community, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Incentive for the Intra Caste Marriage within Scheduled Caste Community, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The couple should belong to different sub caste of SC. The bride and groom should be residing in Karnataka. The family income of the applicant should not exceed ₹2,00,000/-. The age of the bride should be between 18 to 42 years at the time of marriage. The age of the groom should be between 21 to 45 years at the time of marriage. Recipients of incentives for inter-caste marriage or widow remarriage are not eligible for this scheme.",
+    "help_te": "",
+    "hi": "For Incentive for the Intra Caste Marriage within Scheduled Caste Community, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_4b2288bd943e": {
+    "id": "ka_review_4b2288bd943e",
+    "en": "For Incentive for the SC Widow Re-Marriage, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Incentive for the SC Widow Re-Marriage, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should be a resident of Karnataka. The applicant should be a widow. The widow should belong to the Scheduled Caste community. There is no annual income limit for this scheme. Incentives will be provided only to those who submit their application within one year of marriage. There are no caste/religion restrictions for the spouse. Note:  The couple should reside in Karnataka. <br>",
+    "help_te": "",
+    "hi": "For Incentive for the SC Widow Re-Marriage, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_70bef4c5b255": {
+    "id": "ka_review_70bef4c5b255",
+    "en": "For Interest Subsidy Scheme for Scheduled Caste/Scheduled Tribe Entrepreneurs, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Interest Subsidy Scheme for Scheduled Caste/Scheduled Tribe Entrepreneurs, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The unit shall be fully owned by SC / ST entrepreneurs i.e., all promoters in proprietary / partnership / company shall belong to SC/ST community only. The ownership / share holdings of units even in part by other than SC/STs are not eligible for interest subsidy. Entrepreneurs either can be SCs / STs or both. Others terms & conditions: The units which have availed the interest subsidy under any other scheme of Government of Karnataka/Government of India are not eligible for interest subsidy under this scheme. To be eligible for interest concession under the scheme, the units should not be in default in repayment to KSFC. KSFC is at liberty to consider any amount of project cost. However, the interest subsidy is restricted to ₹1,000.00 lakhs of the loan. Interest amount on the balance loan amount beyond ₹1,000.00 lakhs is required to be borne by the entrepreneurs. KSFC may sanction loans with normal applicable rate of interest, the effective interest rate to be paid by the beneficiary / borrower will be 4%. The difference between the normal lending rate of KSFC and effective interest rate of 4% will be reimbursed by Government of Karnataka. <br>",
+    "help_te": "",
+    "hi": "For Interest Subsidy Scheme for Scheduled Caste/Scheduled Tribe Entrepreneurs, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_f029e50fcd09": {
+    "id": "ka_review_f029e50fcd09",
+    "en": "For Interest Subvention Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Interest Subvention Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "Enterprises promoted by all categories of borrowers, proprietary concerns, partnership firms, companies & other legal entities. The scheme is extended for all new investments in building, plant and machinery directly involved in production by new enterprises and existing enterprises by way of expansion, diversification, modernization and technology up-gradation etc., considering the gross block of plant and machineries. Purchase of land from KIADB / KSSIDC or any other govt. agencies is not available under this scheme. The unit which has already availed the interest subsidy under any other scheme of Government of Karnataka / Government of India are also not eligible for interest subsidy under this scheme. The enterprise will be eligible for 5.5% p.a. interest subvention for a maximum period of five years from the date of first disbursement of respective loans even if the repayment period exceeds beyond five years. Activities covered under this scheme: Agro & Food Processing, Textile, Ready-made Garments, Engineering, Automobiles, Electrical & Electronics, Paper & Paper Products, Printing & Publishing, Telecommunications, Software & IT related and Wood based activities. Terms and Conditions: The terms and conditions of loan sanction such as promoters contribution, DER, Security requirement, viability of the project etc., shall be ensured as per the prevailing lending policy of the Corporation. **Enterprises / Activities not covered under the Scheme:**\n\n   1. Enterprises promoted by SC/ST and Women Entrepreneurs which have availed interest subsidy in any other scheme/s of State Government / Government of India.\n   1. Refinancing / takeover of loans from other Bank/s, NBFCs / NSIC/ private financiers and Financial Institutions or for conversion of earlier loans/s available from KSFC.\n   1. All infrastructure projects, Kalyana Mantapas, Hotels, Lodges, Restaurants, Guest Houses, Hospitals, Nursing Homes Housing and Commercial buildings / Commercial Real Estate (CRE) etc.,\n   1. Business / Trading Activities.\n   1. Malls, Cinema Houses etc.,\n   1. Transports Vehicles, Construction equipment etc.,\n   1. Industrial activities / enterprises not eligible for incentives and concessions as per annexure-2 of Karnataka Industrial Policy 2020-25 or the subsequent Industrial Policy in force.\n   1. Any other activity other than manufacturing which is not specifically mentioned herein.\n   1. Gross block means the total original purchase / invoice value of all existing machinery used in production activity including self-acquired, Bank / KSFC financed etc., plus the proposed machinery within overall limit of ₹500.00 lakhs as per definition of Small-Scale Enterprise in MSMED Act, 2006.",
+    "help_te": "",
+    "hi": "For Interest Subvention Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_28acc390b4b3": {
+    "id": "ka_review_28acc390b4b3",
+    "en": "For Kaimagga Vikasa Yojana - Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Kaimagga Vikasa Yojana - Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The weaver should have membership in Handloom Weaver Co-operative Societies residing in their own house/rented house, or Handloom Associations/Organisations/Karnataka Development Corporation. Traditional weavers should practice the current handloom weaving profession. The weaver should have a Weaver's Identity Card. Young men and women who are starting their weaving career must have completed training in handloom weaving under any government scheme and possess the relevant certificate. The weaver purchasing a warping machine should have a proper certificate of experience in washing and the necessary space to install the machine. <br>",
+    "help_te": "",
+    "hi": "For Kaimagga Vikasa Yojana - Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_5a654027471b": {
+    "id": "ka_review_5a654027471b",
+    "en": "For Kayaka Spoorthi Scheme Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Kayaka Spoorthi Scheme Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "A Self-Help Group must have at least 10 female artisans to be eligible. The applicant should belongs to sub-castes Arundathiyar, Chammadiya, Chamar, Chambar, Chamagar, Madar, Madig, Madiga, Mini Madig, Jambavalu, Haralayya, Machigar, Mochigar, Mochi, muchi, Telugu Mochi, kamaati mocha, Rohidas, Dhor, kakkayya, Kankayya, Samagara, Samagar, Aadhi Anddra, Aadhi Dravida, Aadhi Karnataka among schedule castes. The age of the applicant should be 18 years. The applicant's annual family income should not exceed ₹30,000/- in rural areas and ₹25,000/- in urban areas. The applicant or their family members must not have received benefits from other schemes, except training programs. The applicant's family members should not be employed in government or semi-government organizations. <br>",
+    "help_te": "",
+    "hi": "For Kayaka Spoorthi Scheme Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_0f7cff68a4db": {
+    "id": "ka_review_0f7cff68a4db",
+    "en": "For Krushy Aranya Protsaha Yojane (kapy), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Krushy Aranya Protsaha Yojane (kapy), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "This scheme is open to farmers belonging to all communities. Applicant must have Pahani of the land where planting is being proposed. Registration should be done before the commencement of the rainy season (by the end of May). The following species of trees are not eligible for payment of incentive amount- Eucalyptus, Acacia, Silver Oak (if planted in coffee estate), Casuarina, Cassia siamea (Seemetangadi), Gliricidia, Sesbania, Erythrina, Rubber, Subabul, Coconut, Arecanut, Orange, all types of citrus species and grafted mango. The following documents are required while applying for this scheme - Copy of Aadhaar Card, Passport-sized photograph of the applicant, Pahani of the land where planting is being proposed, Hand-sketch of the land, Details of seedlings (species, number of seedlings, size of poly-bags, etc.), Details of the applicant's bank account.",
+    "help_te": "",
+    "hi": "For Krushy Aranya Protsaha Yojane (kapy), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_a0a533b7279c": {
+    "id": "ka_review_a0a533b7279c",
+    "en": "For Madilu Kit, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Madilu Kit, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "Individuals residing in rural areas are eligible to participate. Participants should have a willingness to learn and engage in skill development activities. There is no age restriction for participation in the program. Both men and women are encouraged to apply. Participants should demonstrate an interest in entrepreneurship and improving their livelihoods",
+    "help_te": "",
+    "hi": "For Madilu Kit, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_86a59e0fdad7": {
+    "id": "ka_review_86a59e0fdad7",
+    "en": "For Marketing Assistance Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Marketing Assistance Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should be leather artisans. The applicant should belongs to sub-castes Arundathiyar, Chammadiya, Chamar, Chambar, Chamagar, Madar, Madig, Madiga, Mini Madig, Jambavalu, Haralayya, Machigar, Mochigar, Mochi, muchi, Telugu Mochi, kamaati mocha, Rohidas, Dhor, kakkayya, Kankayya, Samagara, Samagar, Aadhi Anddra, Aadhi Dravida, Aadhi Karnataka among schedule castes. The age of the applicant should be 18 years. The applicant's annual family income should not exceed ₹30,000/- in rural areas and ₹25,000/- in urban areas. The applicant or their family members must not have received benefits from other schemes, except training programs. The applicant's family members should not be employed in government or semi-government organizations.",
+    "help_te": "",
+    "hi": "For Marketing Assistance Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_86785ba7a801": {
+    "id": "ka_review_86785ba7a801",
+    "en": "For Marriage Assistance (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Marriage Assistance (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "For Registration as a Building/ Construction Worker: The applicant should be a Building/ Construction Worker (Unorganised Worker). The applicant should be a minimum of 18 years of age. The applicant should have engaged in building and construction work for at least 90 days in a given year. For the Application of the Welfare Scheme: The applicant should be a registered construction worker Under the Building and Other Construction Workers Welfare Board of Karnataka or a dependent child of the worker. The membership with the Board should be at least one (1) year before the marriage. The family can avail of this assistance only twice. The son or daughter must be of legal age for marriage. <br>",
+    "help_te": "",
+    "hi": "For Marriage Assistance (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_f738d712ef4e": {
+    "id": "ka_review_f738d712ef4e",
+    "en": "For Maternity Benefit/Delivery Assistance (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Maternity Benefit/Delivery Assistance (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "For Registration as a Building/ Construction Worker: The applicant should be a Building/ Construction Worker (Unorganised Worker). The applicant should be a minimum of 18 years of age. The applicant should have engaged in building and construction work for at least 90 days in a given year. For the Application of the Welfare Scheme: The applicant should be a registered woman construction worker Under the Building and Other Construction Workers Welfare Board of Karnataka. The applicant should be pregnant. Assistance is only for the first two (2) deliveries.",
+    "help_te": "",
+    "hi": "For Maternity Benefit/Delivery Assistance (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_1033a9f2968b": {
+    "id": "ka_review_1033a9f2968b",
+    "en": "For Medical Assistance (Karmika Arogya Bhagya) (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Medical Assistance (Karmika Arogya Bhagya) (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "For Registration as a Building/ Construction Worker: The applicant should be a Building/ Construction Worker (Unorganised Worker). The applicant should be a minimum of 18 years of age. The applicant should have engaged in building and construction work for at least 90 days in a given year. For the Application of the Welfare Scheme: The applicant should be a registered construction worker Under the Building and Other Construction Workers Welfare Board of Karnataka or his/her dependents. The beneficiary must be hospitalized for at least 48 continuous hours. Treatment must be conducted in a government, private, or State Government recognised insurance scheme hospital. <br>",
+    "help_te": "",
+    "hi": "For Medical Assistance (Karmika Arogya Bhagya) (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_b54dc62b177b": {
+    "id": "ka_review_b54dc62b177b",
+    "en": "For Nekar Samman Yojana, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Nekar Samman Yojana, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "Eligibility The beneficiary must be a resident of Karnataka. They must have a valid resident certificate. All the weavers and financially distressed workers engaged in the handloom/ power loom industry and ancillary activities such as cotton, wool, and silk in the state are eligible. Prospective beneficiaries must have an active bank account.",
+    "help_te": "",
+    "hi": "For Nekar Samman Yojana, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_7fab4140f188": {
+    "id": "ka_review_7fab4140f188",
+    "en": "For Overseas Educational Loan Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Overseas Educational Loan Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The student should be a resident of Karnataka State. The student should belong to a minority community (Muslim, Christian, Jain, Buddhist, Sikh and Parsi). The student should have secured at least 60% marks in the previous year. The student should have received an offer letter from a foreign university. Loans will be provided only on mortgage of property (building/land) to the corporation. The value of the property should not be less than the loan amount. The students who have not received a scholarship from the Directorate of Minorities. <br>",
+    "help_te": "",
+    "hi": "For Overseas Educational Loan Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_3204a569d2a3": {
+    "id": "ka_review_3204a569d2a3",
+    "en": "For Padhuke Kuteera Scheme Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Padhuke Kuteera Scheme Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should be leather artisans. The applicant should belongs to sub-castes Arundathiyar, Chammadiya, Chamar, Chambar, Chamagar, Madar, Madig, Madiga, Mini Madig, Jambavalu, Haralayya, Machigar, Mochigar, Mochi, muchi, Telugu Mochi, kamaati mocha, Rohidas, Dhor, kakkayya, Kankayya, Samagara, Samagar, Aadhi Anddra, Aadhi Dravida, Aadhi Karnataka among scheduled castes. The age of the applicant should be 18 years. The applicant's annual family income should not exceed ₹30,000/- in rural areas and ₹25,000/- in urban areas. The applicant or their family members must not have received benefits from other schemes, except training programs. The applicant's family members should not be employed in government or semi-government organizations.",
+    "help_te": "",
+    "hi": "For Padhuke Kuteera Scheme Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_1663140cbcc0": {
+    "id": "ka_review_1663140cbcc0",
+    "en": "For Pension Scheme (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Pension Scheme (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "For Registration as a Building/ Construction Worker: The applicant should be a Building/ Construction Worker (Unorganised Worker). The applicant should be a minimum of 18 years of age. The applicant should have engaged in building and construction work for at least 90 days in a given year. For the Application of the Welfare Scheme: The applicant should be a registered construction worker Under the Building and Other Construction Workers Welfare Board of Karnataka. The worker must have reached 60 years of age. The worker must have been a beneficiary of the Board for at least 3 consecutive years before turning 60 years of age. The worker must not be availing similar benefits from any other government schemes.",
+    "help_te": "",
+    "hi": "For Pension Scheme (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_577daf8787b7": {
+    "id": "ka_review_577daf8787b7",
+    "en": "For Prabhuddha Overseas Scholarship, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Prabhuddha Overseas Scholarship, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "Residency: The applicant should be a permanent resident of Karnataka state in India. Age Limit: The age limit to apply for this scheme is 21 years for undergraduate courses, and 35 years for postgraduate and doctoral programs. Qualifying Marks: Candidates applying for the scholarship must have scored at least 55% marks or equivalent grade in their qualifying degree exams for postgraduate and doctoral courses, and 80% marks or equivalent grade in qualifying exams (PUC/12th class) for undergraduate courses. Standardized Test Scores: The candidates should have cleared standardized tests like GRE/GMAT/TOEFL/IELTS exams with minimum score marks before applying for the scholarship. Admission: Applicants should have secured admission into a full-time degree program at an overseas university/college. Documents: The candidates must have the necessary documents like Aadhaar Card, Caste Certificate, Latest Income Certificate, Last 2 years IT Returns, Degree/Master Degree Convocation Certificate, Degree/Master Degree All Semester Marks Card, Offer letter from the university obtained, Copy of the Passport, and Tuition fee and maintenance fee as sent by the university. Field of Study: The scholarship covers various fields of study, including Engineering and Management, Pure Sciences and applied sciences, Agriculture sciences and medicine, International Commerce, Economics, Accounting Finance, Humanities, Social science, fine arts, and law.",
+    "help_te": "",
+    "hi": "For Prabhuddha Overseas Scholarship, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_9006ab1658b5": {
+    "id": "ka_review_9006ab1658b5",
+    "en": "For Santwana Scheme - Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Santwana Scheme - Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should belong to the religious minority category of the Karnataka state. The applicant should be a permanent resident of the state. The applicant's age should be between 18 to 55 years. The family income from all sources should not exceed more than ₹8,00,000/- The applicant's family members should not be employees in the Central or State Government. The applicant or his/her family should not have availed a loan facility from Karnataka Minorities Development Corporation (EXCEPT ARIVU EDUCATION LOAN SCHEME ) in the last five years.",
+    "help_te": "",
+    "hi": "For Santwana Scheme - Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_7d3af7203e8d": {
+    "id": "ka_review_7d3af7203e8d",
+    "en": "For Self Employment Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Self Employment Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "Eligibility Applicants must belong to the State Religious Minority Community. The applicant must be a permanent resident of the State. The age limit of the applicant is between 18 to 55 years. Family annual income from all sources should not be more than Rs.81,000/- in a rural areas and Rs. 1,03,000 in urban areas. No member of the applicant's family shall be an employee of the State/Central/ Government PSU. Applicants should not have availed of a loan in KMDC earlier.",
+    "help_te": "",
+    "hi": "For Self Employment Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_a871c47a7f48": {
+    "id": "ka_review_a871c47a7f48",
+    "en": "For Shrama Shakthi Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Shrama Shakthi Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The age limit of the applicant should be between 18 and 55 years. The applicant must be a permanent resident of the State. Applicants must belong to State Religious Minority Community. Family income from all sources should be within Rs. 3.50 lakh per annum. An applicant or his/her family members should not have availed benefits under any other scheme (Excluding the Arivu Scheme) of the KMDCL in the last 5 years.",
+    "help_te": "",
+    "hi": "For Shrama Shakthi Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_e8e1815f0297": {
+    "id": "ka_review_e8e1815f0297",
+    "en": "For Shramashakthi Special Women's Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Shramashakthi Special Women's Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should be a female. The applicant should be a widowed, divorced, unmarried woman. The applicant should belong to a religious minority community as defined in the Government Order. The applicant should be a permanent resident of Karnataka. The applicant's age should be between 18 to 55 years. The annual family income of the applicant from all sources should be below ₹3,50,000/-. The applicant's family member should not be a State/Central Government employee. The applicant or family members should not have availed of benefits under any other scheme (Excluding the Arivu Scheme) of the KMDCL in the last 5 years.",
+    "help_te": "",
+    "hi": "For Shramashakthi Special Women's Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_4edd753d1c3b": {
+    "id": "ka_review_4edd753d1c3b",
+    "en": "For Sikhligar’s Community Development Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Sikhligar’s Community Development Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant must belong to the Sikh community. The applicant must be a permanent resident of the state. The applicant's age should be between 18 and 55 years. The family income from all sources should not exceed ₹6,00,000/-. No family member of the applicant should be a State/Central Government employee. Neither the applicant nor their family members should have availed of any loan/subsidy facility from the Corporation in the last 5 years, except for the Arivu Education Loan and Foreign Education Loan Scheme. The applicant should not be a defaulter of the Corporation.",
+    "help_te": "",
+    "hi": "For Sikhligar’s Community Development Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_23f7f88622bd": {
+    "id": "ka_review_23f7f88622bd",
+    "en": "For Skill Development Training Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Skill Development Training Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should be leather artisans. The applicant should belongs to sub-castes Arundathiyar, Chammadiya, Chamar, Chambar, Chamagar, Madar, Madig, Madiga, Mini Madig, Jambavalu, Haralayya, Machigar, Mochigar, Mochi, muchi, Telugu Mochi, kamaati mocha, Rohidas, Dhor, kakkayya, Kankayya, Samagara, Samagar, Aadhi Anddra, Aadhi Dravida, Aadhi Karnataka among schedule castes. The age of the applicant should be 18 years. The applicant's annual family income should not exceed ₹30,000/- in rural areas and ₹25,000/- in urban areas. The applicant or their family members must not have received benefits from other schemes, except training programs. The applicant's family members should not be employed in government or semi-government organizations.",
+    "help_te": "",
+    "hi": "For Skill Development Training Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_a4d63fa84854": {
+    "id": "ka_review_a4d63fa84854",
+    "en": "For Skill Upgradation Program Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Skill Upgradation Program Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should be leather artisans. The applicant should belongs to sub-castes Arundathiyar, Chammadiya, Chamar, Chambar, Chamagar, Madar, Madig, Madiga, Mini Madig, Jambavalu, Haralayya, Machigar, Mochigar, Mochi, muchi, Telugu Mochi, kamaati mocha, Rohidas, Dhor, kakkayya, Kankayya, Samagara, Samagar, Aadhi Anddra, Aadhi Dravida, Aadhi Karnataka among schedule castes. The applicant should have passed a Secondary School Leaving Certificate (SSLC)/Pre-University Courses (PUC)/Degree to apply for the program. The age of the applicant should be 18 years. The applicant's annual family income should not exceed ₹30,000/- in rural areas and ₹25,000/- in urban areas. The applicant or their family members must not have received benefits from other schemes, except training programs. The applicant's family members should not be employed in government or semi-government organizations.",
+    "help_te": "",
+    "hi": "For Skill Upgradation Program Karnataka, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_77a3c94a8ebb": {
+    "id": "ka_review_77a3c94a8ebb",
+    "en": "For Stipend To Law Graduates, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Stipend To Law Graduates, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "Applicant should be a resident of Karnataka state. Applicant should belong to the  SC/ST Community. Family income from all sources should be within Rs. 2 lakhs per annum. Maximum age limit allowed is 40 years. Law degree holder from any State/Central Government recognized University/Institution Duration of the Law Course should be either 3 years or 5 years",
+    "help_te": "",
+    "hi": "For Stipend To Law Graduates, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_8c515fd1a98a": {
+    "id": "ka_review_8c515fd1a98a",
+    "en": "For Subsidy Scheme for Self-help Groups of Minorities, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Subsidy Scheme for Self-help Groups of Minorities, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The women in the Self-Help Groups (SHGs) should belong to the minority community. All SHG members must be permanent residents of Karnataka. The number of women in the Self-Help Group should be between 10 and 20. Only one member per family is allowed in a women’s Self-Help Group. The family income of the members of the women’s Self-Help Group should not exceed ₹6,00,000/-. The age of the members of the women’s Self-Help Group should be between 18 and 55 years. The women’s Self-Help Group must be registered with the Deputy Registrar. Members of the Self-Help Group or their family members should not be employees of the State/Central Government. Members of the Self-Help Group or their family members should not have availed of any loan or subsidy from the corporation in the last 5 years, except for the Arivu or foreign education loan schemes. Members of Self-Help Groups should not be receiving support from the corporation. The women’s Self-Help Group should hold regular meetings, with at least one meeting per month. Self-Help Groups must be operational for at least 6 months to qualify for a corporation subsidy. Self-Help Groups should maintain adequate bookkeeping records.",
+    "help_te": "",
+    "hi": "For Subsidy Scheme for Self-help Groups of Minorities, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_9c3d1492b7d1": {
+    "id": "ka_review_9c3d1492b7d1",
+    "en": "For Supply of Tool Kits to their Trained Workers, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Supply of Tool Kits to their Trained Workers, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should be a registered construction worker under the Andhra Pradesh Building and Other Construction Workers Welfare Board.",
+    "help_te": "",
+    "hi": "For Supply of Tool Kits to their Trained Workers, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_0664b884e281": {
+    "id": "ka_review_0664b884e281",
+    "en": "For Swavalambi/Sanchari Marata Malige, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Swavalambi/Sanchari Marata Malige, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should be leather artisans. The applicant should belongs to sub-castes Arundathiyar, Chammadiya, Chamar, Chambar, Chamagar, Madar, Madig, Madiga, Mini Madig, Jambavalu, Haralayya, Machigar, Mochigar, Mochi, muchi, Telugu Mochi, kamaati mocha, Rohidas, Dhor, kakkayya, Kankayya, Samagara, Samagar, Aadhi Anddra, Aadhi Dravida, Aadhi Karnataka among scheduled castes. The age of the applicant should be 18 years. The applicant's annual family income should not exceed ₹30,000/- in rural areas and ₹25,000/- in urban areas. The applicant or their family members must not have received benefits from other schemes, except training programs. The applicant's family members should not be employed in government or semi-government organizations.",
+    "help_te": "",
+    "hi": "For Swavalambi/Sanchari Marata Malige, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_bf91889f5b60": {
+    "id": "ka_review_bf91889f5b60",
+    "en": "For Thayi Magu Sahaya Hastha (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Thayi Magu Sahaya Hastha (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "For Registration as a Building/ Construction Worker: The applicant should be a Building/ Construction Worker (Unorganised Worker). The applicant should be a minimum of 18 years of age. The applicant should have engaged in building and construction work for at least 90 days in a given year. For the Application of the Welfare Scheme: The applicant should be a registered woman construction worker Under the Building and Other Construction Workers Welfare Board of Karnataka. The child must be under 3 years of age. The assistance is available for the first 2 children only.",
+    "help_te": "",
+    "hi": "For Thayi Magu Sahaya Hastha (K.B.O.C.W.W.B), has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_79adb2a2fce5": {
+    "id": "ka_review_79adb2a2fce5",
+    "en": "For Udyogini Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Udyogini Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should be a woman. The family income of the applicant should be less than ₹ 1,50,000/- for women belonging to general and special categories. No limit on family income for widowed or disabled women. The age of the applicant should be between 18 to 55 years for all categories. The applicant should be a permanent resident of Karnataka. The applicant should not have defaulted on any past loan with any financial institution.  Reservation / Preference / Priority Preference must be given to the extremely poor, destitute, widow, and physically challenged. In addition, preference may be given to candidates who have undergone prior skill development training or vocational training conducted by any KSWDC or any other department. About 10% of the allocated target has been earmarked to benefit applicants of members of World Bank-assisted Swashakthi or Stree Shakthi groups.",
+    "help_te": "",
+    "hi": "For Udyogini Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_6f665df7d613": {
+    "id": "ka_review_6f665df7d613",
+    "en": "For Vidyasiri food And Accommodation Scholarship Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Vidyasiri food And Accommodation Scholarship Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "Students must be citizens of India and permanent residents of Karnataka. Students should belong to backward classes listed by the Government of India or the State Government. Students must be pursuing post-matric courses in government, local, aided, or recognized private institutions affiliated with statutory universities in Karnataka. Students who have not secured admission in any departmental or government-funded student hostel are eligible. The annual income of the student's family should fall within the specified limits based on their category. \n   1. Students attending equivalent courses more than once are not eligible.\n   1. Students practicing medicine during postgraduate medical courses are not eligible.\n   1. Students who have changed courses multiple times are not eligible.",
+    "help_te": "",
+    "hi": "For Vidyasiri food And Accommodation Scholarship Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  },
+  "ka_review_5895c47f55ee": {
+    "id": "ka_review_5895c47f55ee",
+    "en": "For Vrutti Protsaha Loan Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "te": "For Vrutti Protsaha Loan Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?",
+    "options": [
+      [
+        "yes",
+        "Yes",
+        "అవును"
+      ],
+      [
+        "no",
+        "No",
+        "కాదు"
+      ],
+      [
+        "unknown",
+        "Not sure",
+        "తెలియదు"
+      ]
+    ],
+    "help": "The applicant should belong to a religious minority community as defined in the Government Order. The applicant should be a permanent resident of Karnataka. The age limit should be between 18 to 55 years. The annual income of the applicant's family from all sources should be less than ₹1,03,000/- in urban areas and less than ₹81,000/- in rural areas. No member of the applicant's family shall be an employee of the State/Central/ Government PSU. The applicant and family members should not have availed of benefits under any other scheme (Excluding the Arivu Scheme) of the KMDCL in the last 5 years.",
+    "help_te": "",
+    "hi": "For Vrutti Protsaha Loan Scheme, has the household checked all the published eligibility conditions and exclusions and confirmed it meets them?"
+  }
+}

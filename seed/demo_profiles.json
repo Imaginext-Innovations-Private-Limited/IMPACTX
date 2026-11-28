@@ -1,0 +1,5 @@
+[
+ {"name":"Lakshmi (demo)","answers":{"state":"AP","age":32,"woman":"yes","lpg":"no","poor":"unknown"}},
+ {"name":"Rao (demo)","answers":{"state":"AP","age":70,"citizen":"yes"}},
+ {"name":"Anu (demo)","answers":{"state":"AP","income":120000,"grade":"yes","school":"yes","selected":"unknown"}}
+]

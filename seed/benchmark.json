@@ -1,0 +1,398 @@
+[
+  {
+    "sid": "ayushman",
+    "answers": {
+      "age": 70,
+      "citizen": "yes"
+    },
+    "expected": "preliminary eligible",
+    "case": "Baseline example for ayushman"
+  },
+  {
+    "sid": "ayushman",
+    "answers": {
+      "age": 69,
+      "citizen": "yes"
+    },
+    "expected": "not eligible",
+    "case": "age = 69"
+  },
+  {
+    "sid": "ayushman",
+    "answers": {
+      "age": 71,
+      "citizen": "yes"
+    },
+    "expected": "preliminary eligible",
+    "case": "age = 71"
+  },
+  {
+    "sid": "ayushman",
+    "answers": {
+      "age": "unknown",
+      "citizen": "yes"
+    },
+    "expected": "more information needed",
+    "case": "age = unknown"
+  },
+  {
+    "sid": "ayushman",
+    "answers": {
+      "age": 70,
+      "citizen": "no"
+    },
+    "expected": "not eligible",
+    "case": "citizen = no"
+  },
+  {
+    "sid": "ujjwala",
+    "answers": {
+      "age": 18,
+      "woman": "yes",
+      "lpg": "no",
+      "poor": "yes"
+    },
+    "expected": "preliminary eligible",
+    "case": "Baseline example for ujjwala"
+  },
+  {
+    "sid": "ujjwala",
+    "answers": {
+      "age": 17,
+      "woman": "yes",
+      "lpg": "no",
+      "poor": "yes"
+    },
+    "expected": "not eligible",
+    "case": "age = 17"
+  },
+  {
+    "sid": "ujjwala",
+    "answers": {
+      "age": 18,
+      "woman": "yes",
+      "lpg": "yes",
+      "poor": "yes"
+    },
+    "expected": "not eligible",
+    "case": "lpg = yes"
+  },
+  {
+    "sid": "ujjwala",
+    "answers": {
+      "age": 18,
+      "woman": "yes",
+      "lpg": "no",
+      "poor": "unknown"
+    },
+    "expected": "more information needed",
+    "case": "poor = unknown"
+  },
+  {
+    "sid": "marriage",
+    "answers": {
+      "state": "TS",
+      "woman": "yes",
+      "first": "yes",
+      "category": "BC",
+      "area": "rural",
+      "income": 150000
+    },
+    "expected": "preliminary eligible",
+    "case": "Baseline example for marriage"
+  },
+  {
+    "sid": "marriage",
+    "answers": {
+      "state": "TS",
+      "woman": "yes",
+      "first": "yes",
+      "category": "BC",
+      "area": "rural",
+      "income": 150001
+    },
+    "expected": "not eligible",
+    "case": "income = 150001"
+  },
+  {
+    "sid": "marriage",
+    "answers": {
+      "state": "TS",
+      "woman": "yes",
+      "first": "yes",
+      "category": "BC",
+      "area": "unknown",
+      "income": 150000
+    },
+    "expected": "more information needed",
+    "case": "area = unknown"
+  },
+  {
+    "sid": "marriage",
+    "answers": {
+      "state": "AP",
+      "woman": "yes",
+      "first": "yes",
+      "category": "BC",
+      "area": "rural",
+      "income": 150000
+    },
+    "expected": "not eligible",
+    "case": "state = AP"
+  },
+  {
+    "sid": "marriage",
+    "answers": {
+      "state": "TS",
+      "woman": "yes",
+      "first": "yes",
+      "category": "BC",
+      "area": "urban",
+      "income": 150000
+    },
+    "expected": "preliminary eligible",
+    "case": "area = urban"
+  },
+  {
+    "sid": "kisan",
+    "answers": {
+      "land": "yes",
+      "kex": "no",
+      "landcheck": "yes"
+    },
+    "expected": "preliminary eligible",
+    "case": "Baseline example for kisan"
+  },
+  {
+    "sid": "kisan",
+    "answers": {
+      "land": "yes",
+      "kex": "yes",
+      "landcheck": "yes"
+    },
+    "expected": "not eligible",
+    "case": "kex = yes"
+  },
+  {
+    "sid": "kisan",
+    "answers": {
+      "land": "yes",
+      "kex": "no",
+      "landcheck": "no"
+    },
+    "expected": "more information needed",
+    "case": "landcheck = no"
+  },
+  {
+    "sid": "pension",
+    "answers": {
+      "state": "AP",
+      "age": 55,
+      "st": "yes",
+      "white": "yes",
+      "local": "yes",
+      "destitute": "yes",
+      "pension": "no",
+      "pcheck": "yes",
+      "stconfirm": "yes"
+    },
+    "expected": "preliminary eligible",
+    "case": "Baseline example for pension"
+  },
+  {
+    "sid": "pension",
+    "answers": {
+      "state": "AP",
+      "age": 55,
+      "st": "no",
+      "white": "yes",
+      "local": "yes",
+      "destitute": "yes",
+      "pension": "no",
+      "pcheck": "yes",
+      "stconfirm": "yes"
+    },
+    "expected": "not eligible",
+    "case": "st = no"
+  },
+  {
+    "sid": "pension",
+    "answers": {
+      "state": "AP",
+      "age": 49,
+      "st": "yes",
+      "white": "yes",
+      "local": "yes",
+      "destitute": "yes",
+      "pension": "no",
+      "pcheck": "yes",
+      "stconfirm": "yes"
+    },
+    "expected": "not eligible",
+    "case": "age = 49"
+  },
+  {
+    "sid": "pension",
+    "answers": {
+      "state": "AP",
+      "age": 55,
+      "st": "yes",
+      "white": "yes",
+      "local": "yes",
+      "destitute": "yes",
+      "pension": "no",
+      "pcheck": "unknown",
+      "stconfirm": "yes"
+    },
+    "expected": "more information needed",
+    "case": "pcheck = unknown"
+  },
+  {
+    "sid": "pension",
+    "answers": {
+      "state": "TS",
+      "age": 55,
+      "st": "yes",
+      "white": "yes",
+      "local": "yes",
+      "destitute": "yes",
+      "pension": "no",
+      "pcheck": "yes",
+      "stconfirm": "yes"
+    },
+    "expected": "not eligible",
+    "case": "state = TS"
+  },
+  {
+    "sid": "education",
+    "answers": {
+      "grade": "yes",
+      "school": "yes",
+      "selected": "yes",
+      "income": 350000
+    },
+    "expected": "preliminary eligible",
+    "case": "Baseline example for education"
+  },
+  {
+    "sid": "education",
+    "answers": {
+      "grade": "yes",
+      "school": "yes",
+      "selected": "yes",
+      "income": 350001
+    },
+    "expected": "not eligible",
+    "case": "income = 350001"
+  },
+  {
+    "sid": "education",
+    "answers": {
+      "grade": "yes",
+      "school": "yes",
+      "selected": "unknown",
+      "income": 350000
+    },
+    "expected": "more information needed",
+    "case": "selected = unknown"
+  },
+  {
+    "sid": "education",
+    "answers": {
+      "grade": "yes",
+      "school": "no",
+      "selected": "yes",
+      "income": 350000
+    },
+    "expected": "not eligible",
+    "case": "school = no"
+  },
+  {
+    "sid": "housing",
+    "answers": {
+      "area": "urban",
+      "house": "no",
+      "allot": "no",
+      "houseincome": 900000,
+      "vertical": "yes"
+    },
+    "expected": "preliminary eligible",
+    "case": "Baseline example for housing"
+  },
+  {
+    "sid": "housing",
+    "answers": {
+      "area": "urban",
+      "house": "yes",
+      "allot": "no",
+      "houseincome": 900000,
+      "vertical": "yes"
+    },
+    "expected": "not eligible",
+    "case": "house = yes"
+  },
+  {
+    "sid": "housing",
+    "answers": {
+      "area": "urban",
+      "house": "no",
+      "allot": "no",
+      "houseincome": 900000,
+      "vertical": "unknown"
+    },
+    "expected": "more information needed",
+    "case": "vertical = unknown"
+  },
+  {
+    "sid": "artisan",
+    "answers": {
+      "age": 18,
+      "trade": "yes",
+      "government": "no",
+      "registered": "no",
+      "credit": "yes"
+    },
+    "expected": "preliminary eligible",
+    "case": "Baseline example for artisan"
+  },
+  {
+    "sid": "artisan",
+    "answers": {
+      "age": 18,
+      "trade": "yes",
+      "government": "yes",
+      "registered": "no",
+      "credit": "yes"
+    },
+    "expected": "not eligible",
+    "case": "government = yes"
+  },
+  {
+    "sid": "artisan",
+    "answers": {
+      "age": 18,
+      "trade": "yes",
+      "government": "no",
+      "registered": "no",
+      "credit": "unknown"
+    },
+    "expected": "more information needed",
+    "case": "credit = unknown"
+  },
+  {
+    "sid": "pension",
+    "answers": {
+      "state": "AP",
+      "age": 55,
+      "st": "yes",
+      "white": "yes",
+      "local": "yes",
+      "destitute": "yes",
+      "pension": "no",
+      "pcheck": "yes",
+      "stconfirm": "unknown"
+    },
+    "expected": "more information needed",
+    "case": "Unverified historical age exception"
+  }
+]

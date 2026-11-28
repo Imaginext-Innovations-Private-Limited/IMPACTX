@@ -1,0 +1,1 @@
+The launcher copies the upstream MIT-licensed Bootstrap 5 distribution from the installed Bootstrap-Flask package into this directory for offline use. The site-specific layout in style.css is bundled. No CDN is contacted by a citizen's browser.

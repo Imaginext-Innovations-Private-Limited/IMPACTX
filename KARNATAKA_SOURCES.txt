@@ -1,0 +1,15 @@
+Source snapshot and attribution
+The Schemes Register, Urban Morph, release schemes-register-2026.11, 3 November 2026.
+https://india-schemes.pages.dev/releases
+https://github.com/urbanmorph/schemes
+CC BY 4.0. https://creativecommons.org/licenses/by/4.0/
+The CSV SHA-256 is 47f2272ff27fb5cbf259ff089e548b66df61f3b6c5eb81cf52b724152678a1bd.
+The project filtered the complete release to state=Karnataka (372 rows) and linked the
+56 myScheme records to their official pages. Names, categories, eligibility passages
+and application instructions were reformatted from the dated archive. Budget and
+audit references are searchable directory entries, not additional citizen entitlements.
+The myScheme data origin is the Government of India. The register is an independent
+compilation. Open the source on each scheme detail page for the current terms.
+https://www.myscheme.gov.in/search/state/Karnataka
+The five additional guarantee routes carry their individual government references in
+seed/sources.json. The project does not infer a conclusive approval from residence.
