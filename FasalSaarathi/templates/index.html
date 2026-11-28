@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FasalSaarathi — Farm Advisor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="text-gray-900 min-h-screen flex flex-col">
+
+    <!-- Vibrant Farm Header -->
+    <header class="bg-white/95 backdrop-blur border-b-2 border-green-500/30 sticky top-0 z-50 px-4 py-2.5 shadow-sm">
+        <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-3">
+            <!-- Brand -->
+            <div class="flex items-center space-x-2.5">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-600 via-emerald-600 to-lime-600 text-white flex items-center justify-center text-lg shadow-sm">
+                    <i class="fa-solid fa-wheat-awn"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-extrabold tracking-tight text-green-800 leading-none">FasalSaarathi</h1>
+                    <p class="text-[11px] font-medium text-amber-700 mt-0.5">ಫಸಲ್ ಸಾರಥಿ • फसल सारथी</p>
+                </div>
+            </div>
+
+            <!-- Segmented Pill Tabs -->
+            <nav class="bg-green-50 p-1 rounded-xl border border-green-200 flex items-center space-x-1 overflow-x-auto scrollbar-none">
+                <button class="nav-tab active px-3.5 py-1.5 text-xs font-bold flex items-center space-x-1.5 transition whitespace-nowrap" data-target="tab-advisor">
+                    <i class="fa-solid fa-microphone-lines"></i>
+                    <span>Advisor</span>
+                </button>
+                <button class="nav-tab px-3.5 py-1.5 text-xs font-bold flex items-center space-x-1.5 transition whitespace-nowrap" data-target="tab-disease">
+                    <i class="fa-solid fa-leaf"></i>
+                    <span>Leaf Doctor</span>
+                </button>
+                <button class="nav-tab px-3.5 py-1.5 text-xs font-bold flex items-center space-x-1.5 transition whitespace-nowrap" data-target="tab-tools">
+                    <i class="fa-solid fa-cloud-sun"></i>
+                    <span>Agro Tools</span>
+                </button>
+                <button class="nav-tab px-3.5 py-1.5 text-xs font-bold flex items-center space-x-1.5 transition whitespace-nowrap" data-target="tab-terrace">
+                    <i class="fa-solid fa-house-chimney-window"></i>
+                    <span id="navTerraceLabel">Terrace &amp; Learn</span>
+                </button>
+            </nav>
+
+            <!-- Compact Controls -->
+            <div class="flex items-center space-x-2">
+                <button id="ttsToggleBtn" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-100 transition">
+                    <i class="fa-solid fa-volume-high" id="ttsIcon"></i>
+                    <span id="ttsLabel" class="hidden sm:inline">Voice Audio: ON</span>
+                </button>
+
+                <div class="flex items-center bg-green-50 rounded-xl px-2.5 py-1 border border-green-300">
+                    <i class="fa-solid fa-globe text-green-700 text-xs mr-1.5"></i>
+                    <select id="langSelect" class="bg-transparent text-xs text-green-900 font-bold focus:outline-none cursor-pointer py-0.5">
+                        <option value="en" selected>English</option>
+                        <option value="kn">ಕನ್ನಡ</option>
+                        <option value="hi">हिंदी</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="mr">मराठी</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Compact Centered Workspace -->
+    <main class="max-w-4xl mx-auto w-full px-4 py-5 flex-1 space-y-4">
+
+        <!-- ========================================== -->
+        <!-- TAB 1: VOICE FARM ADVISOR -->
+        <!-- ========================================== -->
+        <section id="tab-advisor" class="tab-pane block space-y-4">
+
+            <!-- Vibrant Sunlit Farm Hero Banner -->
+            <div class="relative rounded-2xl overflow-hidden border border-green-300 shadow-sm h-28 sm:h-32">
+                <img src="/static/images/farm_hero.svg" alt="Sunlit Indian Farmland" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-green-950/75 via-green-900/45 to-transparent flex items-center px-5">
+                    <div class="text-white space-y-1 max-w-lg">
+                        <div class="inline-flex items-center space-x-1.5 px-2 py-0.5 rounded-full bg-amber-400/90 text-amber-950 text-[11px] font-extrabold">
+                            <i class="fa-solid fa-sun"></i>
+                            <span>Smart Farming Assistant</span>
+                        </div>
+                        <h2 class="text-base sm:text-lg font-extrabold leading-snug drop-shadow">
+                            Speak in Your Language for Weather, Soil &amp; Mandi Advice
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Chat Card -->
+            <div class="bg-white rounded-2xl border border-green-200 shadow-sm overflow-hidden flex flex-col h-[540px]">
+
+                <!-- Chat Header -->
+                <div class="px-5 py-3 bg-gradient-to-r from-green-50 to-amber-50/70 border-b border-green-200 flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-600"></span>
+                        <span class="text-xs font-extrabold text-green-900">Farm Advisory Desk</span>
+                    </div>
+                    <button id="clearChatBtn" class="text-xs text-gray-500 hover:text-red-600 font-semibold transition">
+                        <i class="fa-solid fa-trash-can mr-1"></i>Clear
+                    </button>
+                </div>
+
+                <!-- Messages -->
+                <div id="chatMessages" class="flex-1 p-5 overflow-y-auto space-y-4 bg-white">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-green-600 to-emerald-600 text-white flex items-center justify-center text-sm shrink-0 shadow-sm">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <div class="bg-green-50/80 border border-green-200 rounded-2xl rounded-tl-none p-4 max-w-[85%] space-y-2">
+                            <div class="text-sm leading-relaxed text-gray-800">
+                                Welcome to <strong>FasalSaarathi</strong>! Speak or type in <strong>English, ಕನ್ನಡ, हिंदी, தமிழ், తెలుగు, or मराठी</strong> for live weather, irrigation, soil health, and APMC mandi rates.
+                            </div>
+                            <div class="flex items-center space-x-2 pt-1.5 border-t border-green-200/70">
+                                <button class="speak-btn text-xs px-2.5 py-1 rounded-lg bg-white text-green-800 hover:bg-green-100 border border-green-300 transition flex items-center space-x-1.5 font-semibold"
+                                        data-text="Welcome to FasalSaarathi. Speak into the microphone or ask about weather, soil, or mandi prices in your language.">
+                                    <i class="fa-solid fa-play text-[10px]"></i>
+                                    <span>Listen</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Inquiries + Input Dock -->
+                <div class="p-3.5 bg-gradient-to-r from-green-50/90 to-amber-50/60 border-t border-green-200 space-y-2.5">
+                    <!-- Quick Prompts Strip -->
+                    <div class="flex items-center space-x-2 overflow-x-auto scrollbar-none pb-0.5">
+                        <span id="quickInquiriesTitle" class="text-[11px] font-extrabold text-amber-800 shrink-0">Quick Farm Inquiries:</span>
+                        <div class="flex items-center space-x-1.5" id="samplePromptButtons">
+                            {% for p in sample_queries %}
+                            <button class="sample-prompt-btn shrink-0 px-2.5 py-1 text-[11px] rounded-full bg-white hover:bg-amber-50 text-gray-800 hover:text-green-800 border border-green-300 hover:border-amber-400 transition font-semibold shadow-2xs"
+                                    data-query="{{ p.query }}" data-lang="{{ p.lang }}">
+                                {{ p.label }}
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Voice Status -->
+                    <div id="voiceStatus" class="hidden items-center justify-between text-xs px-3 py-1.5 rounded-xl bg-red-50 border border-red-200 text-red-700">
+                        <span class="flex items-center space-x-2">
+                            <span class="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
+                            <span id="voiceStatusText">Listening... Speak now</span>
+                        </span>
+                        <span class="text-xs font-mono bg-white px-2 py-0.5 rounded border border-red-200" id="detectedLangTag">en-IN</span>
+                    </div>
+
+                    <!-- Input Bar -->
+                    <div class="flex items-center space-x-2">
+                        <button id="micBtn" class="w-11 h-11 rounded-xl bg-gradient-to-br from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white flex items-center justify-center text-base shadow-sm transition active:scale-95 shrink-0"
+                                title="Speak">
+                            <i class="fa-solid fa-microphone" id="micIcon"></i>
+                        </button>
+
+                        <div class="flex-1 relative">
+                            <input type="text" id="queryInput"
+                                   placeholder="Ask about weather, irrigation, soil, or mandi prices..."
+                                   class="w-full bg-white border border-green-300 rounded-xl px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-green-600 focus:ring-2 focus:ring-green-500/20 pr-10">
+                            <button id="attachLeafMiniBtn" class="absolute right-3 top-2.5 text-amber-600 hover:text-green-700" title="Attach Leaf Photo">
+                                <i class="fa-solid fa-camera"></i>
+                            </button>
+                        </div>
+
+                        <button id="sendBtn" class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white flex items-center justify-center text-base transition shrink-0 shadow-sm">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 2: LEAF VISION DOCTOR -->
+        <!-- ========================================== -->
+        <section id="tab-disease" class="tab-pane hidden space-y-4">
+            <div class="bg-white rounded-2xl border border-green-200 p-5 space-y-5 shadow-sm">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-green-100 pb-4">
+                    <div>
+                        <h2 id="diseaseTabTitle" class="text-lg font-extrabold text-green-900">Leaf Vision Doctor</h2>
+                        <p class="text-xs text-gray-500 mt-0.5">Upload a close-up leaf photo (works both Online &amp; Offline) for simple, step-by-step care advice.</p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2">
+                        <select id="leafCropHint" title="Select your crop before uploading a photo for crop-specific diagnosis and medicine advice" class="bg-green-50/70 border border-green-300 rounded-xl px-3 py-2 text-xs font-bold text-green-900 focus:outline-none focus:border-green-600">
+                            <option value="">🌿 Auto-Detect Crop (or select yours)</option>
+                            <option value="tomato">🍅 Tomato</option>
+                            <option value="potato">🥔 Potato</option>
+                            <option value="chilli">🌶️ Chilli / Pepper</option>
+                            <option value="coffee">☕ Coffee</option>
+                            <option value="rice">🌾 Paddy / Rice</option>
+                            <option value="maize">🌽 Maize / Corn</option>
+                            <option value="onion">🧅 Onion</option>
+                            <option value="cotton">☁️ Cotton</option>
+                            <option value="arecanut">🌴 Arecanut</option>
+                            <option value="banana">🍌 Banana</option>
+                            <option value="groundnut">🥜 Groundnut</option>
+                            <option value="grape">🍇 Grape</option>
+                        </select>
+
+                        <label class="cursor-pointer px-4 py-2.5 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-xs font-bold flex items-center space-x-2 shadow-sm transition">
+                            <i class="fa-solid fa-camera"></i>
+                            <span id="uploadLeafBtnLabel">Upload Leaf Photo</span>
+                            <input type="file" id="leafFileInput" accept="image/*" class="hidden">
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 id="sampleLeavesHeading" class="text-xs font-extrabold uppercase tracking-wider text-amber-800 mb-3">
+                        Or Try a Sample Leaf Photo:
+                    </h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div class="sample-leaf-card cursor-pointer p-2.5 rounded-xl bg-amber-50/60 hover:bg-amber-100/70 border border-amber-200 hover:border-green-600 transition space-y-2"
+                             data-sample="coffee_rust.jpg" data-crop="coffee">
+                            <img src="/static/sample_leaves/coffee_rust.jpg" alt="Coffee Orange Rust" class="w-full h-24 object-cover rounded-lg border border-amber-200">
+                            <div class="text-xs font-bold text-gray-800">Coffee Orange Leaf Rust</div>
+                        </div>
+
+                        <div class="sample-leaf-card cursor-pointer p-2.5 rounded-xl bg-orange-50/60 hover:bg-orange-100/70 border border-orange-200 hover:border-green-600 transition space-y-2"
+                             data-sample="tomato_blight.jpg" data-crop="tomato">
+                            <img src="/static/sample_leaves/tomato_blight.jpg" alt="Tomato Dark Ring Spots" class="w-full h-24 object-cover rounded-lg border border-orange-200">
+                            <div class="text-xs font-bold text-gray-800">Tomato Brown Ring Spots</div>
+                        </div>
+
+                        <div class="sample-leaf-card cursor-pointer p-2.5 rounded-xl bg-red-50/50 hover:bg-red-100/60 border border-red-200 hover:border-green-600 transition space-y-2"
+                             data-sample="potato_late_blight.jpg" data-crop="potato">
+                            <img src="/static/sample_leaves/potato_late_blight.jpg" alt="Potato Wet Black Rot" class="w-full h-24 object-cover rounded-lg border border-red-200">
+                            <div class="text-xs font-bold text-gray-800">Potato Wet Black Leaf Rot</div>
+                        </div>
+
+                        <div class="sample-leaf-card cursor-pointer p-2.5 rounded-xl bg-green-50/70 hover:bg-green-100/70 border border-green-200 hover:border-green-600 transition space-y-2"
+                             data-sample="healthy_leaf.jpg" data-crop="general">
+                            <img src="/static/sample_leaves/healthy_leaf.jpg" alt="Healthy Green Leaf" class="w-full h-24 object-cover rounded-lg border border-green-200">
+                            <div class="text-xs font-bold text-gray-800">Healthy Green Leaf</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="diseaseResultPanel" class="p-4 rounded-xl bg-green-50/50 border border-green-200 text-xs text-gray-600">
+                    Click a sample leaf above or upload a close-up photo of your crop leaf to check its health.
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 3: LIVE AGRO TOOLS -->
+        <!-- ========================================== -->
+        <section id="tab-tools" class="tab-pane hidden space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
+
+                <!-- Weather Card -->
+                <div class="bg-white rounded-2xl border-2 border-sky-200 p-4 space-y-3.5 flex flex-col shadow-sm">
+                    <div class="flex items-center justify-between gap-2">
+                        <h3 id="toolsWeatherTitle" class="text-sm font-extrabold text-sky-900 truncate">Live Weather Tool</h3>
+                        <span id="weatherSourceBadge" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-800 border border-sky-300 whitespace-nowrap shrink-0">Open-Meteo</span>
+                    </div>
+                    <div class="flex space-x-1.5">
+                        <input type="text" id="toolWeatherLoc" value="" placeholder="Village, Taluk, District or PIN..."
+                               class="flex-1 min-w-0 bg-sky-50/60 border border-sky-200 rounded-xl px-3 py-1.5 text-sm text-gray-900 focus:outline-none focus:border-sky-600">
+                        <button id="gpsWeatherBtn" type="button" title="Use My Farm GPS Location"
+                                class="px-2.5 py-1.5 bg-sky-100 hover:bg-sky-200 text-sky-800 border border-sky-300 text-xs rounded-xl font-bold transition shrink-0">
+                            <i class="fa-solid fa-location-crosshairs"></i>
+                        </button>
+                        <button id="testWeatherBtn" type="button" class="px-3.5 py-1.5 bg-sky-600 hover:bg-sky-700 text-xs text-white rounded-xl font-bold transition shrink-0">
+                            Fetch
+                        </button>
+                    </div>
+                    <div id="toolWeatherOutput" class="flex-1 flex flex-col text-sm text-gray-700"></div>
+                </div>
+
+                <!-- Soil Card -->
+                <div class="bg-white rounded-2xl border-2 border-green-200 p-4 space-y-3 flex flex-col shadow-sm">
+                    <div class="flex items-center justify-between gap-2">
+                        <h3 id="toolsSoilTitle" class="text-sm font-extrabold text-green-900 truncate">Soil Health Tool</h3>
+                        <span id="soilSourceBadge" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-green-100 text-green-800 border border-green-300 whitespace-nowrap shrink-0">250m Grid</span>
+                    </div>
+                    <div class="flex space-x-1.5">
+                        <input type="text" id="toolSoilDist" value="" placeholder="Village, Taluk, District or PIN..."
+                               class="flex-1 min-w-0 bg-green-50/60 border border-green-200 rounded-xl px-3 py-1.5 text-sm text-gray-900 focus:outline-none focus:border-green-600">
+                        <button id="gpsSoilBtn" type="button" title="Use My Farm GPS Location"
+                                class="px-2.5 py-1.5 bg-green-100 hover:bg-green-200 text-green-800 border border-green-300 text-xs rounded-xl font-bold transition shrink-0">
+                            <i class="fa-solid fa-location-crosshairs"></i>
+                        </button>
+                        <button id="testSoilBtn" type="button" class="px-3.5 py-1.5 bg-green-600 hover:bg-green-700 text-xs text-white rounded-xl font-bold transition shrink-0">
+                            Fetch
+                        </button>
+                    </div>
+                    <div>
+                        <select id="toolSoilCrop" class="w-full bg-green-50/40 border border-green-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-green-900 focus:outline-none focus:border-green-600">
+                            <option value="general">🌱 Crop: General Field Crop</option>
+                            <option value="tomato">🍅 Tomato</option>
+                            <option value="rice">🌾 Paddy / Rice</option>
+                            <option value="onion">🧅 Onion</option>
+                            <option value="chilli">🌶️ Chilli</option>
+                            <option value="maize">🌽 Maize</option>
+                            <option value="ragi">🌾 Ragi (Finger Millet)</option>
+                            <option value="tur">🫘 Tur / Red Gram (Legume)</option>
+                            <option value="groundnut">🥜 Groundnut (Legume)</option>
+                            <option value="chickpea">🫘 Chickpea / Chana (Legume)</option>
+                            <option value="cotton">☁️ Cotton</option>
+                            <option value="sugarcane">🎋 Sugarcane</option>
+                            <option value="coffee">☕ Coffee</option>
+                            <option value="arecanut">🌴 Arecanut</option>
+                            <option value="pepper">🌿 Black Pepper</option>
+                            <option value="potato">🥔 Potato</option>
+                            <option value="banana">🍌 Banana</option>
+                            <option value="wheat">🌾 Wheat</option>
+                        </select>
+                    </div>
+                    <div id="toolSoilOutput" class="flex-1 flex flex-col text-sm text-gray-700"></div>
+                </div>
+
+                <!-- Mandi Card -->
+                <div class="bg-white rounded-2xl border-2 border-amber-200 p-4 space-y-3 flex flex-col shadow-sm">
+                    <div class="flex items-center justify-between gap-2">
+                        <h3 id="toolsMandiTitle" class="text-sm font-extrabold text-amber-900 truncate">APMC Mandi Tool</h3>
+                        <span id="mandiSourceBadge" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 whitespace-nowrap shrink-0">APMC Live</span>
+                    </div>
+                    <div class="flex space-x-1.5">
+                        <input type="text" id="toolMandiLoc" value="" placeholder="Village, District, State or PIN..."
+                               class="flex-1 min-w-0 bg-amber-50/60 border border-amber-200 rounded-xl px-3 py-1.5 text-sm text-gray-900 focus:outline-none focus:border-amber-600">
+                        <button id="gpsMandiBtn" type="button" title="Use My Farm GPS Location"
+                                class="px-2.5 py-1.5 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 text-xs rounded-xl font-bold transition shrink-0">
+                            <i class="fa-solid fa-location-crosshairs"></i>
+                        </button>
+                        <button id="testMandiBtn" type="button" class="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-xs text-white rounded-xl font-bold transition shrink-0">
+                            Fetch
+                        </button>
+                    </div>
+                    <div>
+                        <input type="text" id="toolMandiCrop" list="mandiCropOptions" value="Tomato" placeholder="Crop (e.g. Tomato, Paddy, Onion, Coffee)..."
+                               class="w-full bg-amber-50/40 border border-amber-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-amber-950 focus:outline-none focus:border-amber-600">
+                        <datalist id="mandiCropOptions">
+                            <option value="Tomato"></option>
+                            <option value="Onion"></option>
+                            <option value="Potato"></option>
+                            <option value="Paddy"></option>
+                            <option value="Green Chilli"></option>
+                            <option value="Maize"></option>
+                            <option value="Ragi"></option>
+                            <option value="Tur"></option>
+                            <option value="Groundnut"></option>
+                            <option value="Cotton"></option>
+                            <option value="Coffee"></option>
+                            <option value="Arecanut"></option>
+                            <option value="Black Pepper"></option>
+                            <option value="Banana"></option>
+                            <option value="Wheat"></option>
+                            <option value="Turmeric"></option>
+                            <option value="Coconut"></option>
+                            <option value="Soyabean"></option>
+                        </datalist>
+                    </div>
+                    <div id="toolMandiOutput" class="flex-1 flex flex-col text-sm text-gray-700"></div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 4: TERRACE & BEGINNER FARMING STUDIO   -->
+        <!-- ========================================== -->
+        <section id="tab-terrace" class="tab-pane hidden space-y-4">
+
+            <!-- CARD 1: Smart Terrace & Balcony Space Planner -->
+            <div class="bg-white rounded-2xl border-2 border-emerald-200 p-5 space-y-4 shadow-sm">
+                <div class="flex flex-wrap items-start justify-between gap-3 border-b border-emerald-100 pb-3.5">
+                    <div>
+                        <div class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-[11px] font-extrabold mb-1">
+                            <i class="fa-solid fa-seedling"></i>
+                            <span id="terraceHeroTag">Urban Rooftop, Balcony &amp; Beginner Farming</span>
+                        </div>
+                        <h2 id="terracePlanTitle" class="text-lg font-extrabold text-green-900">Smart Terrace &amp; Balcony Setup Planner</h2>
+                        <p id="terracePlanSubtitle" class="text-xs text-gray-600 mt-0.5">
+                            Recommends the best crops, simple 10L bucket soil mix, and today's watering from your space, sunlight &amp; live city weather.
+                        </p>
+                    </div>
+                    <span id="terracePlanBadge" class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-300 whitespace-nowrap">
+                        Live Weather + Soil Mix
+                    </span>
+                </div>
+
+                <!-- Optional Space Presets (Fills Length, Width & Sunlight — User Editable) -->
+                <div class="flex flex-wrap items-center gap-1.5">
+                    <span id="terracePresetLabel" class="text-[11px] font-extrabold text-amber-800 mr-1">Quick Space Sizes:</span>
+                    <button type="button" class="terrace-size-preset px-2.5 py-1 text-[11px] rounded-full bg-amber-50 hover:bg-emerald-50 text-gray-800 border border-amber-300 hover:border-emerald-500 font-semibold transition"
+                            data-l="6" data-w="3" data-sun="3.5" data-space="covered_balcony">
+                        🪴 Small Balcony (6×3 ft)
+                    </button>
+                    <button type="button" class="terrace-size-preset px-2.5 py-1 text-[11px] rounded-full bg-amber-50 hover:bg-emerald-50 text-gray-800 border border-amber-300 hover:border-emerald-500 font-semibold transition"
+                            data-l="10" data-w="5" data-sun="4.5" data-space="covered_balcony">
+                        🌿 Medium Balcony (10×5 ft)
+                    </button>
+                    <button type="button" class="terrace-size-preset px-2.5 py-1 text-[11px] rounded-full bg-amber-50 hover:bg-emerald-50 text-gray-800 border border-amber-300 hover:border-emerald-500 font-semibold transition"
+                            data-l="12" data-w="10" data-sun="6" data-space="open_terrace">
+                        🏡 Terrace Corner (12×10 ft)
+                    </button>
+                    <button type="button" class="terrace-size-preset px-2.5 py-1 text-[11px] rounded-full bg-amber-50 hover:bg-emerald-50 text-gray-800 border border-amber-300 hover:border-emerald-500 font-semibold transition"
+                            data-l="20" data-w="15" data-sun="6.5" data-space="open_terrace">
+                        ☀️ Full Rooftop (20×15 ft)
+                    </button>
+                </div>
+
+                <!-- Dynamic Inputs (Zero Hardcoded Values) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
+                    <div class="sm:col-span-2">
+                        <label id="lblTerraceLoc" for="terraceLoc" class="block text-[11px] font-bold text-green-900 mb-1">City, Town, Village or PIN</label>
+                        <div class="flex space-x-1.5">
+                            <input type="text" id="terraceLoc" value="" placeholder="Enter city, town or PIN..."
+                                   class="flex-1 min-w-0 bg-emerald-50/50 border border-emerald-300 rounded-xl px-3 py-2 text-xs text-gray-900 focus:outline-none focus:border-emerald-600">
+                            <button id="gpsTerraceBtn" type="button" title="Use My Live GPS Location"
+                                    class="px-2.5 py-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-900 border border-emerald-300 text-xs rounded-xl font-bold transition shrink-0">
+                                <i class="fa-solid fa-location-crosshairs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label id="lblTerraceLen" for="terraceLengthFt" class="block text-[11px] font-bold text-green-900 mb-1">Length (ft)</label>
+                        <input type="number" id="terraceLengthFt" value="" min="2" max="200" step="0.5" placeholder="e.g. 10"
+                               class="w-full bg-emerald-50/50 border border-emerald-300 rounded-xl px-3 py-2 text-xs text-gray-900 focus:outline-none focus:border-emerald-600">
+                    </div>
+
+                    <div>
+                        <label id="lblTerraceWid" for="terraceWidthFt" class="block text-[11px] font-bold text-green-900 mb-1">Width (ft)</label>
+                        <input type="number" id="terraceWidthFt" value="" min="1.5" max="200" step="0.5" placeholder="e.g. 6"
+                               class="w-full bg-emerald-50/50 border border-emerald-300 rounded-xl px-3 py-2 text-xs text-gray-900 focus:outline-none focus:border-emerald-600">
+                    </div>
+
+                    <div>
+                        <label id="lblTerraceSun" for="terraceSunHrs" class="block text-[11px] font-bold text-green-900 mb-1">Direct Sun (hrs/day)</label>
+                        <input type="number" id="terraceSunHrs" value="" min="1" max="12" step="0.5" placeholder="e.g. 5"
+                               class="w-full bg-emerald-50/50 border border-emerald-300 rounded-xl px-3 py-2 text-xs text-gray-900 focus:outline-none focus:border-emerald-600">
+                    </div>
+
+                    <div>
+                        <label id="lblTerraceSpace" for="terraceSpaceType" class="block text-[11px] font-bold text-green-900 mb-1">Space Type</label>
+                        <select id="terraceSpaceType" class="w-full bg-emerald-50/50 border border-emerald-300 rounded-xl px-2.5 py-2 text-xs font-semibold text-green-950 focus:outline-none focus:border-emerald-600">
+                            <option value="open_terrace">☀️ Open Terrace</option>
+                            <option value="covered_balcony">🏢 Covered Balcony</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+                    <div class="flex items-center space-x-2">
+                        <label id="lblTerraceGoal" for="terraceGoal" class="text-xs font-bold text-green-900">What do you want to grow?</label>
+                        <select id="terraceGoal" class="bg-amber-50/70 border border-amber-300 rounded-xl px-3 py-1.5 text-xs font-bold text-amber-950 focus:outline-none focus:border-amber-500">
+                            <option value="daily_kitchen">🍅 Daily Kitchen Veggies</option>
+                            <option value="quick_greens">🥬 Fast 25-Day Leafy Greens</option>
+                            <option value="herbs">🌿 Tea &amp; Kitchen Herbs</option>
+                            <option value="fruiting">🍋 Fruiting Veggies &amp; Bush Lemon</option>
+                        </select>
+                    </div>
+
+                    <button id="calcTerraceBtn" type="button"
+                            class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-xs font-extrabold flex items-center space-x-2 shadow-sm transition">
+                        <i class="fa-solid fa-calculator"></i>
+                        <span id="calcTerraceBtnLabel">Calculate My Terrace Plan</span>
+                    </button>
+                </div>
+
+                <div id="terracePlanOutput" class="pt-1 text-xs text-gray-700"></div>
+            </div>
+
+            <!-- CARD 2: Seed-to-Harvest Beginner Farming Coach -->
+            <div id="terraceCoachCard" class="bg-white rounded-2xl border-2 border-amber-200 p-5 space-y-4 shadow-sm">
+                <div class="flex flex-wrap items-start justify-between gap-3 border-b border-amber-100 pb-3.5">
+                    <div>
+                        <h3 id="terraceCoachTitle" class="text-base font-extrabold text-amber-950">
+                            🌱 Seed-to-Harvest Beginner Farming Coach
+                        </h3>
+                        <p id="terraceCoachSubtitle" class="text-xs text-gray-600 mt-0.5">
+                            Zero farming experience needed! Tap a starter crop or type any plant for simple day-by-day home growing steps with voice audio.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Beginner Starter Crop Pills -->
+                <div class="flex flex-wrap gap-1.5">
+                    <button type="button" class="beginner-crop-pill px-3 py-1.5 rounded-full text-xs font-bold bg-green-50 hover:bg-green-100 text-green-900 border border-green-300 transition" data-crop="methi">🌱 Methi (25d)</button>
+                    <button type="button" class="beginner-crop-pill px-3 py-1.5 rounded-full text-xs font-bold bg-green-50 hover:bg-green-100 text-green-900 border border-green-300 transition" data-crop="coriander">🌿 Coriander</button>
+                    <button type="button" class="beginner-crop-pill px-3 py-1.5 rounded-full text-xs font-bold bg-green-50 hover:bg-green-100 text-green-900 border border-green-300 transition" data-crop="palak">🥬 Palak</button>
+                    <button type="button" class="beginner-crop-pill px-3 py-1.5 rounded-full text-xs font-bold bg-green-50 hover:bg-green-100 text-green-900 border border-green-300 transition" data-crop="mint">🍃 Mint (Pudina)</button>
+                    <button type="button" class="beginner-crop-pill px-3 py-1.5 rounded-full text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-300 transition" data-crop="tomato">🍅 Tomato</button>
+                    <button type="button" class="beginner-crop-pill px-3 py-1.5 rounded-full text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-300 transition" data-crop="green_chilli">🌶️ Green Chilli</button>
+                    <button type="button" class="beginner-crop-pill px-3 py-1.5 rounded-full text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-300 transition" data-crop="curry_leaves">🌿 Curry Leaves</button>
+                    <button type="button" class="beginner-crop-pill px-3 py-1.5 rounded-full text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-300 transition" data-crop="okra">🥗 Ladies Finger</button>
+                    <button type="button" class="beginner-crop-pill px-3 py-1.5 rounded-full text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-300 transition" data-crop="brinjal">🍆 Brinjal</button>
+                    <button type="button" class="beginner-crop-pill px-3 py-1.5 rounded-full text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-300 transition" data-crop="lemon">🍋 Bush Lemon</button>
+                </div>
+
+                <!-- Custom Plant Search Bar -->
+                <div class="flex flex-wrap sm:flex-nowrap items-center gap-2">
+                    <input type="text" id="terraceCustomCrop" value=""
+                           placeholder="Or type any plant to learn (e.g. Ginger, Tulsi, Cucumber, Garlic, Microgreens)..."
+                           class="flex-1 min-w-0 bg-amber-50/40 border border-amber-300 rounded-xl px-3.5 py-2 text-xs text-gray-900 focus:outline-none focus:border-amber-600">
+                    <button id="learnCropBtn" type="button"
+                            class="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-extrabold transition shrink-0 flex items-center space-x-1.5">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span id="learnCropBtnLabel">Show Growing Guide</span>
+                    </button>
+                </div>
+
+                <div id="terraceGuideOutput" class="pt-1 text-xs text-gray-700"></div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Minimal Footer -->
+    <footer class="text-green-800/70 text-xs py-4 px-4 text-center font-medium">
+        <p>FasalSaarathi • Empowering Indian Farmers with Voice &amp; Crop Intelligence</p>
+    </footer>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

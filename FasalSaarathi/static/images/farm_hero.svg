@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 220" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="55%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#fef08a"/>
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="82%" cy="32%" r="28%">
+      <stop offset="0%" stop-color="#fde047" stop-opacity="1"/>
+      <stop offset="50%" stop-color="#facc15" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#facc15" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hillBack" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#15803d"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="hillMid" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="50%" stop-color="#16a34a"/>
+      <stop offset="100%" stop-color="#65a30d"/>
+    </linearGradient>
+    <linearGradient id="fieldFront" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#84cc16"/>
+      <stop offset="50%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#15803d"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sky & Sun -->
+  <rect width="1200" height="220" fill="url(#sky)"/>
+  <circle cx="980" cy="68" r="110" fill="url(#sunGlow)"/>
+  <circle cx="980" cy="68" r="34" fill="#fef08a"/>
+
+  <!-- Soft Clouds -->
+  <g fill="#ffffff" opacity="0.65">
+    <ellipse cx="180" cy="48" rx="48" ry="16"/>
+    <ellipse cx="215" cy="42" rx="34" ry="14"/>
+    <ellipse cx="520" cy="36" rx="56" ry="15"/>
+    <ellipse cx="560" cy="32" rx="36" ry="12"/>
+  </g>
+
+  <!-- Distant Green Hills -->
+  <path d="M0,130 Q220,75 460,118 T920,108 T1200,122 L1200,220 L0,220 Z" fill="url(#hillBack)"/>
+
+  <!-- Mid Terraced Farmland -->
+  <path d="M0,152 Q300,105 610,145 T1200,136 L1200,220 L0,220 Z" fill="url(#hillMid)"/>
+
+  <!-- Golden Harvest Patch -->
+  <path d="M700,165 Q920,132 1200,155 L1200,220 L620,220 Z" fill="#eab308" opacity="0.88"/>
+  <path d="M740,180 Q950,152 1200,172 L1200,220 L690,220 Z" fill="#f59e0b" opacity="0.75"/>
+
+  <!-- Foreground Lush Crop Rows -->
+  <path d="M0,172 Q280,140 580,176 T1200,178 L1200,220 L0,220 Z" fill="url(#fieldFront)"/>
+  <path d="M0,192 Q240,175 480,196 T960,192 T1200,198" fill="none" stroke="#bef264" stroke-width="3" opacity="0.55"/>
+  <path d="M0,206 Q260,190 520,208 T1040,204 T1200,210" fill="none" stroke="#86efac" stroke-width="2.5" opacity="0.5"/>
+
+  <!-- Stylized Crop Stalks & Leaves on Left -->
+  <g stroke="#14532d" stroke-width="2.5" fill="none" opacity="0.75">
+    <path d="M65,220 Q62,185 52,162"/>
+    <path d="M65,220 Q72,188 84,168"/>
+    <path d="M98,220 Q95,180 88,155"/>
+    <path d="M98,220 Q106,184 118,162"/>
+  </g>
+</svg>

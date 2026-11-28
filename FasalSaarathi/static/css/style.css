@@ -1,0 +1,64 @@
+/* FasalSaarathi — Vibrant Sunlit Farmland & Harvest Gold Theme */
+
+body {
+    background: linear-gradient(180deg, #effae8 0%, #fefce8 55%, #f4fae9 100%);
+    color: #1a2e05;
+    font-family: 'Plus Jakarta Sans', 'Noto Sans Kannada', 'Noto Sans Devanagari', sans-serif;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #e7f3df;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #86efac;
+    border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #16a34a;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
+}
+
+/* Segmented Pill Navigation */
+.nav-tab {
+    color: #3f6212;
+    border-radius: 0.625rem;
+}
+
+.nav-tab:hover {
+    color: #14532d;
+    background-color: #dcfce7;
+}
+
+.nav-tab.active {
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.28);
+}
+
+/* Voice Recording Pulse */
+@keyframes pulse-ring {
+    0% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.55);
+    }
+    70% {
+        box-shadow: 0 0 0 12px rgba(220, 38, 38, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+    }
+}
+
+.recording-pulse {
+    animation: pulse-ring 1.5s infinite;
+    background: #dc2626 !important;
+}
