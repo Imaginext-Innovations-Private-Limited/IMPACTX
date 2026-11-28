@@ -32,3 +32,4 @@ Thumbs.db
 # YOLO training dataset and downloaded reference archives
 ai model/dataset/
 ai model/runs/
+/Aquawatch/
