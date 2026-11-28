@@ -37,3 +37,16 @@ ScamShield AI v2.1.1 provides strong regex + contextual + weak-SVM screening for
 - **Milestone 5 (Frontend Quishing UI & Real-World SMS Audit):**
   - Updated `static/index.html` and `static/app.js` to display decoded QR payloads (`#qr-preview`) and forward `qr_payloads` to `/api/analyze` without automatically opening URLs or initiating payments.
   - Evaluated on genuine **UCI SMS Spam Collection** (`5,574` messages): on `4,827` `ham` messages, `0` were flagged `high` and only `2` (`0.04%`) were `caution` (`4,189` `no_clear_signal`, `507` `review`, `129` `unknown`). On `747` general `spam` messages, `26` were `caution` and `114` `review` (confirming generic promotional spam is not conflated with high-risk financial fraud).
+- **Milestone 6 (Evaluator Feedback — Polished Phishing, Identity Verification & Zero-Key Auto Protect):**
+  - **Evaluator Requirement:** Detect professionally written, legitimate-looking phishing emails/URLs even without obvious scam keywords, and run automatically without requiring end-user API keys.
+  - **Offline Email & Identity Verification (`scamshield/identity_verifier.py` + `publicsuffix2` PSL):**
+    - Extracts `From`, `Reply-To`, claimed organisations (against curated `ORG_DOMAIN_REGISTRY`), safe HTML `<a href>` & Markdown hyperlinks (without rendering scripts or loading remote resources), requested actions, and unverified `SPF`/`DKIM`/`DMARC` header claims.
+    - Detects sender-domain mismatches, `Reply-To` mismatches, Punycode/Unicode homographs, misleading brand subdomains (via Mozilla PSL), and deceptive hyperlink labels.
+    - Never treats an official-domain match or uploaded header as independent authentication; unknown organisations/missing senders remain neutral.
+  - **Strengthened Offline Engine & Zero-Key Auto Protect (`scamshield/engine.py`, `scamshield/main.py`, `static/app.js`):**
+    - Standalone URLs, short phishing links, and QR-only payloads are evaluated before minimum-text-length gating.
+    - Added `/api/parse-email` for `.eml` files and **Auto Protect** mode (ON by default) with 550ms debouncing, `AbortController` stale-request cancellation, duplicate-submission prevention, and local-only default execution (Groq/Sarvam require explicit user consent and server-side keys).
+  - **Leakage & Challenge Evaluation (`tests/test_challenge_suite.py`):**
+    - Verified `0` domain overlap (`155,227` train domains vs `38,807` test domains) and `0` URL overlap in PhiUSIIL, with `TfidfVectorizer` and `StandardScaler` fitted strictly on training data.
+    - Authored challenge suite (`7` polished phishing/quishing/identity attacks, `3` benign controls, plus missing-key, cloud-timeout, and stale-request tests): **7/7 attacks detected** (Precision `1.00`, Recall `1.00`, F1 `1.00`, `0` false positives, `0` missed attacks).
+  - **PhishTank Redistribution Note:** `scamshield/data/verified_threats.db` contains SHA-256 hashes derived from PhishTank's non-commercial/research feed (`phishtank.org`); verify redistribution/licensing terms before publishing the derived DB to a public repository or regenerate locally with `tools/train_url_model.py`.
