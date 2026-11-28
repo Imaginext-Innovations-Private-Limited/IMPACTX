@@ -249,4 +249,6 @@ How the three test bills were built, line by line, is in `tests/fixtures/sample_
 What the real lines changed: a line whose amount exceeds quantity × rate by exactly a standard
 GST rate is now amber ("may include tax"), not red.
 
+## For Testing our system 
 
+we have uploaded sample bills (handwritten , stained, outlier with extreme values ) for rigorous testing and ablation study of our system against every type of bill
