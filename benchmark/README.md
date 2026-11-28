@@ -1,0 +1,5 @@
+# Archived semantic experiments — not production dependencies
+The two original research scripts and Windows results are retained. The scripts now reference a frozen copy of the original 64 training messages so later application changes cannot alter the historical experiment. Run only in a separate environment with `models/indic-sbert` downloaded from `l3cube-pune/indic-sentence-bert-nli`. Original research environment: Python 3.12.8, CPU torch 2.15.0, sentence-transformers 6.3.0, scikit-learn 1.9.1. No weights or research environment are included. The CSVs are earlier Windows observations, not rerun here; timing varies. All labels are synthetic. Do not run these on the demo laptop unless reproducing the research deliberately.
+
+## External multilingual data studies
+The separate [external research folder](external/README.md) contains the original scripts, reported Windows multi-source metrics and a new ensemble evaluation mode. It is not required by the application. The original data cache was not in the supplied ZIP, so this release does not include a new external-data model or claim ensemble performance.

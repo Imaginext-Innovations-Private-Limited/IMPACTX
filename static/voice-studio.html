@@ -1,0 +1,35 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ScamShield AI – Local Voice Studio</title><style>
+:root{color-scheme:dark}body{background:#091623;color:#e6f5f6;font:16px/1.6 system-ui,sans-serif;max-width:780px;margin:0 auto;padding:25px}a{color:#79edd6}h1{color:#79edd6}button,select{font:inherit;padding:12px;border-radius:10px;border:1px solid #4c7e83;background:#143341;color:white;margin:5px}button:disabled{opacity:.45}#script{white-space:pre-wrap;padding:25px;border:1px solid #4a777d;border-radius:14px;background:#132c38;line-height:1.8}#status{color:#badbdf}.meta{color:#a9c6ca}button.primary{background:#68e7d0;color:#0b2e34;font-weight:700}</style></head>
+<body><p><a href="/">← Back to ScamShield AI</a></p><h1>Voice Studio</h1><p class="meta">Optional hackathon tool for recording short, human-reviewed safety announcements. Recording stays in your browser until you download it; nothing is uploaded to the server. Obtain the speaker's consent before adding audio to GitHub.</p>
+<label>Language <select id="lang"><option value="en">English</option><option value="hi">Hindi</option><option value="bn">Bengali</option><option value="kn">Kannada</option><option value="te">Telugu</option><option value="or">Odia</option><option value="mr">Marathi · मराठी</option><option value="ta">Tamil · தமிழ்</option><option value="ml">Malayalam · മലയാളം</option><option value="gu">Gujarati · ગુજરાતી</option><option value="pa">Punjabi · ਪੰਜਾਬੀ</option></select></label>
+<label>Warning type <select id="level"><option value="high">High risk</option><option value="caution">Caution</option><option value="review">Review</option><option value="no_clear_signal">No clear signals</option><option value="unknown">Not enough input</option></select></label>
+<h2>Script to review aloud</h2><p id="script">Loading…</p><p class="meta">Have a fluent speaker review and adapt the wording before recording. The prerecorded warnings must not claim a scam is proven. Do not speak personal messages, phone numbers or OTPs.</p>
+<button class="primary" id="start" type="button">● Start recording</button><button id="stop" type="button" disabled>■ Stop & download</button><p id="status" role="status">Ready. Use Chrome or Edge on localhost and allow microphone access.</p>
+<script>
+let prompts={}, recorder=null,parts=[];const $=s=>document.getElementById(s);
+fetch('/api/voice-prompts').then(r=>r.json()).then(d=>{prompts=d;refresh()}).catch(()=>{$('status').textContent='Could not load voice prompts. Run the ScamShield server first.'});
+function refresh(){$('script').textContent=prompts[$('lang').value]?.[$('level').value]||'Script not available.'}
+$('lang').onchange=refresh;$('level').onchange=refresh;
+$('start').onclick=async()=>{
+ if(!window.MediaRecorder){$('status').textContent='Browser recording is unavailable.';return;}
+ try{
+  const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+  const mimeType=MediaRecorder.isTypeSupported('audio/webm;codecs=opus')?'audio/webm;codecs=opus':'';
+  recorder=new MediaRecorder(stream,mimeType?{mimeType}:{});parts=[];
+  const lang=$('lang').value,level=$('level').value;
+  recorder.ondataavailable=e=>{if(e.data.size)parts.push(e.data)};
+  recorder.onstop=()=>{
+    stream.getTracks().forEach(t=>t.stop());
+    const blob=new Blob(parts,{type:recorder.mimeType||'audio/webm'});
+    const url=URL.createObjectURL(blob),link=document.createElement('a');
+    link.href=url;link.download=`${level}.webm`;document.body.append(link);link.click();link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),10000);
+    $('status').textContent=`Downloaded ${level}.webm. Move it into static/voices/${lang}/ (create the folder if needed).`;
+    $('start').disabled=false;$('stop').disabled=true;
+  };
+  recorder.start();$('start').disabled=true;$('stop').disabled=false;
+  $('status').textContent='Recording now. Speak naturally, then choose Stop & download.';
+ }catch(e){$('status').textContent='Microphone unavailable: '+e.message;}
+};
+$('stop').onclick=()=>{if(recorder&&recorder.state==='recording')recorder.stop()};
+</script></body></html>

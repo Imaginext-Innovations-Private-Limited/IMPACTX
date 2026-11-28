@@ -1,0 +1,485 @@
+﻿model,dataset,language,text,expected_suspicious,level,flagged
+uploaded_350,prior_selection,en,Double your investment in a week with zero risk.,1,no_clear_signal,0
+uploaded_350,prior_selection,en,Investment returns are not guaranteed and capital can be lost.,0,review,1
+uploaded_350,prior_selection,en,Electricity will be cut unless you pay the technician personally tonight.,1,caution,1
+uploaded_350,prior_selection,en,Your electricity bill is due tonight; check your account in the official app.,0,no_clear_signal,0
+uploaded_350,prior_selection,en,Send a processing fee to a stranger before the promised loan is released.,1,review,1
+uploaded_350,prior_selection,en,Review the lender’s published loan fees before accepting the agreement.,0,no_clear_signal,0
+uploaded_350,prior_selection,en,Read your banking login code to the person offering a refund.,1,review,1
+uploaded_350,prior_selection,en,Your refund has been processed; no login code is needed.,0,no_clear_signal,0
+uploaded_350,prior_selection,en,Scan this payment QR and approve a debit to receive your cashback.,1,review,1
+uploaded_350,prior_selection,en,Scan the merchant QR to pay for your purchase; confirm the amount.,0,no_clear_signal,0
+uploaded_350,prior_selection,hi,बिना किसी जोखिम के एक सप्ताह में निवेश दोगुना करें।,1,no_clear_signal,0
+uploaded_350,prior_selection,hi,निवेश पर लाभ की गारंटी नहीं है और पूंजी का नुकसान हो सकता है।,0,no_clear_signal,0
+uploaded_350,prior_selection,hi,आज रात तकनीशियन को निजी तौर पर पैसे नहीं दिए तो बिजली काट दी जाएगी।,1,no_clear_signal,0
+uploaded_350,prior_selection,hi,"बिजली बिल आज रात तक देय है, आधिकारिक ऐप में खाता देखें।",0,no_clear_signal,0
+uploaded_350,prior_selection,hi,वादा किया गया ऋण मिलने से पहले किसी अनजान व्यक्ति को प्रोसेसिंग शुल्क भेजें।,1,review,1
+uploaded_350,prior_selection,hi,ऋण समझौता स्वीकार करने से पहले ऋणदाता के प्रकाशित शुल्क देखें।,0,no_clear_signal,0
+uploaded_350,prior_selection,hi,रिफंड देने वाले व्यक्ति को अपना बैंक लॉगिन कोड पढ़कर बताएं।,1,no_clear_signal,0
+uploaded_350,prior_selection,hi,"आपका रिफंड हो गया है, लॉगिन कोड की जरूरत नहीं है।",0,no_clear_signal,0
+uploaded_350,prior_selection,hi,कैशबैक पाने के लिए यह भुगतान QR स्कैन करें और खाते से पैसे कटने की मंजूरी दें।,1,review,1
+uploaded_350,prior_selection,hi,खरीदारी का भुगतान करने के लिए दुकानदार का QR स्कैन करें और रकम जांचें।,0,review,1
+uploaded_350,prior_selection,bn,কোনো ঝুঁকি ছাড়াই এক সপ্তাহে বিনিয়োগ দ্বিগুণ করুন।,1,no_clear_signal,0
+uploaded_350,prior_selection,bn,বিনিয়োগে লাভের নিশ্চয়তা নেই এবং মূলধন হারাতে পারেন।,0,no_clear_signal,0
+uploaded_350,prior_selection,bn,আজ রাতে টেকনিশিয়ানকে ব্যক্তিগতভাবে টাকা না দিলে বিদ্যুৎ কেটে দেওয়া হবে।,1,review,1
+uploaded_350,prior_selection,bn,"বিদ্যুৎ বিল আজ রাতের মধ্যে দিতে হবে, অফিসিয়াল অ্যাপে অ্যাকাউন্ট দেখুন।",0,no_clear_signal,0
+uploaded_350,prior_selection,bn,প্রতিশ্রুত ঋণ পাওয়ার আগে অপরিচিত ব্যক্তিকে প্রসেসিং ফি পাঠান।,1,review,1
+uploaded_350,prior_selection,bn,ঋণের চুক্তি গ্রহণের আগে ঋণদাতার প্রকাশিত ফি দেখুন।,0,no_clear_signal,0
+uploaded_350,prior_selection,bn,যিনি টাকা ফেরত দেওয়ার কথা বলছেন তাঁকে ব্যাংকের লগইন কোড পড়ে বলুন।,1,no_clear_signal,0
+uploaded_350,prior_selection,bn,"আপনার টাকা ফেরত দেওয়া হয়েছে, লগইন কোডের দরকার নেই।",0,no_clear_signal,0
+uploaded_350,prior_selection,bn,ক্যাশব্যাক পেতে এই পেমেন্ট QR স্ক্যান করে টাকা কাটার অনুমোদন দিন।,1,review,1
+uploaded_350,prior_selection,bn,কেনাকাটার দাম দিতে দোকানের QR স্ক্যান করুন এবং পরিমাণ যাচাই করুন।,0,no_clear_signal,0
+uploaded_350,prior_selection,kn,ಯಾವುದೇ ಅಪಾಯವಿಲ್ಲದೆ ಒಂದು ವಾರದಲ್ಲಿ ಹೂಡಿಕೆಯನ್ನು ದ್ವಿಗುಣಗೊಳಿಸಿ.,1,no_clear_signal,0
+uploaded_350,prior_selection,kn,ಹೂಡಿಕೆಯ ಲಾಭಕ್ಕೆ ಖಾತರಿ ಇಲ್ಲ ಮತ್ತು ಮೂಲಧನ ಕಳೆದುಕೊಳ್ಳಬಹುದು.,0,no_clear_signal,0
+uploaded_350,prior_selection,kn,ಇಂದು ರಾತ್ರಿ ತಂತ್ರಜ್ಞನಿಗೆ ವೈಯಕ್ತಿಕವಾಗಿ ಹಣ ಕೊಡದಿದ್ದರೆ ವಿದ್ಯುತ್ ಕಡಿತಗೊಳ್ಳುತ್ತದೆ.,1,no_clear_signal,0
+uploaded_350,prior_selection,kn,ವಿದ್ಯುತ್ ಬಿಲ್ ಇಂದು ರಾತ್ರಿ ಪಾವತಿಸಬೇಕು; ಅಧಿಕೃತ ಆ್ಯಪ್‌ನಲ್ಲಿ ಖಾತೆ ಪರಿಶೀಲಿಸಿ.,0,no_clear_signal,0
+uploaded_350,prior_selection,kn,ಭರವಸೆ ನೀಡಿದ ಸಾಲ ಬಿಡುಗಡೆಯಾಗುವ ಮೊದಲು ಅಪರಿಚಿತರಿಗೆ ಸಂಸ್ಕರಣಾ ಶುಲ್ಕ ಕಳುಹಿಸಿ.,1,review,1
+uploaded_350,prior_selection,kn,ಸಾಲ ಒಪ್ಪಂದ ಸ್ವೀಕರಿಸುವ ಮೊದಲು ಸಾಲದಾತ ಪ್ರಕಟಿಸಿದ ಶುಲ್ಕಗಳನ್ನು ನೋಡಿ.,0,no_clear_signal,0
+uploaded_350,prior_selection,kn,ಹಣ ಮರುಪಾವತಿ ನೀಡುವ ವ್ಯಕ್ತಿಗೆ ನಿಮ್ಮ ಬ್ಯಾಂಕ್ ಲಾಗಿನ್ ಕೋಡ್ ಓದಿ ಹೇಳಿ.,1,no_clear_signal,0
+uploaded_350,prior_selection,kn,ನಿಮ್ಮ ಮರುಪಾವತಿ ಪೂರ್ಣಗೊಂಡಿದೆ; ಲಾಗಿನ್ ಕೋಡ್ ಬೇಕಿಲ್ಲ.,0,no_clear_signal,0
+uploaded_350,prior_selection,kn,ಕ್ಯಾಶ್‌ಬ್ಯಾಕ್ ಪಡೆಯಲು ಈ ಪಾವತಿ QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಹಣ ಕಡಿತಕ್ಕೆ ಅನುಮತಿ ನೀಡಿ.,1,review,1
+uploaded_350,prior_selection,kn,ಖರೀದಿಗೆ ಪಾವತಿಸಲು ವ್ಯಾಪಾರಿಯ QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಮೊತ್ತ ಪರಿಶೀಲಿಸಿ.,0,review,1
+uploaded_350,prior_selection,te,ఎలాంటి రిస్కు లేకుండా ఒక వారంలో పెట్టుబడిని రెట్టింపు చేసుకోండి.,1,no_clear_signal,0
+uploaded_350,prior_selection,te,పెట్టుబడి రాబడికి హామీ లేదు; అసలు ధనం కోల్పోవచ్చు.,0,no_clear_signal,0
+uploaded_350,prior_selection,te,ఈ రాత్రి టెక్నీషియన్‌కు వ్యక్తిగతంగా డబ్బు ఇవ్వకపోతే విద్యుత్ నిలిపివేస్తారు.,1,review,1
+uploaded_350,prior_selection,te,విద్యుత్ బిల్లు ఈ రాత్రికి చెల్లించాలి; అధికారిక యాప్‌లో ఖాతా చూడండి.,0,review,1
+uploaded_350,prior_selection,te,హామీ ఇచ్చిన రుణం విడుదలకు ముందే అపరిచితుడికి ప్రాసెసింగ్ ఫీజు పంపండి.,1,review,1
+uploaded_350,prior_selection,te,రుణ ఒప్పందాన్ని అంగీకరించే ముందు రుణదాత ప్రకటించిన ఫీజులు చూడండి.,0,no_clear_signal,0
+uploaded_350,prior_selection,te,రిఫండ్ ఇస్తానన్న వ్యక్తికి మీ బ్యాంక్ లాగిన్ కోడ్ చదివి చెప్పండి.,1,review,1
+uploaded_350,prior_selection,te,మీ రిఫండ్ పూర్తయింది; లాగిన్ కోడ్ అవసరం లేదు.,0,no_clear_signal,0
+uploaded_350,prior_selection,te,క్యాష్‌బ్యాక్ పొందేందుకు ఈ చెల్లింపు QR స్కాన్ చేసి డెబిట్‌ను ఆమోదించండి.,1,review,1
+uploaded_350,prior_selection,te,కొనుగోలు కోసం వ్యాపారి QR స్కాన్ చేసి మొత్తం నిర్ధారించండి.,0,no_clear_signal,0
+uploaded_350,prior_selection,or,କୌଣସି ବିପଦ ବିନା ଏକ ସପ୍ତାହରେ ନିବେଶ ଦୁଇଗୁଣ କରନ୍ତୁ।,1,no_clear_signal,0
+uploaded_350,prior_selection,or,ନିବେଶର ଲାଭ ନିଶ୍ଚିତ ନୁହେଁ ଏବଂ ମୂଳଧନ ହରାଇପାରନ୍ତି।,0,no_clear_signal,0
+uploaded_350,prior_selection,or,ଆଜି ରାତିରେ ଟେକ୍ନିସିଆନଙ୍କୁ ବ୍ୟକ୍ତିଗତ ଭାବେ ଟଙ୍କା ନଦେଲେ ବିଦ୍ୟୁତ କାଟି ଦିଆଯିବ।,1,review,1
+uploaded_350,prior_selection,or,ବିଦ୍ୟୁତ ବିଲ ଆଜି ରାତି ସୁଦ୍ଧା ଦିଅନ୍ତୁ; ଅଧିକୃତ ଆପରେ ଖାତା ଦେଖନ୍ତୁ।,0,review,1
+uploaded_350,prior_selection,or,ପ୍ରତିଶ୍ରୁତ ଋଣ ମିଳିବା ପୂର୍ବରୁ ଅଜଣା ବ୍ୟକ୍ତିଙ୍କୁ ପ୍ରକ୍ରିୟାକରଣ ଶୁଳ୍କ ପଠାନ୍ତୁ।,1,review,1
+uploaded_350,prior_selection,or,ଋଣ ଚୁକ୍ତି ଗ୍ରହଣ ପୂର୍ବରୁ ଋଣଦାତାଙ୍କ ପ୍ରକାଶିତ ଶୁଳ୍କ ଦେଖନ୍ତୁ।,0,no_clear_signal,0
+uploaded_350,prior_selection,or,ଟଙ୍କା ଫେରସ୍ତ ଦେବା କହୁଥିବା ବ୍ୟକ୍ତିଙ୍କୁ ବ୍ୟାଙ୍କ ଲଗଇନ କୋଡ୍ ପଢ଼ି କୁହନ୍ତୁ।,1,review,1
+uploaded_350,prior_selection,or,ଆପଣଙ୍କ ଟଙ୍କା ଫେରସ୍ତ ହୋଇଛି; ଲଗଇନ କୋଡ୍ ଦରକାର ନାହିଁ।,0,no_clear_signal,0
+uploaded_350,prior_selection,or,କ୍ୟାସବ୍ୟାକ ପାଇବାକୁ ଏହି ପେମେଣ୍ଟ QR ସ୍କାନ କରି ଟଙ୍କା କଟିବାକୁ ଅନୁମୋଦନ କରନ୍ତୁ।,1,review,1
+uploaded_350,prior_selection,or,କିଣାକିଣିର ଦାମ ଦେବାକୁ ଦୋକାନୀଙ୍କ QR ସ୍କାନ କରି ରାଶି ଯାଞ୍ଚ କରନ୍ତୁ।,0,no_clear_signal,0
+uploaded_350,prior_selection,mr,कोणताही धोका नसताना एका आठवड्यात गुंतवणूक दुप्पट करा.,1,no_clear_signal,0
+uploaded_350,prior_selection,mr,गुंतवणुकीच्या परताव्याची हमी नाही आणि मूळ भांडवल गमावू शकता.,0,no_clear_signal,0
+uploaded_350,prior_selection,mr,आज रात्री तंत्रज्ञाला वैयक्तिकरित्या पैसे न दिल्यास वीज तोडली जाईल.,1,review,1
+uploaded_350,prior_selection,mr,वीज बिल आज रात्रीपर्यंत देय आहे; अधिकृत ॲपमध्ये खाते तपासा.,0,no_clear_signal,0
+uploaded_350,prior_selection,mr,वचन दिलेले कर्ज मिळण्यापूर्वी अनोळखी व्यक्तीला प्रक्रिया शुल्क पाठवा.,1,review,1
+uploaded_350,prior_selection,mr,कर्ज करार स्वीकारण्यापूर्वी कर्जदात्याचे प्रकाशित शुल्क तपासा.,0,no_clear_signal,0
+uploaded_350,prior_selection,mr,परतावा देणाऱ्या व्यक्तीला तुमचा बँक लॉगिन कोड वाचून सांगा.,1,no_clear_signal,0
+uploaded_350,prior_selection,mr,तुमचा परतावा झाला आहे; लॉगिन कोड आवश्यक नाही.,0,no_clear_signal,0
+uploaded_350,prior_selection,mr,कॅशबॅक मिळवण्यासाठी हा पेमेंट QR स्कॅन करून पैसे वजा करण्यास मंजुरी द्या.,1,review,1
+uploaded_350,prior_selection,mr,खरेदीचे पैसे देण्यासाठी दुकानदाराचा QR स्कॅन करा आणि रक्कम तपासा.,0,no_clear_signal,0
+uploaded_350,prior_selection,ta,எந்த ஆபத்தும் இல்லாமல் ஒரு வாரத்தில் முதலீட்டை இரட்டிப்பாக்குங்கள்.,1,no_clear_signal,0
+uploaded_350,prior_selection,ta,முதலீட்டு வருமானத்திற்கு உத்தரவாதம் இல்லை; முதலீட்டுத் தொகையை இழக்கலாம்.,0,no_clear_signal,0
+uploaded_350,prior_selection,ta,இன்றிரவு தொழில்நுட்ப ஊழியரிடம் தனிப்பட்ட முறையில் பணம் செலுத்தாவிட்டால் மின்சாரம் துண்டிக்கப்படும்.,1,no_clear_signal,0
+uploaded_350,prior_selection,ta,மின்கட்டணம் இன்றிரவு செலுத்த வேண்டும்; அதிகாரப்பூர்வ செயலியில் கணக்கைப் பாருங்கள்.,0,no_clear_signal,0
+uploaded_350,prior_selection,ta,உறுதியளிக்கப்பட்ட கடன் கிடைக்கும் முன் தெரியாத நபருக்குச் செயலாக்கக் கட்டணத்தை அனுப்புங்கள்.,1,review,1
+uploaded_350,prior_selection,ta,கடன் ஒப்பந்தத்தை ஏற்கும் முன் கடன் வழங்குநரின் வெளியிடப்பட்ட கட்டணங்களைப் பாருங்கள்.,0,no_clear_signal,0
+uploaded_350,prior_selection,ta,பணத்தைத் திருப்பித் தருவதாகக் கூறும் நபரிடம் வங்கி உள்நுழைவு குறியீட்டை வாசித்துச் சொல்லுங்கள்.,1,no_clear_signal,0
+uploaded_350,prior_selection,ta,உங்கள் பணம் திருப்பித் தரப்பட்டுள்ளது; உள்நுழைவு குறியீடு தேவையில்லை.,0,no_clear_signal,0
+uploaded_350,prior_selection,ta,கேஷ்பேக் பெற இந்த பணப்பரிவர்த்தனை QR குறியீட்டை ஸ்கேன் செய்து பணம் கழிக்க அனுமதியுங்கள்.,1,review,1
+uploaded_350,prior_selection,ta,வாங்கிய பொருளுக்குப் பணம் செலுத்த கடையின் QR குறியீட்டை ஸ்கேன் செய்து தொகையைச் சரிபாருங்கள்.,0,review,1
+uploaded_350,prior_selection,ml,യാതൊരു അപകടസാധ്യതയും ഇല്ലാതെ ഒരാഴ്ചയിൽ നിക്ഷേപം ഇരട്ടിയാക്കുക.,1,no_clear_signal,0
+uploaded_350,prior_selection,ml,നിക്ഷേപ ലാഭത്തിന് ഉറപ്പില്ല; മൂലധനം നഷ്ടപ്പെടാം.,0,no_clear_signal,0
+uploaded_350,prior_selection,ml,ഇന്ന് രാത്രി ടെക്നീഷ്യന് വ്യക്തിപരമായി പണം നൽകിയില്ലെങ്കിൽ വൈദ്യുതി വിച്ഛേദിക്കും.,1,no_clear_signal,0
+uploaded_350,prior_selection,ml,വൈദ്യുതി ബിൽ ഇന്ന് രാത്രി അടയ്ക്കണം; ഔദ്യോഗിക ആപ്പിൽ അക്കൗണ്ട് പരിശോധിക്കുക.,0,review,1
+uploaded_350,prior_selection,ml,വാഗ്ദാനം ചെയ്ത വായ്പ ലഭിക്കുന്നതിനു മുമ്പ് അപരിചിതന് പ്രോസസ്സിംഗ് ഫീസ് അയയ്ക്കുക.,1,review,1
+uploaded_350,prior_selection,ml,വായ്പ കരാർ അംഗീകരിക്കുന്നതിന് മുമ്പ് വായ്പാദാതാവ് പ്രസിദ്ധീകരിച്ച ഫീസ് പരിശോധിക്കുക.,0,review,1
+uploaded_350,prior_selection,ml,റീഫണ്ട് നൽകുമെന്ന് പറയുന്ന വ്യക്തിക്ക് നിങ്ങളുടെ ബാങ്ക് ലോഗിൻ കോഡ് വായിച്ചുകൊടുക്കുക.,1,review,1
+uploaded_350,prior_selection,ml,നിങ്ങളുടെ റീഫണ്ട് പൂർത്തിയായി; ലോഗിൻ കോഡ് ആവശ്യമില്ല.,0,no_clear_signal,0
+uploaded_350,prior_selection,ml,ക്യാഷ്ബാക്ക് ലഭിക്കാൻ ഈ പേയ്മെന്റ് QR സ്കാൻ ചെയ്ത് പണം ഡെബിറ്റ് ചെയ്യാൻ അനുമതി നൽകുക.,1,review,1
+uploaded_350,prior_selection,ml,വാങ്ങിയ സാധനത്തിന് പണം നൽകാൻ വ്യാപാരിയുടെ QR സ്കാൻ ചെയ്ത് തുക ഉറപ്പാക്കുക.,0,no_clear_signal,0
+uploaded_350,prior_selection,gu,કોઈ જોખમ વિના એક અઠવાડિયામાં રોકાણ બમણું કરો.,1,no_clear_signal,0
+uploaded_350,prior_selection,gu,રોકાણના વળતરની ખાતરી નથી અને મૂડી ગુમાવી શકો છો.,0,no_clear_signal,0
+uploaded_350,prior_selection,gu,આજે રાત્રે ટેકનિશિયનને વ્યક્તિગત રીતે પૈસા ન આપો તો વીજળી કાપી નાખવામાં આવશે.,1,review,1
+uploaded_350,prior_selection,gu,વીજળીનું બિલ આજે રાત્રે ભરવાનું છે; અધિકૃત એપમાં ખાતું તપાસો.,0,review,1
+uploaded_350,prior_selection,gu,વચન આપેલી લોન મળે તે પહેલાં અજાણ્યા વ્યક્તિને પ્રોસેસિંગ ફી મોકલો.,1,review,1
+uploaded_350,prior_selection,gu,લોન કરાર સ્વીકારતાં પહેલાં ધિરાણકર્તાની જાહેર કરેલી ફી તપાસો.,0,no_clear_signal,0
+uploaded_350,prior_selection,gu,રિફંડ આપનાર વ્યક્તિને તમારો બેંક લોગિન કોડ વાંચીને જણાવો.,1,no_clear_signal,0
+uploaded_350,prior_selection,gu,તમારું રિફંડ થઈ ગયું છે; લોગિન કોડ જરૂરી નથી.,0,no_clear_signal,0
+uploaded_350,prior_selection,gu,કેશબેક મેળવવા આ પેમેન્ટ QR સ્કેન કરીને પૈસા કપાવવાની મંજૂરી આપો.,1,review,1
+uploaded_350,prior_selection,gu,ખરીદી માટે ચુકવણી કરવા દુકાનદારનો QR સ્કેન કરો અને રકમ તપાસો.,0,no_clear_signal,0
+uploaded_350,prior_selection,pa,ਬਿਨਾਂ ਕਿਸੇ ਜੋਖਮ ਦੇ ਇੱਕ ਹਫ਼ਤੇ ਵਿੱਚ ਨਿਵੇਸ਼ ਦੁੱਗਣਾ ਕਰੋ।,1,no_clear_signal,0
+uploaded_350,prior_selection,pa,ਨਿਵੇਸ਼ ਦੇ ਮੁਨਾਫ਼ੇ ਦੀ ਗਾਰੰਟੀ ਨਹੀਂ ਅਤੇ ਮੂਲ ਰਕਮ ਗੁਆ ਸਕਦੇ ਹੋ।,0,no_clear_signal,0
+uploaded_350,prior_selection,pa,ਅੱਜ ਰਾਤ ਟੈਕਨੀਸ਼ੀਅਨ ਨੂੰ ਨਿੱਜੀ ਤੌਰ ਤੇ ਪੈਸੇ ਨਾ ਦਿੱਤੇ ਤਾਂ ਬਿਜਲੀ ਕੱਟ ਦਿੱਤੀ ਜਾਵੇਗੀ।,1,review,1
+uploaded_350,prior_selection,pa,ਬਿਜਲੀ ਦਾ ਬਿੱਲ ਅੱਜ ਰਾਤ ਤੱਕ ਭਰਨਾ ਹੈ; ਅਧਿਕਾਰਤ ਐਪ ਵਿੱਚ ਖਾਤਾ ਵੇਖੋ।,0,review,1
+uploaded_350,prior_selection,pa,ਵਾਅਦਾ ਕੀਤਾ ਕਰਜ਼ਾ ਮਿਲਣ ਤੋਂ ਪਹਿਲਾਂ ਕਿਸੇ ਅਣਜਾਣ ਵਿਅਕਤੀ ਨੂੰ ਪ੍ਰੋਸੈਸਿੰਗ ਫੀਸ ਭੇਜੋ।,1,review,1
+uploaded_350,prior_selection,pa,ਕਰਜ਼ਾ ਸਮਝੌਤਾ ਮੰਨਣ ਤੋਂ ਪਹਿਲਾਂ ਕਰਜ਼ਾਦਾਤਾ ਦੀਆਂ ਪ੍ਰਕਾਸ਼ਿਤ ਫੀਸਾਂ ਵੇਖੋ।,0,no_clear_signal,0
+uploaded_350,prior_selection,pa,ਰਿਫੰਡ ਦੇਣ ਵਾਲੇ ਵਿਅਕਤੀ ਨੂੰ ਆਪਣਾ ਬੈਂਕ ਲਾਗਇਨ ਕੋਡ ਪੜ੍ਹ ਕੇ ਦੱਸੋ।,1,review,1
+uploaded_350,prior_selection,pa,ਤੁਹਾਡਾ ਰਿਫੰਡ ਹੋ ਗਿਆ ਹੈ; ਲਾਗਇਨ ਕੋਡ ਦੀ ਲੋੜ ਨਹੀਂ।,0,no_clear_signal,0
+uploaded_350,prior_selection,pa,ਕੈਸ਼ਬੈਕ ਲੈਣ ਲਈ ਇਹ ਭੁਗਤਾਨ QR ਸਕੈਨ ਕਰਕੇ ਪੈਸੇ ਕੱਟਣ ਦੀ ਮਨਜ਼ੂਰੀ ਦਿਓ।,1,review,1
+uploaded_350,prior_selection,pa,ਖਰੀਦਦਾਰੀ ਦਾ ਭੁਗਤਾਨ ਕਰਨ ਲਈ ਦੁਕਾਨਦਾਰ ਦਾ QR ਸਕੈਨ ਕਰੋ ਅਤੇ ਰਕਮ ਜਾਂਚੋ।,0,review,1
+uploaded_350,prior_holdout,en,Guaranteed double returns this week; pay the adviser a fee to unlock your investment.,1,review,1
+uploaded_350,prior_holdout,en,Investment returns are not guaranteed; read the risk disclosure before investing.,0,no_clear_signal,0
+uploaded_350,prior_holdout,en,Power supply will be cut tonight; settle the bill through the private account sent by this caller.,1,caution,1
+uploaded_350,prior_holdout,en,Your power bill is available in the official utility app; pay by the due date.,0,no_clear_signal,0
+uploaded_350,prior_holdout,hi,"इस सप्ताह निवेश दोगुना होगा, रकम निकालने के लिए सलाहकार को शुल्क भेजें।",1,review,1
+uploaded_350,prior_holdout,hi,"निवेश में लाभ निश्चित नहीं है, निवेश से पहले जोखिम की जानकारी पढ़ें।",0,no_clear_signal,0
+uploaded_350,prior_holdout,hi,"आज रात बिजली काट देंगे, कॉल करने वाले के निजी खाते में बिल का पैसा भेजें।",1,review,1
+uploaded_350,prior_holdout,hi,"बिजली का बिल आधिकारिक ऐप में उपलब्ध है, अंतिम तारीख तक भरें।",0,no_clear_signal,0
+uploaded_350,prior_holdout,bn,"এই সপ্তাহেই বিনিয়োগ দ্বিগুণ হবে, টাকা তুলতে পরামর্শদাতাকে ফি পাঠান।",1,review,1
+uploaded_350,prior_holdout,bn,"বিনিয়োগের লাভ নিশ্চিত নয়, বিনিয়োগের আগে ঝুঁকির তথ্য পড়ুন।",0,no_clear_signal,0
+uploaded_350,prior_holdout,bn,"আজ রাতে বিদ্যুৎ কেটে দেব, ফোনকারীর ব্যক্তিগত অ্যাকাউন্টে বিলের টাকা পাঠান।",1,caution,1
+uploaded_350,prior_holdout,bn,"বিদ্যুৎ বিল অফিসিয়াল অ্যাপে আছে, নির্ধারিত তারিখের মধ্যে দিন।",0,no_clear_signal,0
+uploaded_350,prior_holdout,kn,"ಈ ವಾರ ಹೂಡಿಕೆ ದುಪ್ಪಟ್ಟಾಗುತ್ತದೆ, ಹಣ ಪಡೆಯಲು ಸಲಹೆಗಾರರಿಗೆ ಶುಲ್ಕ ಕಳುಹಿಸಿ.",1,review,1
+uploaded_350,prior_holdout,kn,"ಹೂಡಿಕೆಯ ಲಾಭ ಖಚಿತವಲ್ಲ, ಹೂಡಿಕೆಗೂ ಮುನ್ನ ಅಪಾಯದ ಮಾಹಿತಿ ಓದಿ.",0,no_clear_signal,0
+uploaded_350,prior_holdout,kn,"ಇಂದು ರಾತ್ರಿ ವಿದ್ಯುತ್ ಕಡಿತ ಮಾಡುತ್ತೇವೆ, ಕರೆ ಮಾಡಿದವರ ಖಾಸಗಿ ಖಾತೆಗೆ ಬಿಲ್ ಹಣ ಕಳುಹಿಸಿ.",1,caution,1
+uploaded_350,prior_holdout,kn,"ವಿದ್ಯುತ್ ಬಿಲ್ ಅಧಿಕೃತ ಆ್ಯಪ್‌ನಲ್ಲಿ ಲಭ್ಯವಿದೆ, ಕೊನೆಯ ದಿನಾಂಕದೊಳಗೆ ಪಾವತಿಸಿ.",0,no_clear_signal,0
+uploaded_350,prior_holdout,te,"ఈ వారంలో పెట్టుబడి రెట్టింపు అవుతుంది, డబ్బు తీసుకోవడానికి సలహాదారుకు రుసుము పంపండి.",1,review,1
+uploaded_350,prior_holdout,te,"పెట్టుబడి లాభం ఖాయం కాదు, పెట్టుబడికి ముందు నష్టభయ వివరాలు చదవండి.",0,review,1
+uploaded_350,prior_holdout,te,"ఈ రాత్రి విద్యుత్ నిలిపివేస్తాం, కాల్ చేసిన వ్యక్తి వ్యక్తిగత ఖాతాకు బిల్లు డబ్బు పంపండి.",1,caution,1
+uploaded_350,prior_holdout,te,"విద్యుత్ బిల్లు అధికారిక యాప్‌లో ఉంది, గడువు తేదీలోపు చెల్లించండి.",0,review,1
+uploaded_350,prior_holdout,or,"ଏହି ସପ୍ତାହରେ ନିବେଶ ଦୁଇଗୁଣ ହେବ, ଟଙ୍କା ଉଠାଇବାକୁ ପରାମର୍ଶଦାତାଙ୍କୁ ଶୁଳ୍କ ପଠାନ୍ତୁ।",1,review,1
+uploaded_350,prior_holdout,or,"ନିବେଶର ଲାଭ ନିଶ୍ଚିତ ନୁହେଁ, ନିବେଶ ପୂର୍ବରୁ ବିପଦ ସୂଚନା ପଢ଼ନ୍ତୁ।",0,review,1
+uploaded_350,prior_holdout,or,"ଆଜି ରାତିରେ ବିଦ୍ୟୁତ କାଟିଦେବୁ, କଲ କରିଥିବା ବ୍ୟକ୍ତିଙ୍କ ନିଜ ଖାତାକୁ ବିଲ ଟଙ୍କା ପଠାନ୍ତୁ।",1,caution,1
+uploaded_350,prior_holdout,or,"ବିଦ୍ୟୁତ ବିଲ ଅଧିକୃତ ଆପ୍‌ରେ ଅଛି, ନିର୍ଦ୍ଧାରିତ ତାରିଖ ମଧ୍ୟରେ ଦିଅନ୍ତୁ।",0,no_clear_signal,0
+uploaded_350,prior_holdout,mr,"या आठवड्यात गुंतवणूक दुप्पट होईल, पैसे काढण्यासाठी सल्लागाराला शुल्क पाठवा.",1,review,1
+uploaded_350,prior_holdout,mr,"गुंतवणुकीत नफा निश्चित नसतो, गुंतवणूक करण्यापूर्वी जोखमीची माहिती वाचा.",0,no_clear_signal,0
+uploaded_350,prior_holdout,mr,"आज रात्री वीज तोडू, फोन करणाऱ्याच्या खासगी खात्यात बिलाचे पैसे पाठवा.",1,review,1
+uploaded_350,prior_holdout,mr,"वीजबिल अधिकृत ॲपमध्ये उपलब्ध आहे, अंतिम तारखेपर्यंत भरा.",0,no_clear_signal,0
+uploaded_350,prior_holdout,ta,"இந்த வாரம் முதலீடு இரட்டிப்பாகும், பணத்தை எடுக்க ஆலோசகருக்குக் கட்டணம் அனுப்புங்கள்.",1,review,1
+uploaded_350,prior_holdout,ta,"முதலீட்டில் லாபம் உறுதியில்லை, முதலீடு செய்வதற்கு முன் அபாய விவரங்களைப் படியுங்கள்.",0,no_clear_signal,0
+uploaded_350,prior_holdout,ta,"இன்று இரவு மின்சாரம் துண்டிக்கப்படும், அழைத்தவரின் தனிப்பட்ட கணக்கில் பில் தொகையை அனுப்புங்கள்.",1,review,1
+uploaded_350,prior_holdout,ta,"மின்சாரக் கட்டண விவரம் அதிகாரப்பூர்வ செயலியில் உள்ளது, கடைசி தேதிக்குள் செலுத்துங்கள்.",0,no_clear_signal,0
+uploaded_350,prior_holdout,ml,"ഈ ആഴ്ച നിക്ഷേപം ഇരട്ടിയാകും, പണം പിൻവലിക്കാൻ ഉപദേശകന് ഫീസ് അയയ്ക്കുക.",1,review,1
+uploaded_350,prior_holdout,ml,"നിക്ഷേപത്തിൽ ലാഭം ഉറപ്പില്ല, നിക്ഷേപിക്കുന്നതിന് മുമ്പ് അപകടസാധ്യതയുടെ വിവരങ്ങൾ വായിക്കുക.",0,review,1
+uploaded_350,prior_holdout,ml,"ഇന്ന് രാത്രി വൈദ്യുതി വിച്ഛേദിക്കും, വിളിച്ചയാളുടെ സ്വകാര്യ അക്കൗണ്ടിലേക്ക് ബിൽ തുക അയയ്ക്കുക.",1,review,1
+uploaded_350,prior_holdout,ml,"വൈദ്യുതി ബിൽ ഔദ്യോഗിക ആപ്പിൽ ലഭ്യമാണ്, അവസാന തീയതിക്കകം അടയ്ക്കുക.",0,review,1
+uploaded_350,prior_holdout,gu,"આ અઠવાડિયે રોકાણ બમણું થશે, પૈસા ઉપાડવા સલાહકારને ફી મોકલો.",1,review,1
+uploaded_350,prior_holdout,gu,"રોકાણમાં નફાની ખાતરી નથી, રોકાણ પહેલાં જોખમની માહિતી વાંચો.",0,no_clear_signal,0
+uploaded_350,prior_holdout,gu,"આજે રાત્રે વીજળી કાપી નાખીશું, ફોન કરનારના ખાનગી ખાતામાં બિલના પૈસા મોકલો.",1,review,1
+uploaded_350,prior_holdout,gu,"વીજળીનું બિલ અધિકૃત એપમાં ઉપલબ્ધ છે, છેલ્લી તારીખ સુધી ભરો.",0,no_clear_signal,0
+uploaded_350,prior_holdout,pa,"ਇਸ ਹਫ਼ਤੇ ਨਿਵੇਸ਼ ਦੁੱਗਣਾ ਹੋਵੇਗਾ, ਪੈਸੇ ਕਢਵਾਉਣ ਲਈ ਸਲਾਹਕਾਰ ਨੂੰ ਫੀਸ ਭੇਜੋ।",1,review,1
+uploaded_350,prior_holdout,pa,"ਨਿਵੇਸ਼ ਵਿੱਚ ਲਾਭ ਦੀ ਗਾਰੰਟੀ ਨਹੀਂ, ਨਿਵੇਸ਼ ਤੋਂ ਪਹਿਲਾਂ ਜੋਖਮ ਬਾਰੇ ਪੜ੍ਹੋ।",0,no_clear_signal,0
+uploaded_350,prior_holdout,pa,"ਅੱਜ ਰਾਤ ਬਿਜਲੀ ਕੱਟ ਦੇਵਾਂਗੇ, ਫੋਨ ਕਰਨ ਵਾਲੇ ਦੇ ਨਿੱਜੀ ਖਾਤੇ ਵਿੱਚ ਬਿੱਲ ਦੇ ਪੈਸੇ ਭੇਜੋ।",1,review,1
+uploaded_350,prior_holdout,pa,"ਬਿਜਲੀ ਦਾ ਬਿੱਲ ਅਧਿਕਾਰਤ ਐਪ ਵਿੱਚ ਹੈ, ਆਖਰੀ ਤਾਰੀਖ ਤੱਕ ਭਰੋ।",0,review,1
+uploaded_350,regional_development,hi,जेल से बचने के लिए अभी पैसे भेजें।,1,review,1
+uploaded_350,regional_development,hi,जेल से बचाने के नाम पर पैसे मत भेजें।,0,review,1
+uploaded_350,regional_development,hi,नौकरी पक्की करने के लिए भर्ती शुल्क भरें।,1,review,1
+uploaded_350,regional_development,hi,नौकरी के लिए कोई भर्ती शुल्क नहीं है।,0,no_clear_signal,0
+uploaded_350,regional_development,hi,पुरस्कार लेने के लिए पहले शुल्क जमा करें।,1,review,1
+uploaded_350,regional_development,hi,पुरस्कार लेने के लिए कोई शुल्क नहीं है।,0,no_clear_signal,0
+uploaded_350,regional_development,hi,रकम पाने के लिए UPI PIN डालें।,1,review,1
+uploaded_350,regional_development,hi,रकम पाने के लिए UPI PIN डालने की जरूरत नहीं है।,0,no_clear_signal,0
+uploaded_350,regional_development,mr,अटक टाळण्यासाठी पैसे पाठवा.,1,no_clear_signal,0
+uploaded_350,regional_development,mr,अटक टाळण्यासाठी पैसे पाठवू नका.,0,review,1
+uploaded_350,regional_development,mr,नोकरी निश्चित करण्यासाठी फी भरा.,1,review,1
+uploaded_350,regional_development,mr,नोकरीसाठी कोणतीही फी नाही.,0,no_clear_signal,0
+uploaded_350,regional_development,mr,बक्षीस मिळवण्यासाठी शुल्क भरा.,1,no_clear_signal,0
+uploaded_350,regional_development,mr,बक्षीसासाठी शुल्क देण्याची गरज नाही.,0,no_clear_signal,0
+uploaded_350,regional_development,mr,रक्कम मिळवण्यासाठी UPI PIN टाका.,1,review,1
+uploaded_350,regional_development,mr,रक्कम मिळवण्यासाठी UPI PIN टाकू नका.,0,review,1
+uploaded_350,regional_development,bn,গ্রেপ্তার এড়াতে এখন টাকা পাঠান।,1,caution,1
+uploaded_350,regional_development,bn,গ্রেপ্তার এড়ানোর নামে টাকা পাঠাবেন না।,0,review,1
+uploaded_350,regional_development,bn,চাকরি নিশ্চিত করতে নিয়োগ ফি জমা দিন।,1,review,1
+uploaded_350,regional_development,bn,চাকরির জন্য কোনো ফি নেই।,0,no_clear_signal,0
+uploaded_350,regional_development,bn,পুরস্কার পেতে প্রথমে টাকা দিন।,1,review,1
+uploaded_350,regional_development,bn,পুরস্কার পেতে টাকা দেওয়ার দরকার নেই।,0,no_clear_signal,0
+uploaded_350,regional_development,bn,টাকা পেতে UPI PIN লিখুন।,1,no_clear_signal,0
+uploaded_350,regional_development,bn,টাকা পেতে UPI PIN লিখবেন না।,0,no_clear_signal,0
+uploaded_350,regional_development,kn,ಜೈಲು ತಪ್ಪಿಸಲು ಹಣ ಕಳುಹಿಸಿ.,1,caution,1
+uploaded_350,regional_development,kn,ಜೈಲು ತಪ್ಪಿಸಲು ಹಣ ಕಳುಹಿಸಬೇಡಿ.,0,no_clear_signal,0
+uploaded_350,regional_development,kn,ಉದ್ಯೋಗ ಖಚಿತಪಡಿಸಲು ಶುಲ್ಕ ಪಾವತಿಸಿ.,1,no_clear_signal,0
+uploaded_350,regional_development,kn,ಉದ್ಯೋಗಕ್ಕೆ ಶುಲ್ಕ ಅಗತ್ಯವಿಲ್ಲ.,0,no_clear_signal,0
+uploaded_350,regional_development,kn,ಬಹುಮಾನ ಪಡೆಯಲು ಮೊದಲು ಶುಲ್ಕ ಪಾವತಿಸಿ.,1,review,1
+uploaded_350,regional_development,kn,ಬಹುಮಾನ ಪಡೆಯಲು ಶುಲ್ಕ ಬೇಕಾಗಿಲ್ಲ.,0,no_clear_signal,0
+uploaded_350,regional_development,kn,ಹಣ ಸ್ವೀಕರಿಸಲು UPI PIN ನಮೂದಿಸಿ.,1,review,1
+uploaded_350,regional_development,kn,ಹಣ ಸ್ವೀಕರಿಸಲು UPI PIN ಅಗತ್ಯವಿಲ್ಲ.,0,no_clear_signal,0
+uploaded_350,regional_development,te,జైలు తప్పించుకోవడానికి డబ్బు పంపండి.,1,caution,1
+uploaded_350,regional_development,te,జైలు తప్పించుకోవడానికి డబ్బు పంపవద్దు.,0,no_clear_signal,0
+uploaded_350,regional_development,te,ఉద్యోగం ఖాయం కావడానికి ఫీజు చెల్లించండి.,1,review,1
+uploaded_350,regional_development,te,ఉద్యోగానికి ఫీజు అవసరం లేదు.,0,no_clear_signal,0
+uploaded_350,regional_development,te,బహుమతి పొందడానికి రుసుము చెల్లించండి.,1,no_clear_signal,0
+uploaded_350,regional_development,te,బహుమతి పొందడానికి రుసుము అవసరం లేదు.,0,no_clear_signal,0
+uploaded_350,regional_development,te,డబ్బు స్వీకరించడానికి UPI PIN నమోదు చేయండి.,1,review,1
+uploaded_350,regional_development,te,డబ్బు స్వీకరించడానికి UPI PIN అవసరం లేదు.,0,no_clear_signal,0
+uploaded_350,regional_development,or,ଜେଲ ଏଡ଼ାଇବାକୁ ଟଙ୍କା ପଠାନ୍ତୁ।,1,caution,1
+uploaded_350,regional_development,or,ଜେଲ ଏଡ଼ାଇବାକୁ ଟଙ୍କା ପଠାନ୍ତୁ ନାହିଁ।,0,caution,1
+uploaded_350,regional_development,or,ଚାକିରି ପାଇବାକୁ ଶୁଳ୍କ ଜମା କରନ୍ତୁ।,1,review,1
+uploaded_350,regional_development,or,ଚାକିରି ପାଇଁ ଶୁଳ୍କ ଆବଶ୍ୟକ ନାହିଁ।,0,no_clear_signal,0
+uploaded_350,regional_development,or,ପୁରସ୍କାର ପାଇବାକୁ ଆଗେ ଟଙ୍କା ଦିଅନ୍ତୁ।,1,review,1
+uploaded_350,regional_development,or,ପୁରସ୍କାର ପାଇଁ ଟଙ୍କା ଦିଅନ୍ତୁ ନାହିଁ।,0,no_clear_signal,0
+uploaded_350,regional_development,or,ଟଙ୍କା ପାଇବାକୁ UPI PIN ଲେଖନ୍ତୁ।,1,review,1
+uploaded_350,regional_development,or,ଟଙ୍କା ପାଇବାକୁ UPI PIN ଆବଶ୍ୟକ ନାହିଁ।,0,no_clear_signal,0
+uploaded_350,regional_development,ta,சிறை தண்டனையைத் தவிர்க்க பணம் அனுப்புங்கள்.,1,review,1
+uploaded_350,regional_development,ta,சிறை தண்டனையைத் தவிர்க்க பணம் அனுப்ப வேண்டாம்.,0,review,1
+uploaded_350,regional_development,ta,பணி நியமனம் பெற கட்டணம் செலுத்துங்கள்.,1,review,1
+uploaded_350,regional_development,ta,வேலைவாய்ப்புக்கு கட்டணம் தேவையில்லை.,0,no_clear_signal,0
+uploaded_350,regional_development,ta,பரிசு பெற முதலில் தொகை செலுத்துங்கள்.,1,review,1
+uploaded_350,regional_development,ta,பரிசு பெற கட்டணம் செலுத்த வேண்டாம்.,0,no_clear_signal,0
+uploaded_350,regional_development,ta,பணம் பெற UPI PIN உள்ளிடுங்கள்.,1,review,1
+uploaded_350,regional_development,ta,பணம் பெற UPI PIN தேவையில்லை.,0,no_clear_signal,0
+uploaded_350,regional_development,ml,ജയിൽ ഒഴിവാക്കാൻ പണം അയയ്ക്കുക.,1,no_clear_signal,0
+uploaded_350,regional_development,ml,ജയിൽ ഒഴിവാക്കാൻ പണം അയയ്ക്കരുത്.,0,no_clear_signal,0
+uploaded_350,regional_development,ml,ജോലി ഉറപ്പാക്കാൻ ഫീസ് അടയ്ക്കുക.,1,no_clear_signal,0
+uploaded_350,regional_development,ml,ജോലി ലഭിക്കാൻ ഫീസ് ആവശ്യമില്ല.,0,no_clear_signal,0
+uploaded_350,regional_development,ml,സമ്മാനം ലഭിക്കാൻ ആദ്യം പണം അടയ്ക്കുക.,1,review,1
+uploaded_350,regional_development,ml,സമ്മാനം ലഭിക്കാൻ പണം അടയ്ക്കേണ്ട.,0,no_clear_signal,0
+uploaded_350,regional_development,ml,പണം സ്വീകരിക്കാൻ UPI PIN രേഖപ്പെടുത്തുക.,1,no_clear_signal,0
+uploaded_350,regional_development,ml,പണം സ്വീകരിക്കാൻ UPI PIN ആവശ്യമില്ല.,0,no_clear_signal,0
+uploaded_350,regional_development,gu,જેલ ટાળવા માટે રકમ મોકલો.,1,review,1
+uploaded_350,regional_development,gu,જેલ ટાળવા પૈસા મોકલશો નહીં.,0,review,1
+uploaded_350,regional_development,gu,ભરતીની ખાતરી માટે શુલ્ક ભરો.,1,no_clear_signal,0
+uploaded_350,regional_development,gu,ભરતી માટે કોઈ ફી નથી.,0,no_clear_signal,0
+uploaded_350,regional_development,gu,ઇનામ મેળવવા પહેલા રકમ ચૂકવો.,1,review,1
+uploaded_350,regional_development,gu,ઇનામ મેળવવા પૈસા ચૂકવવાની જરૂર નથી.,0,no_clear_signal,0
+uploaded_350,regional_development,gu,રકમ મેળવવા UPI PIN દાખલ કરો.,1,review,1
+uploaded_350,regional_development,gu,રકમ મેળવવા UPI PIN દાખલ કરવાની જરૂર નથી.,0,review,1
+uploaded_350,regional_development,pa,ਜੇਲ੍ਹ ਤੋਂ ਬਚਣ ਲਈ ਰਕਮ ਭੇਜੋ।,1,review,1
+uploaded_350,regional_development,pa,ਜੇਲ੍ਹ ਤੋਂ ਬਚਣ ਲਈ ਰਕਮ ਨਾ ਭੇਜੋ।,0,review,1
+uploaded_350,regional_development,pa,ਭਰਤੀ ਪੱਕੀ ਕਰਨ ਲਈ ਫ਼ੀਸ ਭਰੋ।,1,review,1
+uploaded_350,regional_development,pa,ਭਰਤੀ ਲਈ ਕੋਈ ਫੀਸ ਨਹੀਂ ਹੈ।,0,no_clear_signal,0
+uploaded_350,regional_development,pa,ਇਨਾਮ ਲੈਣ ਲਈ ਪਹਿਲਾਂ ਰਕਮ ਭਰੋ।,1,review,1
+uploaded_350,regional_development,pa,ਇਨਾਮ ਲੈਣ ਲਈ ਰਕਮ ਨਾ ਭਰੋ।,0,review,1
+uploaded_350,regional_development,pa,ਰਕਮ ਲੈਣ ਲਈ UPI PIN ਪਾਓ।,1,review,1
+uploaded_350,regional_development,pa,ਰਕਮ ਲੈਣ ਲਈ UPI PIN ਦੀ ਲੋੜ ਨਹੀਂ।,0,no_clear_signal,0
+uploaded_350,regional_development,en,Transfer money to avoid arrest.,1,high,1
+uploaded_350,regional_development,en,Never pay to avoid arrest.,0,high,1
+uploaded_350,regional_development,en,Pay a recruitment fee to guarantee your job.,1,review,1
+uploaded_350,regional_development,en,There is no recruitment fee for this job.,0,no_clear_signal,0
+uploaded_350,regional_development,en,Pay a fee to claim your lottery prize.,1,caution,1
+uploaded_350,regional_development,en,Never pay a fee to claim a prize.,0,caution,1
+uploaded_350,regional_development,en,Enter your UPI PIN to receive money.,1,high,1
+uploaded_350,regional_development,en,Never enter your UPI PIN to receive money.,0,review,1
+candidate_394,prior_selection,en,Double your investment in a week with zero risk.,1,no_clear_signal,0
+candidate_394,prior_selection,en,Investment returns are not guaranteed and capital can be lost.,0,review,1
+candidate_394,prior_selection,en,Electricity will be cut unless you pay the technician personally tonight.,1,caution,1
+candidate_394,prior_selection,en,Your electricity bill is due tonight; check your account in the official app.,0,no_clear_signal,0
+candidate_394,prior_selection,en,Send a processing fee to a stranger before the promised loan is released.,1,review,1
+candidate_394,prior_selection,en,Review the lender’s published loan fees before accepting the agreement.,0,no_clear_signal,0
+candidate_394,prior_selection,en,Read your banking login code to the person offering a refund.,1,review,1
+candidate_394,prior_selection,en,Your refund has been processed; no login code is needed.,0,no_clear_signal,0
+candidate_394,prior_selection,en,Scan this payment QR and approve a debit to receive your cashback.,1,review,1
+candidate_394,prior_selection,en,Scan the merchant QR to pay for your purchase; confirm the amount.,0,no_clear_signal,0
+candidate_394,prior_selection,hi,बिना किसी जोखिम के एक सप्ताह में निवेश दोगुना करें।,1,no_clear_signal,0
+candidate_394,prior_selection,hi,निवेश पर लाभ की गारंटी नहीं है और पूंजी का नुकसान हो सकता है।,0,no_clear_signal,0
+candidate_394,prior_selection,hi,आज रात तकनीशियन को निजी तौर पर पैसे नहीं दिए तो बिजली काट दी जाएगी।,1,no_clear_signal,0
+candidate_394,prior_selection,hi,"बिजली बिल आज रात तक देय है, आधिकारिक ऐप में खाता देखें।",0,no_clear_signal,0
+candidate_394,prior_selection,hi,वादा किया गया ऋण मिलने से पहले किसी अनजान व्यक्ति को प्रोसेसिंग शुल्क भेजें।,1,review,1
+candidate_394,prior_selection,hi,ऋण समझौता स्वीकार करने से पहले ऋणदाता के प्रकाशित शुल्क देखें।,0,no_clear_signal,0
+candidate_394,prior_selection,hi,रिफंड देने वाले व्यक्ति को अपना बैंक लॉगिन कोड पढ़कर बताएं।,1,no_clear_signal,0
+candidate_394,prior_selection,hi,"आपका रिफंड हो गया है, लॉगिन कोड की जरूरत नहीं है।",0,no_clear_signal,0
+candidate_394,prior_selection,hi,कैशबैक पाने के लिए यह भुगतान QR स्कैन करें और खाते से पैसे कटने की मंजूरी दें।,1,review,1
+candidate_394,prior_selection,hi,खरीदारी का भुगतान करने के लिए दुकानदार का QR स्कैन करें और रकम जांचें।,0,no_clear_signal,0
+candidate_394,prior_selection,bn,কোনো ঝুঁকি ছাড়াই এক সপ্তাহে বিনিয়োগ দ্বিগুণ করুন।,1,no_clear_signal,0
+candidate_394,prior_selection,bn,বিনিয়োগে লাভের নিশ্চয়তা নেই এবং মূলধন হারাতে পারেন।,0,no_clear_signal,0
+candidate_394,prior_selection,bn,আজ রাতে টেকনিশিয়ানকে ব্যক্তিগতভাবে টাকা না দিলে বিদ্যুৎ কেটে দেওয়া হবে।,1,review,1
+candidate_394,prior_selection,bn,"বিদ্যুৎ বিল আজ রাতের মধ্যে দিতে হবে, অফিসিয়াল অ্যাপে অ্যাকাউন্ট দেখুন।",0,no_clear_signal,0
+candidate_394,prior_selection,bn,প্রতিশ্রুত ঋণ পাওয়ার আগে অপরিচিত ব্যক্তিকে প্রসেসিং ফি পাঠান।,1,review,1
+candidate_394,prior_selection,bn,ঋণের চুক্তি গ্রহণের আগে ঋণদাতার প্রকাশিত ফি দেখুন।,0,no_clear_signal,0
+candidate_394,prior_selection,bn,যিনি টাকা ফেরত দেওয়ার কথা বলছেন তাঁকে ব্যাংকের লগইন কোড পড়ে বলুন।,1,review,1
+candidate_394,prior_selection,bn,"আপনার টাকা ফেরত দেওয়া হয়েছে, লগইন কোডের দরকার নেই।",0,no_clear_signal,0
+candidate_394,prior_selection,bn,ক্যাশব্যাক পেতে এই পেমেন্ট QR স্ক্যান করে টাকা কাটার অনুমোদন দিন।,1,review,1
+candidate_394,prior_selection,bn,কেনাকাটার দাম দিতে দোকানের QR স্ক্যান করুন এবং পরিমাণ যাচাই করুন।,0,no_clear_signal,0
+candidate_394,prior_selection,kn,ಯಾವುದೇ ಅಪಾಯವಿಲ್ಲದೆ ಒಂದು ವಾರದಲ್ಲಿ ಹೂಡಿಕೆಯನ್ನು ದ್ವಿಗುಣಗೊಳಿಸಿ.,1,no_clear_signal,0
+candidate_394,prior_selection,kn,ಹೂಡಿಕೆಯ ಲಾಭಕ್ಕೆ ಖಾತರಿ ಇಲ್ಲ ಮತ್ತು ಮೂಲಧನ ಕಳೆದುಕೊಳ್ಳಬಹುದು.,0,no_clear_signal,0
+candidate_394,prior_selection,kn,ಇಂದು ರಾತ್ರಿ ತಂತ್ರಜ್ಞನಿಗೆ ವೈಯಕ್ತಿಕವಾಗಿ ಹಣ ಕೊಡದಿದ್ದರೆ ವಿದ್ಯುತ್ ಕಡಿತಗೊಳ್ಳುತ್ತದೆ.,1,no_clear_signal,0
+candidate_394,prior_selection,kn,ವಿದ್ಯುತ್ ಬಿಲ್ ಇಂದು ರಾತ್ರಿ ಪಾವತಿಸಬೇಕು; ಅಧಿಕೃತ ಆ್ಯಪ್‌ನಲ್ಲಿ ಖಾತೆ ಪರಿಶೀಲಿಸಿ.,0,no_clear_signal,0
+candidate_394,prior_selection,kn,ಭರವಸೆ ನೀಡಿದ ಸಾಲ ಬಿಡುಗಡೆಯಾಗುವ ಮೊದಲು ಅಪರಿಚಿತರಿಗೆ ಸಂಸ್ಕರಣಾ ಶುಲ್ಕ ಕಳುಹಿಸಿ.,1,review,1
+candidate_394,prior_selection,kn,ಸಾಲ ಒಪ್ಪಂದ ಸ್ವೀಕರಿಸುವ ಮೊದಲು ಸಾಲದಾತ ಪ್ರಕಟಿಸಿದ ಶುಲ್ಕಗಳನ್ನು ನೋಡಿ.,0,no_clear_signal,0
+candidate_394,prior_selection,kn,ಹಣ ಮರುಪಾವತಿ ನೀಡುವ ವ್ಯಕ್ತಿಗೆ ನಿಮ್ಮ ಬ್ಯಾಂಕ್ ಲಾಗಿನ್ ಕೋಡ್ ಓದಿ ಹೇಳಿ.,1,review,1
+candidate_394,prior_selection,kn,ನಿಮ್ಮ ಮರುಪಾವತಿ ಪೂರ್ಣಗೊಂಡಿದೆ; ಲಾಗಿನ್ ಕೋಡ್ ಬೇಕಿಲ್ಲ.,0,no_clear_signal,0
+candidate_394,prior_selection,kn,ಕ್ಯಾಶ್‌ಬ್ಯಾಕ್ ಪಡೆಯಲು ಈ ಪಾವತಿ QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಹಣ ಕಡಿತಕ್ಕೆ ಅನುಮತಿ ನೀಡಿ.,1,review,1
+candidate_394,prior_selection,kn,ಖರೀದಿಗೆ ಪಾವತಿಸಲು ವ್ಯಾಪಾರಿಯ QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿ ಮೊತ್ತ ಪರಿಶೀಲಿಸಿ.,0,review,1
+candidate_394,prior_selection,te,ఎలాంటి రిస్కు లేకుండా ఒక వారంలో పెట్టుబడిని రెట్టింపు చేసుకోండి.,1,no_clear_signal,0
+candidate_394,prior_selection,te,పెట్టుబడి రాబడికి హామీ లేదు; అసలు ధనం కోల్పోవచ్చు.,0,no_clear_signal,0
+candidate_394,prior_selection,te,ఈ రాత్రి టెక్నీషియన్‌కు వ్యక్తిగతంగా డబ్బు ఇవ్వకపోతే విద్యుత్ నిలిపివేస్తారు.,1,review,1
+candidate_394,prior_selection,te,విద్యుత్ బిల్లు ఈ రాత్రికి చెల్లించాలి; అధికారిక యాప్‌లో ఖాతా చూడండి.,0,no_clear_signal,0
+candidate_394,prior_selection,te,హామీ ఇచ్చిన రుణం విడుదలకు ముందే అపరిచితుడికి ప్రాసెసింగ్ ఫీజు పంపండి.,1,review,1
+candidate_394,prior_selection,te,రుణ ఒప్పందాన్ని అంగీకరించే ముందు రుణదాత ప్రకటించిన ఫీజులు చూడండి.,0,no_clear_signal,0
+candidate_394,prior_selection,te,రిఫండ్ ఇస్తానన్న వ్యక్తికి మీ బ్యాంక్ లాగిన్ కోడ్ చదివి చెప్పండి.,1,review,1
+candidate_394,prior_selection,te,మీ రిఫండ్ పూర్తయింది; లాగిన్ కోడ్ అవసరం లేదు.,0,no_clear_signal,0
+candidate_394,prior_selection,te,క్యాష్‌బ్యాక్ పొందేందుకు ఈ చెల్లింపు QR స్కాన్ చేసి డెబిట్‌ను ఆమోదించండి.,1,no_clear_signal,0
+candidate_394,prior_selection,te,కొనుగోలు కోసం వ్యాపారి QR స్కాన్ చేసి మొత్తం నిర్ధారించండి.,0,no_clear_signal,0
+candidate_394,prior_selection,or,କୌଣସି ବିପଦ ବିନା ଏକ ସପ୍ତାହରେ ନିବେଶ ଦୁଇଗୁଣ କରନ୍ତୁ।,1,no_clear_signal,0
+candidate_394,prior_selection,or,ନିବେଶର ଲାଭ ନିଶ୍ଚିତ ନୁହେଁ ଏବଂ ମୂଳଧନ ହରାଇପାରନ୍ତି।,0,no_clear_signal,0
+candidate_394,prior_selection,or,ଆଜି ରାତିରେ ଟେକ୍ନିସିଆନଙ୍କୁ ବ୍ୟକ୍ତିଗତ ଭାବେ ଟଙ୍କା ନଦେଲେ ବିଦ୍ୟୁତ କାଟି ଦିଆଯିବ।,1,review,1
+candidate_394,prior_selection,or,ବିଦ୍ୟୁତ ବିଲ ଆଜି ରାତି ସୁଦ୍ଧା ଦିଅନ୍ତୁ; ଅଧିକୃତ ଆପରେ ଖାତା ଦେଖନ୍ତୁ।,0,no_clear_signal,0
+candidate_394,prior_selection,or,ପ୍ରତିଶ୍ରୁତ ଋଣ ମିଳିବା ପୂର୍ବରୁ ଅଜଣା ବ୍ୟକ୍ତିଙ୍କୁ ପ୍ରକ୍ରିୟାକରଣ ଶୁଳ୍କ ପଠାନ୍ତୁ।,1,review,1
+candidate_394,prior_selection,or,ଋଣ ଚୁକ୍ତି ଗ୍ରହଣ ପୂର୍ବରୁ ଋଣଦାତାଙ୍କ ପ୍ରକାଶିତ ଶୁଳ୍କ ଦେଖନ୍ତୁ।,0,no_clear_signal,0
+candidate_394,prior_selection,or,ଟଙ୍କା ଫେରସ୍ତ ଦେବା କହୁଥିବା ବ୍ୟକ୍ତିଙ୍କୁ ବ୍ୟାଙ୍କ ଲଗଇନ କୋଡ୍ ପଢ଼ି କୁହନ୍ତୁ।,1,review,1
+candidate_394,prior_selection,or,ଆପଣଙ୍କ ଟଙ୍କା ଫେରସ୍ତ ହୋଇଛି; ଲଗଇନ କୋଡ୍ ଦରକାର ନାହିଁ।,0,no_clear_signal,0
+candidate_394,prior_selection,or,କ୍ୟାସବ୍ୟାକ ପାଇବାକୁ ଏହି ପେମେଣ୍ଟ QR ସ୍କାନ କରି ଟଙ୍କା କଟିବାକୁ ଅନୁମୋଦନ କରନ୍ତୁ।,1,review,1
+candidate_394,prior_selection,or,କିଣାକିଣିର ଦାମ ଦେବାକୁ ଦୋକାନୀଙ୍କ QR ସ୍କାନ କରି ରାଶି ଯାଞ୍ଚ କରନ୍ତୁ।,0,no_clear_signal,0
+candidate_394,prior_selection,mr,कोणताही धोका नसताना एका आठवड्यात गुंतवणूक दुप्पट करा.,1,no_clear_signal,0
+candidate_394,prior_selection,mr,गुंतवणुकीच्या परताव्याची हमी नाही आणि मूळ भांडवल गमावू शकता.,0,no_clear_signal,0
+candidate_394,prior_selection,mr,आज रात्री तंत्रज्ञाला वैयक्तिकरित्या पैसे न दिल्यास वीज तोडली जाईल.,1,no_clear_signal,0
+candidate_394,prior_selection,mr,वीज बिल आज रात्रीपर्यंत देय आहे; अधिकृत ॲपमध्ये खाते तपासा.,0,no_clear_signal,0
+candidate_394,prior_selection,mr,वचन दिलेले कर्ज मिळण्यापूर्वी अनोळखी व्यक्तीला प्रक्रिया शुल्क पाठवा.,1,review,1
+candidate_394,prior_selection,mr,कर्ज करार स्वीकारण्यापूर्वी कर्जदात्याचे प्रकाशित शुल्क तपासा.,0,no_clear_signal,0
+candidate_394,prior_selection,mr,परतावा देणाऱ्या व्यक्तीला तुमचा बँक लॉगिन कोड वाचून सांगा.,1,no_clear_signal,0
+candidate_394,prior_selection,mr,तुमचा परतावा झाला आहे; लॉगिन कोड आवश्यक नाही.,0,no_clear_signal,0
+candidate_394,prior_selection,mr,कॅशबॅक मिळवण्यासाठी हा पेमेंट QR स्कॅन करून पैसे वजा करण्यास मंजुरी द्या.,1,review,1
+candidate_394,prior_selection,mr,खरेदीचे पैसे देण्यासाठी दुकानदाराचा QR स्कॅन करा आणि रक्कम तपासा.,0,no_clear_signal,0
+candidate_394,prior_selection,ta,எந்த ஆபத்தும் இல்லாமல் ஒரு வாரத்தில் முதலீட்டை இரட்டிப்பாக்குங்கள்.,1,no_clear_signal,0
+candidate_394,prior_selection,ta,முதலீட்டு வருமானத்திற்கு உத்தரவாதம் இல்லை; முதலீட்டுத் தொகையை இழக்கலாம்.,0,no_clear_signal,0
+candidate_394,prior_selection,ta,இன்றிரவு தொழில்நுட்ப ஊழியரிடம் தனிப்பட்ட முறையில் பணம் செலுத்தாவிட்டால் மின்சாரம் துண்டிக்கப்படும்.,1,no_clear_signal,0
+candidate_394,prior_selection,ta,மின்கட்டணம் இன்றிரவு செலுத்த வேண்டும்; அதிகாரப்பூர்வ செயலியில் கணக்கைப் பாருங்கள்.,0,no_clear_signal,0
+candidate_394,prior_selection,ta,உறுதியளிக்கப்பட்ட கடன் கிடைக்கும் முன் தெரியாத நபருக்குச் செயலாக்கக் கட்டணத்தை அனுப்புங்கள்.,1,review,1
+candidate_394,prior_selection,ta,கடன் ஒப்பந்தத்தை ஏற்கும் முன் கடன் வழங்குநரின் வெளியிடப்பட்ட கட்டணங்களைப் பாருங்கள்.,0,no_clear_signal,0
+candidate_394,prior_selection,ta,பணத்தைத் திருப்பித் தருவதாகக் கூறும் நபரிடம் வங்கி உள்நுழைவு குறியீட்டை வாசித்துச் சொல்லுங்கள்.,1,review,1
+candidate_394,prior_selection,ta,உங்கள் பணம் திருப்பித் தரப்பட்டுள்ளது; உள்நுழைவு குறியீடு தேவையில்லை.,0,no_clear_signal,0
+candidate_394,prior_selection,ta,கேஷ்பேக் பெற இந்த பணப்பரிவர்த்தனை QR குறியீட்டை ஸ்கேன் செய்து பணம் கழிக்க அனுமதியுங்கள்.,1,review,1
+candidate_394,prior_selection,ta,வாங்கிய பொருளுக்குப் பணம் செலுத்த கடையின் QR குறியீட்டை ஸ்கேன் செய்து தொகையைச் சரிபாருங்கள்.,0,review,1
+candidate_394,prior_selection,ml,യാതൊരു അപകടസാധ്യതയും ഇല്ലാതെ ഒരാഴ്ചയിൽ നിക്ഷേപം ഇരട്ടിയാക്കുക.,1,no_clear_signal,0
+candidate_394,prior_selection,ml,നിക്ഷേപ ലാഭത്തിന് ഉറപ്പില്ല; മൂലധനം നഷ്ടപ്പെടാം.,0,no_clear_signal,0
+candidate_394,prior_selection,ml,ഇന്ന് രാത്രി ടെക്നീഷ്യന് വ്യക്തിപരമായി പണം നൽകിയില്ലെങ്കിൽ വൈദ്യുതി വിച്ഛേദിക്കും.,1,no_clear_signal,0
+candidate_394,prior_selection,ml,വൈദ്യുതി ബിൽ ഇന്ന് രാത്രി അടയ്ക്കണം; ഔദ്യോഗിക ആപ്പിൽ അക്കൗണ്ട് പരിശോധിക്കുക.,0,no_clear_signal,0
+candidate_394,prior_selection,ml,വാഗ്ദാനം ചെയ്ത വായ്പ ലഭിക്കുന്നതിനു മുമ്പ് അപരിചിതന് പ്രോസസ്സിംഗ് ഫീസ് അയയ്ക്കുക.,1,review,1
+candidate_394,prior_selection,ml,വായ്പ കരാർ അംഗീകരിക്കുന്നതിന് മുമ്പ് വായ്പാദാതാവ് പ്രസിദ്ധീകരിച്ച ഫീസ് പരിശോധിക്കുക.,0,review,1
+candidate_394,prior_selection,ml,റീഫണ്ട് നൽകുമെന്ന് പറയുന്ന വ്യക്തിക്ക് നിങ്ങളുടെ ബാങ്ക് ലോഗിൻ കോഡ് വായിച്ചുകൊടുക്കുക.,1,review,1
+candidate_394,prior_selection,ml,നിങ്ങളുടെ റീഫണ്ട് പൂർത്തിയായി; ലോഗിൻ കോഡ് ആവശ്യമില്ല.,0,no_clear_signal,0
+candidate_394,prior_selection,ml,ക്യാഷ്ബാക്ക് ലഭിക്കാൻ ഈ പേയ്മെന്റ് QR സ്കാൻ ചെയ്ത് പണം ഡെബിറ്റ് ചെയ്യാൻ അനുമതി നൽകുക.,1,review,1
+candidate_394,prior_selection,ml,വാങ്ങിയ സാധനത്തിന് പണം നൽകാൻ വ്യാപാരിയുടെ QR സ്കാൻ ചെയ്ത് തുക ഉറപ്പാക്കുക.,0,no_clear_signal,0
+candidate_394,prior_selection,gu,કોઈ જોખમ વિના એક અઠવાડિયામાં રોકાણ બમણું કરો.,1,no_clear_signal,0
+candidate_394,prior_selection,gu,રોકાણના વળતરની ખાતરી નથી અને મૂડી ગુમાવી શકો છો.,0,no_clear_signal,0
+candidate_394,prior_selection,gu,આજે રાત્રે ટેકનિશિયનને વ્યક્તિગત રીતે પૈસા ન આપો તો વીજળી કાપી નાખવામાં આવશે.,1,no_clear_signal,0
+candidate_394,prior_selection,gu,વીજળીનું બિલ આજે રાત્રે ભરવાનું છે; અધિકૃત એપમાં ખાતું તપાસો.,0,no_clear_signal,0
+candidate_394,prior_selection,gu,વચન આપેલી લોન મળે તે પહેલાં અજાણ્યા વ્યક્તિને પ્રોસેસિંગ ફી મોકલો.,1,review,1
+candidate_394,prior_selection,gu,લોન કરાર સ્વીકારતાં પહેલાં ધિરાણકર્તાની જાહેર કરેલી ફી તપાસો.,0,no_clear_signal,0
+candidate_394,prior_selection,gu,રિફંડ આપનાર વ્યક્તિને તમારો બેંક લોગિન કોડ વાંચીને જણાવો.,1,review,1
+candidate_394,prior_selection,gu,તમારું રિફંડ થઈ ગયું છે; લોગિન કોડ જરૂરી નથી.,0,no_clear_signal,0
+candidate_394,prior_selection,gu,કેશબેક મેળવવા આ પેમેન્ટ QR સ્કેન કરીને પૈસા કપાવવાની મંજૂરી આપો.,1,review,1
+candidate_394,prior_selection,gu,ખરીદી માટે ચુકવણી કરવા દુકાનદારનો QR સ્કેન કરો અને રકમ તપાસો.,0,no_clear_signal,0
+candidate_394,prior_selection,pa,ਬਿਨਾਂ ਕਿਸੇ ਜੋਖਮ ਦੇ ਇੱਕ ਹਫ਼ਤੇ ਵਿੱਚ ਨਿਵੇਸ਼ ਦੁੱਗਣਾ ਕਰੋ।,1,no_clear_signal,0
+candidate_394,prior_selection,pa,ਨਿਵੇਸ਼ ਦੇ ਮੁਨਾਫ਼ੇ ਦੀ ਗਾਰੰਟੀ ਨਹੀਂ ਅਤੇ ਮੂਲ ਰਕਮ ਗੁਆ ਸਕਦੇ ਹੋ।,0,no_clear_signal,0
+candidate_394,prior_selection,pa,ਅੱਜ ਰਾਤ ਟੈਕਨੀਸ਼ੀਅਨ ਨੂੰ ਨਿੱਜੀ ਤੌਰ ਤੇ ਪੈਸੇ ਨਾ ਦਿੱਤੇ ਤਾਂ ਬਿਜਲੀ ਕੱਟ ਦਿੱਤੀ ਜਾਵੇਗੀ।,1,no_clear_signal,0
+candidate_394,prior_selection,pa,ਬਿਜਲੀ ਦਾ ਬਿੱਲ ਅੱਜ ਰਾਤ ਤੱਕ ਭਰਨਾ ਹੈ; ਅਧਿਕਾਰਤ ਐਪ ਵਿੱਚ ਖਾਤਾ ਵੇਖੋ।,0,no_clear_signal,0
+candidate_394,prior_selection,pa,ਵਾਅਦਾ ਕੀਤਾ ਕਰਜ਼ਾ ਮਿਲਣ ਤੋਂ ਪਹਿਲਾਂ ਕਿਸੇ ਅਣਜਾਣ ਵਿਅਕਤੀ ਨੂੰ ਪ੍ਰੋਸੈਸਿੰਗ ਫੀਸ ਭੇਜੋ।,1,review,1
+candidate_394,prior_selection,pa,ਕਰਜ਼ਾ ਸਮਝੌਤਾ ਮੰਨਣ ਤੋਂ ਪਹਿਲਾਂ ਕਰਜ਼ਾਦਾਤਾ ਦੀਆਂ ਪ੍ਰਕਾਸ਼ਿਤ ਫੀਸਾਂ ਵੇਖੋ।,0,review,1
+candidate_394,prior_selection,pa,ਰਿਫੰਡ ਦੇਣ ਵਾਲੇ ਵਿਅਕਤੀ ਨੂੰ ਆਪਣਾ ਬੈਂਕ ਲਾਗਇਨ ਕੋਡ ਪੜ੍ਹ ਕੇ ਦੱਸੋ।,1,review,1
+candidate_394,prior_selection,pa,ਤੁਹਾਡਾ ਰਿਫੰਡ ਹੋ ਗਿਆ ਹੈ; ਲਾਗਇਨ ਕੋਡ ਦੀ ਲੋੜ ਨਹੀਂ।,0,no_clear_signal,0
+candidate_394,prior_selection,pa,ਕੈਸ਼ਬੈਕ ਲੈਣ ਲਈ ਇਹ ਭੁਗਤਾਨ QR ਸਕੈਨ ਕਰਕੇ ਪੈਸੇ ਕੱਟਣ ਦੀ ਮਨਜ਼ੂਰੀ ਦਿਓ।,1,review,1
+candidate_394,prior_selection,pa,ਖਰੀਦਦਾਰੀ ਦਾ ਭੁਗਤਾਨ ਕਰਨ ਲਈ ਦੁਕਾਨਦਾਰ ਦਾ QR ਸਕੈਨ ਕਰੋ ਅਤੇ ਰਕਮ ਜਾਂਚੋ।,0,no_clear_signal,0
+candidate_394,prior_holdout,en,Guaranteed double returns this week; pay the adviser a fee to unlock your investment.,1,review,1
+candidate_394,prior_holdout,en,Investment returns are not guaranteed; read the risk disclosure before investing.,0,no_clear_signal,0
+candidate_394,prior_holdout,en,Power supply will be cut tonight; settle the bill through the private account sent by this caller.,1,caution,1
+candidate_394,prior_holdout,en,Your power bill is available in the official utility app; pay by the due date.,0,no_clear_signal,0
+candidate_394,prior_holdout,hi,"इस सप्ताह निवेश दोगुना होगा, रकम निकालने के लिए सलाहकार को शुल्क भेजें।",1,review,1
+candidate_394,prior_holdout,hi,"निवेश में लाभ निश्चित नहीं है, निवेश से पहले जोखिम की जानकारी पढ़ें।",0,no_clear_signal,0
+candidate_394,prior_holdout,hi,"आज रात बिजली काट देंगे, कॉल करने वाले के निजी खाते में बिल का पैसा भेजें।",1,review,1
+candidate_394,prior_holdout,hi,"बिजली का बिल आधिकारिक ऐप में उपलब्ध है, अंतिम तारीख तक भरें।",0,no_clear_signal,0
+candidate_394,prior_holdout,bn,"এই সপ্তাহেই বিনিয়োগ দ্বিগুণ হবে, টাকা তুলতে পরামর্শদাতাকে ফি পাঠান।",1,caution,1
+candidate_394,prior_holdout,bn,"বিনিয়োগের লাভ নিশ্চিত নয়, বিনিয়োগের আগে ঝুঁকির তথ্য পড়ুন।",0,no_clear_signal,0
+candidate_394,prior_holdout,bn,"আজ রাতে বিদ্যুৎ কেটে দেব, ফোনকারীর ব্যক্তিগত অ্যাকাউন্টে বিলের টাকা পাঠান।",1,caution,1
+candidate_394,prior_holdout,bn,"বিদ্যুৎ বিল অফিসিয়াল অ্যাপে আছে, নির্ধারিত তারিখের মধ্যে দিন।",0,no_clear_signal,0
+candidate_394,prior_holdout,kn,"ಈ ವಾರ ಹೂಡಿಕೆ ದುಪ್ಪಟ್ಟಾಗುತ್ತದೆ, ಹಣ ಪಡೆಯಲು ಸಲಹೆಗಾರರಿಗೆ ಶುಲ್ಕ ಕಳುಹಿಸಿ.",1,review,1
+candidate_394,prior_holdout,kn,"ಹೂಡಿಕೆಯ ಲಾಭ ಖಚಿತವಲ್ಲ, ಹೂಡಿಕೆಗೂ ಮುನ್ನ ಅಪಾಯದ ಮಾಹಿತಿ ಓದಿ.",0,no_clear_signal,0
+candidate_394,prior_holdout,kn,"ಇಂದು ರಾತ್ರಿ ವಿದ್ಯುತ್ ಕಡಿತ ಮಾಡುತ್ತೇವೆ, ಕರೆ ಮಾಡಿದವರ ಖಾಸಗಿ ಖಾತೆಗೆ ಬಿಲ್ ಹಣ ಕಳುಹಿಸಿ.",1,caution,1
+candidate_394,prior_holdout,kn,"ವಿದ್ಯುತ್ ಬಿಲ್ ಅಧಿಕೃತ ಆ್ಯಪ್‌ನಲ್ಲಿ ಲಭ್ಯವಿದೆ, ಕೊನೆಯ ದಿನಾಂಕದೊಳಗೆ ಪಾವತಿಸಿ.",0,no_clear_signal,0
+candidate_394,prior_holdout,te,"ఈ వారంలో పెట్టుబడి రెట్టింపు అవుతుంది, డబ్బు తీసుకోవడానికి సలహాదారుకు రుసుము పంపండి.",1,review,1
+candidate_394,prior_holdout,te,"పెట్టుబడి లాభం ఖాయం కాదు, పెట్టుబడికి ముందు నష్టభయ వివరాలు చదవండి.",0,no_clear_signal,0
+candidate_394,prior_holdout,te,"ఈ రాత్రి విద్యుత్ నిలిపివేస్తాం, కాల్ చేసిన వ్యక్తి వ్యక్తిగత ఖాతాకు బిల్లు డబ్బు పంపండి.",1,caution,1
+candidate_394,prior_holdout,te,"విద్యుత్ బిల్లు అధికారిక యాప్‌లో ఉంది, గడువు తేదీలోపు చెల్లించండి.",0,no_clear_signal,0
+candidate_394,prior_holdout,or,"ଏହି ସପ୍ତାହରେ ନିବେଶ ଦୁଇଗୁଣ ହେବ, ଟଙ୍କା ଉଠାଇବାକୁ ପରାମର୍ଶଦାତାଙ୍କୁ ଶୁଳ୍କ ପଠାନ୍ତୁ।",1,review,1
+candidate_394,prior_holdout,or,"ନିବେଶର ଲାଭ ନିଶ୍ଚିତ ନୁହେଁ, ନିବେଶ ପୂର୍ବରୁ ବିପଦ ସୂଚନା ପଢ଼ନ୍ତୁ।",0,review,1
+candidate_394,prior_holdout,or,"ଆଜି ରାତିରେ ବିଦ୍ୟୁତ କାଟିଦେବୁ, କଲ କରିଥିବା ବ୍ୟକ୍ତିଙ୍କ ନିଜ ଖାତାକୁ ବିଲ ଟଙ୍କା ପଠାନ୍ତୁ।",1,caution,1
+candidate_394,prior_holdout,or,"ବିଦ୍ୟୁତ ବିଲ ଅଧିକୃତ ଆପ୍‌ରେ ଅଛି, ନିର୍ଦ୍ଧାରିତ ତାରିଖ ମଧ୍ୟରେ ଦିଅନ୍ତୁ।",0,no_clear_signal,0
+candidate_394,prior_holdout,mr,"या आठवड्यात गुंतवणूक दुप्पट होईल, पैसे काढण्यासाठी सल्लागाराला शुल्क पाठवा.",1,review,1
+candidate_394,prior_holdout,mr,"गुंतवणुकीत नफा निश्चित नसतो, गुंतवणूक करण्यापूर्वी जोखमीची माहिती वाचा.",0,review,1
+candidate_394,prior_holdout,mr,"आज रात्री वीज तोडू, फोन करणाऱ्याच्या खासगी खात्यात बिलाचे पैसे पाठवा.",1,review,1
+candidate_394,prior_holdout,mr,"वीजबिल अधिकृत ॲपमध्ये उपलब्ध आहे, अंतिम तारखेपर्यंत भरा.",0,no_clear_signal,0
+candidate_394,prior_holdout,ta,"இந்த வாரம் முதலீடு இரட்டிப்பாகும், பணத்தை எடுக்க ஆலோசகருக்குக் கட்டணம் அனுப்புங்கள்.",1,review,1
+candidate_394,prior_holdout,ta,"முதலீட்டில் லாபம் உறுதியில்லை, முதலீடு செய்வதற்கு முன் அபாய விவரங்களைப் படியுங்கள்.",0,no_clear_signal,0
+candidate_394,prior_holdout,ta,"இன்று இரவு மின்சாரம் துண்டிக்கப்படும், அழைத்தவரின் தனிப்பட்ட கணக்கில் பில் தொகையை அனுப்புங்கள்.",1,review,1
+candidate_394,prior_holdout,ta,"மின்சாரக் கட்டண விவரம் அதிகாரப்பூர்வ செயலியில் உள்ளது, கடைசி தேதிக்குள் செலுத்துங்கள்.",0,no_clear_signal,0
+candidate_394,prior_holdout,ml,"ഈ ആഴ്ച നിക്ഷേപം ഇരട്ടിയാകും, പണം പിൻവലിക്കാൻ ഉപദേശകന് ഫീസ് അയയ്ക്കുക.",1,review,1
+candidate_394,prior_holdout,ml,"നിക്ഷേപത്തിൽ ലാഭം ഉറപ്പില്ല, നിക്ഷേപിക്കുന്നതിന് മുമ്പ് അപകടസാധ്യതയുടെ വിവരങ്ങൾ വായിക്കുക.",0,no_clear_signal,0
+candidate_394,prior_holdout,ml,"ഇന്ന് രാത്രി വൈദ്യുതി വിച്ഛേദിക്കും, വിളിച്ചയാളുടെ സ്വകാര്യ അക്കൗണ്ടിലേക്ക് ബിൽ തുക അയയ്ക്കുക.",1,review,1
+candidate_394,prior_holdout,ml,"വൈദ്യുതി ബിൽ ഔദ്യോഗിക ആപ്പിൽ ലഭ്യമാണ്, അവസാന തീയതിക്കകം അടയ്ക്കുക.",0,no_clear_signal,0
+candidate_394,prior_holdout,gu,"આ અઠવાડિયે રોકાણ બમણું થશે, પૈસા ઉપાડવા સલાહકારને ફી મોકલો.",1,review,1
+candidate_394,prior_holdout,gu,"રોકાણમાં નફાની ખાતરી નથી, રોકાણ પહેલાં જોખમની માહિતી વાંચો.",0,no_clear_signal,0
+candidate_394,prior_holdout,gu,"આજે રાત્રે વીજળી કાપી નાખીશું, ફોન કરનારના ખાનગી ખાતામાં બિલના પૈસા મોકલો.",1,review,1
+candidate_394,prior_holdout,gu,"વીજળીનું બિલ અધિકૃત એપમાં ઉપલબ્ધ છે, છેલ્લી તારીખ સુધી ભરો.",0,no_clear_signal,0
+candidate_394,prior_holdout,pa,"ਇਸ ਹਫ਼ਤੇ ਨਿਵੇਸ਼ ਦੁੱਗਣਾ ਹੋਵੇਗਾ, ਪੈਸੇ ਕਢਵਾਉਣ ਲਈ ਸਲਾਹਕਾਰ ਨੂੰ ਫੀਸ ਭੇਜੋ।",1,review,1
+candidate_394,prior_holdout,pa,"ਨਿਵੇਸ਼ ਵਿੱਚ ਲਾਭ ਦੀ ਗਾਰੰਟੀ ਨਹੀਂ, ਨਿਵੇਸ਼ ਤੋਂ ਪਹਿਲਾਂ ਜੋਖਮ ਬਾਰੇ ਪੜ੍ਹੋ।",0,no_clear_signal,0
+candidate_394,prior_holdout,pa,"ਅੱਜ ਰਾਤ ਬਿਜਲੀ ਕੱਟ ਦੇਵਾਂਗੇ, ਫੋਨ ਕਰਨ ਵਾਲੇ ਦੇ ਨਿੱਜੀ ਖਾਤੇ ਵਿੱਚ ਬਿੱਲ ਦੇ ਪੈਸੇ ਭੇਜੋ।",1,review,1
+candidate_394,prior_holdout,pa,"ਬਿਜਲੀ ਦਾ ਬਿੱਲ ਅਧਿਕਾਰਤ ਐਪ ਵਿੱਚ ਹੈ, ਆਖਰੀ ਤਾਰੀਖ ਤੱਕ ਭਰੋ।",0,no_clear_signal,0
+candidate_394,regional_development,hi,जेल से बचने के लिए अभी पैसे भेजें।,1,review,1
+candidate_394,regional_development,hi,जेल से बचाने के नाम पर पैसे मत भेजें।,0,review,1
+candidate_394,regional_development,hi,नौकरी पक्की करने के लिए भर्ती शुल्क भरें।,1,caution,1
+candidate_394,regional_development,hi,नौकरी के लिए कोई भर्ती शुल्क नहीं है।,0,no_clear_signal,0
+candidate_394,regional_development,hi,पुरस्कार लेने के लिए पहले शुल्क जमा करें।,1,caution,1
+candidate_394,regional_development,hi,पुरस्कार लेने के लिए कोई शुल्क नहीं है।,0,no_clear_signal,0
+candidate_394,regional_development,hi,रकम पाने के लिए UPI PIN डालें।,1,caution,1
+candidate_394,regional_development,hi,रकम पाने के लिए UPI PIN डालने की जरूरत नहीं है।,0,no_clear_signal,0
+candidate_394,regional_development,mr,अटक टाळण्यासाठी पैसे पाठवा.,1,caution,1
+candidate_394,regional_development,mr,अटक टाळण्यासाठी पैसे पाठवू नका.,0,review,1
+candidate_394,regional_development,mr,नोकरी निश्चित करण्यासाठी फी भरा.,1,caution,1
+candidate_394,regional_development,mr,नोकरीसाठी कोणतीही फी नाही.,0,no_clear_signal,0
+candidate_394,regional_development,mr,बक्षीस मिळवण्यासाठी शुल्क भरा.,1,caution,1
+candidate_394,regional_development,mr,बक्षीसासाठी शुल्क देण्याची गरज नाही.,0,no_clear_signal,0
+candidate_394,regional_development,mr,रक्कम मिळवण्यासाठी UPI PIN टाका.,1,caution,1
+candidate_394,regional_development,mr,रक्कम मिळवण्यासाठी UPI PIN टाकू नका.,0,review,1
+candidate_394,regional_development,bn,গ্রেপ্তার এড়াতে এখন টাকা পাঠান।,1,caution,1
+candidate_394,regional_development,bn,গ্রেপ্তার এড়ানোর নামে টাকা পাঠাবেন না।,0,review,1
+candidate_394,regional_development,bn,চাকরি নিশ্চিত করতে নিয়োগ ফি জমা দিন।,1,caution,1
+candidate_394,regional_development,bn,চাকরির জন্য কোনো ফি নেই।,0,no_clear_signal,0
+candidate_394,regional_development,bn,পুরস্কার পেতে প্রথমে টাকা দিন।,1,caution,1
+candidate_394,regional_development,bn,পুরস্কার পেতে টাকা দেওয়ার দরকার নেই।,0,no_clear_signal,0
+candidate_394,regional_development,bn,টাকা পেতে UPI PIN লিখুন।,1,caution,1
+candidate_394,regional_development,bn,টাকা পেতে UPI PIN লিখবেন না।,0,no_clear_signal,0
+candidate_394,regional_development,kn,ಜೈಲು ತಪ್ಪಿಸಲು ಹಣ ಕಳುಹಿಸಿ.,1,caution,1
+candidate_394,regional_development,kn,ಜೈಲು ತಪ್ಪಿಸಲು ಹಣ ಕಳುಹಿಸಬೇಡಿ.,0,no_clear_signal,0
+candidate_394,regional_development,kn,ಉದ್ಯೋಗ ಖಚಿತಪಡಿಸಲು ಶುಲ್ಕ ಪಾವತಿಸಿ.,1,caution,1
+candidate_394,regional_development,kn,ಉದ್ಯೋಗಕ್ಕೆ ಶುಲ್ಕ ಅಗತ್ಯವಿಲ್ಲ.,0,no_clear_signal,0
+candidate_394,regional_development,kn,ಬಹುಮಾನ ಪಡೆಯಲು ಮೊದಲು ಶುಲ್ಕ ಪಾವತಿಸಿ.,1,caution,1
+candidate_394,regional_development,kn,ಬಹುಮಾನ ಪಡೆಯಲು ಶುಲ್ಕ ಬೇಕಾಗಿಲ್ಲ.,0,no_clear_signal,0
+candidate_394,regional_development,kn,ಹಣ ಸ್ವೀಕರಿಸಲು UPI PIN ನಮೂದಿಸಿ.,1,caution,1
+candidate_394,regional_development,kn,ಹಣ ಸ್ವೀಕರಿಸಲು UPI PIN ಅಗತ್ಯವಿಲ್ಲ.,0,no_clear_signal,0
+candidate_394,regional_development,te,జైలు తప్పించుకోవడానికి డబ్బు పంపండి.,1,caution,1
+candidate_394,regional_development,te,జైలు తప్పించుకోవడానికి డబ్బు పంపవద్దు.,0,no_clear_signal,0
+candidate_394,regional_development,te,ఉద్యోగం ఖాయం కావడానికి ఫీజు చెల్లించండి.,1,caution,1
+candidate_394,regional_development,te,ఉద్యోగానికి ఫీజు అవసరం లేదు.,0,no_clear_signal,0
+candidate_394,regional_development,te,బహుమతి పొందడానికి రుసుము చెల్లించండి.,1,caution,1
+candidate_394,regional_development,te,బహుమతి పొందడానికి రుసుము అవసరం లేదు.,0,no_clear_signal,0
+candidate_394,regional_development,te,డబ్బు స్వీకరించడానికి UPI PIN నమోదు చేయండి.,1,caution,1
+candidate_394,regional_development,te,డబ్బు స్వీకరించడానికి UPI PIN అవసరం లేదు.,0,no_clear_signal,0
+candidate_394,regional_development,or,ଜେଲ ଏଡ଼ାଇବାକୁ ଟଙ୍କା ପଠାନ୍ତୁ।,1,caution,1
+candidate_394,regional_development,or,ଜେଲ ଏଡ଼ାଇବାକୁ ଟଙ୍କା ପଠାନ୍ତୁ ନାହିଁ।,0,caution,1
+candidate_394,regional_development,or,ଚାକିରି ପାଇବାକୁ ଶୁଳ୍କ ଜମା କରନ୍ତୁ।,1,caution,1
+candidate_394,regional_development,or,ଚାକିରି ପାଇଁ ଶୁଳ୍କ ଆବଶ୍ୟକ ନାହିଁ।,0,no_clear_signal,0
+candidate_394,regional_development,or,ପୁରସ୍କାର ପାଇବାକୁ ଆଗେ ଟଙ୍କା ଦିଅନ୍ତୁ।,1,caution,1
+candidate_394,regional_development,or,ପୁରସ୍କାର ପାଇଁ ଟଙ୍କା ଦିଅନ୍ତୁ ନାହିଁ।,0,no_clear_signal,0
+candidate_394,regional_development,or,ଟଙ୍କା ପାଇବାକୁ UPI PIN ଲେଖନ୍ତୁ।,1,caution,1
+candidate_394,regional_development,or,ଟଙ୍କା ପାଇବାକୁ UPI PIN ଆବଶ୍ୟକ ନାହିଁ।,0,no_clear_signal,0
+candidate_394,regional_development,ta,சிறை தண்டனையைத் தவிர்க்க பணம் அனுப்புங்கள்.,1,caution,1
+candidate_394,regional_development,ta,சிறை தண்டனையைத் தவிர்க்க பணம் அனுப்ப வேண்டாம்.,0,review,1
+candidate_394,regional_development,ta,பணி நியமனம் பெற கட்டணம் செலுத்துங்கள்.,1,caution,1
+candidate_394,regional_development,ta,வேலைவாய்ப்புக்கு கட்டணம் தேவையில்லை.,0,no_clear_signal,0
+candidate_394,regional_development,ta,பரிசு பெற முதலில் தொகை செலுத்துங்கள்.,1,caution,1
+candidate_394,regional_development,ta,பரிசு பெற கட்டணம் செலுத்த வேண்டாம்.,0,no_clear_signal,0
+candidate_394,regional_development,ta,பணம் பெற UPI PIN உள்ளிடுங்கள்.,1,caution,1
+candidate_394,regional_development,ta,பணம் பெற UPI PIN தேவையில்லை.,0,no_clear_signal,0
+candidate_394,regional_development,ml,ജയിൽ ഒഴിവാക്കാൻ പണം അയയ്ക്കുക.,1,caution,1
+candidate_394,regional_development,ml,ജയിൽ ഒഴിവാക്കാൻ പണം അയയ്ക്കരുത്.,0,no_clear_signal,0
+candidate_394,regional_development,ml,ജോലി ഉറപ്പാക്കാൻ ഫീസ് അടയ്ക്കുക.,1,caution,1
+candidate_394,regional_development,ml,ജോലി ലഭിക്കാൻ ഫീസ് ആവശ്യമില്ല.,0,no_clear_signal,0
+candidate_394,regional_development,ml,സമ്മാനം ലഭിക്കാൻ ആദ്യം പണം അടയ്ക്കുക.,1,caution,1
+candidate_394,regional_development,ml,സമ്മാനം ലഭിക്കാൻ പണം അടയ്ക്കേണ്ട.,0,no_clear_signal,0
+candidate_394,regional_development,ml,പണം സ്വീകരിക്കാൻ UPI PIN രേഖപ്പെടുത്തുക.,1,caution,1
+candidate_394,regional_development,ml,പണം സ്വീകരിക്കാൻ UPI PIN ആവശ്യമില്ല.,0,no_clear_signal,0
+candidate_394,regional_development,gu,જેલ ટાળવા માટે રકમ મોકલો.,1,caution,1
+candidate_394,regional_development,gu,જેલ ટાળવા પૈસા મોકલશો નહીં.,0,review,1
+candidate_394,regional_development,gu,ભરતીની ખાતરી માટે શુલ્ક ભરો.,1,caution,1
+candidate_394,regional_development,gu,ભરતી માટે કોઈ ફી નથી.,0,no_clear_signal,0
+candidate_394,regional_development,gu,ઇનામ મેળવવા પહેલા રકમ ચૂકવો.,1,caution,1
+candidate_394,regional_development,gu,ઇનામ મેળવવા પૈસા ચૂકવવાની જરૂર નથી.,0,no_clear_signal,0
+candidate_394,regional_development,gu,રકમ મેળવવા UPI PIN દાખલ કરો.,1,caution,1
+candidate_394,regional_development,gu,રકમ મેળવવા UPI PIN દાખલ કરવાની જરૂર નથી.,0,review,1
+candidate_394,regional_development,pa,ਜੇਲ੍ਹ ਤੋਂ ਬਚਣ ਲਈ ਰਕਮ ਭੇਜੋ।,1,caution,1
+candidate_394,regional_development,pa,ਜੇਲ੍ਹ ਤੋਂ ਬਚਣ ਲਈ ਰਕਮ ਨਾ ਭੇਜੋ।,0,review,1
+candidate_394,regional_development,pa,ਭਰਤੀ ਪੱਕੀ ਕਰਨ ਲਈ ਫ਼ੀਸ ਭਰੋ।,1,caution,1
+candidate_394,regional_development,pa,ਭਰਤੀ ਲਈ ਕੋਈ ਫੀਸ ਨਹੀਂ ਹੈ।,0,no_clear_signal,0
+candidate_394,regional_development,pa,ਇਨਾਮ ਲੈਣ ਲਈ ਪਹਿਲਾਂ ਰਕਮ ਭਰੋ।,1,caution,1
+candidate_394,regional_development,pa,ਇਨਾਮ ਲੈਣ ਲਈ ਰਕਮ ਨਾ ਭਰੋ।,0,review,1
+candidate_394,regional_development,pa,ਰਕਮ ਲੈਣ ਲਈ UPI PIN ਪਾਓ।,1,caution,1
+candidate_394,regional_development,pa,ਰਕਮ ਲੈਣ ਲਈ UPI PIN ਦੀ ਲੋੜ ਨਹੀਂ।,0,no_clear_signal,0
+candidate_394,regional_development,en,Transfer money to avoid arrest.,1,high,1
+candidate_394,regional_development,en,Never pay to avoid arrest.,0,high,1
+candidate_394,regional_development,en,Pay a recruitment fee to guarantee your job.,1,review,1
+candidate_394,regional_development,en,There is no recruitment fee for this job.,0,no_clear_signal,0
+candidate_394,regional_development,en,Pay a fee to claim your lottery prize.,1,caution,1
+candidate_394,regional_development,en,Never pay a fee to claim a prize.,0,caution,1
+candidate_394,regional_development,en,Enter your UPI PIN to receive money.,1,high,1
+candidate_394,regional_development,en,Never enter your UPI PIN to receive money.,0,review,1
