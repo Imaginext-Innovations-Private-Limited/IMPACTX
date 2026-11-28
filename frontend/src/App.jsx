@@ -13,9 +13,10 @@ import DairyPage from './pages/DairyPage'
 import FinancePage from './pages/FinancePage'
 import HelpContactsPage from './pages/HelpContactsPage'
 import LivestockPetsPage from './pages/LivestockPetsPage'
-import { notificationApi } from './api/client'
+import { schemesApi } from './api/client'
 import { I18nProvider, useI18n } from './context/I18nContext'
-import { LocationProvider } from './context/LocationContext'
+import { LocationProvider, useLocation } from './context/LocationContext'
+import ErrorBoundary from './components/ErrorBoundary'
 
 function AppContent() {
   const [activeTab, setActiveTab] = useState('home')
@@ -24,14 +25,24 @@ function AppContent() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false)
   const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0)
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false)
-  const { t } = useI18n()
+  const { t, language } = useI18n()
+  const { location } = useLocation()
+  const state = location?.state || 'Karnataka'
+  const district = location?.district || ''
+  const location_name = location?.location_name || location?.name || ''
 
-  // Fetch initial unread notifications count
+  // Fetch scheme & relief alerts count whenever location or language changes
   useEffect(() => {
-    notificationApi.getUnreadCount()
-      .then(res => setUnreadNotificationsCount(res.data.unread_count || 0))
+    const controller = new AbortController()
+    const langParam = language && !language.includes('-') ? `${language}-IN` : (language || 'en-IN')
+    schemesApi.getSchemes(
+      { state, district, location_name, category: 'all', language: langParam },
+      controller.signal
+    )
+      .then(res => setUnreadNotificationsCount(res.data.unread_count ?? res.data.total ?? 0))
       .catch(() => {})
-  }, [])
+    return () => controller.abort()
+  }, [state, district, location_name, language])
 
   const handleSelectCommodity = (commodityName) => {
     setSelectedCommodityModal(commodityName)
@@ -116,10 +127,14 @@ function AppContent() {
       onOpenNotifications={() => setIsNotificationOpen(false || true)}
     >
       {/* Sticky ticker at very top (inside shell, below app header) */}
-      <CommodityTicker onSelectCommodity={handleSelectCommodity} />
+      <ErrorBoundary sectionName="Commodity Ticker">
+        <CommodityTicker onSelectCommodity={handleSelectCommodity} />
+      </ErrorBoundary>
 
       {/* Main page content */}
-      {renderPage()}
+      <ErrorBoundary sectionName="Main View" key={activeTab}>
+        {renderPage()}
+      </ErrorBoundary>
 
       {/* Interactive 6-Year Historical Analytics Modal when any commodity chip or row is clicked */}
       {selectedCommodityModal && (
@@ -153,10 +168,12 @@ function AppContent() {
 
 export default function App() {
   return (
-    <I18nProvider>
-      <LocationProvider>
-        <AppContent />
-      </LocationProvider>
-    </I18nProvider>
+    <ErrorBoundary sectionName="Farm Advisor">
+      <I18nProvider>
+        <LocationProvider>
+          <AppContent />
+        </LocationProvider>
+      </I18nProvider>
+    </ErrorBoundary>
   )
 }

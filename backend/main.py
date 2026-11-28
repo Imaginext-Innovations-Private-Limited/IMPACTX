@@ -24,6 +24,7 @@ from routers import (
     finance,
     help_directory,
     livestock_pets,
+    schemes,
 )
 import whatsapp_bot
 from seed_data import seed
@@ -39,8 +40,9 @@ app = FastAPI(
     title="Farm Advisor API",
     description="Multilingual AI-powered farm advisory platform for Karnataka farmers",
     version="4.0.0-sprint4",
-    docs_url="/api/docs",
+    docs_url="/docs",
     redoc_url="/api/redoc",
+    openapi_url="/openapi.json",
 )
 
 # CORS for local React dev (Vite default port 5173)
@@ -74,6 +76,7 @@ app.include_router(finance.router)
 # Sprint 5 Routers (Help Directory & Livestock/Pet Marketplace)
 app.include_router(help_directory.router)
 app.include_router(livestock_pets.router)
+app.include_router(schemes.router)
 
 # WhatsApp Cloud API Webhook & Local Simulation
 app.include_router(whatsapp_bot.router)

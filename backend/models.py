@@ -37,10 +37,30 @@ class MandiPrice(Base):
     recorded_date = Column(String(20), default=datetime.utcnow().strftime("%Y-%m-%d"))
 
 
+class MandiPriceCache(Base):
+    __tablename__ = "mandi_price_cache"
+
+    id = Column(Integer, primary_key=True, index=True)
+    state = Column(String(50), nullable=False, index=True)
+    commodity = Column(String(100), nullable=False, index=True)
+    commodity_id = Column(Integer, index=True, nullable=True)
+    category = Column(String(50), nullable=True)
+    unit = Column(String(20), default="quintal")
+    district = Column(String(50))
+    market = Column(String(100))
+    min_price = Column(Float, nullable=False)
+    max_price = Column(Float, nullable=False)
+    modal_price = Column(Float, nullable=False)
+    previous_price = Column(Float, nullable=True)
+    source = Column(String(30), default="fallback")  # "data_gov" | "fallback"
+    cached_at = Column(DateTime, default=datetime.utcnow, index=True)
+
+
 class TwoWeekHistory(Base):
     __tablename__ = "two_week_history"
 
     id = Column(Integer, primary_key=True, index=True)
+    state = Column(String(50), default="Karnataka", index=True)
     commodity_name = Column(String(100), nullable=False, index=True)
     day_offset = Column(Integer, nullable=False) # 0 = today, 13 = 13 days ago
     date_str = Column(String(20), nullable=False)
@@ -53,6 +73,7 @@ class SeasonalHistoricalPrice(Base):
     __tablename__ = "seasonal_historical_prices"
 
     id = Column(Integer, primary_key=True, index=True)
+    state = Column(String(50), default="Karnataka", index=True)
     commodity_name = Column(String(100), nullable=False, index=True)
     year = Column(Integer, nullable=False)       # 2021 to 2026
     month = Column(Integer, nullable=False)      # 1 to 12
@@ -169,6 +190,18 @@ class LivestockDisease(Base):
     immediate_first_aid = Column(Text, nullable=False)
     avoid_doing = Column(Text)
     recommended_query = Column(String(255))
+
+
+class DairyCache(Base):
+    __tablename__ = "dairy_cache"
+
+    cache_key = Column(String(150), primary_key=True, index=True)
+    endpoint = Column(String(50), index=True)
+    state = Column(String(60), index=True)
+    language = Column(String(20), index=True)
+    data_json = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    expires_at = Column(DateTime, nullable=False)
 
 
 class VoiceQuery(Base):

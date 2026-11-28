@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {
   BarChart2, TrendingUp, TrendingDown, Minus, Building2,
-  Calendar, Clock, Sparkles, Filter, Search, ArrowRight
+  Calendar, Clock, Sparkles, Filter, Search, ArrowRight, MapPin
 } from 'lucide-react'
 import {
   ResponsiveContainer, LineChart, Line, XAxis, YAxis,
@@ -9,11 +9,13 @@ import {
 } from 'recharts'
 import { marketApi } from '../api/client'
 import { useI18n } from '../context/I18nContext'
+import { useLocationContext } from '../context/LocationContext'
 
 const CURRENCY = '₹'
 
 export default function MarketsPage({ defaultCommodity = 'Areca Nut (Chali)' }) {
-  const { t, getCommodityName } = useI18n()
+  const { lang, t, getCommodityName } = useI18n()
+  const { location } = useLocationContext()
   const [commodities, setCommodities] = useState([])
   const [selectedCommodity, setSelectedCommodity] = useState(defaultCommodity)
   const [analytics, setAnalytics] = useState(null)
@@ -21,20 +23,38 @@ export default function MarketsPage({ defaultCommodity = 'Areca Nut (Chali)' }) 
   const [chartView, setChartView] = useState('seasonal_pattern') // 'seasonal_pattern' or 'six_year_trend'
   const [search, setSearch] = useState('')
 
-  // Load commodities list
+  const activeState = location?.state || 'Karnataka'
+
+  // Load commodities list when location/state changes
   useEffect(() => {
-    marketApi.getList()
+    marketApi.getList(location?.state, location?.district, location?.location_name, location?.lat, location?.lon)
       .then(res => {
-        setCommodities(res.data)
+        const list = res.data || []
+        setCommodities(list)
+        if (list.length > 0) {
+          // If current selected commodity is not in this state's list, select first crop
+          const exists = list.some(c => c.name.toLowerCase() === selectedCommodity.toLowerCase())
+          if (!exists) {
+            setSelectedCommodity(list[0].name)
+          }
+        }
       })
       .catch(() => {})
-  }, [])
+  }, [location?.state, location?.district, location?.location_name])
 
   // Load analytics for selected commodity
   useEffect(() => {
     if (!selectedCommodity) return
     setLoading(true)
-    marketApi.getCommodityAnalytics(selectedCommodity)
+    marketApi.getCommodityAnalytics(
+      selectedCommodity,
+      location?.state,
+      location?.district,
+      location?.location_name,
+      location?.lat,
+      location?.lon,
+      lang
+    )
       .then(res => {
         setAnalytics(res.data)
         setLoading(false)
@@ -42,12 +62,26 @@ export default function MarketsPage({ defaultCommodity = 'Areca Nut (Chali)' }) 
       .catch(() => {
         setLoading(false)
       })
-  }, [selectedCommodity])
+  }, [selectedCommodity, location?.state, location?.district, location?.location_name, lang])
 
   const filteredCommodities = commodities.filter(c =>
     c.name.toLowerCase().includes(search.toLowerCase()) ||
-    (c.name_kannada && c.name_kannada.includes(search))
+    (c.name_kannada && c.name_kannada.includes(search)) ||
+    (c.name_hindi && c.name_hindi.includes(search))
   )
+
+  const regionTitle = analytics?.state || activeState
+  const searchPlaceholderText = lang === 'te-IN'
+    ? 'పంటను శోధించండి (వరి, మిర్చి, పత్తి)…'
+    : lang === 'hi-IN'
+    ? 'फसल खोजें (गेहूं, कपास, धान)…'
+    : lang === 'ta-IN'
+    ? 'பயிரைத் தேடுங்கள் (நெல், பருத்தி)…'
+    : lang === 'mr-IN'
+    ? 'पीक शोधा (कापूस, सोयाबीन, कांदा)…'
+    : lang === 'kn-IN'
+    ? 'ಬೆಳೆ ಹುಡುಕಿ (ಭತ್ತ, ಅಡಿಕೆ, ಮೆಕ್ಕೆಜೋಳ)…'
+    : 'Search crop (Paddy, Cotton, Maize)…'
 
   return (
     <div className="px-4 py-4 space-y-5 max-w-4xl mx-auto">
@@ -59,7 +93,7 @@ export default function MarketsPage({ defaultCommodity = 'Areca Nut (Chali)' }) 
           </div>
           <div>
             <h1 className="text-base sm:text-lg font-bold text-gray-800">
-              Karnataka APMC Market Analytics
+              {regionTitle} APMC Market Analytics
             </h1>
             <p className="text-xs text-gray-500">
               Live Mandi Selling Rates · Cross-Market Arbitrage · 6-Year Seasonal Price Trends
@@ -72,7 +106,7 @@ export default function MarketsPage({ defaultCommodity = 'Areca Nut (Chali)' }) 
           <Search className="w-4 h-4 text-gray-400 absolute left-3 top-2.5" />
           <input
             type="text"
-            placeholder="Search crop (ಭತ್ತ, ಅಡಿಕೆ)…"
+            placeholder={searchPlaceholderText}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-9 pr-3 py-1.5 bg-gray-50 border border-gray-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"

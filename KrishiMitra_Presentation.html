@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KrishiMitra (Farm Advisor) - Project Presentation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0f172a; color: #f8fafc; }
+    .slide { display: none; min-height: 85vh; }
+    .slide.active { display: flex; flex-direction: column; }
+    .gradient-emerald { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
+    .gradient-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .badge { display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen justify-between p-4 md:p-8">
+
+  <!-- Top Navigation & Progress -->
+  <header class="flex items-center justify-between pb-4 border-b border-slate-800 max-w-7xl mx-auto w-full">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xl border border-emerald-500/30">
+        🌾
+      </div>
+      <div>
+        <h1 class="font-bold text-lg text-emerald-400">KrishiMitra (Farm Advisor)</h1>
+        <p class="text-xs text-slate-400">Multilingual AI Operating System for Farmers</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-4">
+      <span id="slideIndicator" class="text-sm font-semibold px-3 py-1 rounded-lg bg-slate-800 text-emerald-300 border border-slate-700">Slide 1 / 16</span>
+      <button onclick="toggleNotes()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300 transition flex items-center gap-1.5 border border-slate-700">
+        <i class="fa-solid fa-microphone"></i> <span>Speaker Script</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Slide Container -->
+  <main class="max-w-7xl mx-auto w-full my-auto py-6">
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide active justify-center items-center text-center space-y-6">
+      <span class="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-sm py-1 px-4">
+        🚀 Next-Generation Agritech Innovation
+      </span>
+      <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white max-w-4xl leading-tight">
+        Empowering Every Farmer with <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-green-500">Agentic AI & Multilingual Voice</span>
+      </h1>
+      <p class="text-lg md:text-xl text-slate-300 max-w-2xl font-normal">
+        A real-time agronomic, market, and financial advisory system for Indian farmers over Web PWA & WhatsApp in 6 regional languages.
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl pt-4">
+        <div class="gradient-card p-4 rounded-xl text-center">
+          <div class="text-2xl mb-1">📸</div>
+          <div class="font-bold text-sm text-white">4-Mode Vision</div>
+          <div class="text-xs text-slate-400">Gemini 2.5 Flash</div>
+        </div>
+        <div class="gradient-card p-4 rounded-xl text-center">
+          <div class="text-2xl mb-1">🎙️</div>
+          <div class="font-bold text-sm text-white">Indic Voice Brain</div>
+          <div class="text-xs text-slate-400">Sarvam AI STT & TTS</div>
+        </div>
+        <div class="gradient-card p-4 rounded-xl text-center">
+          <div class="text-2xl mb-1">📊</div>
+          <div class="font-bold text-sm text-white">Live Mandi Rates</div>
+          <div class="text-xs text-slate-400">Agmarknet data.gov.in</div>
+        </div>
+        <div class="gradient-card p-4 rounded-xl text-center">
+          <div class="text-2xl mb-1">💬</div>
+          <div class="font-bold text-sm text-white">WhatsApp Bot</div>
+          <div class="text-xs text-slate-400">2-Way Voice Notes</div>
+        </div>
+      </div>
+      <div class="speaker-note hidden bg-slate-900/90 border border-emerald-500/40 p-4 rounded-xl text-left text-sm text-slate-300 max-w-3xl mt-4">
+        <strong class="text-emerald-400">🗣️ Speaker Script:</strong> "Respected judges, KrishiMitra is designed to solve a foundational problem: bringing the world's most advanced AI models directly into the hands of 140 million Indian smallholder farmers without requiring them to read English or type on a screen."
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Problem Statement -->
+    <div class="slide space-y-6">
+      <div>
+        <span class="badge bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs">The Problem</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-1 text-white">The Daily Struggles of Smallholder Farmers</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="gradient-card p-6 rounded-2xl border-l-4 border-rose-500">
+          <div class="text-3xl mb-3 text-rose-400"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <h3 class="font-bold text-lg text-white mb-2">Agronomic & Pesticide Loss</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            20% to 35% of crops are destroyed by misidentified pests. Farmers take unreadable bottles to retail shops, receive wrong pesticides, and overdose their crops with no knowledge of barrel dilution or safe waiting periods.
+          </p>
+        </div>
+        <div class="gradient-card p-6 rounded-2xl border-l-4 border-amber-500">
+          <div class="text-3xl mb-3 text-amber-400"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+          <h3 class="font-bold text-lg text-white mb-2">Market & Price Asymmetry</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Middlemen exploit farmers at the farm gate with low prices. Farmers lack real-time visibility into neighboring APMC prices and historical seasonal patterns to know when and where to sell.
+          </p>
+        </div>
+        <div class="gradient-card p-6 rounded-2xl border-l-4 border-blue-500">
+          <div class="text-3xl mb-3 text-blue-400"><i class="fa-solid fa-language"></i></div>
+          <h3 class="font-bold text-lg text-white mb-2">Digital & Language Barriers</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Traditional agritech apps are complex, text-heavy, and built in English. Over 80% of rural farmers prefer spoken vernacular dialogue and familiar tools like WhatsApp over downloading complex new apps.
+          </p>
+        </div>
+      </div>
+      <div class="speaker-note hidden bg-slate-900/90 border border-emerald-500/40 p-4 rounded-xl text-left text-sm text-slate-300">
+        <strong class="text-emerald-400">🗣️ Speaker Script:</strong> "A farmer in rural Karnataka doesn't have an agronomy degree. When pests attack, they visit a local shop, buy whatever the dealer pushes, spray it right before a heavy downpour, and watch their entire investment wash away. KrishiMitra replaces this guesswork with instant intelligence."
+      </div>
+    </div>
+
+    <!-- SLIDE 3: System Architecture -->
+    <div class="slide space-y-6">
+      <div>
+        <span class="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs">System Architecture</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-1 text-white">End-to-End Multimodal Architecture</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="gradient-card p-5 rounded-xl border border-slate-700">
+          <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">1. Ingress Layer</div>
+          <h4 class="font-semibold text-white mb-1">User Channels</h4>
+          <p class="text-xs text-slate-300 mb-3">React 18 PWA & Meta WhatsApp Cloud API (Graph v26.0).</p>
+          <ul class="text-xs text-slate-400 space-y-1">
+            <li>• Mobile Web Browser</li>
+            <li>• WhatsApp Voice Notes</li>
+            <li>• GPS Location Context</li>
+          </ul>
+        </div>
+        <div class="gradient-card p-5 rounded-xl border border-slate-700">
+          <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">2. Processing Core</div>
+          <h4 class="font-semibold text-white mb-1">FastAPI Backend</h4>
+          <p class="text-xs text-slate-300 mb-3">High-speed async Python orchestrator.</p>
+          <ul class="text-xs text-slate-400 space-y-1">
+            <li>• Sarvam STT 'saaras:v4'</li>
+            <li>• Sarvam TTS 'bulbul:v3'</li>
+            <li>• FFmpeg 24k Opus OGG</li>
+            <li>• SQLite ORM & Caching</li>
+          </ul>
+        </div>
+        <div class="gradient-card p-5 rounded-xl border border-slate-700">
+          <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">3. AI Reasoning</div>
+          <h4 class="font-semibold text-white mb-1">Gemini 2.5 Flash</h4>
+          <p class="text-xs text-slate-300 mb-3">Multimodal vision + Agentic tool calling.</p>
+          <ul class="text-xs text-slate-400 space-y-1">
+            <li>• 4-Mode Vision Prompting</li>
+            <li>• Mandi Price Tool Call</li>
+            <li>• Weather Tool Call</li>
+            <li>• Dairy & Finance Tools</li>
+          </ul>
+        </div>
+        <div class="gradient-card p-5 rounded-xl border border-slate-700">
+          <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">4. Ground Truth</div>
+          <h4 class="font-semibold text-white mb-1">Live External Data</h4>
+          <p class="text-xs text-slate-300 mb-3">Authoritative government & meteorological data.</p>
+          <ul class="text-xs text-slate-400 space-y-1">
+            <li>• data.gov.in (Agmarknet)</li>
+            <li>• Open-Meteo 16-Day API</li>
+            <li>• KMF Dairy Slab Rates</li>
+            <li>• Verified Vet Directory</li>
+          </ul>
+        </div>
+      </div>
+      <div class="speaker-note hidden bg-slate-900/90 border border-emerald-500/40 p-4 rounded-xl text-left text-sm text-slate-300">
+        <strong class="text-emerald-400">🗣️ Speaker Script:</strong> "Our architecture ensures that the LLM is never allowed to hallucinate market prices or spray schedules. Through Gemini's tool calling loop, the AI retrieves live data from Agmarknet and Open-Meteo before synthesizing the final advice in the farmer's native dialect."
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Tech Stack & Tools -->
+    <div class="slide space-y-6">
+      <div>
+        <span class="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs">Tech Stack</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-1 text-white">Tools, Libraries & Requirements</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="gradient-card p-6 rounded-2xl">
+          <h3 class="font-bold text-lg text-emerald-400 mb-4 flex items-center gap-2">
+            <i class="fa-brands fa-python"></i> Backend & AI Pipeline
+          </h3>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+              <span class="text-slate-300">Framework</span>
+              <span class="font-semibold text-white">FastAPI + Uvicorn (Python 3.12)</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+              <span class="text-slate-300">Vision & Agentic AI</span>
+              <span class="font-semibold text-white">Google Gemini 2.5 Flash</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+              <span class="text-slate-300">Indic Speech (STT/TTS)</span>
+              <span class="font-semibold text-white">Sarvam AI (saaras:v4 & bulbul:v3)</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+              <span class="text-slate-300">Database & Caching</span>
+              <span class="font-semibold text-white">SQLite + SQLAlchemy 2.0 ORM</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+              <span class="text-slate-300">Audio Transcoding</span>
+              <span class="font-semibold text-white">FFmpeg (mono Opus @ 24kbps)</span>
+            </div>
+          </div>
+        </div>
+        <div class="gradient-card p-6 rounded-2xl">
+          <h3 class="font-bold text-lg text-emerald-400 mb-4 flex items-center gap-2">
+            <i class="fa-brands fa-react"></i> Frontend & External Integrations
+          </h3>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+              <span class="text-slate-300">Web App & Bundler</span>
+              <span class="font-semibold text-white">React 18 + Vite (Tailwind CSS)</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+              <span class="text-slate-300">Data Visualization</span>
+              <span class="font-semibold text-white">Recharts Interactive Line & Bar</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+              <span class="text-slate-300">Messaging API</span>
+              <span class="font-semibold text-white">Meta WhatsApp Cloud API v26.0</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+              <span class="text-slate-300">Weather API</span>
+              <span class="font-semibold text-white">Open-Meteo 16-Day Forecast API</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-700/50 pb-2">
+              <span class="text-slate-300">Commodity APMC API</span>
+              <span class="font-semibold text-white">data.gov.in Agmarknet Portal</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-note hidden bg-slate-900/90 border border-emerald-500/40 p-4 rounded-xl text-left text-sm text-slate-300">
+        <strong class="text-emerald-400">🗣️ Speaker Script:</strong> "Our tech stack was chosen for maximum speed, zero cost bloat, and offline resilience. The backend runs on async FastAPI, allowing high-concurrency WhatsApp webhooks, while the frontend is a lightweight React PWA."
+      </div>
+    </div>
+
+    <!-- SLIDE 5: 4-Mode Vision Scanner -->
+    <div class="slide space-y-6">
+      <div>
+        <span class="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs">Core Feature 1</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-1 text-white">4-Mode Multimodal Smart Camera Scanner</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="gradient-card p-5 rounded-2xl border-t-4 border-emerald-400">
+          <div class="text-2xl mb-2">🌿</div>
+          <h3 class="font-bold text-white mb-2">1. Crop Info</h3>
+          <p class="text-xs text-slate-300 mb-3">Identifies crop variety, lifespan, spacing, irrigation, expected yield, and MSP rate.</p>
+          <span class="text-[11px] text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded font-mono">Agronomic Blueprint</span>
+        </div>
+        <div class="gradient-card p-5 rounded-2xl border-t-4 border-rose-400">
+          <div class="text-2xl mb-2">🔬</div>
+          <h3 class="font-bold text-white mb-2">2. Crop Disease</h3>
+          <p class="text-xs text-slate-300 mb-3">Detects fungal/bacterial blight and pests. Provides weather-aware causes and organic & chemical remedies.</p>
+          <span class="text-[11px] text-rose-400 bg-rose-950/60 px-2 py-0.5 rounded font-mono">Knapsack & Barrel Dosages</span>
+        </div>
+        <div class="gradient-card p-5 rounded-2xl border-t-4 border-amber-400">
+          <div class="text-2xl mb-2">🧪</div>
+          <h3 class="font-bold text-white mb-2">3. Bottle Label OCR</h3>
+          <p class="text-xs text-slate-300 mb-3">Reads active ingredients from chemical bottles, computes dilution ratios, and highlights Pre-Harvest Intervals (PHI).</p>
+          <span class="text-[11px] text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded font-mono">Anti-Poisoning & Safety</span>
+        </div>
+        <div class="gradient-card p-5 rounded-2xl border-t-4 border-cyan-400">
+          <div class="text-2xl mb-2">🏜️</div>
+          <h3 class="font-bold text-white mb-2">4. Soil Analysis</h3>
+          <p class="text-xs text-slate-300 mb-3">Analyzes soil texture, estimated N-P-K reserves, and recommends high-profit alternative crops suited for that soil.</p>
+          <span class="text-[11px] text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded font-mono">Crop-Soil Matching</span>
+        </div>
+      </div>
+      <div class="gradient-card p-4 rounded-xl flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">💡</span>
+          <p class="text-xs text-slate-300">
+            <strong>Practical Dilution Logic:</strong> Dosages are automatically translated into real on-ground farmer tools: <span class="text-emerald-300">per 15L Knapsack Sprayer</span> and <span class="text-emerald-300">per 200L Barrel</span>.
+          </p>
+        </div>
+      </div>
+      <div class="speaker-note hidden bg-slate-900/90 border border-emerald-500/40 p-4 rounded-xl text-left text-sm text-slate-300">
+        <strong class="text-emerald-400">🗣️ Speaker Script:</strong> "Notice Feature 3—the chemical bottle scanner. Often farmers cannot read the fine print on agrochemical bottles. When they snap a photo of the bottle, KrishiMitra extracts the active salt and tells them: 'Mix 30 ml in one 15-liter knapsack sprayer. Do not harvest within 14 days of spraying.'"
+      </div>
+    </div>
+
+    <!-- SLIDE 6: Voice & WhatsApp Bot -->
+    <div class="slide space-y-6">
+      <div>
+        <span class="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs">Core Feature 2</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-1 text-white">Voice-First AI & WhatsApp Integration</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="gradient-card p-6 rounded-2xl space-y-4">
+          <h3 class="font-bold text-lg text-emerald-400 flex items-center gap-2">
+            <i class="fa-solid fa-microphone-lines"></i> 6-Language Indic Voice Assistant
+          </h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Full spoken conversational loops in <span class="text-emerald-300 font-semibold">Kannada, Hindi, Tamil, Telugu, Marathi, and English</span>.
+          </p>
+          <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800 text-xs font-mono space-y-1">
+            <div class="text-slate-400">// Inbound Farmer Voice Note</div>
+            <div class="text-emerald-300 font-semibold">"ದಾವಣಗೆರೆ ಎಪಿಎಂಸಿಯಲ್ಲಿ ಇವತ್ತಿನ ಭತ್ತದ ಧಾರಣೆ ಎಷ್ಟಿದೆ?"</div>
+            <div class="text-slate-400 pt-2">// Real-time Spoken Audio Synthesis</div>
+            <div class="text-white">"ದಾವಣಗೆರೆ ಮಾರುಕಟ್ಟೆಯಲ್ಲಿ ಇವತ್ತಿನ ಭತ್ತದ ಮಾದರಿ ಧಾರಣೆ ಪ್ರತಿ ಕ್ವಿಂಟಾಲ್‌ಗೆ ₹2,350 ಆಗಿದೆ..."</div>
+          </div>
+          <div class="flex flex-wrap gap-2 pt-1">
+            <span class="badge bg-slate-800 text-slate-300 border border-slate-700">Sarvam saaras:v4 STT</span>
+            <span class="badge bg-slate-800 text-slate-300 border border-slate-700">Sarvam bulbul:v3 TTS</span>
+            <span class="badge bg-slate-800 text-slate-300 border border-slate-700">FFmpeg 24k Opus</span>
+          </div>
+        </div>
+        <div class="gradient-card p-6 rounded-2xl space-y-4">
+          <h3 class="font-bold text-lg text-emerald-400 flex items-center gap-2">
+            <i class="fa-brands fa-whatsapp"></i> Native WhatsApp Voice Notes
+          </h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Zero friction: Farmers send a standard WhatsApp voice note. The bot transcribes, reasons with Gemini tools, and replies with both an <span class="text-emerald-300 font-semibold">inline playable audio bubble</span> and a concise text summary.
+          </p>
+          <div class="space-y-2 text-xs">
+            <div class="flex items-center gap-2 text-slate-300">
+              <i class="fa-solid fa-check text-emerald-400"></i> No app download needed
+            </div>
+            <div class="flex items-center gap-2 text-slate-300">
+              <i class="fa-solid fa-check text-emerald-400"></i> Automatic GPS location memory
+            </div>
+            <div class="flex items-center gap-2 text-slate-300">
+              <i class="fa-solid fa-check text-emerald-400"></i> Local simulator for 100% offline testing
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-note hidden bg-slate-900/90 border border-emerald-500/40 p-4 rounded-xl text-left text-sm text-slate-300">
+        <strong class="text-emerald-400">🗣️ Speaker Script:</strong> "Over 500 million Indians use WhatsApp daily. By deploying KrishiMitra directly inside WhatsApp with two-way voice notes, we eliminate the friction of app installation, user onboarding, and login credentials."
+      </div>
+    </div>
+
+    <!-- SLIDE 7: Weather & Farm Advisory -->
+    <div class="slide space-y-6">
+      <div>
+        <span class="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs">Core Feature 3</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-1 text-white">Weather Intelligence & Action Advisories</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="gradient-card p-6 rounded-2xl border-l-4 border-rose-500">
+          <div class="text-3xl mb-2 text-rose-400"><i class="fa-solid fa-ban"></i></div>
+          <h3 class="font-bold text-white mb-2">No-Spray Windows</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Detects rainfall probabilities above 65% within 6 hours. Warns farmers not to spray contact fungicides, preventing complete chemical wash-off and saving ₹2,000 to ₹4,000 per application.
+          </p>
+        </div>
+        <div class="gradient-card p-6 rounded-2xl border-l-4 border-cyan-500">
+          <div class="text-3xl mb-2 text-cyan-400"><i class="fa-solid fa-droplet"></i></div>
+          <h3 class="font-bold text-white mb-2">Irrigation Optimization</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Factors in temperature, humidity, and soil evapotranspiration to recommend exact light vs deep irrigation schedules, saving precious borewell electricity and diesel fuel.
+          </p>
+        </div>
+        <div class="gradient-card p-6 rounded-2xl border-l-4 border-amber-500">
+          <div class="text-3xl mb-2 text-amber-400"><i class="fa-solid fa-cloud-bolt"></i></div>
+          <h3 class="font-bold text-white mb-2">Extreme Weather Alerts</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Early warnings for high humidity (fungal blast risks), sudden heatwaves, or unseasonal frost, complete with preventive cultural practices.
+          </p>
+        </div>
+      </div>
+      <div class="speaker-note hidden bg-slate-900/90 border border-emerald-500/40 p-4 rounded-xl text-left text-sm text-slate-300">
+        <strong class="text-emerald-400">🗣️ Speaker Script:</strong> "Weather alerts without action instructions are useless. KrishiMitra doesn't just show temperature graphs—it tells the farmer whether they should irrigate this evening or hold off because rain is arriving tomorrow."
+      </div>
+    </div>
+
+    <!-- SLIDE 8: Live APMC Market Intelligence -->
+    <div class="slide space-y-6">
+      <div>
+        <span class="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs">Core Feature 4</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-1 text-white">Live APMC Mandi Intelligence & Trends</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="gradient-card p-5 rounded-2xl">
+          <h3 class="font-bold text-emerald-400 mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-chart-line"></i> Real-Time Ticker Bar
+          </h3>
+          <p class="text-xs text-slate-300 mb-3">
+            Always-on commodity rates for Paddy, Arecanut, Ginger, Maize, Pepper, and Coconut with daily price fluctuation indicators.
+          </p>
+          <div class="bg-slate-950/60 p-3 rounded-lg text-xs space-y-1">
+            <div class="flex justify-between"><span>Paddy (Davangere)</span><span class="text-emerald-400 font-bold">₹2,350 ▲1.2%</span></div>
+            <div class="flex justify-between"><span>Arecanut (Shivamogga)</span><span class="text-rose-400 font-bold">₹52,400 ▼0.4%</span></div>
+            <div class="flex justify-between"><span>Ginger (Hassan)</span><span class="text-emerald-400 font-bold">₹8,900 ▲3.5%</span></div>
+          </div>
+        </div>
+        <div class="gradient-card p-5 rounded-2xl">
+          <h3 class="font-bold text-emerald-400 mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-scale-balanced"></i> Cross-Mandi Arbitrage
+          </h3>
+          <p class="text-xs text-slate-300 mb-3">
+            Compares rates across neighboring APMC mandis within 50 km so farmers can choose the market offering the highest net return after transport costs.
+          </p>
+          <div class="bg-slate-950/60 p-3 rounded-lg text-xs text-slate-300">
+            "Transport to Shimoga APMC costs ₹50/qtl extra, but modal price is ₹320 higher. <strong class='text-emerald-300'>Net Gain: +₹270/qtl</strong>."
+          </div>
+        </div>
+        <div class="gradient-card p-5 rounded-2xl">
+          <h3 class="font-bold text-emerald-400 mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-calendar-days"></i> 6-Year Historical Cycles
+          </h3>
+          <p class="text-xs text-slate-300 mb-3">
+            Historical price charts powered by Recharts highlight seasonal harvest gluts and peak selling months over the past 6 years.
+          </p>
+          <div class="bg-slate-950/60 p-3 rounded-lg text-xs text-slate-300">
+            Identifies best holding window: <span class="text-amber-300">"Peak prices historically occur in August-September."</span>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-note hidden bg-slate-900/90 border border-emerald-500/40 p-4 rounded-xl text-left text-sm text-slate-300">
+        <strong class="text-emerald-400">🗣️ Speaker Script:</strong> "Mandi pricing is the farmer's lifeline. Through our cross-mandi comparison tool, a farmer with 40 quintals of produce can earn an extra ₹10,000 simply by selecting the right market 20 kilometers away."
+      </div>
+    </div>
+
+    <!-- SLIDE 9: Animal Husbandry & Livestock Hub -->
+    <div class="slide space-y-6">
+      <div>
+        <span class="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs">Core Feature 5</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-1 text-white">Animal Husbandry, Dairy & Marketplace</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="gradient-card p-5 rounded-xl">
+          <div class="text-2xl mb-1">🥛</div>
+          <h4 class="font-bold text-white mb-1">Dairy Payout Calc</h4>
+          <p class="text-xs text-slate-300">Real-time procurement calculator for KMF Nandini, Amul, and Dodla based on Fat and SNF percentages, plus state subsidies.</p>
+        </div>
+        <div class="gradient-card p-5 rounded-xl">
+          <div class="text-2xl mb-1">🥗</div>
+          <h4 class="font-bold text-white mb-1">Scientific Feeding</h4>
+          <p class="text-xs text-slate-300">Balanced diets for dry and lactating cattle (Napier grass, ragi straw, cattle feed pellets, bypass fat, mineral mix).</p>
+        </div>
+        <div class="gradient-card p-5 rounded-xl">
+          <div class="text-2xl mb-1">🧬</div>
+          <h4 class="font-bold text-white mb-1">Sire Guide</h4>
+          <p class="text-xs text-slate-300">Artificial insemination sire matching guide (HF, Jersey, Hallikar) with expected milk gains and inbreeding prevention warnings.</p>
+        </div>
+        <div class="gradient-card p-5 rounded-xl">
+          <div class="text-2xl mb-1">🤝</div>
+          <h4 class="font-bold text-white mb-1">Cattle Market & Vets</h4>
+          <p class="text-xs text-slate-300">Peer-to-peer marketplace for buying/selling cattle, plus verified local cow doctor and vet hospital phone directory.</p>
+        </div>
+      </div>
+      <div class="speaker-note hidden bg-slate-900/90 border border-emerald-500/40 p-4 rounded-xl text-left text-sm text-slate-300">
+        <strong class="text-emerald-400">🗣️ Speaker Script:</strong> "Livestock represents a farmer's emergency liquidity. KrishiMitra protects this asset by calculating exact dairy milk payments under KMF Nandini's fat/SNF slabs and connecting farmers to emergency veterinarians."
+      </div>
+    </div>
+
+    <!-- SLIDE 10: Farm Financial & Wealth Planner -->
+    <div class="slide space-y-6">
+      <div>
+        <span class="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs">Core Feature 6</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-1 text-white">Whole-Year Farm Balance Sheet & Wealth Planner</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="gradient-card p-6 rounded-2xl">
+          <h3 class="font-bold text-emerald-400 mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-book-journal-whills"></i> Farm Ledger Balance Sheet
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed mb-3">
+            Tracks every expense categorized into Cultivation, Irrigation, Harvesting, and Household, alongside crop revenues to compute the true Net Profit per acre.
+          </p>
+          <div class="text-[11px] text-slate-400 bg-slate-950/60 p-2 rounded">
+            Eliminates hidden losses in labor and diesel maintenance.
+          </div>
+        </div>
+        <div class="gradient-card p-6 rounded-2xl">
+          <h3 class="font-bold text-emerald-400 mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-chart-pie"></i> 4-Bucket Wealth Allocation
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed mb-3">
+            Helps farmers apportion lump-sum harvest earnings into 4 clear reserves: Household Living, Next Cultivation Reserve, Harvest Fund, and Life Commitments.
+          </p>
+          <div class="text-[11px] text-slate-400 bg-slate-950/60 p-2 rounded">
+            Prevents debt traps by reserving capital before spending.
+          </div>
+        </div>
+        <div class="gradient-card p-6 rounded-2xl">
+          <h3 class="font-bold text-emerald-400 mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-credit-card"></i> KCC & Loan Tracker
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed mb-3">
+            Monitors active Kisan Credit Card (KCC) loans and alerts farmers before due dates to lock in the Government's 3% prompt repayment interest subvention.
+          </p>
+          <div class="text-[11px] text-slate-400 bg-slate-950/60 p-2 rounded">
+            Saves up to ₹4,000 in interest penalties each year.
+          </div>
+        </div>
+      </div>
+      <div class="speaker-note hidden bg-slate-900/90 border border-emerald-500/40 p-4 rounded-xl text-left text-sm text-slate-300">
+        <strong class="text-emerald-400">🗣️ Speaker Script:</strong> "Most farmers experience a cash surge during harvest, spend it on social commitments, and then borrow at 24% interest for the next planting season. Our 4-bucket wealth planner keeps them financially resilient."
+      </div>
+    </div>
+
+    <!-- SLIDE 11: Real-World Scenarios -->
+    <div class="slide space-y-6">
+      <div>
+        <span class="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs">Field Scenarios</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-1 text-white">How a Farmer Uses KrishiMitra on the Ground</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="gradient-card p-6 rounded-2xl border-l-4 border-emerald-400 space-y-3">
+          <div class="text-xs font-bold uppercase tracking-wider text-emerald-400">Scenario 1: Pest Outbreak in Paddy</div>
+          <h3 class="text-base font-bold text-white">Visual Disease Diagnosis & Safe Spraying</h3>
+          <div class="text-xs text-slate-300 space-y-2">
+            <p><strong>Step 1:</strong> Farmer sees yellow leaf streaks, opens Web PWA, taps Camera -> Disease Mode.</p>
+            <p><strong>Step 2:</strong> In 1.8 seconds, Gemini Vision identifies <em>Bacterial Leaf Blight</em>.</p>
+            <p><strong>Step 3:</strong> Prescribes Streptocycline (6g) + Copper Oxychloride (500g) per 200L barrel.</p>
+            <p><strong>Step 4:</strong> Checks Open-Meteo: warns that heavy rain will arrive in 48 hours, advising a spreader sticker.</p>
+          </div>
+        </div>
+        <div class="gradient-card p-6 rounded-2xl border-l-4 border-teal-400 space-y-3">
+          <div class="text-xs font-bold uppercase tracking-wider text-teal-400">Scenario 2: Harvest Negotiation at Farm Gate</div>
+          <h3 class="text-base font-bold text-white">Voice-Based Mandi Arbitrage via WhatsApp</h3>
+          <div class="text-xs text-slate-300 space-y-2">
+            <p><strong>Step 1:</strong> Trader offers ₹1,800/quintal for maize at the village.</p>
+            <p><strong>Step 2:</strong> Farmer sends WhatsApp voice note in Kannada asking for nearby market prices.</p>
+            <p><strong>Step 3:</strong> KrishiMitra bot replies in Kannada voice: <em>"Davangere APMC is paying ₹2,150 today."</em></p>
+            <p><strong>Step 4:</strong> Farmer refuses the trader's low offer, hiring transport to earn ₹14,000 extra profit.</p>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-note hidden bg-slate-900/90 border border-emerald-500/40 p-4 rounded-xl text-left text-sm text-slate-300">
+        <strong class="text-emerald-400">🗣️ Speaker Script:</strong> "These aren't hypothetical stories—they represent the everyday realities of farmers. In both cases, KrishiMitra converted critical information into immediate financial savings."
+      </div>
+    </div>
+
+    <!-- SLIDE 12: Practical Benefits & Economics -->
+    <div class="slide space-y-6">
+      <div>
+        <span class="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs">Measurable Impact</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-1 text-white">Quantifiable Financial Impact per Smallholder</h2>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-slate-300 border-collapse">
+          <thead>
+            <tr class="border-b border-slate-700 bg-slate-900/70 text-emerald-400 text-xs uppercase tracking-wider">
+              <th class="p-4">Intervention Area</th>
+              <th class="p-4">Mechanism</th>
+              <th class="p-4 text-right">Annual Impact (2-Acre Farm)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800 text-xs">
+            <tr>
+              <td class="p-4 font-semibold text-white">🌾 Early Crop Disease Detection</td>
+              <td class="p-4 text-slate-300">Prevents fungal blight spread before irreversible crop loss</td>
+              <td class="p-4 text-right font-bold text-emerald-400">₹15,000 – ₹35,000</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-semibold text-white">🧪 Agrochemical Overdose Reduction</td>
+              <td class="p-4 text-slate-300">Accurate knapsack/barrel dilutions eliminate pesticide waste</td>
+              <td class="p-4 text-right font-bold text-emerald-400">₹3,500 – ₹6,000</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-semibold text-white">📊 Mandi Price Arbitrage</td>
+              <td class="p-4 text-slate-300">Cross-market rate comparisons avoid depressed broker rates</td>
+              <td class="p-4 text-right font-bold text-emerald-400">₹12,000 – ₹28,000</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-semibold text-white">🥛 Dairy Payout Optimization</td>
+              <td class="p-4 text-slate-300">Feeding formulas that increase fat and SNF yield</td>
+              <td class="p-4 text-right font-bold text-emerald-400">₹1,500 – ₹3,000</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-semibold text-white">💰 KCC Interest Subvention</td>
+              <td class="p-4 text-slate-300">On-time loan renewal notifications capture 3% rebate</td>
+              <td class="p-4 text-right font-bold text-emerald-400">₹2,000 – ₹4,000</td>
+            </tr>
+            <tr class="bg-emerald-950/40 text-emerald-300 font-bold text-sm">
+              <td class="p-4">🌟 Total Net Economic Benefit</td>
+              <td class="p-4">Direct income protection & input cost savings</td>
+              <td class="p-4 text-right text-emerald-300">₹34,000 – ₹76,000 / year</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="speaker-note hidden bg-slate-900/90 border border-emerald-500/40 p-4 rounded-xl text-left text-sm text-slate-300">
+        <strong class="text-emerald-400">🗣️ Speaker Script:</strong> "For an Indian smallholder earning ₹1.2 lakh annually, an additional ₹35,000 to ₹75,000 represents a transformative increase in net household income."
+      </div>
+    </div>
+
+    <!-- SLIDE 13: Reliability & Offline Fallbacks -->
+    <div class="slide space-y-6">
+      <div>
+        <span class="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs">Resilience</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-1 text-white">Resilience Engineering & Offline Caching</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="gradient-card p-6 rounded-2xl border-t-2 border-emerald-400">
+          <div class="text-xs font-mono text-emerald-400 mb-1">TIER 1 (ONLINE)</div>
+          <h3 class="font-bold text-white mb-2">Live Cloud AI & APIs</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Gemini 2.5 Flash, Sarvam AI, live data.gov.in Agmarknet, and Open-Meteo services for dynamic real-time reasoning.
+          </p>
+        </div>
+        <div class="gradient-card p-6 rounded-2xl border-t-2 border-amber-400">
+          <div class="text-xs font-mono text-amber-400 mb-1">TIER 2 (CACHED)</div>
+          <h3 class="font-bold text-white mb-2">SQLite Persistent Cache</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Automatic background caching of mandi rates, weather forecasts, and farmer balance sheets. Serves cached responses during API slowdowns.
+          </p>
+        </div>
+        <div class="gradient-card p-6 rounded-2xl border-t-2 border-blue-400">
+          <div class="text-xs font-mono text-blue-400 mb-1">TIER 3 (OFFLINE)</div>
+          <h3 class="font-bold text-white mb-2">Agronomic Rule Engine</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Graceful degradation to curated agronomic benchmarks if cloud services are completely unreachable. The app never crashes or leaves the farmer stranded.
+          </p>
+        </div>
+      </div>
+      <div class="speaker-note hidden bg-slate-900/90 border border-emerald-500/40 p-4 rounded-xl text-left text-sm text-slate-300">
+        <strong class="text-emerald-400">🗣️ Speaker Script:</strong> "Rural internet connections are notoriously unreliable. Our multi-tiered caching architecture guarantees that the platform degrades gracefully without downtime."
+      </div>
+    </div>
+
+    <!-- SLIDE 14: Competitive Advantage -->
+    <div class="slide space-y-6">
+      <div>
+        <span class="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs">Market Differentiation</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-1 text-white">How KrishiMitra Outperforms Alternatives</h2>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-slate-300 border-collapse">
+          <thead>
+            <tr class="border-b border-slate-700 bg-slate-900/70 text-emerald-400 text-xs uppercase tracking-wider">
+              <th class="p-4">Capability</th>
+              <th class="p-4">Traditional Agri Apps</th>
+              <th class="p-4">Generic Chatbots</th>
+              <th class="p-4 text-emerald-300 font-bold bg-emerald-950/40">KrishiMitra (Our Platform)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800 text-xs">
+            <tr>
+              <td class="p-4 font-semibold text-white">Ingress Interface</td>
+              <td class="p-4 text-slate-400">Complex Mobile App only</td>
+              <td class="p-4 text-slate-400">Text Web Chat only</td>
+              <td class="p-4 text-emerald-300 font-semibold bg-emerald-950/20">Web PWA + 2-Way WhatsApp Voice Notes</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-semibold text-white">Language Support</td>
+              <td class="p-4 text-slate-400">English + Hindi only</td>
+              <td class="p-4 text-slate-400">Translational English</td>
+              <td class="p-4 text-emerald-300 font-semibold bg-emerald-950/20">6 Native Indic Languages with Voice Audio</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-semibold text-white">Pesticide Safety</td>
+              <td class="p-4 text-slate-400">Generic text articles</td>
+              <td class="p-4 text-slate-400">Hallucinates dosages</td>
+              <td class="p-4 text-emerald-300 font-semibold bg-emerald-950/20">15L Knapsack & 200L Barrel Dilutions + PHI Days</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-semibold text-white">Market Intelligence</td>
+              <td class="p-4 text-slate-400">Static tables</td>
+              <td class="p-4 text-slate-400">Outdated web scraping</td>
+              <td class="p-4 text-emerald-300 font-semibold bg-emerald-950/20">Live Agmarknet Sync + 6-Year Trend Analysis</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-semibold text-white">Financial Management</td>
+              <td class="p-4 text-slate-400">None</td>
+              <td class="p-4 text-slate-400">None</td>
+              <td class="p-4 text-emerald-300 font-semibold bg-emerald-950/20">Crop-wise Ledger, KCC Tracker & Wealth Reserves</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="speaker-note hidden bg-slate-900/90 border border-emerald-500/40 p-4 rounded-xl text-left text-sm text-slate-300">
+        <strong class="text-emerald-400">🗣️ Speaker Script:</strong> "Unlike generic AI chatbots that hallucinate dosages, KrishiMitra combines multimodal vision with domain-verified agricultural knowledge and real-time market data."
+      </div>
+    </div>
+
+    <!-- SLIDE 15: Future Roadmap -->
+    <div class="slide space-y-6">
+      <div>
+        <span class="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs">Roadmap</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-1 text-white">Strategic Roadmap & Future Expansion</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="gradient-card p-6 rounded-2xl border-t-4 border-emerald-400">
+          <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">Phase 1: Present (Production-Ready)</div>
+          <h3 class="font-bold text-white mb-2">Core Platform Delivery</h3>
+          <ul class="text-xs text-slate-300 space-y-1.5">
+            <li>✅ 4-Mode Gemini Vision Scanner</li>
+            <li>✅ 6-Language Sarvam Voice Assistant</li>
+            <li>✅ WhatsApp 2-Way Voice Bot</li>
+            <li>✅ APMC Mandis, Dairy & Ledger</li>
+          </ul>
+        </div>
+        <div class="gradient-card p-6 rounded-2xl border-t-4 border-teal-400">
+          <div class="text-xs font-bold text-teal-400 uppercase tracking-wider mb-2">Phase 2: Next 3–6 Months</div>
+          <h3 class="font-bold text-white mb-2">Satellite & IoT Integration</h3>
+          <ul class="text-xs text-slate-300 space-y-1.5">
+            <li>🛰️ Sentinel-2 NDVI satellite crop health scans</li>
+            <li>📡 Bluetooth soil moisture sensor sync</li>
+            <li>🚁 Shared drone spraying booking network</li>
+            <li>🌐 Expansion to 12 Indian states</li>
+          </ul>
+        </div>
+        <div class="gradient-card p-6 rounded-2xl border-t-4 border-cyan-400">
+          <div class="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-2">Phase 3: 6–12 Months</div>
+          <h3 class="font-bold text-white mb-2">Fintech & Institutional Linkage</h3>
+          <ul class="text-xs text-slate-300 space-y-1.5">
+            <li>🏦 Alternative credit score for low-interest bank loans</li>
+            <li>📦 Direct FPO collective bargaining</li>
+            <li>🌿 Parametric micro-insurance payouts on weather triggers</li>
+          </ul>
+        </div>
+      </div>
+      <div class="speaker-note hidden bg-slate-900/90 border border-emerald-500/40 p-4 rounded-xl text-left text-sm text-slate-300">
+        <strong class="text-emerald-400">🗣️ Speaker Script:</strong> "Looking ahead, our vision is to transform KrishiMitra into a full-scale rural financial backbone, using farm ledger history to unlock formal credit for farmers."
+      </div>
+    </div>
+
+    <!-- SLIDE 16: Conclusion -->
+    <div class="slide justify-center items-center text-center space-y-6">
+      <span class="badge bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-sm py-1 px-4">
+        ✨ The Vision Forward
+      </span>
+      <h2 class="text-4xl md:text-5xl font-extrabold text-white max-w-3xl leading-tight">
+        Putting World-Class Agricultural Intelligence into <span class="text-emerald-400">Every Farmer's Hands</span>
+      </h2>
+      <p class="text-base md:text-lg text-slate-300 max-w-2xl">
+        By combining multimodal vision, conversational voice AI, real-time market transparency, and financial discipline, KrishiMitra secures the livelihoods of those who feed our nation.
+      </p>
+      <div class="p-6 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 max-w-xl text-emerald-300 font-medium text-sm">
+        "Technology is only as powerful as the lives it transforms. KrishiMitra bridges the digital divide at the grass roots."
+      </div>
+      <div class="pt-4 flex items-center justify-center gap-4">
+        <button onclick="goToSlide(0)" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-sm transition shadow-lg shadow-emerald-900/40">
+          <i class="fa-solid fa-rotate-left mr-2"></i> Restart Deck
+        </button>
+      </div>
+      <div class="speaker-note hidden bg-slate-900/90 border border-emerald-500/40 p-4 rounded-xl text-left text-sm text-slate-300 max-w-2xl mt-4">
+        <strong class="text-emerald-400">🗣️ Speaker Script:</strong> "Thank you for your time. We are now open to any questions from the panel!"
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Controls Footer -->
+  <footer class="flex items-center justify-between pt-4 border-t border-slate-800 max-w-7xl mx-auto w-full">
+    <div class="text-xs text-slate-400">
+      Use <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">←</kbd> <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">→</kbd> arrow keys to navigate
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="prevSlide()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-medium transition border border-slate-700">
+        <i class="fa-solid fa-chevron-left mr-1"></i> Previous
+      </button>
+      <button onclick="nextSlide()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold transition shadow-md shadow-emerald-900/30">
+        Next <i class="fa-solid fa-chevron-right ml-1"></i>
+      </button>
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const indicator = document.getElementById('slideIndicator');
+
+    function updateSlide() {
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === currentSlide);
+      });
+      indicator.textContent = `Slide ${currentSlide + 1} / ${slides.length}`;
+    }
+
+    function nextSlide() {
+      if (currentSlide < slides.length - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      updateSlide();
+    }
+
+    function toggleNotes() {
+      document.querySelectorAll('.speaker-note').forEach(el => {
+        el.classList.toggle('hidden');
+      });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+  </script>
+</body>
+</html>

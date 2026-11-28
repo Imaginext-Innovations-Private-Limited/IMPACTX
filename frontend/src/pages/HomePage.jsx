@@ -15,7 +15,7 @@ const GREETINGS = {
 }
 
 function WeatherWidget({ onNavigate }) {
-  const { t } = useI18n()
+  const { lang, t } = useI18n()
   const { location } = useLocationContext()
   const [weatherData, setWeatherData] = useState(null)
 
@@ -25,7 +25,8 @@ function WeatherWidget({ onNavigate }) {
 
   useEffect(() => {
     let cancelled = false
-    weatherApi.getForecast(activeLat, activeLon, activeName)
+    const langCode = lang ? (lang.includes('-') ? lang : `${lang}-IN`) : 'kn-IN'
+    weatherApi.getForecast(activeLat, activeLon, activeName, location?.state, langCode)
       .then((res) => {
         if (!cancelled && res?.data) {
           setWeatherData(res.data)
@@ -35,12 +36,12 @@ function WeatherWidget({ onNavigate }) {
     return () => {
       cancelled = true
     }
-  }, [activeLat, activeLon, activeName])
+  }, [activeLat, activeLon, activeName, location?.state, lang])
 
-  const currentTemp = weatherData?.current?.temp_c ?? weatherData?.current?.temperature ?? 26
+  const currentTemp = weatherData?.current?.temp_c ?? weatherData?.current?.temp ?? 26
   const humidity = weatherData?.current?.humidity_pct ?? weatherData?.current?.humidity ?? 72
   const minTemp = weatherData?.daily?.[0]?.temp_min ?? weatherData?.current?.temp_min ?? 19
-  const conditionText = weatherData?.current?.condition || t('partly_cloudy')
+  const conditionText = weatherData?.current?.weather_localized || weatherData?.current?.weather_kannada || weatherData?.current?.condition || t('partly_cloudy')
 
   return (
     <div

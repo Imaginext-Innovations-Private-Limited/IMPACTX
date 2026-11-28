@@ -26,20 +26,47 @@ def get_db():
 
 
 def ensure_sqlite_columns():
-    """Idempotently add missing columns to existing SQLite tables (e.g., user_locations)."""
-    required_columns = {
-        "language_code": "VARCHAR(20)",
-        "awaiting_language_choice": "BOOLEAN DEFAULT 0",
+    """Idempotently add missing columns and tables to existing SQLite database."""
+    table_column_specs = {
+        "user_locations": {
+            "language_code": "VARCHAR(20)",
+            "awaiting_language_choice": "BOOLEAN DEFAULT 0",
+        },
+        "mandi_price_cache": {
+            "commodity_id": "INTEGER",
+            "category": "VARCHAR(50)",
+            "unit": "VARCHAR(20) DEFAULT 'quintal'",
+            "previous_price": "FLOAT",
+        },
+        "two_week_history": {
+            "state": "VARCHAR(50) DEFAULT 'Karnataka'",
+        },
+        "seasonal_historical_prices": {
+            "state": "VARCHAR(50) DEFAULT 'Karnataka'",
+        },
     }
     try:
         with engine.begin() as conn:
-            rows = conn.execute(text("PRAGMA table_info(user_locations)")).fetchall()
-            if not rows:
-                return
-            existing_cols = {row[1] for row in rows}
-            for col_name, col_type in required_columns.items():
-                if col_name not in existing_cols:
-                    conn.execute(text(f"ALTER TABLE user_locations ADD COLUMN {col_name} {col_type}"))
-                    logger.info("[DB Migration] Added column user_locations.%s (%s)", col_name, col_type)
+            # Create dairy_cache table if it doesn't exist
+            conn.execute(text("""
+                CREATE TABLE IF NOT EXISTS dairy_cache (
+                    cache_key VARCHAR(150) PRIMARY KEY,
+                    endpoint VARCHAR(50),
+                    state VARCHAR(60),
+                    language VARCHAR(20),
+                    data_json TEXT,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    expires_at TIMESTAMP
+                )
+            """))
+            for table_name, col_dict in table_column_specs.items():
+                rows = conn.execute(text(f"PRAGMA table_info({table_name})")).fetchall()
+                if not rows:
+                    continue
+                existing_cols = {row[1] for row in rows}
+                for col_name, col_type in col_dict.items():
+                    if col_name not in existing_cols:
+                        conn.execute(text(f"ALTER TABLE {table_name} ADD COLUMN {col_name} {col_type}"))
+                        logger.info("[DB Migration] Added column %s.%s (%s)", table_name, col_name, col_type)
     except Exception as exc:
         logger.error("[DB Migration] Failed ensuring SQLite columns: %s", exc, exc_info=True)

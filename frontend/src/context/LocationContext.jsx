@@ -22,6 +22,21 @@ export const FALLBACK_DISTRICTS = [
   { id: 'raichur', name: 'Raichur', district: 'Raichur', state: 'Karnataka', lat: 16.2120, lon: 77.3439 },
   { id: 'kolar', name: 'Kolar', district: 'Kolar', state: 'Karnataka', lat: 13.1362, lon: 78.1291 },
   { id: 'udupi', name: 'Udupi', district: 'Udupi', state: 'Karnataka', lat: 13.3409, lon: 74.7421 },
+  { id: 'pune', name: 'Pune', district: 'Pune', state: 'Maharashtra', lat: 18.5204, lon: 73.8567 },
+  { id: 'nashik', name: 'Nashik', district: 'Nashik', state: 'Maharashtra', lat: 19.9975, lon: 73.7898 },
+  { id: 'coimbatore', name: 'Coimbatore', district: 'Coimbatore', state: 'Tamil Nadu', lat: 11.0168, lon: 76.9558 },
+  { id: 'hyderabad', name: 'Hyderabad', district: 'Rangareddy', state: 'Telangana', lat: 17.3850, lon: 78.4867 },
+  { id: 'guntur', name: 'Guntur', district: 'Guntur', state: 'Andhra Pradesh', lat: 16.3067, lon: 80.4365 },
+  { id: 'thrissur', name: 'Thrissur', district: 'Thrissur', state: 'Kerala', lat: 10.5276, lon: 76.2144 },
+  { id: 'lucknow', name: 'Lucknow', district: 'Lucknow', state: 'Uttar Pradesh', lat: 26.8467, lon: 80.9462 },
+  { id: 'ludhiana', name: 'Ludhiana', district: 'Ludhiana', state: 'Punjab', lat: 30.9010, lon: 75.8573 },
+  { id: 'karnal', name: 'Karnal', district: 'Karnal', state: 'Haryana', lat: 29.6857, lon: 76.9905 },
+  { id: 'indore', name: 'Indore', district: 'Indore', state: 'Madhya Pradesh', lat: 22.7196, lon: 75.8577 },
+  { id: 'ahmedabad', name: 'Ahmedabad', district: 'Ahmedabad', state: 'Gujarat', lat: 23.0225, lon: 72.5714 },
+  { id: 'kolkata', name: 'Kolkata / Hooghly', district: 'Hooghly', state: 'West Bengal', lat: 22.9000, lon: 88.3900 },
+  { id: 'jaipur', name: 'Jaipur', district: 'Jaipur', state: 'Rajasthan', lat: 26.9124, lon: 75.7873 },
+  { id: 'patna', name: 'Patna', district: 'Patna', state: 'Bihar', lat: 25.5941, lon: 85.1376 },
+  { id: 'cuttack', name: 'Cuttack', district: 'Cuttack', state: 'Odisha', lat: 20.4625, lon: 85.8830 },
 ]
 
 async function reverseGeocodeCoords(lat, lon) {
@@ -47,7 +62,8 @@ export function LocationProvider({ children }) {
   const [location, setLocation] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY)
-      return saved ? JSON.parse(saved) : null
+      const parsed = saved ? JSON.parse(saved) : null
+      return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : null
     } catch {
       return null
     }
@@ -168,3 +184,5 @@ export function useLocationContext() {
   if (!ctx) throw new Error('useLocationContext must be used inside LocationProvider')
   return ctx
 }
+
+export const useLocation = useLocationContext

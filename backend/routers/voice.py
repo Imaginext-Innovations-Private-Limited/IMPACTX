@@ -18,6 +18,7 @@ from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 from pydantic import BaseModel
 
 import config
+import language_config
 import location_service
 import models
 
@@ -55,13 +56,12 @@ AGRICULTURAL_KEYTERMS = [
 ]
 
 LANGUAGE_MAP = {
-    "kn": {"sarvam_code": "kn-IN", "gemini_name": "Kannada (ಕನ್ನಡ)"},
-    "hi": {"sarvam_code": "hi-IN", "gemini_name": "Hindi (हिन्दी)"},
-    "ta": {"sarvam_code": "ta-IN", "gemini_name": "Tamil (தமிழ்)"},
-    "te": {"sarvam_code": "te-IN", "gemini_name": "Telugu (తెలుగు)"},
-    "mr": {"sarvam_code": "mr-IN", "gemini_name": "Marathi (मराठी)"},
-    "ml": {"sarvam_code": "ml-IN", "gemini_name": "Malayalam (മലയാളം)"},
-    "en": {"sarvam_code": "en-IN", "gemini_name": "English"},
+    cfg["short_code"]: {
+        "sarvam_code": code,
+        "gemini_name": cfg["gemini_name"],
+        "edge_tts_voice": cfg["edge_tts_voice"],
+    }
+    for code, cfg in language_config.SUPPORTED_LANGUAGES.items()
 }
 
 SARVAM_STT_URL = "https://api.sarvam.ai/speech-to-text"
@@ -70,24 +70,7 @@ SARVAM_TTS_URL = "https://api.sarvam.ai/text-to-speech"
 
 def normalize_language_code(lang: Optional[str], default: str = "kn-IN") -> str:
     """Normalize short or regional language codes to supported Sarvam/Gemini BCP-47 codes."""
-    if not lang:
-        return default
-    cleaned = lang.strip().lower()
-    if cleaned in ("auto", "unknown"):
-        return "auto"
-    short = cleaned.split("-")[0]
-    if short in LANGUAGE_MAP:
-        return LANGUAGE_MAP[short]["sarvam_code"]
-    name_map = {
-        "kannada": "kn-IN",
-        "hindi": "hi-IN",
-        "tamil": "ta-IN",
-        "telugu": "te-IN",
-        "marathi": "mr-IN",
-        "malayalam": "ml-IN",
-        "english": "en-IN",
-    }
-    return name_map.get(cleaned, default)
+    return language_config.normalize_language_code(lang, default=default)
 
 
 # ──────────────────── INTERNAL TOOL FUNCTIONS ────────────────────────────────

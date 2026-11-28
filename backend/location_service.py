@@ -51,6 +51,25 @@ KARNATAKA_DISTRICT_COORDS: Dict[str, Tuple[float, float, str, str]] = {
     "karwar": (14.8136, 74.1297, "Uttara Kannada", "Karnataka"),
     "kodagu": (12.3375, 75.8069, "Kodagu", "Karnataka"),
     "madikeri": (12.4244, 75.7382, "Kodagu", "Karnataka"),
+    "pune": (18.5204, 73.8567, "Pune", "Maharashtra"),
+    "nashik": (19.9975, 73.7898, "Nashik", "Maharashtra"),
+    "nagpur": (21.1458, 79.0882, "Nagpur", "Maharashtra"),
+    "coimbatore": (11.0168, 76.9558, "Coimbatore", "Tamil Nadu"),
+    "thanjavur": (10.7870, 79.1378, "Thanjavur", "Tamil Nadu"),
+    "hyderabad": (17.3850, 78.4867, "Rangareddy", "Telangana"),
+    "warangal": (17.9689, 79.5941, "Warangal", "Telangana"),
+    "guntur": (16.3067, 80.4365, "Guntur", "Andhra Pradesh"),
+    "thrissur": (10.5276, 76.2144, "Thrissur", "Kerala"),
+    "lucknow": (26.8467, 80.9462, "Lucknow", "Uttar Pradesh"),
+    "ludhiana": (30.9010, 75.8573, "Ludhiana", "Punjab"),
+    "karnal": (29.6857, 76.9905, "Karnal", "Haryana"),
+    "indore": (22.7196, 75.8577, "Indore", "Madhya Pradesh"),
+    "ahmedabad": (23.0225, 72.5714, "Ahmedabad", "Gujarat"),
+    "rajkot": (22.3039, 70.8022, "Rajkot", "Gujarat"),
+    "kolkata": (22.9000, 88.3900, "Hooghly", "West Bengal"),
+    "jaipur": (26.9124, 75.7873, "Jaipur", "Rajasthan"),
+    "patna": (25.5941, 85.1376, "Patna", "Bihar"),
+    "cuttack": (20.4625, 85.8830, "Cuttack", "Odisha"),
 }
 
 NOMINATIM_HEADERS = {
@@ -506,6 +525,90 @@ async def fetch_live_weather_async(lat: float, lon: float, location_name: Option
             "longitude": lon,
             "summary_text": f"Location: {loc_label} (lat={lat:.4f}, lon={lon:.4f}). Live Open-Meteo weather temporarily unavailable ({exc}).",
         }
+
+
+def resolve_state(
+    state: Optional[str] = None,
+    location_name: Optional[str] = None,
+    district: Optional[str] = None,
+    lat: Optional[float] = None,
+    lon: Optional[float] = None,
+) -> str:
+    """
+    Resolve canonical Indian state name from state, location name, district, or GPS coordinates.
+    Defaults to 'Karnataka' if no specific Indian state can be resolved.
+    """
+    known_states = {
+        "karnataka": "Karnataka",
+        "telangana": "Telangana",
+        "maharashtra": "Maharashtra",
+        "tamil nadu": "Tamil Nadu",
+        "tamilnadu": "Tamil Nadu",
+        "andhra pradesh": "Andhra Pradesh",
+        "andhra": "Andhra Pradesh",
+        "kerala": "Kerala",
+        "uttar pradesh": "Uttar Pradesh",
+        "punjab": "Punjab",
+        "haryana": "Haryana",
+        "madhya pradesh": "Madhya Pradesh",
+        "gujarat": "Gujarat",
+        "west bengal": "West Bengal",
+        "rajasthan": "Rajasthan",
+        "bihar": "Bihar",
+        "odisha": "Odisha",
+        "orissa": "Odisha",
+    }
+    # 1. Direct state string
+    if state and state.strip():
+        s_clean = state.strip().lower()
+        if s_clean in known_states:
+            return known_states[s_clean]
+        for key, canonical in known_states.items():
+            if key in s_clean:
+                return canonical
+
+    # 2. Check district/location_name
+    test_str = f"{district or ''} {location_name or ''}".lower()
+    for key, canonical in known_states.items():
+        if key in test_str:
+            return canonical
+
+    # 3. Known district/city keywords in test_str
+    city_to_state = {
+        "hyderabad": "Telangana", "warangal": "Telangana", "nizamabad": "Telangana", "khammam": "Telangana",
+        "pune": "Maharashtra", "mumbai": "Maharashtra", "nashik": "Maharashtra", "nagpur": "Maharashtra",
+        "coimbatore": "Tamil Nadu", "thanjavur": "Tamil Nadu", "chennai": "Tamil Nadu", "madurai": "Tamil Nadu",
+        "guntur": "Andhra Pradesh", "vijayawada": "Andhra Pradesh", "kurnool": "Andhra Pradesh",
+        "thrissur": "Kerala", "kochi": "Kerala", "palakkad": "Kerala", "wayanad": "Kerala",
+        "lucknow": "Uttar Pradesh", "kanpur": "Uttar Pradesh", "varanasi": "Uttar Pradesh", "agra": "Uttar Pradesh",
+        "ludhiana": "Punjab", "amritsar": "Punjab", "jalandhar": "Punjab", "bathinda": "Punjab",
+        "karnal": "Haryana", "hisar": "Haryana", "ambala": "Haryana",
+        "indore": "Madhya Pradesh", "bhopal": "Madhya Pradesh", "ujjain": "Madhya Pradesh",
+        "ahmedabad": "Gujarat", "rajkot": "Gujarat", "surat": "Gujarat", "vadodara": "Gujarat",
+        "kolkata": "West Bengal", "hooghly": "West Bengal", "siliguri": "West Bengal", "bardhaman": "West Bengal",
+        "jaipur": "Rajasthan", "jodhpur": "Rajasthan", "kota": "Rajasthan", "bikaner": "Rajasthan",
+        "patna": "Bihar", "gaya": "Bihar", "muzaffarpur": "Bihar",
+        "cuttack": "Odisha", "bhubaneswar": "Odisha", "sambalpur": "Odisha",
+        "bengaluru": "Karnataka", "bangalore": "Karnataka", "shivamogga": "Karnataka", "mysuru": "Karnataka",
+        "davanagere": "Karnataka", "dharwad": "Karnataka", "belagavi": "Karnataka", "tumakuru": "Karnataka",
+    }
+    for city, st in city_to_state.items():
+        if city in test_str:
+            return st
+
+    # 4. Lat/lon proximity
+    if lat is not None and lon is not None:
+        best_dist = 999999.0
+        best_state = None
+        for _name, (clat, clon, _dist, st) in KARNATAKA_DISTRICT_COORDS.items():
+            dist = (clat - lat) ** 2 + (clon - lon) ** 2
+            if dist < best_dist:
+                best_dist = dist
+                best_state = st
+        if best_state and best_dist < 4.0:  # within ~200km
+            return best_state
+
+    return "Karnataka"
 
 
 def get_cached_mandi_prices_context(limit_commodities: int = 10, limit_mandis: int = 12) -> str:

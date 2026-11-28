@@ -27,8 +27,9 @@ import {
   ShoppingBag,
   Stethoscope
 } from 'lucide-react'
-import { dairyApi } from '../api/client'
+import { dairyApi, weatherApi } from '../api/client'
 import { useI18n } from '../context/I18nContext'
+import { useLocationContext } from '../context/LocationContext'
 
 const CATTLE_BREED_OPTIONS = [
   'Hallikar',
@@ -42,8 +43,41 @@ const CATTLE_BREED_OPTIONS = [
 const CATTLE_ANIMAL_TYPES = ['Cow', 'Buffalo', 'Heifer', 'Calf']
 
 export default function DairyPage({ onAskVoice }) {
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
+  const { location } = useLocationContext()
+  const activeState = location?.state || 'Karnataka'
+  const activeDistrict = location?.district || location?.name || 'Bengaluru'
+  const activeLocationName = location?.location_name || location?.name || activeDistrict
+  const activeLat = location?.lat ?? 12.9716
+  const activeLon = location?.lon ?? 77.5946
+  const locParams = {
+    state: activeState,
+    district: activeDistrict,
+    location_name: activeLocationName,
+    lat: activeLat,
+    lon: activeLon,
+    language: lang,
+  }
+
   const [activeSubTab, setActiveSubTab] = useState('rates') // 'rates', 'breeds', 'feed', 'sire', 'disease', 'cattle'
+  const [advisory, setAdvisory] = useState(null)
+
+  useEffect(() => {
+    const controller = new AbortController()
+    const params = new URLSearchParams({
+      state: activeState,
+      district: activeDistrict,
+      location_name: activeLocationName,
+      language: lang,
+    })
+    fetch(`/api/dairy/advisory?${params.toString()}`, { signal: controller.signal })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data) setAdvisory(data)
+      })
+      .catch(() => {})
+    return () => controller.abort()
+  }, [activeState, activeDistrict, activeLocationName, lang])
   
   // Rate board state
   const [rates, setRates] = useState([])
@@ -121,15 +155,27 @@ export default function DairyPage({ onAskVoice }) {
     description: '',
   })
 
-  // Load procurement rates on mount
+  // Auto-sync live temperature for the selected location
+  useEffect(() => {
+    weatherApi.getForecast(activeLat, activeLon, activeLocationName, activeState, lang)
+      .then(res => {
+        const liveTemp = res.data?.current?.temperature_2m ?? res.data?.current_weather?.temperature
+        if (typeof liveTemp === 'number' && !Number.isNaN(liveTemp)) {
+          setAmbientTemp(Number(liveTemp.toFixed(1)))
+        }
+      })
+      .catch(() => {})
+  }, [activeState, activeDistrict, activeLocationName, activeLat, activeLon, lang])
+
+  // Load procurement rates on mount and when location/language/filter changes
   useEffect(() => {
     fetchRates()
-  }, [milkFilter])
+  }, [milkFilter, activeState, activeDistrict, activeLocationName, activeLat, activeLon, lang])
 
   const fetchRates = () => {
     setRatesLoading(true)
     const filterParam = milkFilter === 'All' ? null : milkFilter
-    dairyApi.getProcurementRates(filterParam)
+    dairyApi.getProcurementRates(filterParam, locParams)
       .then(res => {
         setRates(res.data)
         setRatesLoading(false)
@@ -137,19 +183,19 @@ export default function DairyPage({ onAskVoice }) {
       .catch(() => setRatesLoading(false))
   }
 
-  // Load breeds when subtab opens or ambientTemp/animal filter changes
+  // Load breeds when subtab opens or ambientTemp/animal filter/location/language changes
   useEffect(() => {
     if (activeSubTab === 'breeds') {
       setBreedsLoading(true)
       const aFilter = breedAnimalFilter === 'All' ? null : breedAnimalFilter
-      dairyApi.getBreeds(ambientTemp, aFilter)
+      dairyApi.getBreeds(ambientTemp, aFilter, locParams)
         .then(res => {
           setBreeds(res.data)
           setBreedsLoading(false)
         })
         .catch(() => setBreedsLoading(false))
     }
-  }, [activeSubTab, breedAnimalFilter, ambientTemp])
+  }, [activeSubTab, breedAnimalFilter, ambientTemp, activeState, activeDistrict, activeLocationName, activeLat, activeLon, lang])
 
   // Load feed plans
   useEffect(() => {
@@ -157,40 +203,40 @@ export default function DairyPage({ onAskVoice }) {
       setFeedLoading(true)
       const sFilter = feedStageFilter === 'All' ? null : feedStageFilter
       const aFilter = feedAnimalFilter === 'All' ? null : feedAnimalFilter
-      dairyApi.getFeedPlans(aFilter, sFilter)
+      dairyApi.getFeedPlans(aFilter, sFilter, locParams)
         .then(res => {
           setFeedPlans(res.data)
           setFeedLoading(false)
         })
         .catch(() => setFeedLoading(false))
     }
-  }, [activeSubTab, feedStageFilter, feedAnimalFilter])
+  }, [activeSubTab, feedStageFilter, feedAnimalFilter, activeState, activeDistrict, activeLocationName, activeLat, activeLon, lang])
 
   // Load sire guide
   useEffect(() => {
     if (activeSubTab === 'sire') {
       setSireLoading(true)
-      dairyApi.getBreedingGuide(selectedDamBreed || null)
+      dairyApi.getBreedingGuide(selectedDamBreed || null, locParams)
         .then(res => {
           setSireGuides(res.data)
           setSireLoading(false)
         })
         .catch(() => setSireLoading(false))
     }
-  }, [activeSubTab, selectedDamBreed])
+  }, [activeSubTab, selectedDamBreed, activeState, activeDistrict, activeLocationName, activeLat, activeLon, lang])
 
   // Load disease advisor
   useEffect(() => {
     if (activeSubTab === 'disease' && healthView === 'symptoms') {
       setDiseaseLoading(true)
-      dairyApi.getDiseaseAdvisor(symptomSearch || null)
+      dairyApi.getDiseaseAdvisor(symptomSearch || null, locParams)
         .then(res => {
           setDiseases(res.data)
           setDiseaseLoading(false)
         })
         .catch(() => setDiseaseLoading(false))
     }
-  }, [activeSubTab, healthView, symptomSearch])
+  }, [activeSubTab, healthView, symptomSearch, activeState, activeDistrict, activeLocationName, activeLat, activeLon, lang])
 
   // Load Cow & Vet Doctors
   const fetchDoctors = () => {
@@ -214,6 +260,9 @@ export default function DairyPage({ onAskVoice }) {
   const fetchCattle = () => {
     setCattleLoading(true)
     dairyApi.getCattle({
+      state: activeState,
+      district: activeDistrict,
+      location_name: activeLocationName,
       breed: cattleBreedFilter === 'All' ? null : cattleBreedFilter,
       min_price: cattleMinPrice,
       max_price: cattleMaxPrice,
@@ -230,7 +279,7 @@ export default function DairyPage({ onAskVoice }) {
     if (activeSubTab === 'cattle') {
       fetchCattle()
     }
-  }, [activeSubTab, cattleBreedFilter, cattleMinPrice, cattleMaxPrice, cattleSortBy])
+  }, [activeSubTab, activeState, activeDistrict, activeLocationName, cattleBreedFilter, cattleMinPrice, cattleMaxPrice, cattleSortBy])
 
   const handleCreateDoctor = (e) => {
     e.preventDefault()
@@ -269,7 +318,11 @@ export default function DairyPage({ onAskVoice }) {
       price_inr: parseFloat(cattleForm.price_inr || '0'),
       milk_yield_liters_per_day: parseFloat(cattleForm.milk_yield_liters_per_day || '0'),
       age_years: parseFloat(cattleForm.age_years || '0'),
-      location: cattleForm.location,
+      location: cattleForm.location?.trim()
+        ? (cattleForm.location.toLowerCase().includes(activeState.toLowerCase())
+            ? cattleForm.location.trim()
+            : `${cattleForm.location.trim()}, ${activeState}`)
+        : `${activeLocationName}, ${activeState}`,
       owner_name: cattleForm.owner_name,
       owner_phone: cattleForm.owner_phone,
       description: cattleForm.description || null,
@@ -329,10 +382,13 @@ export default function DairyPage({ onAskVoice }) {
           </div>
           <div>
             <h1 className="text-base sm:text-lg font-bold text-gray-800">
-              Animal Husbandry & Dairy Advisory
+              {advisory?.title || `Animal Husbandry & Dairy Advisory — ${activeLocationName}, ${activeState}`}
             </h1>
             <p className="text-xs text-gray-500">
-              ಹೈನುಗಾರಿಕೆ ಮಾಹಿತಿ ಕೇಂದ್ರ · Milk Rates, Breed Matching, Nutrition, Sire Selection & Vet Advisor
+              {advisory?.subtitle || `${lang === 'kn' ? 'ಹೈನುಗಾರಿಕೆ ಮಾಹಿತಿ ಕೇಂದ್ರ · ' : ''}Milk Rates, Breed Matching, Nutrition, Sire Selection & Vet Advisor`}
+            </p>
+            <p className="text-[11px] font-medium text-amber-700 mt-0.5">
+              {`Showing Dairy Advisory for ${activeLocationName},${activeState}`}
             </p>
           </div>
         </div>
@@ -363,7 +419,9 @@ export default function DairyPage({ onAskVoice }) {
               <Icon className={`w-4 h-4 ${isActive ? 'text-amber-600' : 'text-gray-400'}`} />
               <div className="text-left">
                 <div>{tab.label}</div>
-                <div className="text-[10px] font-normal text-gray-400">{tab.labelKn}</div>
+                {lang === 'kn' && tab.labelKn && (
+                  <div className="text-[10px] font-normal text-gray-400">{tab.labelKn}</div>
+                )}
               </div>
             </button>
           )
@@ -373,20 +431,26 @@ export default function DairyPage({ onAskVoice }) {
       {/* 1. MILK RATE BOARD SUBSECTION */}
       {activeSubTab === 'rates' && (
         <div className="space-y-5">
-          {/* Karnataka Incentive Banner */}
+          {/* State Cooperative & Incentive Banner */}
           <div className="bg-gradient-to-r from-amber-500 to-orange-600 text-white rounded-2xl p-4 shadow-md flex items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2">
                 <span className="bg-white/20 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                  Karnataka Govt Scheme
+                  {activeState} Dairy Cooperative
                 </span>
-                <span className="text-xs text-amber-100 font-medium">ಕ್ಷೀರ ಧಾರೆ ಯೋಜನೆ</span>
+                {lang === 'kn' && activeState === 'Karnataka' && (
+                  <span className="text-xs text-amber-100 font-medium">ಕ್ಷೀರ ಧಾರೆ ಯೋಜನೆ</span>
+                )}
               </div>
               <h2 className="text-base sm:text-lg font-bold mt-1">
-                KMF Nandini Standard Payout: ₹42/L Base + ₹5/L State Incentive = ₹47.00/L
+                {activeState === 'Karnataka'
+                  ? 'KMF Nandini Standard Payout: ₹42/L Base + ₹5/L State Incentive = ₹47.00/L'
+                  : `${activeState} Regional Procurement Benchmark (${rates[0]?.dairy_name || 'State Cooperative'})`}
               </h2>
               <p className="text-xs text-amber-100 mt-0.5">
-                Eligible registered dairy farmers receive ₹5.00/L direct benefit transfer directly to their bank accounts.
+                {activeState === 'Karnataka'
+                  ? 'Eligible registered dairy farmers receive ₹5.00/L direct benefit transfer directly to their bank accounts.'
+                  : `LiveFat/SNF procurement comparison for ${activeLocationName}, ${activeState}.`}
               </p>
             </div>
           </div>
@@ -397,10 +461,10 @@ export default function DairyPage({ onAskVoice }) {
               <div>
                 <h3 className="font-bold text-gray-800 text-sm sm:text-base flex items-center gap-2">
                   <Droplet className="w-4 h-4 text-blue-500" />
-                  Major Dairies Procurement Rate Board (Karnataka)
+                  Major Dairies Procurement Rate Board ({activeState})
                 </h3>
                 <p className="text-xs text-gray-500">
-                  Current procurement prices across KMF Nandini, Amul, Dodla, Heritage & Tirumala
+                  Current procurement prices across major cooperatives and private dairies in {activeState}
                 </p>
               </div>
               <div className="flex gap-1.5 bg-gray-100 p-1 rounded-xl">

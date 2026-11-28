@@ -8,10 +8,14 @@ import {
   Tooltip, CartesianGrid, Legend, ReferenceLine, Area, ComposedChart
 } from 'recharts'
 import { marketApi } from '../api/client'
+import { useI18n } from '../context/I18nContext'
+import { useLocationContext } from '../context/LocationContext'
 
 const CURRENCY = '₹'
 
 export default function CommodityAnalyticsModal({ commodityName, onClose }) {
+  const { lang, t, getCommodityName } = useI18n()
+  const { location } = useLocationContext()
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [chartView, setChartView] = useState('seasonal_pattern') // 'seasonal_pattern' or 'six_year_trend'
@@ -20,7 +24,15 @@ export default function CommodityAnalyticsModal({ commodityName, onClose }) {
   useEffect(() => {
     if (!commodityName) return
     setLoading(true)
-    marketApi.getCommodityAnalytics(commodityName)
+    marketApi.getCommodityAnalytics(
+      commodityName,
+      location?.state,
+      location?.district,
+      location?.location_name,
+      location?.lat,
+      location?.lon,
+      lang
+    )
       .then(res => {
         setData(res.data)
         setLoading(false)
@@ -28,7 +40,7 @@ export default function CommodityAnalyticsModal({ commodityName, onClose }) {
       .catch(() => {
         setLoading(false)
       })
-  }, [commodityName])
+  }, [commodityName, location?.state, location?.district, location?.location_name, lang])
 
   if (!commodityName) return null
 

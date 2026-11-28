@@ -6,26 +6,67 @@ const api = axios.create({
 })
 
 export const commodityApi = {
-  getTicker: () => api.get('/commodities/ticker'),
-  getAll: (category) => api.get('/commodities/', { params: category ? { category } : {} }),
+  getTicker: (state, district, locationName, lat, lon) => api.get('/commodities/ticker', {
+    params: {
+      ...(state ? { state } : {}),
+      ...(district ? { district } : {}),
+      ...(locationName ? { location_name: locationName } : {}),
+      ...(lat != null ? { lat } : {}),
+      ...(lon != null ? { lon } : {}),
+    },
+  }),
+  getAll: (category, state, district, locationName, lat, lon) => api.get('/commodities/', {
+    params: {
+      ...(category ? { category } : {}),
+      ...(state ? { state } : {}),
+      ...(district ? { district } : {}),
+      ...(locationName ? { location_name: locationName } : {}),
+      ...(lat != null ? { lat } : {}),
+      ...(lon != null ? { lon } : {}),
+    },
+  }),
   simulateTick: (id) => api.post(`/commodities/${id}/simulate-tick`),
 }
 
 export const weatherApi = {
-  getLocations: () => api.get('/weather/locations'),
-  getForecast: (lat, lon, locationName) => api.get('/weather/forecast', {
+  getLocations: (state, district) => api.get('/weather/locations', {
+    params: {
+      ...(state ? { state } : {}),
+      ...(district ? { district } : {}),
+    },
+  }),
+  getForecast: (lat, lon, locationName, state, language) => api.get('/weather/forecast', {
     params: {
       lat: lat ?? 12.9716,
       lon: lon ?? 77.5946,
       location_name: locationName ?? 'Bengaluru',
+      ...(state ? { state } : {}),
+      ...(language ? { language } : {}),
     },
   }),
 }
 
 export const marketApi = {
-  getList: () => api.get('/markets/commodities/list'),
-  getCommodityAnalytics: (commodityName) =>
-    api.get(`/markets/${encodeURIComponent(commodityName)}`),
+  getList: (state, district, locationName, lat, lon) => api.get('/markets/commodities/list', {
+    params: {
+      ...(state ? { state } : {}),
+      ...(district ? { district } : {}),
+      ...(locationName ? { location_name: locationName } : {}),
+      ...(lat != null ? { lat } : {}),
+      ...(lon != null ? { lon } : {}),
+    },
+  }),
+  getCommodityAnalytics: (commodityName, state, district, locationName, lat, lon, language) =>
+    api.get(`/markets/${encodeURIComponent(commodityName)}`, {
+      params: {
+        ...(state ? { state } : {}),
+        ...(district ? { district } : {}),
+        ...(locationName ? { location_name: locationName } : {}),
+        ...(lat != null ? { lat } : {}),
+        ...(lon != null ? { lon } : {}),
+        ...(language ? { language } : {}),
+      },
+    }),
 }
 
 export const newsApi = {
@@ -36,26 +77,48 @@ export const newsApi = {
 }
 
 export const dairyApi = {
-  getProcurementRates: (milkType) =>
-    api.get('/dairy/procurement-rates', { params: milkType ? { milk_type: milkType } : {} }),
+  getOverview: (loc = {}, signal) =>
+    api.get('/dairy/', { params: loc, signal }),
+  getAdvisory: (loc = {}, signal) =>
+    api.get('/dairy/advisory', { params: loc, signal }),
+  getProcurementRates: (milkType, loc = {}, signal) =>
+    api.get('/dairy/procurement-rates', {
+      params: { ...(milkType ? { milk_type: milkType } : {}), ...loc },
+      signal,
+    }),
   calculatePayout: (data) => api.post('/dairy/calculate-payout', data),
-  getBreeds: (tempC, animalType) =>
-    api.get('/dairy/breeds', { params: { temp_c: tempC, animal_type: animalType } }),
-  getFeedPlans: (animalType, stage) =>
-    api.get('/dairy/feed-plans', { params: { animal_type: animalType, stage } }),
-  getBreedingGuide: (damBreed) =>
-    api.get('/dairy/breeding-guide', { params: damBreed ? { dam_breed: damBreed } : {} }),
-  getDiseaseAdvisor: (symptom) =>
-    api.get('/dairy/disease-advisor', { params: symptom ? { symptom } : {} }),
-  getDoctors: (doctorType, search) =>
+  getBreeds: (tempC, animalType, loc = {}, signal) =>
+    api.get('/dairy/breeds', {
+      params: { temp_c: tempC, animal_type: animalType, ...loc },
+      signal,
+    }),
+  getFeedPlans: (animalType, stage, loc = {}, signal) =>
+    api.get('/dairy/feed-plans', {
+      params: { animal_type: animalType, stage, ...loc },
+      signal,
+    }),
+  getBreedingGuide: (damBreed, loc = {}, signal) =>
+    api.get('/dairy/breeding-guide', {
+      params: { ...(damBreed ? { dam_breed: damBreed } : {}), ...loc },
+      signal,
+    }),
+  getDiseaseAdvisor: (symptom, loc = {}, signal) =>
+    api.get('/dairy/disease-advisor', {
+      params: { ...(symptom ? { symptom } : {}), ...loc },
+      signal,
+    }),
+  getCattleMarket: (loc = {}, signal) =>
+    api.get('/dairy/cattle-market', { params: loc, signal }),
+  getDoctors: (doctorType, search, signal) =>
     api.get('/dairy/doctors', {
       params: {
         doctor_type: doctorType || undefined,
         search: search || undefined,
       },
+      signal,
     }),
   createDoctor: (data) => api.post('/dairy/doctors', data),
-  getCattle: ({ breed, animal_type, min_price, max_price, sort_by } = {}) =>
+  getCattle: ({ breed, animal_type, min_price, max_price, sort_by } = {}, signal) =>
     api.get('/dairy/cattle', {
       params: {
         breed: breed || undefined,
@@ -64,6 +127,7 @@ export const dairyApi = {
         max_price: max_price !== '' && max_price != null ? max_price : undefined,
         sort_by: sort_by || undefined,
       },
+      signal,
     }),
   createCattle: (data) => api.post('/dairy/cattle', data),
   deleteCattle: (id) => api.delete(`/dairy/cattle/${id}`),
@@ -129,6 +193,20 @@ export const notificationApi = {
   markAllRead: () => api.post('/notifications/mark-all-read'),
   toggleChecklist: (notificationId, docKey, isCompleted) =>
     api.post(`/notifications/${notificationId}/checklist/${docKey}`, { is_completed: isCompleted }),
+}
+
+export const schemesApi = {
+  getSchemes: ({ state, district, location_name, category = 'all', language = 'en-IN' } = {}, signal) =>
+    api.get('/schemes/', {
+      params: {
+        ...(state ? { state } : {}),
+        ...(district ? { district } : {}),
+        ...(location_name ? { location_name } : {}),
+        category,
+        language,
+      },
+      signal,
+    }),
 }
 
 export const whatsappApi = {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { TrendingUp, TrendingDown, Minus, ExternalLink, X, BarChart2 } from 'lucide-react'
 import { commodityApi } from '../api/client'
 import { useI18n } from '../context/I18nContext'
+import { useLocationContext } from '../context/LocationContext'
 
 const CURRENCY = '₹'
 
@@ -36,18 +37,25 @@ function PriceTag({ item, onClick }) {
 }
 
 // Full commodity rates modal
-function AllRatesModal({ onClose, onSelectCommodity }) {
+function AllRatesModal({ onClose, onSelectCommodity, activeState, location }) {
   const { getCommodityName } = useI18n()
   const [commodities, setCommodities] = useState([])
   const [loading, setLoading] = useState(true)
   const [filterCat, setFilterCat] = useState('all')
 
   useEffect(() => {
-    commodityApi.getAll().then(r => {
+    commodityApi.getAll(
+      undefined,
+      location?.state,
+      location?.district,
+      location?.location_name,
+      location?.lat,
+      location?.lon
+    ).then(r => {
       setCommodities(r.data)
       setLoading(false)
     }).catch(() => setLoading(false))
-  }, [])
+  }, [location?.state, location?.district, location?.location_name])
 
   const categories = ['all', ...new Set(commodities.map(c => c.category))]
   const filtered = filterCat === 'all' ? commodities : commodities.filter(c => c.category === filterCat)
@@ -60,7 +68,7 @@ function AllRatesModal({ onClose, onSelectCommodity }) {
           <div>
             <h2 className="text-white font-bold text-lg flex items-center gap-2">
               <BarChart2 className="w-5 h-5 text-emerald-300" />
-              Karnataka APMC Market Rates
+              {activeState || 'Regional'} APMC Market Rates
             </h2>
             <p className="text-emerald-200 text-xs">Click any row to open 6-Year Historical Analytics & Cross-Mandi Comparison</p>
           </div>
@@ -132,7 +140,7 @@ function AllRatesModal({ onClose, onSelectCommodity }) {
         </div>
 
         <div className="px-4 py-2 text-xs text-gray-400 border-t text-center bg-gray-50">
-          Source: APMC Karnataka (e-NAM / Agmarknet) • Click any commodity for 6-year seasonal charts
+          Source: APMC {activeState || 'Market'} (e-NAM / Agmarknet) • Click any commodity for 6-year seasonal charts
         </div>
       </div>
     </div>
@@ -140,26 +148,36 @@ function AllRatesModal({ onClose, onSelectCommodity }) {
 }
 
 export default function CommodityTicker({ onSelectCommodity }) {
+  const { location } = useLocationContext()
   const [items, setItems] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(true)
 
+  const activeState = location?.state || 'Karnataka'
+
   const fetchTicker = () => {
-    commodityApi.getTicker()
+    commodityApi.getTicker(
+      location?.state,
+      location?.district,
+      location?.location_name,
+      location?.lat,
+      location?.lon
+    )
       .then(r => { setItems(r.data); setLoading(false) })
       .catch(() => setLoading(false))
   }
 
   useEffect(() => {
+    setLoading(true)
     fetchTicker()
     const interval = setInterval(fetchTicker, 60000)
     return () => clearInterval(interval)
-  }, [])
+  }, [location?.state, location?.district, location?.location_name])
 
   if (loading) {
     return (
       <div className="sticky top-0 z-40 h-9 bg-gray-900 flex items-center px-4 text-gray-400 text-xs animate-pulse">
-        Loading Karnataka APMC market rates…
+        Loading {activeState} APMC market rates…
       </div>
     )
   }
@@ -195,6 +213,8 @@ export default function CommodityTicker({ onSelectCommodity }) {
         <AllRatesModal
           onClose={() => setShowModal(false)}
           onSelectCommodity={onSelectCommodity}
+          activeState={activeState}
+          location={location}
         />
       )}
     </>

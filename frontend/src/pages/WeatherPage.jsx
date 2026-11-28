@@ -6,6 +6,7 @@ import {
   RefreshCw, Info, ArrowUpRight
 } from 'lucide-react'
 import { weatherApi } from '../api/client'
+import { useI18n } from '../context/I18nContext'
 
 const WEATHER_ICONS = {
   Sun: Sun,
@@ -70,6 +71,7 @@ const ADVISORY_COLORS = {
 }
 
 export default function WeatherPage() {
+  const { lang, t } = useI18n()
   const [locations, setLocations] = useState([])
   const [selectedLoc, setSelectedLoc] = useState(null)
   const [weatherData, setWeatherData] = useState(null)
@@ -90,11 +92,18 @@ export default function WeatherPage() {
       .catch(() => {})
   }, [])
 
-  // Fetch forecast whenever selectedLoc changes
+  // Fetch forecast whenever selectedLoc or language changes
   useEffect(() => {
     if (!selectedLoc) return
     setLoading(true)
-    weatherApi.getForecast(selectedLoc.lat, selectedLoc.lon, selectedLoc.name)
+    const langCode = lang ? (lang.includes('-') ? lang : `${lang}-IN`) : 'kn-IN'
+    weatherApi.getForecast(
+      selectedLoc.lat,
+      selectedLoc.lon,
+      selectedLoc.name,
+      selectedLoc.state,
+      langCode
+    )
       .then(res => {
         setWeatherData(res.data)
         setLoading(false)
@@ -102,7 +111,7 @@ export default function WeatherPage() {
       .catch(() => {
         setLoading(false)
       })
-  }, [selectedLoc])
+  }, [selectedLoc, lang])
 
   const renderWeatherIcon = (iconName, className = 'w-6 h-6') => {
     const IconComponent = WEATHER_ICONS[iconName] || CloudSun
@@ -130,17 +139,17 @@ export default function WeatherPage() {
           </div>
           <div>
             <h1 className="text-base sm:text-lg font-bold text-gray-800 flex items-center gap-2">
-              16-Day Weather & Agricultural Advisory
+              {t('weather_page_title', '16-Day Weather & Agricultural Advisory')}
             </h1>
             <p className="text-xs text-gray-500">
-              Open-Meteo High-Resolution Agro-Forecast · Karnataka Zones
+              {weatherData?.labels?.agro_forecast_subtitle || t('weather_subtitle', 'Open-Meteo High-Resolution Agro-Forecast · Pan-India Zones')}
             </p>
           </div>
         </div>
 
         {/* District Selector */}
         <div className="flex items-center gap-2">
-          <label className="text-xs text-gray-500 font-medium">District:</label>
+          <label className="text-xs text-gray-500 font-medium">{t('district_label', 'District / Region:')}</label>
           <select
             value={selectedLoc?.id || ''}
             onChange={(e) => {
@@ -149,11 +158,16 @@ export default function WeatherPage() {
             }}
             className="text-xs sm:text-sm bg-gray-50 border border-gray-300 rounded-xl px-3 py-2 font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
           >
-            {locations.map(l => (
-              <option key={l.id} value={l.id}>
-                {l.name} ({l.name_kannada}) – {l.zone}
-              </option>
-            ))}
+            {locations.map(l => {
+              const nativeAlias = l.name_kannada ? ` (${l.name_kannada})` : ''
+              const region = l.zone || l.state || ''
+              const regionLabel = l.state && l.zone && !l.zone.includes(l.state) ? `${region}, ${l.state}` : region
+              return (
+                <option key={l.id} value={l.id}>
+                  {l.name}{nativeAlias} — {regionLabel || l.state}
+                </option>
+              )
+            })}
           </select>
         </div>
       </div>
@@ -172,9 +186,11 @@ export default function WeatherPage() {
             <div className="flex items-center justify-between">
               <h2 className="text-xs font-bold uppercase tracking-wider text-gray-500 flex items-center gap-1.5">
                 <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />
-                Live Farm Action Advisories for {selectedLoc?.name}
+                {weatherData.labels?.live_farm_action_advisories || t('live_advisories_heading', 'Live Farm Action Advisories')} for {selectedLoc?.name}
               </h2>
-              <span className="text-[11px] text-gray-400">Rule-based Agri Engine</span>
+              <span className="text-[11px] text-gray-400">
+                {weatherData.labels?.rule_based_engine || t('rule_based_engine', 'Rule-based Agri Engine')}
+              </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -188,7 +204,7 @@ export default function WeatherPage() {
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-2">
                         <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${colorTheme.badge}`}>
-                          {adv.category}
+                          {adv.category_localized || adv.category}
                         </span>
                         <div className={colorTheme.iconColor}>
                           {renderAdvisoryIcon(adv.icon)}
@@ -198,9 +214,9 @@ export default function WeatherPage() {
                       <h3 className={`text-sm font-bold ${colorTheme.text} leading-snug`}>
                         {adv.title}
                       </h3>
-                      {adv.title_kannada && (
+                      {(adv.title_localized || adv.title_kannada) && (
                         <p className="text-xs font-semibold text-emerald-950/80 mt-0.5">
-                          {adv.title_kannada}
+                          {adv.title_localized || adv.title_kannada}
                         </p>
                       )}
 
@@ -209,9 +225,9 @@ export default function WeatherPage() {
                       </p>
                     </div>
 
-                    {adv.action_kannada && (
+                    {(adv.action_localized || adv.action_kannada) && (
                       <div className="mt-3 pt-2 border-t border-black/5 text-[11px] text-gray-600 italic">
-                        🌾 {adv.action_kannada}
+                        🌾 {adv.action_localized || adv.action_kannada}
                       </div>
                     )}
                   </div>
@@ -226,17 +242,21 @@ export default function WeatherPage() {
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-xs bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full font-medium text-sky-100">
-                    {selectedLoc?.zone || 'Karnataka'}
+                    {selectedLoc?.zone || selectedLoc?.state || 'Pan-India'}
                   </span>
                   <span className="text-xs text-sky-200">
                     {weatherData.is_live ? '• Live Open-Meteo' : '• Agro-Meteo Cache'}
                   </span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-extrabold mt-1">
-                  {selectedLoc?.name} <span className="text-lg font-normal text-sky-200">({selectedLoc?.name_kannada})</span>
+                  {selectedLoc?.name}
+                  {selectedLoc?.name_kannada ? (
+                    <span className="text-lg font-normal text-sky-200 ml-2">({selectedLoc.name_kannada})</span>
+                  ) : null}
                 </h2>
                 <p className="text-sm text-sky-100 mt-0.5">
-                  {weatherData.current?.weather_desc} · {weatherData.current?.weather_kannada}
+                  {weatherData.current?.weather_desc}
+                  {(weatherData.current?.weather_localized || weatherData.current?.weather_kannada) ? ` · ${weatherData.current.weather_localized || weatherData.current.weather_kannada}` : ''}
                 </p>
               </div>
 
@@ -296,10 +316,10 @@ export default function WeatherPage() {
               <div>
                 <h3 className="font-bold text-gray-800 flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-sky-600" />
-                  16-Day Weather & Soil Outlook
+                  {weatherData.labels?.weather_outlook || t('outlook_16_day', '16-Day Weather & Soil Outlook')}
                 </h3>
                 <p className="text-xs text-gray-500">
-                  Extended meteorological projections for crop planning and irrigation scheduling
+                  {weatherData.labels?.outlook_sub || t('outlook_sub', 'Extended meteorological projections for crop planning and irrigation scheduling')}
                 </p>
               </div>
 
@@ -361,7 +381,7 @@ export default function WeatherPage() {
                     </div>
 
                     <p className="text-[11px] font-medium text-gray-700 truncate">{day.weather_desc}</p>
-                    <p className="text-[10px] text-gray-400 truncate">{day.weather_kannada}</p>
+                    <p className="text-[10px] text-gray-400 truncate">{day.weather_localized || day.weather_kannada}</p>
 
                     {/* Rain & Soil Bars */}
                     <div className="mt-3 pt-2 border-t border-gray-200/60 space-y-1.5 text-[10px]">
@@ -419,7 +439,7 @@ export default function WeatherPage() {
                             {renderWeatherIcon(d.icon, 'w-5 h-5 text-sky-600')}
                             <div>
                               <p className="font-medium text-gray-800">{d.weather_desc}</p>
-                              <p className="text-[10px] text-gray-400">{d.weather_kannada}</p>
+                              <p className="text-[10px] text-gray-400">{d.weather_localized || d.weather_kannada}</p>
                             </div>
                           </div>
                         </td>
