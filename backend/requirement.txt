@@ -1,0 +1,9 @@
+
+fastapi
+uvicorn[standard]
+pymongo
+python-dotenv
+pydantic-settings
+python-multipart
+pwdlib[argon2]
+pyjwt

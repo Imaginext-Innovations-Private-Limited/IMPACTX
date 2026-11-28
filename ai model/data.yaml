@@ -1,0 +1,7 @@
+path: C:/Users/ADMIN/Desktop/Aquawatch/ai model/dataset
+
+train: images/train
+val: images/val
+
+names:
+  0: floater
