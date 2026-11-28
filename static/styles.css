@@ -49,3 +49,7 @@ body, button, input, textarea, select {font-family: "ScamShield Indic", "Nirmala
 .risk-badge.no_clear_signal{color:#d1d5db;border-color:#64748b;background:#303b49}
 .risk-badge.unknown{color:#ffdca0;border-color:#9b7145;background:#4f3b26}
 .safety-note{color:#ffdca0;border:1px solid #9b7145;border-radius:8px;padding:10px 12px;font-size:13px;background:#4f3b2633}
+
+.sub-tabs{display:flex;gap:8px;margin-bottom:10px}
+.sub-tab{flex:1;padding:8px 12px;border-radius:10px;border:1px solid rgba(148,163,184,.24);background:rgba(15,23,42,.55);color:#cbd5e1;font:inherit;font-size:.9rem;cursor:pointer;transition:border-color .15s,background .15s,color .15s}
+.sub-tab.active{border-color:#2dd4bf;background:rgba(20,184,166,.16);color:#f0fdfa;font-weight:600}
