@@ -110,3 +110,48 @@ def ask(question,sid,lang='en',override=None):
     ms=round((time.monotonic()-start)*1000)
     with db() as c:trace(c,'RAG',{'orchestrator':'general question','discovery':sid,'retriever':method,'sources':[d['id'] for d in links],'verification':status,'ms':ms,'model':conf['chat_model']})
     return dict(answer=answer,sources=links,mode=status,retriever=method,ms=ms)
+
+def extract_profile(text):
+    from .rules import QUESTIONS, validate_answers
+    raw = {}
+    low = text.lower()
+    if 'karnataka' in low: raw['state'] = 'KA'
+    elif 'andhra' in low: raw['state'] = 'AP'
+    elif 'telangana' in low: raw['state'] = 'TS'
+    if any(w in low for w in ('rural', 'village', 'grama')): raw['area'] = 'rural'
+    elif any(w in low for w in ('urban', 'city', 'town')): raw['area'] = 'urban'
+    if any(w in low for w in ('woman', 'female', 'lady', 'mother', 'widow', 'wife')): raw['woman'] = 'yes'
+    elif re.search(r'\b(man|male)\b', low): raw['woman'] = 'no'
+    if any(w in low for w in ('indian', 'citizen')): raw['citizen'] = 'yes'
+    m_age = re.search(r'\b(\d{1,3})\s*(?:years?|yrs?|yo|year[- ]old)\b|\bage\s*(?:is|:)?\s*(\d{1,3})\b', low)
+    if m_age: raw['age'] = int(m_age.group(1) or m_age.group(2))
+    m_inc = re.search(r'(?:income|earn(?:ing)?|salary|rs\.?|inr|₹)\s*[:=]?\s*([\d,]+)\s*(k|lakh|lakhs)?|\b([\d,]+)\s*(?:rs\.?|inr)\b', low)
+    if m_inc:
+        num = int((m_inc.group(1) or m_inc.group(3)).replace(',', ''))
+        unit = (m_inc.group(2) or '').lower()
+        if unit == 'k': num *= 1000
+        elif unit.startswith('lakh'): num *= 100000
+        raw['income'] = num
+    for code, pat in [('SC', r'\bsc\b'), ('ST', r'\bst\b'), ('BC', r'\b(?:bc|obc)\b'), ('minority', r'\bminority\b')]:
+        if re.search(pat, low): raw['category'] = code; break
+    with db() as c: conf = settings(c)
+    mode = 'pattern'
+    keys = ['state', 'age', 'income', 'area', 'woman', 'citizen', 'category', 'poor', 'land', 'lpg', 'st', 'grade']
+    schema = '; '.join(k + ': ' + ('number' if not QUESTIONS[k]['options'] else '/'.join(o[0] for o in QUESTIONS[k]['options'])) for k in keys if k in QUESTIONS)
+    prompt = 'Extract ONLY facts explicitly stated in the text into a JSON object using keys [' + schema + ']. Never guess or assume unstated fields (do not infer area, citizen, or category unless written). Return ONLY JSON.'
+    try:
+        reply = chat(conf, prompt, text[:600])
+        m = re.search(r'\{[\s\S]*\}', reply)
+        if m:
+            parsed = json.loads(m.group(0))
+            if isinstance(parsed, dict):
+                raw = {**parsed, **raw}
+                mode = 'Ollama + rules'
+    except (httpx.HTTPError, ValueError, KeyError, json.JSONDecodeError):
+        pass
+    cleaned = {}
+    for k, v in raw.items():
+        if k not in QUESTIONS or v in (None, '', 'unknown'): continue
+        try: cleaned.update(validate_answers({k: v}, conf['states']))
+        except ValueError: pass
+    return {'fields': cleaned, 'mode': mode}

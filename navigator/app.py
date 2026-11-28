@@ -202,6 +202,8 @@ def citizen(x:Command,req:Request):
                 owned(c,req,x.profile)
                 record_activity(c,x.profile,'Scheme question',x.sid,{'question':q,'answer':response['answer']})
         return response
+    if a=='extract profile':
+        return ai.extract_profile(validate_text(d.get('text'),600))
     with db() as c:
         cfg=settings(c)
         if a=='profile':

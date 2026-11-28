@@ -36,3 +36,15 @@
   .tools {flex-shrink:0}
   footer {flex-wrap:wrap}
 }
+.quick-chips {display:flex;flex-wrap:wrap;gap:7px;margin:8px 0 4px}
+.quick-chip {border:1px solid var(--line);background:var(--soft);color:var(--teal);border-radius:999px;padding:5px 12px;font-size:.84rem;font-weight:600;transition:background .15s,border-color .15s}
+.quick-chip:hover {background:#daefe6;border-color:var(--teal)}
+html.hc {--paper:#000;--ink:#fff;--muted:#ffe066;--teal:#00e5ff;--line:#fff;--soft:#111;--navy:#000}
+html.hc body,html.hc header,html.hc footer,html.hc .panel,html.hc .card,html.hc .topic,html.hc .hero,html.hc details,html.hc #drawer,html.hc dialog,html.hc table,html.hc .searchbar {background:#000;color:#fff;border-color:#fff}
+html.hc .intro p,html.hc .muted,html.hc small,html.hc .crumb,html.hc footer span {color:#ffe066}
+html.hc a,html.hc #topnav a.active {color:#00e5ff}
+html.hc .action {background:#ffe066;color:#000;border-color:#ffe066}
+html.hc .secondary,html.hc .iconbtn,html.hc .choice,html.hc .quick-chip,html.hc input,html.hc select,html.hc textarea {background:#111;color:#fff;border-color:#fff}
+html.hc .choice.on,html.hc .quick-chip:hover,html.hc #contrast[aria-pressed="true"] {background:#ffe066;color:#000;border-color:#ffe066}
+html.hc .notice {background:#111;color:#fff;border-left-color:#00e5ff}
+html.hc .tag {background:#222;color:#ffe066;border:1px solid #ffe066}
