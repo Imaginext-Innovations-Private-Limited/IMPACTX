@@ -1,0 +1,345 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f7fb;
+    color: #243247;
+}
+
+.sidebar {
+    position: fixed;
+    width: 240px;
+    height: 100vh;
+    background: #172b4d;
+    padding: 28px 18px;
+    color: white;
+}
+
+.sidebar h2 {
+    font-size: 22px;
+}
+
+.tagline {
+    color: #aab8ce;
+    font-size: 12px;
+    margin: 8px 0 30px;
+}
+
+.sidebar a {
+    display: block;
+    color: #dce5f2;
+    text-decoration: none;
+    padding: 14px;
+    margin-bottom: 8px;
+    border-radius: 7px;
+}
+
+.sidebar a:hover {
+    background: #29466f;
+}
+
+.main-content {
+    margin-left: 240px;
+    padding: 30px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+header p {
+    color: #718096;
+    margin-top: 8px;
+}
+
+.profile {
+    background: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+}
+
+section {
+    margin-bottom: 30px;
+    scroll-margin-top: 20px;
+}
+
+section h2 {
+    margin-bottom: 18px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.card, .panel {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+}
+
+.card p {
+    color: #718096;
+    margin-bottom: 12px;
+}
+
+.card h2 {
+    color: #176b55;
+    margin: 0;
+}
+
+.panel {
+    padding: 25px;
+}
+
+input, select {
+    padding: 12px;
+    border: 1px solid #d6deea;
+    border-radius: 6px;
+    margin: 12px 8px 12px 0;
+    max-width: 100%;
+}
+
+button {
+    background: #176b55;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #105440;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #e6ebf2;
+}
+
+th {
+    background: #f3f6fa;
+}
+
+.loan-card {
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+.loan-card p {
+    color: #718096;
+    margin-top: 8px;
+}
+
+#chat-box {
+    background: #f4f7fb;
+    min-height: 150px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.bot-message, .user-message {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    max-width: 85%;
+}
+
+.bot-message {
+    background: #e0eee9;
+}
+
+.user-message {
+    background: #dce9ff;
+    margin-left: auto;
+}
+
+.chat-input {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input input {
+    flex: 1;
+}
+
+#cashChart {
+    max-height: 300px;
+}
+
+@media(max-width: 900px) {
+    .sidebar {
+        width: 180px;
+    }
+
+    .main-content {
+        margin-left: 180px;
+    }
+
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 600px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        align-items: flex-start;
+        gap: 15px;
+        flex-direction: column;
+    }
+}
+
+.sample-download {
+    margin-top: 18px;
+    padding: 12px;
+    background: #f1f5f9;
+    border-radius: 8px;
+}
+
+.sample-download a {
+    color: #2563eb;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.sample-download a:hover {
+    text-decoration: underline;
+}
+
+.sample-note {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 8px;
+}
+
+.gst-form {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f1f5f9;
+    border-radius: 8px;
+}
+
+.gst-form select,
+.gst-form input {
+    padding: 10px;
+    margin: 8px 5px 8px 0;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+}
+
+.business-form {
+    display: grid;
+    gap: 12px;
+    max-width: 500px;
+    margin: 20px 0;
+}
+
+.business-form input,
+.business-form select {
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+}
+
+.recommendation-section {
+    margin-top: 25px;
+}
+
+#loan-results {
+    margin-top: 15px;
+}
+
+.loan-card {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-left: 4px solid #2563eb;
+    padding: 16px;
+    margin: 12px 0;
+    border-radius: 8px;
+}
+
+.loan-card h3 {
+    color: #1e40af;
+    margin-bottom: 10px;
+}
+
+.loan-card p {
+    margin: 7px 0;
+    color: #334155;
+}
+
+
+.best-loan-card {
+    margin-top: 25px;
+    padding: 20px;
+    background: #eff6ff;
+    border: 2px solid #2563eb;
+    border-radius: 10px;
+}
+
+.best-loan-card h2 {
+    color: #1e40af;
+    margin-bottom: 12px;
+}
+
+.best-loan-card h3 {
+    color: #166534;
+    margin-bottom: 10px;
+}
+
+.best-loan-card p {
+    color: #334155;
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+.logout-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.logout-btn:hover {
+    background: #b02a37;
+}
