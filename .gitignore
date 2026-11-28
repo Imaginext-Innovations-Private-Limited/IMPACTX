@@ -221,3 +221,80 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+
+#------------------------------------------`---``-`-`-`-``-`-`-``-`-`-`-`-`-`-`-`-----------------------------
+
+# ==========================================
+# 1. Python & Bytecode
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ==========================================
+# 2. Virtual Environments
+# ==========================================
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ==========================================
+# 3. SQLite Databases & Local Data
+# ==========================================
+*.db
+*.sqlite
+*.sqlite3
+tutor.db
+backend/tutor.db
+data/*.db
+
+# ==========================================
+# 4. Vector Store & Embeddings (FAISS)
+# ==========================================
+# Keeps indexes local so they don't bloat your Git repo
+data/faiss_index/
+faiss_index/
+*.index
+*.faiss
+*.pkl
+
+# ==========================================
+# 5. Uploaded Documents & Temp Files
+# ==========================================
+# Ignore uploaded textbook PDFs, but keep the folder structure
+data/uploads/*
+!data/uploads/.gitkeep
+uploads/*
+!uploads/.gitkeep
+temp/
+tmp/
+*.log
+
+# ==========================================
+# 6. Secrets & Environment Variables
+# ==========================================
+.env
+.env.*
+!.env.example
+secrets.toml
+.streamlit/secrets.toml
+
+# ==========================================
+# 7. IDE & OS Cache Files
+# ==========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
