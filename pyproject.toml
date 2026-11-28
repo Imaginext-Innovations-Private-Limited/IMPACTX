@@ -1,0 +1,67 @@
+[project]
+name = "aarogya-mesh"
+version = "0.4.0"
+description = "Autonomous, offline-first, capability-proportional edge health mesh for Community Health Workers"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "pydantic>=2.9",
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "httpx>=0.27",
+    "aarogya-contracts",
+    "aarogya-clinical-engine",
+    "aarogya-crdt-sync",
+    "aarogya-phc-hub",
+    "aarogya-ml-pipeline",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "ruff>=0.8",
+    "jsonschema>=4.23",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = [
+    "packages/contracts",
+    "packages/clinical-engine",
+    "packages/crdt-sync",
+    "services/phc-hub",
+    "services/ml-pipeline",
+]
+
+[tool.uv.sources]
+aarogya-contracts = { workspace = true }
+aarogya-clinical-engine = { workspace = true }
+aarogya-crdt-sync = { workspace = true }
+aarogya-phc-hub = { workspace = true }
+aarogya-ml-pipeline = { workspace = true }
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = [
+    "packages/contracts/src",
+    "packages/clinical-engine/src",
+    "packages/crdt-sync/src",
+    "services/phc-hub/src",
+    "services/ml-pipeline/src",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "packages/contracts/tests",
+    "packages/clinical-engine/tests",
+    "packages/crdt-sync/tests",
+    "services/phc-hub/tests",
+    "services/ml-pipeline/tests",
+]
+addopts = "-q"

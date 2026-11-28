@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d9488" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <title>Aarogya Mesh — Tier-0 Watch Companion</title>
+    <style>
+      :root {
+        font-family: system-ui, -apple-system, "Noto Sans Devanagari", "Noto Sans Kannada", "Noto Sans Tamil", sans-serif;
+        color: #f8fafc;
+        background: #020617;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #020617;
+      }
+      body.embed-mode {
+        min-height: auto;
+        background: transparent;
+        overflow: hidden;
+      }
+      .watch-bezel {
+        width: 360px;
+        max-width: 100%;
+        height: 360px;
+        border-radius: 50%;
+        border: 8px solid #1e293b;
+        background: radial-gradient(circle at top, #0f172a 0%, #020617 100%);
+        box-shadow: 0 0 40px rgba(13, 148, 136, 0.28);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 30px 18px;
+        overflow: hidden;
+        text-align: center;
+      }
+      .embed-mode .watch-bezel {
+        box-shadow: none;
+        margin: 0;
+      }
+      .watch-top-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+        justify-content: center;
+        max-width: 196px;
+        min-width: 0;
+        flex-shrink: 0;
+      }
+      .pill {
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        cursor: pointer;
+        border: 1px solid #0d9488;
+        background: #042f2e;
+        color: #5eead4;
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: 1.2;
+      }
+      .mode-family {
+        border-color: #d97706;
+        background: #451a03;
+        color: #fcd34d;
+      }
+      .lang-pill {
+        border-color: #475569;
+        background: #1e293b;
+        color: #f8fafc;
+      }
+      .watch-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        width: 100%;
+        max-width: 244px;
+        min-width: 0;
+        justify-content: center;
+        margin-top: 6px;
+        flex-shrink: 0;
+      }
+      .tab-btn {
+        flex: 1 1 0;
+        min-width: 0;
+        border: 1px solid #334155;
+        background: #0f172a;
+        color: #cbd5e1;
+        border-radius: 999px;
+        padding: 5px 6px;
+        font-size: 0.68rem;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: 1.2;
+        height: auto;
+        min-height: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .tab-btn.active {
+        background: #0d9488;
+        border-color: #14b8a6;
+        color: #020617;
+      }
+      .watch-pane {
+        width: 100%;
+        min-width: 0;
+        min-height: 0;
+        flex: 1;
+        overflow-y: auto;
+        margin: 8px 0 6px;
+        padding: 6px 22px 18px;
+        scroll-padding-bottom: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        scrollbar-width: thin;
+      }
+      .cat-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        min-width: 0;
+        justify-content: center;
+      }
+      .cat-pill {
+        flex: 1 1 0;
+        min-width: 0;
+        border: 1px solid #334155;
+        background: #1e293b;
+        color: #cbd5e1;
+        border-radius: 999px;
+        padding: 4px 8px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: 1.2;
+        height: auto;
+        min-height: 28px;
+      }
+      .cat-pill.active {
+        background: #0284c7;
+        border-color: #38bdf8;
+        color: #ffffff;
+      }
+      .watch-input {
+        width: 100%;
+        border: 1px solid #334155;
+        background: #0f172a;
+        color: #f8fafc;
+        border-radius: 10px;
+        padding: 6px 8px;
+        font-size: 0.74rem;
+      }
+      .sign-list {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .custom-danger-box {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        min-width: 0;
+      }
+      .watch-optional {
+        border: 1px solid #334155;
+        background: #0f172a;
+        border-radius: 10px;
+        padding: 5px 8px;
+        min-width: 0;
+        text-align: left;
+      }
+      .watch-optional > summary {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: #94a3b8;
+        cursor: pointer;
+        list-style: none;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: 1.25;
+      }
+      .watch-optional[open] > summary {
+        color: #cbd5e1;
+        margin-bottom: 6px;
+      }
+      .watch-optional-body {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 0;
+      }
+      .sign-btn {
+        width: 100%;
+        min-width: 0;
+        border: 1px solid #991b1b;
+        background: #450a0a;
+        color: #fecaca;
+        border-radius: 10px;
+        padding: 7px 9px;
+        font-size: 0.74rem;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: left;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: 1.25;
+        height: auto;
+      }
+      .sign-btn:active,
+      .sign-btn.armed {
+        background: #dc2626;
+        border-color: #fca5a5;
+        color: #ffffff;
+      }
+      .confirm-bar {
+        border-radius: 10px;
+        border: 2px solid #ef4444;
+        background: #7f1d1d;
+        padding: 7px 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        min-width: 0;
+      }
+      .confirm-title {
+        font-size: 0.74rem;
+        font-weight: 800;
+        color: #ffffff;
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+      .confirm-sub {
+        font-size: 0.68rem;
+        color: #fecaca;
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+      .confirm-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        min-width: 0;
+      }
+      .confirm-actions .action-btn {
+        flex: 1 1 0;
+        min-width: 0;
+      }
+      .action-btn {
+        display: block;
+        width: 100%;
+        min-width: 0;
+        border: none;
+        border-radius: 999px;
+        padding: 8px 10px;
+        font-size: 0.76rem;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: none;
+        text-align: center;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: 1.25;
+        height: auto;
+        min-height: 32px;
+      }
+      .btn-108,
+      .btn-red {
+        background: #dc2626;
+        color: #ffffff;
+      }
+      .btn-green {
+        background: #15803d;
+        color: #ffffff;
+      }
+      .btn-teal {
+        background: #0d9488;
+        color: #020617;
+      }
+      .btn-amber {
+        background: #d97706;
+        color: #020617;
+      }
+      .btn-secondary {
+        background: #334155;
+        color: #f8fafc;
+      }
+      .compact-108 {
+        margin-top: auto;
+      }
+      .triage-banner {
+        border-radius: 14px;
+        padding: 12px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .banner-red {
+        background: #7f1d1d;
+        border: 2px solid #ef4444;
+      }
+      .banner-green {
+        background: #14532d;
+        border: 2px solid #22c55e;
+      }
+      .banner-title {
+        font-size: 0.92rem;
+        font-weight: 800;
+      }
+      .banner-sub {
+        font-size: 0.74rem;
+        color: #f8fafc;
+      }
+      .watch-card {
+        border-radius: 12px;
+        border: 1px solid #334155;
+        background: #0f172a;
+        padding: 8px;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+      .prio-critical {
+        border-color: #ef4444;
+      }
+      .prio-high {
+        border-color: #f59e0b;
+      }
+      .card-head {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 4px;
+        min-width: 0;
+      }
+      .badge {
+        border-radius: 999px;
+        padding: 2px 7px;
+        font-size: 0.62rem;
+        font-weight: 800;
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+      .badge-critical {
+        background: #dc2626;
+        color: #ffffff;
+      }
+      .badge-high {
+        background: #d97706;
+        color: #020617;
+      }
+      .badge-medium {
+        background: #0284c7;
+        color: #ffffff;
+      }
+      .badge-low {
+        background: #334155;
+        color: #e2e8f0;
+      }
+      .card-due,
+      .muted-note,
+      .empty-msg {
+        font-size: 0.68rem;
+        color: #94a3b8;
+        margin: 0;
+      }
+      .card-title {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: #f8fafc;
+      }
+      .card-summary {
+        font-size: 0.7rem;
+        color: #cbd5e1;
+      }
+      .acked-tag {
+        font-size: 0.68rem;
+        font-weight: 700;
+        color: #5eead4;
+      }
+      .sos-guidance {
+        font-size: 0.72rem;
+        color: #fde68a;
+        background: #451a03;
+        border: 1px solid #d97706;
+        border-radius: 10px;
+        padding: 7px;
+      }
+      .net-pill {
+        font-size: 0.68rem;
+        font-weight: 700;
+        border-radius: 999px;
+        padding: 3px 9px;
+        align-self: center;
+      }
+      .net-online {
+        background: #14532d;
+        color: #86efac;
+      }
+      .net-offline {
+        background: #7c2d12;
+        color: #fed7aa;
+      }
+      .field-label {
+        font-size: 0.68rem;
+        color: #94a3b8;
+        text-align: left;
+      }
+      .status-ok {
+        font-size: 0.7rem;
+        color: #86efac;
+      }
+      .status-warn {
+        font-size: 0.7rem;
+        color: #fca5a5;
+      }
+      .watch-footer {
+        font-size: 0.68rem;
+        color: #94a3b8;
+        margin: 0 auto;
+        max-width: 176px;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        line-height: 1.2;
+        flex-shrink: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="watch-app"></div>
+    <script type="module" src="./dist/watch.js"></script>
+  </body>
+</html>

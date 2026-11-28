@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aarogya-mesh.local/schemas/1.0.0/VaccinationDueItem.schema.json",
+  "$defs": {
+    "VaccinationStatus": {
+      "description": "Immunization schedule adherence status.",
+      "enum": [
+        "OVERDUE",
+        "DUE_SOON",
+        "UPCOMING",
+        "COMPLETED"
+      ],
+      "title": "VaccinationStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Single dose schedule item under the India Universal Immunization Programme (UIP).",
+  "properties": {
+    "vaccine_code": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Vaccine Code",
+      "type": "string"
+    },
+    "vaccine_name": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Vaccine Name",
+      "type": "string"
+    },
+    "dose_label": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Dose Label",
+      "type": "string"
+    },
+    "due_date": {
+      "format": "date",
+      "title": "Due Date",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/VaccinationStatus"
+    },
+    "administered_date": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Administered Date"
+    },
+    "days_delta": {
+      "default": 0,
+      "title": "Days Delta",
+      "type": "integer"
+    },
+    "reminder_text": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Reminder Text",
+      "type": "string"
+    },
+    "schedule_group": {
+      "default": "UIP_INDIA",
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Schedule Group",
+      "type": "string"
+    }
+  },
+  "required": [
+    "vaccine_code",
+    "vaccine_name",
+    "dose_label",
+    "due_date",
+    "status"
+  ],
+  "title": "VaccinationDueItem",
+  "type": "object"
+}

@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aarogya-mesh.local/schemas/1.0.0/CrdtEvent.schema.json",
+  "$defs": {
+    "EnrichmentState": {
+      "description": "Deferred Hub ML enrichment lifecycle state on a CRDT event.",
+      "enum": [
+        "NOT_NEEDED",
+        "PENDING",
+        "COMPLETED",
+        "FAILED"
+      ],
+      "title": "EnrichmentState",
+      "type": "string"
+    },
+    "EventType": {
+      "description": "Append-only event taxonomy for the CRDT event log.",
+      "enum": [
+        "PATIENT_REGISTERED",
+        "TRIAGE_COMPLETED",
+        "CHECKLIST_RECORDED",
+        "VACCINATION_LOGGED",
+        "VOICE_NOTE_RECORDED",
+        "ENRICHMENT_COMPLETED",
+        "ACTION_CARD_ISSUED",
+        "OUTBREAK_ALERT_RAISED"
+      ],
+      "title": "EventType",
+      "type": "string"
+    },
+    "HlcTimestamp": {
+      "additionalProperties": false,
+      "description": "Hybrid Logical Clock timestamp with deterministic total ordering.",
+      "properties": {
+        "wall_ms": {
+          "minimum": 0,
+          "title": "Wall Ms",
+          "type": "integer"
+        },
+        "logical": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Logical",
+          "type": "integer"
+        },
+        "node_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Node Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "wall_ms",
+        "node_id"
+      ],
+      "title": "HlcTimestamp",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Immutable append-only event exchanged across autonomous mesh nodes.",
+  "properties": {
+    "event_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Event Id",
+      "type": "string"
+    },
+    "hlc": {
+      "$ref": "#/$defs/HlcTimestamp"
+    },
+    "origin_node_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Origin Node Id",
+      "type": "string"
+    },
+    "patient_id": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Patient Id"
+    },
+    "event_type": {
+      "$ref": "#/$defs/EventType"
+    },
+    "payload": {
+      "additionalProperties": true,
+      "title": "Payload",
+      "type": "object"
+    },
+    "enrichment_state": {
+      "$ref": "#/$defs/EnrichmentState",
+      "default": "NOT_NEEDED"
+    },
+    "ref_event_id": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ref Event Id"
+    }
+  },
+  "required": [
+    "hlc",
+    "origin_node_id",
+    "event_type"
+  ],
+  "title": "CrdtEvent",
+  "type": "object"
+}

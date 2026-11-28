@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aarogya-mesh.local/schemas/1.0.0/ActionCard.schema.json",
+  "$defs": {
+    "ActionCardPriority": {
+      "description": "Urgency tier for CHW or Patient-Family action cards.",
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "CRITICAL"
+      ],
+      "title": "ActionCardPriority",
+      "type": "string"
+    },
+    "ActionCardStatus": {
+      "description": "Lifecycle state of an action card across synced nodes.",
+      "enum": [
+        "OPEN",
+        "ACKNOWLEDGED",
+        "COMPLETED",
+        "DISMISSED"
+      ],
+      "title": "ActionCardStatus",
+      "type": "string"
+    },
+    "NodeTier": {
+      "description": "Hardware capability tier of an autonomous Aarogya Mesh node.",
+      "enum": [
+        "TIER_0_WATCH",
+        "TIER_1_PHONE",
+        "TIER_2_HUB"
+      ],
+      "title": "NodeTier",
+      "type": "string"
+    },
+    "TriageSeverity": {
+      "description": "Deterministic WHO IMNCI / NHM ASHA triage classification.",
+      "enum": [
+        "GREEN_HOME",
+        "YELLOW_PHC",
+        "RED_EMERGENCY"
+      ],
+      "title": "TriageSeverity",
+      "type": "string"
+    },
+    "WatchMode": {
+      "description": "Dual operating mode for a Tier-0 Watch companion.",
+      "enum": [
+        "CHW_COMPANION",
+        "PATIENT_FAMILY"
+      ],
+      "title": "WatchMode",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Compact, glanceable action item synced across Hub, Phone, and Watch.",
+  "properties": {
+    "card_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Card Id",
+      "type": "string"
+    },
+    "patient_id": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Patient Id"
+    },
+    "title": {
+      "maxLength": 160,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "summary": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "title": "Summary",
+      "type": "string"
+    },
+    "action_steps": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Action Steps",
+      "type": "array"
+    },
+    "priority": {
+      "$ref": "#/$defs/ActionCardPriority",
+      "default": "MEDIUM"
+    },
+    "severity": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/TriageSeverity"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "status": {
+      "$ref": "#/$defs/ActionCardStatus",
+      "default": "OPEN"
+    },
+    "target_tier": {
+      "$ref": "#/$defs/NodeTier",
+      "default": "TIER_0_WATCH"
+    },
+    "watch_mode": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/WatchMode"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "source_event_id": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Event Id"
+    },
+    "due_by": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Due By"
+    },
+    "language": {
+      "default": "en",
+      "maxLength": 16,
+      "minLength": 2,
+      "title": "Language",
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "summary"
+  ],
+  "title": "ActionCard",
+  "type": "object"
+}

@@ -1,0 +1,11 @@
+root ::= ws "{" ws "\"extracted_symptoms\"" ws ":" ws string-array ws "," ws "\"candidate_danger_flags\"" ws ":" ws string-array ws "," ws "\"recommended_follow_up\"" ws ":" ws string ws "}" ws
+
+string-array ::= "[" ws (string (ws "," ws string)*)? ws "]"
+
+string ::= "\"" char* "\""
+
+char ::= [^"\\\x00-\x1f] | escape
+
+escape ::= "\\" (["\\/bfnrt] | "u" [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F])
+
+ws ::= [ \t\n\r]*

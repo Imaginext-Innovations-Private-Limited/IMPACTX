@@ -1,0 +1,280 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aarogya-mesh.local/schemas/1.0.0/SyncEnvelope.schema.json",
+  "$defs": {
+    "CrdtEvent": {
+      "additionalProperties": false,
+      "description": "Immutable append-only event exchanged across autonomous mesh nodes.",
+      "properties": {
+        "event_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Event Id",
+          "type": "string"
+        },
+        "hlc": {
+          "$ref": "#/$defs/HlcTimestamp"
+        },
+        "origin_node_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Origin Node Id",
+          "type": "string"
+        },
+        "patient_id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Patient Id"
+        },
+        "event_type": {
+          "$ref": "#/$defs/EventType"
+        },
+        "payload": {
+          "additionalProperties": true,
+          "title": "Payload",
+          "type": "object"
+        },
+        "enrichment_state": {
+          "$ref": "#/$defs/EnrichmentState",
+          "default": "NOT_NEEDED"
+        },
+        "ref_event_id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ref Event Id"
+        }
+      },
+      "required": [
+        "hlc",
+        "origin_node_id",
+        "event_type"
+      ],
+      "title": "CrdtEvent",
+      "type": "object"
+    },
+    "EnrichmentState": {
+      "description": "Deferred Hub ML enrichment lifecycle state on a CRDT event.",
+      "enum": [
+        "NOT_NEEDED",
+        "PENDING",
+        "COMPLETED",
+        "FAILED"
+      ],
+      "title": "EnrichmentState",
+      "type": "string"
+    },
+    "EventType": {
+      "description": "Append-only event taxonomy for the CRDT event log.",
+      "enum": [
+        "PATIENT_REGISTERED",
+        "TRIAGE_COMPLETED",
+        "CHECKLIST_RECORDED",
+        "VACCINATION_LOGGED",
+        "VOICE_NOTE_RECORDED",
+        "ENRICHMENT_COMPLETED",
+        "ACTION_CARD_ISSUED",
+        "OUTBREAK_ALERT_RAISED"
+      ],
+      "title": "EventType",
+      "type": "string"
+    },
+    "HardwareCapabilityManifest": {
+      "additionalProperties": false,
+      "description": "Self-advertised hardware profile of a mesh node.",
+      "properties": {
+        "node_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Node Id",
+          "type": "string"
+        },
+        "tier": {
+          "$ref": "#/$defs/NodeTier"
+        },
+        "ram_mb": {
+          "minimum": 1,
+          "title": "Ram Mb",
+          "type": "integer"
+        },
+        "cpu_cores": {
+          "minimum": 1,
+          "title": "Cpu Cores",
+          "type": "integer"
+        },
+        "battery_pct": {
+          "default": 100,
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Battery Pct",
+          "type": "integer"
+        },
+        "has_npu": {
+          "default": false,
+          "title": "Has Npu",
+          "type": "boolean"
+        },
+        "installed_models": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Installed Models",
+          "type": "array"
+        },
+        "watch_mode": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/WatchMode"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "node_id",
+        "tier",
+        "ram_mb",
+        "cpu_cores"
+      ],
+      "title": "HardwareCapabilityManifest",
+      "type": "object"
+    },
+    "HlcTimestamp": {
+      "additionalProperties": false,
+      "description": "Hybrid Logical Clock timestamp with deterministic total ordering.",
+      "properties": {
+        "wall_ms": {
+          "minimum": 0,
+          "title": "Wall Ms",
+          "type": "integer"
+        },
+        "logical": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Logical",
+          "type": "integer"
+        },
+        "node_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Node Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "wall_ms",
+        "node_id"
+      ],
+      "title": "HlcTimestamp",
+      "type": "object"
+    },
+    "NodeTier": {
+      "description": "Hardware capability tier of an autonomous Aarogya Mesh node.",
+      "enum": [
+        "TIER_0_WATCH",
+        "TIER_1_PHONE",
+        "TIER_2_HUB"
+      ],
+      "title": "NodeTier",
+      "type": "string"
+    },
+    "WatchMode": {
+      "description": "Dual operating mode for a Tier-0 Watch companion.",
+      "enum": [
+        "CHW_COMPANION",
+        "PATIENT_FAMILY"
+      ],
+      "title": "WatchMode",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Peer-to-peer delta sync payload exchanged over local LAN/Hotspot/WebSocket.",
+  "properties": {
+    "envelope_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Envelope Id",
+      "type": "string"
+    },
+    "sender_manifest": {
+      "$ref": "#/$defs/HardwareCapabilityManifest"
+    },
+    "sender_hlc": {
+      "$ref": "#/$defs/HlcTimestamp"
+    },
+    "since_cursor": {
+      "anyOf": [
+        {
+          "maxLength": 256,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Since Cursor"
+    },
+    "next_cursor": {
+      "anyOf": [
+        {
+          "maxLength": 256,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Next Cursor"
+    },
+    "events": {
+      "items": {
+        "$ref": "#/$defs/CrdtEvent"
+      },
+      "title": "Events",
+      "type": "array"
+    },
+    "ack_event_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Ack Event Ids",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": "1.0.0",
+      "maxLength": 32,
+      "minLength": 1,
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "sender_manifest",
+    "sender_hlc"
+  ],
+  "title": "SyncEnvelope",
+  "type": "object"
+}

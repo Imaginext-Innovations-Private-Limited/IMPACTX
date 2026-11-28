@@ -1,0 +1,20 @@
+{
+  "name": "Aarogya Mesh — Tier-0 Watch Companion",
+  "short_name": "Aarogya Watch",
+  "description": "Autonomous dual-mode Tier-0 Watch companion (CHW_COMPANION / PATIENT_FAMILY) with deterministic danger screening and CRDT sync.",
+  "lang": "en",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#0d9488",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Ccircle cx='96' cy='96' r='92' fill='%23020617' stroke='%230d9488' stroke-width='8'/%3E%3Cpath d='M96 48v96M48 96h96' stroke='%235eead4' stroke-width='18' stroke-linecap='round'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

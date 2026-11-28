@@ -1,0 +1,115 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Lint, Test & Contract Verification
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Sync workspace dependencies
+        run: uv sync --all-packages
+
+      - name: Guard against PyTorch / CUDA bloat
+        run: |
+          if uv pip list | grep -iE '^(torch|torchvision|torchaudio|nvidia-|tensorflow)\b'; then
+            echo "ERROR: Prohibited heavy ML/CUDA dependency detected in workspace."
+            exit 1
+          fi
+
+      - name: Run Ruff lint checks
+        run: uv run ruff check .
+
+      - name: Run pytest across all workspace packages
+        run: uv run pytest -v
+
+      - name: Validate JSON Schemas & contract round-trips
+        run: |
+          uv run python -c "
+          import json, pathlib, jsonschema
+          schema_dir = pathlib.Path('packages/contracts/schemas')
+          schemas = list(schema_dir.glob('*.json'))
+          assert schemas, f'No JSON schemas found in {schema_dir}'
+          for p in schemas:
+              data = json.loads(p.read_text(encoding='utf-8'))
+              jsonschema.Draft202012Validator.check_schema(data)
+              print(f'Validated schema: {p.name}')
+          "
+          uv run pytest -v packages/contracts/tests/
+
+  field-pwa:
+    name: Field PWA Typecheck, Test & Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/field-pwa
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Run Vitest suite
+        run: npm test
+
+      - name: Build production PWA bundle
+        run: npm run build
+
+  watch-companion:
+    name: Watch Companion Typecheck, Test & Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/watch-companion
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Run Vitest suite
+        run: npm test
+
+      - name: Build production Watch bundle
+        run: npm run build
