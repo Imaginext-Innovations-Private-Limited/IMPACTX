@@ -221,3 +221,24 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Universal AI Honeypot - local secrets and runtime files
+.env
+.env.*
+!.env.example
+venv/
+__pycache__/
+*.py[cod]
+*.db
+*.sqlite
+*.sqlite3
+*.jsonl
+*.log
+*.pid
+data/
+logs/
+run/
+certs/
+backups/
+project_evidence/
+*.pdf.sha256

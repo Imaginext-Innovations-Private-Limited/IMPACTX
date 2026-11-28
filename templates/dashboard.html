@@ -1,0 +1,615 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080e1c">
+
+    <title>Universal AI Honeypot | SOC Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">⬡</div>
+            <div>
+                <h2>Universal AI</h2>
+                <span>HONEYPOT ENGINE</span>
+            </div>
+        </div>
+
+        <div class="nav-label">MAIN MENU</div>
+
+        <nav class="navigation">
+            <a href="#overview" class="nav-item active">▦ Dashboard</a>
+            <a href="#recent-events" class="nav-item">◉ Live Events</a>
+            <a href="#attackers" class="nav-item">◎ Attackers</a>
+            <a href="#analytics" class="nav-item">▥ Analytics</a>
+            <a href="#forensic" class="nav-item">▤ Forensic Reports</a>
+            <a href="#ml-analysis" class="nav-item">✳ ML Analysis</a>
+            <a href="#services" class="nav-item">▣ Services</a>
+            <a href="#settings" class="nav-item">⚙ Settings</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="system-card">
+                <span class="status-dot"></span>
+                <strong>System Online</strong>
+                <small>Dashboard connected</small>
+            </div>
+            <small class="version">Universal AI Honeypot · v1.0</small>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- HEADER -->
+        <header class="topbar">
+
+            <div>
+                <div class="breadcrumb">Security Operations / Overview</div>
+                <h1>Dashboard</h1>
+                <p>Real-time monitoring and analysis of honeypot activity</p>
+            </div>
+
+            <div class="topbar-right">
+                <div class="clock">
+                    <span id="current-date">Loading date...</span>
+                    <strong id="current-time">--:--:--</strong>
+                </div>
+
+                <span class="online-badge">
+                    <span class="status-dot"></span>
+                    System Online
+                </span>
+
+                <button class="refresh-button"
+                        onclick="window.location.reload()"
+                        title="Refresh dashboard">↻</button>
+            </div>
+
+        </header>
+
+
+        <!-- KPI CARDS -->
+        <section id="overview" class="metrics-grid">
+
+            <article class="metric-card blue">
+                <div class="metric-top">
+                    <span>Total Events</span>
+                    <span class="metric-icon">▤</span>
+                </div>
+                <strong>{{ total }}</strong>
+                <small>Recorded events</small>
+            </article>
+
+            <article class="metric-card red">
+                <div class="metric-top">
+                    <span>High Risk</span>
+                    <span class="metric-icon">⚠</span>
+                </div>
+                <strong>{{ high }}</strong>
+                <small>High-risk events</small>
+            </article>
+
+            <article class="metric-card yellow">
+                <div class="metric-top">
+                    <span>Medium Risk</span>
+                    <span class="metric-icon">△</span>
+                </div>
+                <strong>{{ medium }}</strong>
+                <small>Medium-risk events</small>
+            </article>
+
+            <article class="metric-card green">
+                <div class="metric-top">
+                    <span>Low Risk</span>
+                    <span class="metric-icon">✓</span>
+                </div>
+                <strong>{{ low }}</strong>
+                <small>Low-risk events</small>
+            </article>
+
+            <article class="metric-card purple">
+                <div class="metric-top">
+                    <span>Unassessed</span>
+                    <span class="metric-icon">▣</span>
+                </div>
+                <strong>{{ unassessed }}</strong>
+                <small>Awaiting assessment</small>
+            </article>
+
+        </section>
+
+
+        <!-- ANALYTICS ROW -->
+        <section id="analytics" class="analytics-grid">
+
+            <article class="panel distribution-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Event Distribution</h3>
+                        <p>Events grouped by risk level</p>
+                    </div>
+                    <span class="panel-tag">Risk Levels</span>
+                </div>
+
+                <div class="chart-container donut-container">
+                    <canvas id="riskChart"></canvas>
+                </div>
+            </article>
+
+
+            <article class="panel protocol-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Protocol Activity</h3>
+                        <p>Recorded protocol event counts</p>
+                    </div>
+                    <span class="panel-tag">All Time</span>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="protocolChart"></canvas>
+                </div>
+            </article>
+
+
+            <article id="attackers" class="panel attackers-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Top Attacker IPs</h3>
+                        <p>Most active source addresses</p>
+                    </div>
+                    <span class="panel-tag">Top 10</span>
+                </div>
+
+                <div class="attacker-list">
+
+                    {% for attacker in top_attackers %}
+
+                    <div class="attacker-row">
+
+                        <div class="attacker-info">
+    <strong>{{ attacker.source_ip }}</strong>
+
+    {% set geo = attacker.geolocation or {} %}
+
+    <small>
+        {% if geo.ip_type == 'private' %}
+            Private Network
+        {% elif geo.ip_type == 'loopback' %}
+            Localhost
+        {% elif geo.ip_type == 'link_local' %}
+            Link-local Network
+        {% elif geo.ip_type == 'reserved_or_non_global' %}
+            Reserved / Non-global IP
+        {% elif geo.city %}
+            {{ geo.city }}, {{ geo.region }}, {{ geo.country }}
+        {% else %}
+            Location unavailable
+        {% endif %}
+    </small>
+
+    <small>
+        IP Classification: {{ geo.network_type or 'Unknown' }}
+    </small>
+
+    {% if geo.ip_type != 'public' %}
+        <small>Country: Unavailable</small>
+        <small>Region: Unavailable</small>
+        <small>City: Unavailable</small>
+    {% endif %}
+</div>
+
+                        <div class="attacker-count">
+                            <strong>{{ attacker.total }}</strong>
+                            <small>events</small>
+                        </div>
+
+                    </div>
+
+                    {% else %}
+                    <p class="empty-message">No attacker records available.</p>
+                    {% endfor %}
+
+                </div>
+            </article>
+
+        </section>
+
+
+        <!-- RECENT EVENTS AND MAP -->
+        <section class="activity-grid">
+
+            <article id="recent-events" class="panel events-panel">
+
+                <div class="panel-heading">
+                    <div>
+                        <h3>Recent Events</h3>
+                        <p>Latest recorded honeypot activity</p>
+                    </div>
+                    <span class="live-label">
+                        <span class="status-dot"></span>
+                        Recorded
+                    </span>
+                </div>
+
+                <div class="table-controls">
+                    <input type="search"
+                           id="event-search"
+                           placeholder="Search IP, event or domain..."
+                           oninput="filterDashboardEvents()">
+
+                    <select id="event-risk-filter"
+                            onchange="filterDashboardEvents()">
+                        <option value="all">All Risks</option>
+                        <option value="high">High Risk</option>
+                        <option value="medium">Medium Risk</option>
+                        <option value="low">Low Risk</option>
+                        <option value="unassessed">Unassessed</option>
+                    </select>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Domain</th>
+                                <th>Source IP</th>
+                                <th>Event</th>
+                                <th>Risk</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="event-table-body">
+
+                        {% for event in dashboard_events[:15] %}
+
+                        <tr class="event-row"
+                            data-risk="{{ event.risk_level }}"
+                            data-search="{{ (event.source_ip ~ ' ' ~ event.domain ~ ' ' ~ event.event_type ~ ' ' ~ event.path) | lower | e }}"
+                            onclick="window.location.href='/event-report/{{ event.event_id }}'"
+                            onkeydown="if(event.key === 'Enter') window.location.href='/event-report/{{ event.event_id }}'"
+                            tabindex="0"
+                            role="link"
+                            title="Click to investigate this event">
+
+                            <td>{{ event.timestamp }}</td>
+                            <td>{{ event.domain }}</td>
+                            <td>{{ event.source_ip }}</td>
+                            <td>{{ event.event_type }}</td>
+
+                            <td>
+                                <span class="risk-badge {{ event.risk_level }}">
+                                    {{ event.risk_level | upper }}
+                                </span>
+                            </td>
+
+                            <td>{{ event.risk_score }}/100</td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+                            <td colspan="6">No events recorded.</td>
+                        </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-footer">
+                    <span id="event-visible-count">
+                        Showing latest 15 events
+                    </span>
+                </div>
+
+            </article>
+
+
+            <div class="right-column">
+
+                <article class="panel map-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Live Attack Map</h3>
+                            <p>Public IP geolocation records</p>
+                        </div>
+                        <span class="live-label">
+                            <span class="status-dot"></span>
+                            Map
+                        </span>
+                    </div>
+
+                    <div id="attack-map"></div>
+
+                    <p class="map-note">
+                        Locations are approximate IP geolocation results.
+                        Private and localhost addresses are excluded.
+                    </p>
+                </article>
+
+
+                <article id="services" class="panel service-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Service Activity</h3>
+                            <p>Events grouped by service</p>
+                        </div>
+                    </div>
+
+                    <div class="service-grid">
+
+                        {% for service in service_stats %}
+
+                        <div class="service-chip">
+                            <span class="status-dot"></span>
+                            <span>{{ service.name }}</span>
+                            <strong>{{ service.total }}</strong>
+                        </div>
+
+                        {% else %}
+
+                        <p class="empty-message">
+                            No service activity recorded.
+                        </p>
+
+                        {% endfor %}
+
+                    </div>
+
+                    <small class="service-note">
+                        Activity counts do not indicate whether a process is currently running.
+                    </small>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- FORENSIC REPORT -->
+        <section id="forensic" class="panel forensic-panel">
+
+            <div class="panel-heading">
+                <div>
+                    <h3>Forensic Report Generator</h3>
+                    <p>Generate an event investigation report for an IP address</p>
+                </div>
+                <span class="panel-tag">JSON Report</span>
+            </div>
+
+            <form action="/forensic-report" method="get"
+                  class="forensic-form">
+
+                <input type="text"
+                       name="ip"
+                       placeholder="Enter attacker IP address"
+                       required>
+
+                <button type="submit">Download Report ↓</button>
+
+            </form>
+
+        </section>
+
+
+        <!-- ML SUMMARY -->
+        <section id="ml-analysis" class="panel ml-panel">
+            <div class="panel-heading">
+                <div>
+                    <h3>Machine Learning Analysis</h3>
+                    <p>Model predictions and event analysis</p>
+                </div>
+                <span class="panel-tag">Shadow Mode</span>
+            </div>
+
+            <p class="ml-description">
+                ML predictions are displayed in the event records.
+                They operate in shadow mode and do not independently
+                control honeypot responses.
+            </p>
+
+            <div class="ml-summary">
+                <div class="ml-event">
+                    <span>Classified Events</span>
+                    <strong>{{ ml_stats.evaluated }}</strong>
+                </div>
+                <div class="ml-event">
+                    <span>Benign Predictions</span>
+                    <strong>{{ ml_stats.benign }}</strong>
+                </div>
+                <div class="ml-event">
+                    <span>Suspicious Predictions</span>
+                    <strong>{{ ml_stats.suspicious }}</strong>
+                </div>
+                <div class="ml-event">
+                    <span>Skipped Predictions</span>
+                    <strong>{{ ml_stats.skipped }}</strong>
+                </div>
+                <div class="ml-event">
+                    <span>Failed Predictions</span>
+                    <strong>{{ ml_stats.failed }}</strong>
+                </div>
+                <div class="ml-event">
+                    <span>Average Reported Confidence</span>
+                    <strong>
+                        {% if ml_stats.average_confidence is not none %}
+                            {{ ml_stats.average_confidence }}%
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </strong>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- SSH ISOLATION FOREST ANALYSIS -->
+        <section id="ssh-ml-analysis" class="panel ml-panel">
+            <div class="panel-heading">
+                <div>
+                    <h3>SSH ML Analysis — Isolation Forest</h3>
+                    <p>SSH session anomaly detection results</p>
+                </div>
+                <span class="panel-tag">Shadow Mode</span>
+            </div>
+
+            <p class="ml-description">
+                SSH predictions are advisory anomaly assessments.
+                They do not independently confirm attacks or block sessions.
+            </p>
+
+            <div class="ml-summary">
+                <div class="ml-event">
+                    <span>Total Sessions</span>
+                    <strong>{{ ssh_ml_stats.total_sessions }}</strong>
+                </div>
+                <div class="ml-event">
+                    <span>Evaluated</span>
+                    <strong>{{ ssh_ml_stats.evaluated }}</strong>
+                </div>
+                <div class="ml-event">
+                    <span>Normal</span>
+                    <strong>{{ ssh_ml_stats.normal }}</strong>
+                </div>
+                <div class="ml-event">
+                    <span>Review</span>
+                    <strong>{{ ssh_ml_stats.review }}</strong>
+                </div>
+                <div class="ml-event">
+                    <span>Unavailable</span>
+                    <strong>{{ ssh_ml_stats.unavailable }}</strong>
+                </div>
+                <div class="ml-event">
+                    <span>Not Evaluated</span>
+                    <strong>{{ ssh_ml_stats.not_evaluated }}</strong>
+                </div>
+                <div class="ml-event">
+                    <span>Average Anomaly Score</span>
+                    <strong>
+                        {% if ssh_ml_stats.average_anomaly_score is not none %}
+                            {{ ssh_ml_stats.average_anomaly_score }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </strong>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ADAPTIVE DECISION HISTORY -->
+        <section id="adaptive-history" class="panel ml-panel">
+            <div class="panel-heading">
+                <div>
+                    <h3>Adaptive Decision History</h3>
+                    <p>SSH behavior analysis and simulated response decisions</p>
+                </div>
+                <span class="panel-tag">Simulation Only</span>
+            </div>
+
+            <div class="ssh-history-list">
+                {% for record in adaptation_records %}
+                    {% set ssh_ml = record.ssh_ml or {} %}
+
+                    <article class="ssh-history-card">
+                        <h4>{{ record.selected_response or "No response selected" }}</h4>
+
+                        <p>
+                            <strong>Session:</strong>
+                            {{ record.session_id or "Unknown" }}
+                        </p>
+
+                        <p>
+                            <strong>Risk:</strong>
+                            {{ record.risk_score if record.risk_score is not none else 0 }}/100
+                            ({{ record.risk_level or "unassessed" }})
+                        </p>
+
+                        <p>
+                            <strong>SSH ML:</strong>
+                            {{ ssh_ml.prediction or "Not evaluated" }}
+                        </p>
+
+                        <p>
+                            <strong>Anomaly Score:</strong>
+                            {% if ssh_ml.anomaly_score is defined and ssh_ml.anomaly_score is not none %}
+                                {{ ssh_ml.anomaly_score }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </p>
+
+                        <p>
+                            <strong>Indicators:</strong>
+                            {{ record.indicators | join(", ") if record.indicators else "None recorded" }}
+                        </p>
+
+                        <p>
+                            <strong>Reason:</strong>
+                            {{ record.reason or "Not provided" }}
+                        </p>
+
+                        <p class="metadata">
+                            {{ record.timestamp or "Unknown" }}
+                            · {{ record.mode or "simulation_only" }}
+                            · {{ ssh_ml.mode or "shadow" }}
+                        </p>
+                    </article>
+                {% else %}
+                    <p class="empty-message">
+                        No adaptive decisions recorded yet.
+                    </p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <footer class="footer">            Universal AI Honeypot Engine · Security Operations Dashboard
+        </footer>
+
+    </main>
+</div>
+
+
+<script>
+    window.dashboardData = {
+        protocols: {{ protocol_stats | tojson }},
+        geolocations: {{ geolocation_points | tojson }},
+        risk: {
+            high: {{ high }},
+            medium: {{ medium }},
+            low: {{ low }},
+            unassessed: {{ unassessed }}
+        }
+    };
+</script>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+</body>
+</html>

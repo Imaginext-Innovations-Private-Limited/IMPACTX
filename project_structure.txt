@@ -1,0 +1,237 @@
+.
+├── app_backup_before_cleanup.py
+├── app_backup.py
+├── apply_backfill.py
+├── app.py
+├── app.py.backup_before_ml_display
+├── app.py.before_adaptive_dashboard
+├── app.py.before_geoip_dashboard
+├── app.py.before_historical_ml_status
+├── app.py.before_query_value_fix
+├── app.py.before_ssh_event_link
+├── app.py.before_ssh_ml_dashboard
+├── backfill_risk.py
+├── backupapp.py
+├── backups
+│   ├── alternate_http_before_remote_fix.py
+│   ├── behavior_analyzer_after_protocol_rules_20261030_105932.py
+│   ├── behavior_analyzer_before_protocol_rules_20261030_104454.py
+│   ├── behavior_analyzer_before_ssh_update.py
+│   ├── cowrie_adapter_before_ssh_update.py
+│   ├── dns_service_before_external_access.py
+│   ├── event-report
+│   │   ├── app_before_event_report.py
+│   │   └── dashboard_before_event_click.html
+│   ├── events_before_backfill_20261029_150705.jsonl
+│   ├── final
+│   │   ├── project-final-20261031-0127.tar.gz
+│   │   ├── runtime-20261031-013016
+│   │   └── universal-ai-honeypot-source.tar.gz
+│   ├── ftp_service_before_external_access.py
+│   ├── honeypot_before_backfill_20261029_150705.db
+│   ├── https_service_before_external_access.py
+│   ├── imap_service_before_external_access.py
+│   ├── msrpc_service_before_remote_fix.py
+│   ├── mysql_service_before_external_access.py
+│   ├── mysql_service_before_handshake_fix.py
+│   ├── pop3_service_before_external_access.py
+│   ├── postgres_service_before_remote_fix.py
+│   ├── rdp_service_before_remote_fix.py
+│   ├── security
+│   │   ├── adaptation_audit_before_correction.jsonl
+│   │   ├── app_before_forensic_reports.py
+│   │   ├── app_before_redesign.py
+│   │   ├── behavior_analyzer_before_redaction.py
+│   │   ├── core_cowrie_adapter_before_redaction.py
+│   │   ├── cowrie_adapter_before_final_redaction.py
+│   │   ├── cowrie_adapter_before_redaction.py
+│   │   ├── cowrie_checkpoint_before_update.txt
+│   │   ├── cowrie_session_bridge_before_redaction.py
+│   │   ├── dashboard_before_forensic_reports.html
+│   │   ├── dashboard_before_redesign.html
+│   │   ├── dashboard_before_report_form.html
+│   │   ├── historical
+│   │   ├── pipeline_before_redaction.py
+│   │   ├── session_bridge_before_correction.db
+│   │   ├── session_bridge_before_malformed_line_fix.py
+│   │   ├── session_bridge_before_redaction.db
+│   │   └── session_bridge_before_safe_ingestion.py
+│   ├── smb_service_before_remote_fix.py
+│   ├── smtp_service_before_external_access.py
+│   ├── telnet_service_before_external_access.py
+│   ├── ui-redesign
+│   │   ├── app_before_analytics_integration.py
+│   │   ├── app_before_soc.py
+│   │   ├── behavior_analyzer_before_detection_upgrade.py
+│   │   ├── dashboard_analytics.before_map_upgrade.py
+│   │   ├── dashboard_analytics_before_update.py
+│   │   ├── dashboard.before_interactive_map.js
+│   │   ├── dashboard_before_soc.html
+│   │   └── dashboard.js.before_osm
+│   └── vnc_service_before_remote_fix.py
+├── behavior_analyzer.py
+├── certs
+│   ├── localhost-test.crt
+│   └── localhost-test.key
+├── check_services.py
+├── core
+│   ├── adaptation_logger.py
+│   ├── adaptation_logger.py.backup
+│   ├── adaptive_engine.py
+│   ├── adaptive_engine.py.backup
+│   ├── adaptive_policy.py
+│   ├── behavior_analyzer.py
+│   ├── behavior_analyzer.py.backup
+│   ├── behavior_analyzer.py.backup_before_ssh_update
+│   ├── behavior_analyzer.py.backup_duplicate
+│   ├── behavior_analyzer.py.before_dns_rules
+│   ├── behavior_analyzer.py.before_network_rules_20261026
+│   ├── behavior_analyzer.py.before_query_patch
+│   ├── behavior_analyzer.py.before_query_value_fix
+│   ├── cowrie_adapter.py
+│   ├── cowrie_adapter.py.before_session_id
+│   ├── cowrie_session_bridge.py
+│   ├── cowrie_session_bridge.py.backup
+│   ├── cowrie_session_bridge.py.before_audit_integration
+│   ├── cowrie_session_bridge.py.before_indentation_fix
+│   ├── cowrie_session_bridge.py.before_ssh_ml
+│   ├── dashboard_analytics.py
+│   ├── database.py
+│   ├── event_engine.py
+│   ├── forensic_report.py
+│   ├── geoip_manager.py
+│   ├── geoip_worker.py
+│   ├── __init__.py
+│   ├── pipeline.py
+│   ├── pipeline.py.backup
+│   ├── response_policy.py
+│   └── session_analyzer.py
+├── data
+│   ├── adaptation_audit.backup.jsonl
+│   ├── adaptation_audit.jsonl
+│   ├── cowrie_checkpoint.txt
+│   ├── cowrie_dataset
+│   │   ├── cowrie-sshtelnet-honeypot-dataset.zip
+│   │   └── extracted
+│   ├── events.jsonl
+│   ├── honeypot.db
+│   ├── session_bridge.backup.db
+│   ├── session_bridge.before_recovery.db
+│   ├── session_bridge_checkpoint.backup
+│   ├── session_bridge_checkpoint.before_recovery.txt
+│   ├── session_bridge_checkpoint.txt
+│   ├── session_bridge.db
+│   ├── ssh_anomaly_review.csv
+│   ├── ssh_behavior_features.csv
+│   ├── ssh_high_score_review.csv
+│   └── ssh_sessions.csv
+├── data~
+├── integrations
+│   ├── cowrie_adapter.py
+│   ├── cowrie_adapter.py.backup_before_dedup
+│   └── cowrie_adapter.py.backup_before_rotation_fix
+├── logs
+│   ├── alternate_http.log
+│   ├── cowrie_adapter.log
+│   ├── dashboard.log
+│   ├── dns.log
+│   ├── ftp.log
+│   ├── https.log
+│   ├── imap.log
+│   ├── msrpc.log
+│   ├── mysql.log
+│   ├── pop3.log
+│   ├── postgresql.log
+│   ├── rdp.log
+│   ├── smb.log
+│   ├── smtp.log
+│   ├── telnet.log
+│   └── vnc.log
+├── migrate_events.py
+├── ml
+│   ├── __init__.py
+│   ├── models
+│   │   ├── honeypot_classifier.joblib
+│   │   └── ssh_anomaly_detector.joblib
+│   ├── predict_event.py
+│   ├── predict.py
+│   ├── predict_ssh.py
+│   ├── prepare_ssh_dataset.py
+│   ├── prepare_ssh_features.py
+│   ├── train_model.py
+│   └── train_ssh_anomaly.py
+├── plugins
+├── project_evidence
+│   └── screenshots
+├── project_structure.txt
+├── run
+│   ├── alternate_http.pid
+│   ├── dashboard.pid
+│   ├── dns.pid
+│   ├── ftp.pid
+│   ├── https.pid
+│   ├── imap.pid
+│   ├── msrpc.pid
+│   ├── mysql.pid
+│   ├── pop3.pid
+│   ├── postgresql.pid
+│   ├── rdp.pid
+│   ├── smb.pid
+│   ├── smtp.pid
+│   ├── telnet.pid
+│   └── vnc.pid
+├── run_honeypot.py
+├── run_honeypot.py.backup
+├── run_honeypot.py.backup2
+├── services
+│   ├── base_service.py
+│   ├── database
+│   │   ├── mysql_service.py
+│   │   └── postgres_service.py
+│   ├── databases
+│   ├── email
+│   │   ├── imap_service.py
+│   │   ├── pop3_service.py
+│   │   └── smtp_service.py
+│   ├── __init__.py
+│   ├── network
+│   │   └── dns_service.py
+│   ├── registry.py
+│   ├── registry.py.backup_before_status_update
+│   ├── remote_access
+│   │   ├── ftp_service.py
+│   │   ├── ftp_service.py.backup_before_password_fix
+│   │   └── telnet_service.py
+│   ├── tcp_listener.py
+│   ├── web
+│   │   ├── alternate_http.py
+│   │   ├── alternate_http.py.backup_before_port_fix
+│   │   └── https_service.py
+│   └── windows
+│       ├── msrpc_service.py
+│       ├── rdp_service.py
+│       ├── smb_service.py
+│       └── vnc_service.py
+├── start.sh
+├── static
+│   ├── css
+│   │   └── dashboard.css
+│   ├── images
+│   └── js
+│       └── dashboard.js
+├── templates
+│   ├── dashboard.html
+│   ├── dashboard.html.backup_before_ml
+│   ├── dashboard.html.before_adaptive_dashboard
+│   ├── dashboard.html.before_history_fix
+│   ├── dashboard.html.before_ml_display_fix
+│   ├── dashboard.html.before_ml_status
+│   ├── dashboard.html.before_ssh_ml
+│   └── event_report.html
+├── test_advanced_analyzer.py
+├── test_analyzer.py
+├── test_pipeline.py
+├── test_protocol_analyzer.py
+└── tests
+
+36 directories, 199 files

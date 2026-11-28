@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Investigation Report | Universal AI Honeypot</title>
+
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #0b1220;
+            --card: #111e32;
+            --border: #263852;
+            --text: #e7eefb;
+            --muted: #91a4c0;
+            --blue: #438df5;
+            --green: #20c98b;
+            --yellow: #f2ad39;
+            --red: #ef5261;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        h1 { color: #65a5ff; margin-bottom: 7px; }
+        h2 { font-size: 18px; margin-top: 0; }
+        .muted { color: var(--muted); font-size: 13px; }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 18px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .field {
+            padding: 12px;
+            background: #0c1729;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow-wrap: anywhere;
+        }
+
+        .field span {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+        .field strong { font-size: 14px; }
+
+        .risk-high { color: #ff7180; }
+        .risk-medium { color: #f2bd54; }
+        .risk-low { color: #20c98b; }
+        .risk-unassessed { color: var(--muted); }
+
+        pre {
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            background: #0c1729;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            color: #c6d6ed;
+        }
+
+        button, .back {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #1b3f72;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover, .back:hover {
+            background: #285b9e;
+        }
+
+        .download {
+            background: #087b58;
+            border: none;
+        }
+
+        .download:hover { background: #09976b; }
+
+        @media (max-width: 650px) {
+            body { padding: 15px; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <header>
+        <div>
+            <h1>Event Investigation Report</h1>
+            <p class="muted">Universal AI Honeypot Engine · Security Operations</p>
+        </div>
+        <a class="back" href="/dashboard">← Dashboard</a>
+    </header>
+
+    <section class="card">
+        <h2>Event Overview</h2>
+
+        <div class="grid">
+            <div class="field">
+                <span>Event ID</span>
+                <strong>{{ event.event_id }}</strong>
+            </div>
+
+            <div class="field">
+                <span>Event Type</span>
+                <strong>{{ event.event_type }}</strong>
+            </div>
+
+            <div class="field">
+                <span>Domain</span>
+                <strong>{{ event.domain }}</strong>
+            </div>
+
+            <div class="field">
+                <span>Timestamp</span>
+                <strong>{{ event.timestamp }}</strong>
+            </div>
+
+            <div class="field">
+                <span>Risk Level</span>
+                <strong class="risk-{{ event.risk_level or 'unassessed' }}">
+                    {{ (event.risk_level or 'unassessed') | upper }}
+                </strong>
+            </div>
+
+            <div class="field">
+                <span>Risk Score</span>
+                <strong>{{ event.risk_score or 0 }}/100</strong>
+            </div>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Attacker Information</h2>
+
+        <div class="grid">
+            <div class="field">
+                <span>Source IP Address</span>
+                <strong>{{ event.source_ip }}</strong>
+            </div>
+
+            <div class="field">
+                <span>Country</span>
+                <strong>{{ event.geolocation.country or 'Unavailable / Private IP' }}</strong>
+            </div>
+
+            <div class="field">
+                <span>Region</span>
+                <strong>{{ event.geolocation.region or 'Unavailable' }}</strong>
+            </div>
+
+            <div class="field">
+                <span>City</span>
+                <strong>{{ event.geolocation.city or 'Unavailable' }}</strong>
+            </div>
+
+            <div class="field">
+                <span>ISP</span>
+                <strong>{{ event.geolocation.isp or 'Unavailable' }}</strong>
+            </div>
+
+<div class="field">
+    <span>Coordinates</span>
+    <strong>
+        {% set lat = event.geolocation.latitude %}
+        {% set lon = event.geolocation.longitude %}
+
+        {% if lat is not none and lon is not none
+              and lat|string|trim != ''
+              and lon|string|trim != '' %}
+            {{ lat }}, {{ lon }}
+        {% else %}
+            Unavailable
+        {% endif %}
+    </strong>
+</div>        </div>
+
+        <p class="muted">
+            IP geolocation is approximate and does not identify an exact person
+            or physical address.
+        </p>
+    </section>
+
+    <section class="card">
+        <h2>Event Details</h2>
+        <pre>{{ event.details | tojson(indent=2) }}</pre>
+    </section>
+
+    {% if event.ssh_commands %}
+    <section class="card">
+        <h2>SSH Command History</h2>
+        <p class="muted">Actual commands captured by Cowrie during this SSH session.</p>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Timestamp</th>
+                        <th>Command</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for command in event.ssh_commands %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ command.timestamp }}</td>
+                        <td>{{ command.command }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="card">
+        <h2>Suspicious Indicators</h2>
+        {% if event.indicators %}
+            <ul>
+                {% for indicator in event.indicators %}
+                    <li>{{ indicator }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="muted">No suspicious indicators recorded.</p>
+        {% endif %}
+    </section>
+
+    <section class="card">
+        <h2>Machine Learning Analysis</h2>
+
+        {% if event.ml_prediction %}
+            <pre>{{ event.ml_prediction | tojson(indent=2) }}</pre>
+        {% else %}
+            <p class="muted">No ML prediction available for this event.</p>
+        {% endif %}
+    </section>
+
+    <section class="card">
+        <h2>Honeypot Response</h2>
+
+        <div class="grid">
+            <div class="field">
+                <span>Response Policy</span>
+                <strong>{{ event.response_policy or 'Not recorded' }}</strong>
+            </div>
+
+            <div class="field">
+                <span>Response Action</span>
+                <strong>{{ event.response_action or 'Not recorded' }}</strong>
+            </div>
+        </div>
+
+        <p>{{ event.response_message or 'No response message recorded.' }}</p>
+    </section>
+
+    <section class="card">
+        <h2>Download Investigation Report</h2>
+        <p class="muted">
+            Review the report before downloading. The file will only download
+            when you click the button.
+        </p>
+
+        <form action="/event-report/{{ event.event_id }}/download" method="get">
+            <button class="download" type="submit">
+                ↓ Download Event Report
+            </button>
+        </form>
+    </section>
+
+</div>
+</body>
+</html>
