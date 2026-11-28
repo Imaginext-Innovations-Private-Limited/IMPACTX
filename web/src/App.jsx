@@ -9,16 +9,20 @@ import {
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+
 import Dashboard from "./pages/Dashboard";
 import ReportPollution from "./pages/ReportPollution";
 import MyReports from "./pages/MyReports";
 import LakeMap from "./pages/LakeMap";
 import WaterQuality from "./pages/WaterQuality";
+import Support from "./pages/Support";
+
 import AdminDashboard from "./pages/AdminDashboard";
 
 import "./App.css";
 
-// Check authentication
+
+// Get logged-in user
 const getUser = () => {
   try {
     const user = localStorage.getItem("aquawatch_user");
@@ -28,7 +32,8 @@ const getUser = () => {
   }
 };
 
-// Citizen protection
+
+// Citizen route protection
 function CitizenRoute({ children }) {
   const token = localStorage.getItem("aquawatch_token");
   const user = getUser();
@@ -44,7 +49,8 @@ function CitizenRoute({ children }) {
   return children;
 }
 
-// Admin protection
+
+// Admin route protection
 function AdminRoute({ children }) {
   const token = localStorage.getItem("aquawatch_token");
   const user = getUser();
@@ -60,24 +66,26 @@ function AdminRoute({ children }) {
   return children;
 }
 
+
 function App() {
   const token = localStorage.getItem("aquawatch_token");
   const user = getUser();
 
   const getHomeRoute = () => {
     if (!token) return "/";
-    return user?.role === "admin" ? "/admin" : "/dashboard";
+
+    return user?.role === "admin"
+      ? "/admin"
+      : "/dashboard";
   };
 
   return (
     <BrowserRouter>
       <Routes>
 
-        {/* Public Pages */}
-        <Route
-          path="/"
-          element={<Home />}
-        />
+        {/* PUBLIC PAGES */}
+
+        <Route path="/" element={<Home />} />
 
         <Route
           path="/login"
@@ -97,7 +105,9 @@ function App() {
           }
         />
 
-        {/* Citizen Dashboard */}
+
+        {/* CITIZEN PAGES */}
+
         <Route
           path="/dashboard"
           element={
@@ -107,7 +117,6 @@ function App() {
           }
         />
 
-        {/* Citizen Pollution Report */}
         <Route
           path="/report"
           element={
@@ -117,7 +126,6 @@ function App() {
           }
         />
 
-        {/* Citizen My Reports */}
         <Route
           path="/my-reports"
           element={
@@ -127,7 +135,6 @@ function App() {
           }
         />
 
-        {/* Lake Map */}
         <Route
           path="/map"
           element={
@@ -137,7 +144,6 @@ function App() {
           }
         />
 
-        {/* Water Quality */}
         <Route
           path="/water-quality"
           element={
@@ -147,7 +153,20 @@ function App() {
           }
         />
 
-        {/* Admin Dashboard */}
+        {/* SUPPORT & USER GUIDE */}
+
+        <Route
+          path="/support"
+          element={
+            <CitizenRoute>
+              <Support />
+            </CitizenRoute>
+          }
+        />
+
+
+        {/* ADMIN PAGE */}
+
         <Route
           path="/admin"
           element={
@@ -157,10 +176,14 @@ function App() {
           }
         />
 
-        {/* Unknown Routes */}
+
+        {/* UNKNOWN ROUTES */}
+
         <Route
           path="*"
-          element={<Navigate to={getHomeRoute()} replace />}
+          element={
+            <Navigate to={getHomeRoute()} replace />
+          }
         />
 
       </Routes>
