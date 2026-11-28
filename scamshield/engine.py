@@ -329,6 +329,14 @@ def _ml_suspicious(model, text: str) -> bool:
     return float(model.decision_function([text])[0]) >= SVM_REVIEW_MARGIN
 
 
+def safety_education_hint(text: str) -> bool:
+    return bool(
+        _NEGATION.search(text)
+        or REGIONAL_AWARENESS.search(text)
+        or re.search(r"\b(?:bank|police|agency|agencies)\s+(?:will\s+never|never|do\s+not)\s+(?:ask\s+for|demand|request)\b", text, re.I)
+    )
+
+
 def analyze(
     text: str,
     channel: str = "message",
@@ -550,6 +558,28 @@ def analyze(
             matched.append(finding)
             context.append(finding)
 
+    # Specialized offline email phishing classifier (MeAJOR-trained Word+Char LogReg).
+    # Runs for email channel, parsed .eml metadata, or messages with email headers.
+    email_ml_triggered = False
+    is_email_context = channel == "email" or bool(email_meta) or bool(identity_info.get("from_address"))
+    if is_email_context:
+        from .email_classifier import classify_email_text
+        em = classify_email_text(text)
+        if em["flag"] in {"caution", "review"} and not safety_education_hint(text):
+            email_ml_triggered = True
+            w = 3 if em["flag"] == "caution" else 2
+            total += w
+            cat_scores["Phishing email pattern"] += w
+            matched.append({
+                "id": "email_ml_phishing" if w == 3 else "email_ml_review",
+                "title": "Offline email classifier flagged phishing-like wording",
+                "explanation": "Word and character patterns resemble phishing or deceptive solicitation emails (heuristic indicator, not a probability).",
+                "weight": w,
+                "evidence": text[:160],
+                "start": 0, "end": 0,
+                "advice": "Verify the sender independently before clicking links, replying, or transferring funds.",
+            })
+
     # ML is a weak signal, not a fraud-certification engine. No claimed calibrated confidence.
     ml = _model()
     model_signal = "unavailable" if ml is None else "not_triggered"
@@ -557,7 +587,7 @@ def analyze(
         # This model is trained on bundled synthetic examples, so require a conservative margin.
         if _ml_suspicious(ml, text):
             model_signal = "suspicious_wording"
-            if total == 0:
+            if total == 0 and not email_ml_triggered:
                 total += 2  # No rule -> at most 'review' on a model signal alone.
         else:
             model_signal = "not_triggered"
