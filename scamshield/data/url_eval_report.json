@@ -1,0 +1,36 @@
+{
+  "dataset": "UCI PhiUSIIL (URL-only lexical features, domain-grouped 80/20 split)",
+  "data_stats": {
+    "raw_rows": 235795,
+    "dedup_urls": 234687,
+    "conflicts_removed": 1,
+    "phishing_count": 99838,
+    "legit_count": 134849,
+    "unique_domain_groups": 172953
+  },
+  "train_rows": 181668,
+  "test_rows": 53019,
+  "threat_db": {
+    "total_rows": 42467,
+    "unique_hashes": 42314
+  },
+  "metrics": {
+    "roc_auc": 0.9584,
+    "threshold_0.50": {
+      "accuracy": 0.9134,
+      "precision": 0.9498,
+      "recall": 0.8705,
+      "f1": 0.9085
+    },
+    "threshold_0.65": {
+      "precision": 0.9811,
+      "recall": 0.8432,
+      "f1": 0.9069
+    },
+    "threshold_0.85": {
+      "precision": 0.9967,
+      "recall": 0.7973,
+      "f1": 0.8859
+    }
+  }
+}

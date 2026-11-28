@@ -29,3 +29,7 @@ ScamShield AI v2.1.1 provides strong regex + contextual + weak-SVM screening for
 ## 4. Technical Decisions & Milestones
 - **Milestone 1 (Baseline & Dataset Audit):** Verified `v2.1.1` test suite (`626 passed, 1 skipped` — Tesseract unavailable), installed `opencv-python-headless==5.1.0.95`, downloaded and audited official UCI & PhishTank datasets into gitignored `data/external/`.
 - **Milestone 2 (Offline QR Decoder & UPI Parser):** Implemented `scamshield/qr_decoder.py` using `cv2.QRCodeDetector` with Pillow/NumPy grayscale, upscale, Otsu, and inverted-threshold fallbacks, `upi://pay` URI parsing, payload classification, and cross-modal intent verification (`tests/test_qr_decoder.py`: `6 passed in 0.31s`).
+- **Milestone 3 (Offline URL Classifier & Threat DB):** Implemented `scamshield/url_classifier.py` and `tools/train_url_model.py`:
+  - Built `scamshield/data/verified_threats.db` (6.4 MB, `42,314` unique SHA-256 hashes from PhishTank `online-valid.csv.gz`).
+  - Trained `TfidfVectorizer(char_wb, 3-5)` + 25 URL-only lexical features + `LogisticRegression` (`scamshield/data/url_model.joblib`, `148.5 KB`) on `234,687` deduplicated UCI PhiUSIIL URLs with strict registered-domain-grouped 80/20 split (`172,953` domain groups; `53,019` held-out test URLs).
+  - Held-out unseen-domain evaluation (`scamshield/data/url_eval_report.json`): **ROC-AUC 0.9584**; at `p >= 0.50`: Accuracy **0.9134**, Precision **0.9498**, Recall **0.8705**, F1 **0.9085**; at `p >= 0.85`: Precision **0.9967**, Recall **0.7973**.
