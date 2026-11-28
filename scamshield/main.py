@@ -28,7 +28,7 @@ app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 
 class AnalysisInput(BaseModel):
     text: str = Field(default="", max_length=MAX_TEXT)
-    channel: str = "message"
+    channel: str = "auto"
     language: str = "en"
     cloud_consent: bool = False
     qr_payloads: list[str] | None = Field(default=None, max_length=10)

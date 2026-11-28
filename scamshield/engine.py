@@ -339,7 +339,7 @@ def safety_education_hint(text: str) -> bool:
 
 def analyze(
     text: str,
-    channel: str = "message",
+    channel: str = "auto",
     language: str = "en",
     qr_payloads: list[str] | None = None,
     email_meta: dict[str, Any] | None = None,
@@ -352,7 +352,7 @@ def analyze(
         raise ValueError("Enter a message or transcript to analyze.")
     if len(text) > MAX_TEXT:
         raise ValueError(f"Text must be at most {MAX_TEXT} characters.")
-    if channel not in {"message", "sms", "whatsapp", "call", "upi", "image", "email"}:
+    if channel not in {"auto", "message", "sms", "whatsapp", "call", "upi", "image", "email"}:
         raise ValueError("Invalid channel.")
     if language not in LANGUAGE_NAMES:
         raise ValueError("Invalid language.")
@@ -559,15 +559,16 @@ def analyze(
             context.append(finding)
 
     # Specialized offline email phishing classifier (MeAJOR-trained Word+Char LogReg).
-    # Runs for email channel, parsed .eml metadata, or messages with email headers.
+    # Full caution weight (3) for explicit email context; capped at review (2) for
+    # headerless plain text when no rule/identity/URL has fired yet.
     email_ml_triggered = False
     is_email_context = channel == "email" or bool(email_meta) or bool(identity_info.get("from_address"))
-    if is_email_context:
+    if is_email_context or (total == 0 and len(text.split()) >= 12):
         from .email_classifier import classify_email_text
         em = classify_email_text(text)
         if em["flag"] in {"caution", "review"} and not safety_education_hint(text):
             email_ml_triggered = True
-            w = 3 if em["flag"] == "caution" else 2
+            w = 3 if (is_email_context and em["flag"] == "caution") else 2
             total += w
             cat_scores["Phishing email pattern"] += w
             matched.append({
@@ -709,6 +710,17 @@ def analyze(
     entities = {kind: [redact_secrets(value) for value in values]
                 for kind, values in extract_entities(text).items()}
     complaint = build_complaint(text, level, top_cats, matched, entities)
+    detected_channel = channel
+    if channel == "auto":
+        if clean_qr:
+            detected_channel = "image"
+        elif email_meta or identity_info.get("from_address"):
+            detected_channel = "email"
+        elif "upi://" in text.lower() or entities.get("upi_ids"):
+            detected_channel = "upi"
+        else:
+            detected_channel = "auto"
+
     result = {
         "level": level,
         "title": titles[response_language][level],
@@ -719,7 +731,7 @@ def analyze(
         "categories": top_cats,
         "actions": next_steps,
         "model_signal": model_signal,
-        "channel": channel,
+        "channel": detected_channel,
         "reporting": OFFICIAL_REPORTING,
         "entities": entities,
         "complaint": complaint,
