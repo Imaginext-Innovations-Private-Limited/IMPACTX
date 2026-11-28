@@ -1,0 +1,40 @@
+{
+  "ddos": {
+    "active_candidate": "V3_ORION",
+    "models": {
+      "V1_CIC": {
+        "path": "model/ddos/V1_CIC/cyvora_ddos_lightgbm.pkl",
+        "features": 74,
+        "threshold": 0.15
+      },
+      "V2_Common_Features": {
+        "path": "model/ddos/V2_Common_Features/cyvora_ddos_lightgbm_v2.pkl",
+        "features": 19,
+        "threshold": 0.52
+      },
+      "V3_ORION": {
+        "path": "model/ddos/V3_ORION/cyvora_ddos_v3_conflict_filtered_candidate.pkl",
+        "features": 19,
+        "threshold": 0.4950522269566362
+      }
+    }
+  },
+  "c2_beaconing": {
+    "active_candidate": "candidate_B",
+    "path": "model/c2_beaconing/candidate_B/cyvora_rf_model.pkl",
+    "features": 8,
+    "threshold": 0.57,
+    "preprocessing": "clip_negative_then_log1p"
+  },
+  "data_exfiltration": {
+    "path": "model/data_exfiltration/cyvora_exfiltration_model.pkl",
+    "features": 75,
+    "threshold": null
+  },
+  "dns_tunnelling": {
+    "path": "model/dns_tunnelling/cyvora_dns_lightgbm_candidate_v2.pkl",
+    "features": 37,
+    "threshold": 0.22,
+    "feature_mapping": "PENDING"
+  }
+}
