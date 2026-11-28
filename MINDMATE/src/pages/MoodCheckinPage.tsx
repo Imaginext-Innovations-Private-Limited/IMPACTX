@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import * as faceapi from 'face-api.js';
 import {
   CloudRain,
   Flame,
@@ -7,6 +8,10 @@ import {
   Smile,
   Sparkles,
   Trash2,
+  Camera,
+  CameraOff,
+  ScanFace,
+  RefreshCw,
 } from 'lucide-react';
 import {
   CartesianGrid,
@@ -44,6 +49,86 @@ export function MoodCheckinPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [cameraOpen, setCameraOpen] = useState(false);
+  const [cameraError, setCameraError] = useState('');
+  const [faceStatus, setFaceStatus] = useState('');
+  const [expressionHint, setExpressionHint] = useState<{ label: string; confidence: number } | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const modelsReadyRef = useRef(false);
+
+  const stopCamera = () => {
+    streamRef.current?.getTracks().forEach((track) => track.stop());
+    streamRef.current = null;
+    setCameraOpen(false);
+  };
+
+  useEffect(() => () => {
+    streamRef.current?.getTracks().forEach((track) => track.stop());
+  }, []);
+
+  const startCamera = async () => {
+    setCameraError('');
+    setExpressionHint(null);
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setCameraError('Camera access is not supported in this browser. Please choose your mood manually.');
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
+      streamRef.current = stream;
+      setCameraOpen(true);
+      requestAnimationFrame(() => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          void videoRef.current.play();
+        }
+      });
+      setFaceStatus('Camera ready. Select Analyse when your face is visible.');
+    } catch (error) {
+      setCameraError(error instanceof Error && error.name === 'NotAllowedError'
+        ? 'Camera permission was denied. You can still select your mood manually.'
+        : 'Unable to access the camera. Check that it is connected and not being used by another app.');
+    }
+  };
+
+  const analyseFace = async () => {
+    const video = videoRef.current;
+    if (!video || video.readyState < 2) {
+      setFaceStatus('Please wait until the camera preview is ready.');
+      return;
+    }
+    try {
+      setFaceStatus('Loading the on-device expression model…');
+      if (!modelsReadyRef.current) {
+        const modelUrl = 'https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@master/weights';
+        await faceapi.nets.tinyFaceDetector.loadFromUri(modelUrl);
+        await faceapi.nets.faceExpressionNet.loadFromUri(modelUrl);
+        modelsReadyRef.current = true;
+      }
+      const result = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceExpressions();
+      if (!result) {
+        setExpressionHint(null);
+        setFaceStatus('No face detected. Adjust the lighting and position, or select your mood manually.');
+        return;
+      }
+      const expressions = result.expressions;
+      const ranked = (Object.entries(expressions) as Array<[string, number]>).sort((a, b) => b[1] - a[1]);
+      const [expression, score] = ranked[0];
+      // Only neutral/happy expression labels are offered as low-stakes prompts.
+      // Sad, angry, fearful and surprised expressions are never converted into
+      // sadness, stress or anxiety labels; those states require self-report.
+      if (expression === 'happy') setSelectedMood('Happy');
+      if (expression === 'neutral') setSelectedMood('Neutral');
+      setExpressionHint({ label: expression.charAt(0).toUpperCase() + expression.slice(1), confidence: Math.round(score * 100) });
+      setFaceStatus(expression === 'happy' || expression === 'neutral'
+        ? 'Expression indicator ready. Please confirm or change your mood manually before saving.'
+        : 'Expression indicator recorded for this screen only. It cannot tell us whether you feel sad, stressed, or anxious—please choose your mood yourself.');
+    } catch (error) {
+      console.error('Face expression analysis failed:', error);
+      setFaceStatus('The expression model could not be loaded. You can continue with manual mood selection.');
+    }
+  };
 
   const loadCheckins = async () => {
     try {
@@ -122,6 +207,36 @@ export function MoodCheckinPage() {
             <p className="text-sm text-slate-500 mt-1">
               Check-ins stay private in your personal wellbeing log.
             </p>
+          </div>
+
+          <div className="rounded-xl border border-indigo-100 bg-indigo-50/60 p-4 space-y-3">
+            <div className="flex items-center gap-2">
+              <ScanFace className="w-5 h-5 text-[#5B4FE9]" />
+              <div>
+                <p className="text-sm font-semibold text-slate-900">Optional facial-expression check</p>
+                <p className="text-xs text-slate-600">Camera frames are analysed in your browser and are not uploaded or stored.</p>
+              </div>
+            </div>
+            {!cameraOpen ? (
+              <button type="button" onClick={startCamera} className="inline-flex items-center gap-2 rounded-lg bg-white border border-indigo-200 px-3 py-2 text-xs font-semibold text-indigo-800 hover:bg-indigo-100">
+                <Camera className="w-4 h-4" /> Enable camera
+              </button>
+            ) : (
+              <div className="space-y-2">
+                <video ref={videoRef} autoPlay muted playsInline className="w-full max-w-sm rounded-lg bg-slate-900 aspect-video object-cover" />
+                <div className="flex flex-wrap gap-2">
+                  <button type="button" onClick={analyseFace} className="inline-flex items-center gap-2 rounded-lg bg-[#5B4FE9] text-white px-3 py-2 text-xs font-semibold"><ScanFace className="w-4 h-4" /> Analyse expression</button>
+                  <button type="button" onClick={stopCamera} className="inline-flex items-center gap-2 rounded-lg bg-white border px-3 py-2 text-xs font-semibold text-slate-700"><CameraOff className="w-4 h-4" /> Turn off camera</button>
+                </div>
+              </div>
+            )}
+            {cameraError && <p className="text-xs text-rose-700" role="alert">{cameraError}</p>}
+            {faceStatus && <p className="text-xs text-slate-700" role="status">{faceStatus}</p>}
+            {expressionHint && <div className="rounded-lg bg-white border border-indigo-100 p-3 text-xs text-slate-700">
+              <strong>Expression indicator:</strong> {expressionHint.label} · {expressionHint.confidence}% model score
+              <p className="mt-1 text-slate-500">This score describes the model's expression classification, not confidence about your actual mood or mental state. Please confirm the mood below.</p>
+            </div>}
+            <p className="text-[11px] text-slate-500">Facial expressions cannot reliably identify stress, anxiety, or emotional state. This is an optional, non-diagnostic suggestion; manual selection is always available.</p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">

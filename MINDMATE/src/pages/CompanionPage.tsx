@@ -5,6 +5,10 @@ import {
   MessageCircleHeart,
   Send,
   Trash2,
+  Mic,
+  MicOff,
+  Volume2,
+  VolumeX,
 } from 'lucide-react';
 import type { ChatMessage, PageId } from '../types';
 import { apiFetch } from '../api';
@@ -28,6 +32,71 @@ export function CompanionPage({ onNavigate }: CompanionPageProps) {
   const [crisisVisible, setCrisisVisible] = useState(false);
   const [error, setError] = useState('');
   const endRef = useRef<HTMLDivElement | null>(null);
+  const recognitionRef = useRef<any>(null);
+  const [voiceState, setVoiceState] = useState<'idle' | 'listening' | 'speaking'>('idle');
+  const [voiceError, setVoiceError] = useState('');
+  const [autoSpeak, setAutoSpeak] = useState(true);
+
+  const stopSpeaking = () => {
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    setVoiceState('idle');
+  };
+
+  const speakReply = (text: string) => {
+    if (!('speechSynthesis' in window)) {
+      setVoiceError('Text-to-speech is not supported in this browser.');
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1;
+    utterance.pitch = 1;
+    utterance.onstart = () => setVoiceState('speaking');
+    utterance.onend = () => setVoiceState('idle');
+    utterance.onerror = () => setVoiceState('idle');
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const startVoiceInput = () => {
+    setVoiceError('');
+    const SpeechRecognitionCtor = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognitionCtor) {
+      setVoiceError('Speech recognition is not available in this browser. Try Chrome or use text chat.');
+      return;
+    }
+    try {
+      const recognition = new SpeechRecognitionCtor();
+      recognition.lang = navigator.language || 'en-IN';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      recognition.onstart = () => setVoiceState('listening');
+      recognition.onresult = (event: any) => {
+        const transcript = event.results?.[0]?.[0]?.transcript?.trim();
+        if (transcript) {
+          setInput(transcript);
+          setVoiceState('idle');
+          void sendMessage(transcript);
+        }
+      };
+      recognition.onerror = (event: any) => {
+        setVoiceState('idle');
+        setVoiceError(event.error === 'not-allowed'
+          ? 'Microphone permission was denied. Allow microphone access or type your message.'
+          : 'Could not recognise speech. Try a quieter place or type your message.');
+      };
+      recognition.onend = () => setVoiceState((current) => current === 'listening' ? 'idle' : current);
+      recognitionRef.current = recognition;
+      recognition.start();
+    } catch {
+      setVoiceState('idle');
+      setVoiceError('Unable to start the microphone. Please try again or type your message.');
+    }
+  };
+
+  useEffect(() => () => {
+    recognitionRef.current?.stop?.();
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  }, []);
 
   const loadChat = async () => {
     try {
@@ -87,6 +156,7 @@ export function CompanionPage({ onNavigate }: CompanionPageProps) {
       if (res.crisisFlagged) {
         setCrisisVisible(true);
       }
+      if (autoSpeak) speakReply(res.assistantMessage.content);
     } catch (err) {
       setMessages((prev) => prev.filter((m) => m.id !== optimisticId));
       setInput(trimmed);
@@ -226,6 +296,22 @@ export function CompanionPage({ onNavigate }: CompanionPageProps) {
               {prompt}
             </button>
           ))}
+        </div>
+
+        {/* Voice Assistant Controls */}
+        <div className="px-4 py-3 border-t border-slate-100 flex flex-wrap items-center gap-2">
+          <button type="button" onClick={startVoiceInput} disabled={sending || voiceState === 'listening'} className="inline-flex items-center gap-2 rounded-lg bg-[#F3F0FF] border border-[#DDD6FE] px-3 py-2 text-xs font-semibold text-indigo-800 disabled:opacity-50">
+            <Mic className="w-4 h-4" /> {voiceState === 'listening' ? 'Listening…' : 'Speak to MindMate'}
+          </button>
+          {voiceState === 'listening' && <button type="button" onClick={() => { recognitionRef.current?.stop?.(); setVoiceState('idle'); }} className="inline-flex items-center gap-1 rounded-lg border px-3 py-2 text-xs"><MicOff className="w-4 h-4" /> Stop listening</button>}
+          <button type="button" onClick={() => setAutoSpeak((v) => !v)} className="inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-xs text-slate-700">
+            {autoSpeak ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />} {autoSpeak ? 'Voice replies on' : 'Voice replies off'}
+          </button>
+          {voiceState === 'speaking' && <button type="button" onClick={stopSpeaking} className="rounded-lg bg-rose-50 border border-rose-200 px-3 py-2 text-xs font-semibold text-rose-700">Stop speaking</button>}
+          {voiceState === 'listening' && <span className="text-xs text-indigo-700" role="status">Microphone is listening…</span>}
+          {voiceState === 'speaking' && <span className="text-xs text-teal-700" role="status">MindMate is speaking…</span>}
+          {voiceError && <p className="w-full text-xs text-rose-700" role="alert">{voiceError}</p>}
+          <p className="w-full text-[11px] text-slate-500">Voice recognition uses your browser's speech service; availability and processing vary by browser. You can always use text chat instead.</p>
         </div>
 
         {/* Input Form */}

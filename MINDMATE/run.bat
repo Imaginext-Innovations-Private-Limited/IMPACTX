@@ -1,7 +1,10 @@
 @echo off
+setlocal
 title MINDMATE - Student Wellbeing Companion
+cd /d "%~dp0"
+
 echo ======================================================
-echo   MINDMATE - Starting Backend and Frontend on Windows
+echo   MINDMATE - Student Wellbeing Companion
 echo ======================================================
 echo.
 
@@ -12,16 +15,17 @@ if not exist ".env" (
   )
 )
 
-echo [1/2] Starting Python FastAPI Backend on http://127.0.0.1:8000 ...
-start "MINDMATE FastAPI Backend" cmd /k "python -m uvicorn backend.main:app --reload --host 127.0.0.1 --port 8000"
+if not exist "node_modules" (
+  echo Dependencies are not installed.
+  echo Please run: npm.cmd install --legacy-peer-deps
+  echo.
+  pause
+  exit /b 1
+)
 
-timeout /t 3 /nobreak >nul
-
-echo [2/2] Starting React + Vite Frontend on http://localhost:3000 ...
-set USE_FASTAPI_PROXY=true
-start "MINDMATE Frontend" cmd /k "npx vite --port 3000 --host 0.0.0.0"
-
+echo Starting the existing full-stack TypeScript server...
+echo Keep this window open while using MINDMATE.
+echo When the server says it is running, open http://localhost:3000
 echo.
-echo Both services are starting in separate windows!
-echo Open your browser at: http://localhost:3000
+call npm.cmd run dev
 pause
