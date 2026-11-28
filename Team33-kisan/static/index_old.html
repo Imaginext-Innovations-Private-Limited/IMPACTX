@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kisan Mitra - Voice Farm Advisor</title>
+<style>
+:root{--bg:#f4f8f1;--card:#fff;--ink:#1c2b1a;--g:#2e7d32;--mut:#6b7a68;--me:#dcedc8;color-scheme:light dark}
+@media (prefers-color-scheme:dark){:root{--bg:#121a11;--card:#1c271b;--ink:#e6efe4;--g:#66bb6a;--mut:#9fb09b;--me:#2d4a2c}}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:var(--ink);display:flex;flex-direction:column;height:100vh}
+header{padding:12px 16px;background:var(--g);color:#fff;font-weight:600}
+.bar{display:flex;gap:8px;padding:10px;flex-wrap:wrap;background:var(--card)}
+select,input,button{padding:10px;border-radius:10px;border:1px solid var(--mut);background:var(--card);color:var(--ink);font-size:15px}
+input{flex:1;min-width:120px}
+#log{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.m{max-width:85%;padding:10px 12px;border-radius:14px;background:var(--card);white-space:pre-wrap}
+.me{align-self:flex-end;background:var(--me)}.tool{font-size:12px;color:var(--mut)}
+.row{display:flex;gap:8px;padding:10px;background:var(--card)}
+#mic{background:var(--g);color:#fff;border:0;min-width:56px;font-size:20px}#mic.on{background:#c62828}
+</style></head><body>
+<header>🌾 Kisan Mitra — Voice Farm Advisor</header>
+<div class="bar">
+ <select id="lang">
+  <option value="kn">ಕನ್ನಡ Kannada</option><option value="hi">हिन्दी Hindi</option><option value="te">తెలుగు Telugu</option>
+  <option value="ta">தமிழ் Tamil</option><option value="mr">मराठी Marathi</option><option value="ml">മലയാളം Malayalam</option>
+  <option value="bn">বাংলা Bengali</option><option value="gu">ગુજરાતી Gujarati</option><option value="pa">ਪੰਜਾਬੀ Punjabi</option><option value="en">English</option>
+ </select>
+ <input id="loc" placeholder="Village / district (e.g. Mandya)">
+ <label><button onclick="photo.click()">📷 Leaf photo</button></label>
+ <input type="file" id="photo" accept="image/*" capture="environment" hidden>
+</div>
+<div id="log"></div>
+<div class="row"><button id="mic">🎤</button><input id="txt" placeholder="Type or tap the mic and speak…"><button id="send">Send</button></div>
+<script>
+const BCP={kn:'kn-IN',hi:'hi-IN',te:'te-IN',ta:'ta-IN',mr:'mr-IN',ml:'ml-IN',bn:'bn-IN',gu:'gu-IN',pa:'pa-IN',en:'en-IN'};
+const sid=crypto.randomUUID(),log=document.getElementById('log'),$=id=>document.getElementById(id);
+function add(t,c){const d=document.createElement('div');d.className='m '+c;d.textContent=t;log.appendChild(d);log.scrollTop=1e9;}
+async function safeJson(r){const t=await r.text();try{return JSON.parse(t)}catch{return{reply:'Server error: '+t.slice(0,200)+' (see the terminal running uvicorn)',tools_used:[]}}}
+function speak(t){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang=BCP[$('lang').value];speechSynthesis.speak(u);}
+async function ask(text){
+  if(!text.trim())return;add(text,'me');$('txt').value='';add('…thinking','tool');
+  try{
+    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:text,session_id:sid,language:$('lang').value,location:$('loc').value})});
+    const d=await safeJson(r);log.lastChild.remove();
+    if(d.tools_used?.length)add('🔧 '+d.tools_used.map(t=>t.tool).join(', '),'tool');
+    add(d.reply,'bot');speak(d.reply);
+  }catch(e){log.lastChild.remove();add('Error: '+e,'bot');}
+}
+$('send').onclick=()=>ask($('txt').value);
+$('txt').onkeydown=e=>{if(e.key==='Enter')ask($('txt').value)};
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(!SR){$('mic').disabled=true;$('mic').title='Use Chrome/Edge for voice input';}
+else{const rec=new SR();rec.interimResults=false;
+ rec.onresult=e=>ask(e.results[0][0].transcript);
+ rec.onend=()=>$('mic').classList.remove('on');
+ $('mic').onclick=()=>{speechSynthesis.cancel();rec.lang=BCP[$('lang').value];$('mic').classList.add('on');rec.start();};}
+$('photo').onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;add('📷 '+f.name,'me');add('…analysing leaf','tool');
+  const fd=new FormData();fd.append('image',f);fd.append('language',$('lang').value);
+  const d=await safeJson(await fetch('/api/diagnose',{method:'POST',body:fd}));
+  log.lastChild.remove();add(d.reply,'bot');speak(d.reply);
+};
+add('Namaste! Ask me about crops, irrigation or selling prices. Set your location above first.','bot');
+</script></body></html>
