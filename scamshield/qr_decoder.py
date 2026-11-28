@@ -391,26 +391,9 @@ def analyze_qr_payloads(
                     "Do not pay via this QR code. Verify directly in your bank's official app.",
                     "Quishing / UPI QR fraud",
                 )
-            elif amt is not None and amt > 0:
-                add_indicator(
-                    "upi_qr_prefilled_amount",
-                    "QR code requests a pre-filled UPI payment",
-                    f"This QR encodes an outgoing UPI {upi['action']} request for {amt_str} to {pa}.",
-                    3,
-                    evidence,
-                    "Confirm the payee name and amount in your UPI app before approving.",
-                    "UPI payment QR",
-                )
-            else:
-                add_indicator(
-                    "upi_qr_pay",
-                    "QR code encodes an outgoing UPI payment",
-                    f"Scanning this QR initiates a UPI {upi['action']} to {pa}.",
-                    1,
-                    evidence,
-                    "Verify the recipient independently before sending money.",
-                    "UPI payment QR",
-                )
+            # Ordinary UPI payment QRs without contradictory or coercive context are NOT
+            # treated as fraud indicators; extracted payee/amount/action details remain
+            # visible in qr_analysis["payloads"] with unverified_name_note.
 
         elif ptype == "apk_download":
             add_indicator(

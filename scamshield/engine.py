@@ -595,9 +595,11 @@ def analyze(
             })
 
     # ML is a weak signal, not a fraud-certification engine. No claimed calibrated confidence.
+    # Ignore meaningless low-confidence OCR garbage (e.g. QR finder patterns read as symbols).
+    alpha_words = [w for w in re.findall(r"[^\W\d_]{2,}", text, re.UNICODE)]
     ml = _model()
     model_signal = "unavailable" if ml is None else "not_triggered"
-    if ml is not None and len(text.split()) >= 5:
+    if ml is not None and len(text.split()) >= 5 and len(alpha_words) >= 3:
         # This model is trained on bundled synthetic examples, so require a conservative margin.
         if _ml_suspicious(ml, text):
             model_signal = "suspicious_wording"
