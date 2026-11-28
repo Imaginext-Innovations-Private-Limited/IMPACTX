@@ -1,0 +1,19 @@
+{
+  "name": "@aarogya-mesh/field-pwa",
+  "version": "0.4.0",
+  "private": true,
+  "description": "Tier-1 CHW offline-first field PWA for Aarogya Mesh",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/ui/main.ts --bundle --format=esm --target=es2022 --outfile=dist/app.js --sourcemap && node scripts/stamp-sw.mjs",
+    "dev": "npm run build && python3 -m http.server 5173",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0",
+    "fake-indexeddb": "^6.0.0",
+    "esbuild": "^0.21.5"
+  }
+}

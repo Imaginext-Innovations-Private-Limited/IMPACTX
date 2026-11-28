@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aarogya-mesh.local/schemas/1.0.0/HlcTimestamp.schema.json",
+  "additionalProperties": false,
+  "description": "Hybrid Logical Clock timestamp with deterministic total ordering.",
+  "properties": {
+    "wall_ms": {
+      "minimum": 0,
+      "title": "Wall Ms",
+      "type": "integer"
+    },
+    "logical": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Logical",
+      "type": "integer"
+    },
+    "node_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Node Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "wall_ms",
+    "node_id"
+  ],
+  "title": "HlcTimestamp",
+  "type": "object"
+}

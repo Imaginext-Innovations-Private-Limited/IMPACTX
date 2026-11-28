@@ -1,0 +1,595 @@
+/* ==========================================================================
+   Aarogya Mesh (आरोग्य संजाल) — Offline-First Presentation Design System
+   Dual Theme: "Obsidian Celestial" (Dark) & "Ivory Daylight Projector" (Light)
+   Zero external CDN fonts or remote URLs — 100% Airplane Mode ready.
+   ========================================================================== */
+
+:root {
+  --font-sans: "Inter", "SF Pro Display", "Segoe UI", system-ui, -apple-system,
+    BlinkMacSystemFont, "Noto Sans Devanagari", "Kohinoor Devanagari",
+    "Liberation Sans", sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", "Fira Code", ui-monospace,
+    SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  --radius-pill: 9999px;
+
+  --hud-height: 64px;
+  --transition-theme: 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Dark Theme: Obsidian Celestial ─────────────────────────────────────── */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #060913;
+  --bg-elevated: #0c1324;
+  --surface: rgba(15, 23, 42, 0.62);
+  --surface-strong: rgba(12, 19, 36, 0.88);
+  --surface-hover: rgba(22, 33, 58, 0.78);
+  --surface-border: rgba(148, 163, 184, 0.18);
+  --surface-border-strong: rgba(245, 158, 11, 0.36);
+
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+
+  --accent-saffron: #f59e0b;
+  --accent-emerald: #10b981;
+  --accent-cyan: #06b6d4;
+  --accent-rose: #f43f5e;
+
+  --shadow-glow: 0 22px 64px -18px rgba(6, 182, 212, 0.2),
+    0 12px 32px -12px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+
+  --aurora-1: rgba(245, 158, 11, 0.13);
+  --aurora-2: rgba(16, 185, 129, 0.11);
+  --aurora-3: rgba(6, 182, 212, 0.14);
+  --grid-line: rgba(148, 163, 184, 0.045);
+
+  --gradient-brand: linear-gradient(115deg, #fbbf24 0%, #34d399 48%, #22d3ee 100%);
+  --pill-bg: rgba(255, 255, 255, 0.06);
+  --pill-border: rgba(255, 255, 255, 0.14);
+  --hud-bg: rgba(9, 14, 28, 0.78);
+  --overlay-scrim: rgba(4, 7, 16, 0.84);
+}
+
+/* ── Light Theme: Ivory Daylight Projector ──────────────────────────────── */
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f8f7f3;
+  --bg-elevated: #ffffff;
+  --surface: rgba(255, 255, 255, 0.86);
+  --surface-strong: rgba(255, 255, 255, 0.96);
+  --surface-hover: rgba(255, 255, 255, 0.98);
+  --surface-border: rgba(15, 23, 42, 0.12);
+  --surface-border-strong: rgba(217, 119, 6, 0.34);
+
+  --text: #0f172a;
+  --text-muted: #475569;
+
+  --accent-saffron: #d97706;
+  --accent-emerald: #059669;
+  --accent-cyan: #0284c7;
+  --accent-rose: #e11d48;
+
+  --shadow-glow: 0 18px 46px -14px rgba(15, 23, 42, 0.12),
+    0 4px 14px -4px rgba(15, 23, 42, 0.06),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+
+  --aurora-1: rgba(245, 158, 11, 0.12);
+  --aurora-2: rgba(16, 185, 129, 0.1);
+  --aurora-3: rgba(2, 132, 199, 0.1);
+  --grid-line: rgba(15, 23, 42, 0.04);
+
+  --gradient-brand: linear-gradient(115deg, #c2410c 0%, #047857 50%, #0369a1 100%);
+  --pill-bg: rgba(15, 23, 42, 0.05);
+  --pill-border: rgba(15, 23, 42, 0.14);
+  --hud-bg: rgba(255, 255, 255, 0.88);
+  --overlay-scrim: rgba(241, 240, 234, 0.88);
+}
+
+/* ── Base Reset ─────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  transition: background-color var(--transition-theme), color var(--transition-theme);
+}
+
+button {
+  font-family: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent-saffron);
+  outline-offset: 2px;
+}
+
+/* ── Deck Shell & Celestial Ambient Backdrop ────────────────────────────── */
+.deck-root {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--bg);
+  color: var(--text);
+  isolation: isolate;
+  user-select: none;
+  transition: background-color var(--transition-theme), color var(--transition-theme);
+}
+
+.deck-aurora {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 68% 55% at 14% 16%, var(--aurora-1), transparent 64%),
+    radial-gradient(ellipse 58% 50% at 86% 20%, var(--aurora-3), transparent 62%),
+    radial-gradient(ellipse 64% 48% at 52% 94%, var(--aurora-2), transparent 65%),
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 56px 56px, 56px 56px;
+  transition: opacity var(--transition-theme);
+}
+
+.deck-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.deck-stage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  perspective: 1400px;
+  overflow: hidden;
+}
+
+.deck-slide-motion {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  transform-style: preserve-3d;
+}
+
+.deck-slide-motion::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Shared Design System Utility Classes (Used across Slides 01..12) ───── */
+.slide-frame {
+  width: 100%;
+  min-height: 100%;
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 36px 52px 92px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+  user-select: text;
+}
+
+.glass-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-glow);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  transition:
+    background-color 240ms ease,
+    border-color 240ms ease,
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 240ms ease;
+}
+
+.glass-card:hover {
+  border-color: var(--surface-border-strong);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--pill-bg);
+  border: 1px solid var(--pill-border);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  color: var(--text);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  white-space: nowrap;
+}
+
+.gradient-text {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.metric-value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* ── Top Brand Watermark (Ultra-Subtle) ─────────────────────────────────── */
+.deck-topbar {
+  position: fixed;
+  top: 16px;
+  left: 24px;
+  right: 24px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.deck-brand-chip {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--hud-bg);
+  border: 1px solid var(--surface-border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  opacity: 0.72;
+  transition: opacity 200ms ease, border-color 200ms ease;
+}
+
+.deck-brand-chip:hover {
+  opacity: 1;
+  border-color: var(--surface-border-strong);
+}
+
+.deck-brand-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-emerald);
+  box-shadow: 0 0 10px var(--accent-emerald);
+}
+
+/* ── Floating Bottom HUD ────────────────────────────────────────────────── */
+.deck-hud-wrap {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 14px;
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  pointer-events: none;
+}
+
+.deck-hud {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--hud-bg);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-glow);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  opacity: 0.78;
+  transition: opacity 220ms ease, transform 220ms ease, border-color 220ms ease;
+}
+
+.deck-hud:hover,
+.deck-hud:focus-within,
+.deck-hud.is-active {
+  opacity: 1;
+  border-color: var(--surface-border-strong);
+}
+
+.hud-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 34px;
+  min-width: 34px;
+  padding: 0 10px;
+  border-radius: var(--radius-pill);
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: background-color 160ms ease, color 160ms ease, transform 140ms ease;
+}
+
+.hud-btn:hover:not(:disabled) {
+  background: var(--pill-bg);
+}
+
+.hud-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.hud-btn:disabled {
+  opacity: 0.32;
+  cursor: not-allowed;
+}
+
+.hud-btn.is-on {
+  background: rgba(245, 158, 11, 0.16);
+  color: var(--accent-saffron);
+}
+
+.hud-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--surface-border);
+}
+
+.hud-counter {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0 6px;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.hud-slide-title {
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  padding-right: 4px;
+}
+
+.hud-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: var(--pill-bg);
+  border: 1px solid var(--surface-border);
+}
+
+/* ── Bottom Edge Progress Bar ───────────────────────────────────────────── */
+.deck-progress-track {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  z-index: 35;
+  background: rgba(148, 163, 184, 0.14);
+  pointer-events: none;
+}
+
+.deck-progress-fill {
+  height: 100%;
+  background: var(--gradient-brand);
+  box-shadow: 0 0 12px var(--accent-cyan);
+  transform-origin: left center;
+}
+
+/* ── Grid Overview Overlay ──────────────────────────────────────────────── */
+.deck-grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--overlay-scrim);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  display: flex;
+  flex-direction: column;
+  padding: 28px 40px 36px;
+  overflow-y: auto;
+}
+
+.deck-grid-header {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.deck-grid-list {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 16px;
+}
+
+.deck-grid-card {
+  text-align: left;
+  padding: 18px 20px;
+  border-radius: var(--radius-md);
+  background: var(--surface-strong);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-glow);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.deck-grid-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-saffron);
+}
+
+.deck-grid-card.is-current {
+  border-color: var(--accent-saffron);
+  box-shadow: 0 0 0 1px var(--accent-saffron), var(--shadow-glow);
+}
+
+.deck-grid-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent-saffron);
+  letter-spacing: 0.08em;
+}
+
+.deck-grid-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.deck-grid-sub {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+/* ── Speaker Notes / Verbal Cues Drawer ─────────────────────────────────── */
+.deck-notes-drawer {
+  position: fixed;
+  right: 22px;
+  bottom: 76px;
+  width: min(440px, calc(100vw - 32px));
+  max-height: min(52vh, 420px);
+  z-index: 40;
+  padding: 20px 22px;
+  border-radius: var(--radius-lg);
+  background: var(--surface-strong);
+  border: 1px solid var(--surface-border-strong);
+  box-shadow: var(--shadow-glow);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  user-select: text;
+}
+
+.deck-notes-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.deck-notes-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.deck-notes-item {
+  position: relative;
+  padding-left: 16px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.deck-notes-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-saffron);
+}
+
+/* ── Responsive Adjustments ─────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .slide-frame {
+    padding: 58px 22px 92px;
+    gap: 18px;
+  }
+
+  .hud-slide-title,
+  .hud-kbd {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

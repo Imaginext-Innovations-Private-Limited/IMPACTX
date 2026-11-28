@@ -1,0 +1,17 @@
+# Code Ownership for Aarogya Mesh
+# Default maintainer for root, docs, and core bedrock
+* @Gauthampro7
+
+# Core Bedrock (Track 1)
+/packages/contracts/ @Gauthampro7
+/packages/clinical-engine/ @Gauthampro7
+/packages/crdt-sync/ @Gauthampro7
+/services/phc-hub/ @Gauthampro7
+/.github/ @Gauthampro7
+/pyproject.toml @Gauthampro7
+/ARCHITECTURE.md @Gauthampro7
+
+# Parallel Teammate Tracks
+/apps/field-pwa/ @Akarshx-x @Gauthampro7
+/apps/watch-companion/ @aril-travass @Gauthampro7
+/services/ml-pipeline/ @Krishnanand-10 @Gauthampro7

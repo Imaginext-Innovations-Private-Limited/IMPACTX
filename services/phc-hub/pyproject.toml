@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "aarogya-phc-hub"
+version = "0.4.0"
+description = "Tier-2 PHC Hub FastAPI transport, capability router, and CRDT delta-sync server for Aarogya Mesh."
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "aarogya-contracts",
+    "aarogya-clinical-engine",
+    "aarogya-crdt-sync",
+    "aarogya-ml-pipeline",
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/aarogya_phc_hub"]

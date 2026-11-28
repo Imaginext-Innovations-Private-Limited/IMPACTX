@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aarogya-mesh.local/schemas/1.0.0/TriageAssessment.schema.json",
+  "$defs": {
+    "ExecutionTarget": {
+      "description": "Capability-proportional routing decision for a workload.",
+      "enum": [
+        "LOCAL_DETERMINISTIC",
+        "LOCAL_TINY_ML",
+        "DEFER_TO_HUB"
+      ],
+      "title": "ExecutionTarget",
+      "type": "string"
+    },
+    "TriageSeverity": {
+      "description": "Deterministic WHO IMNCI / NHM ASHA triage classification.",
+      "enum": [
+        "GREEN_HOME",
+        "YELLOW_PHC",
+        "RED_EMERGENCY"
+      ],
+      "title": "TriageSeverity",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Deterministic clinical triage outcome with mandatory red-flag safety invariant.",
+  "properties": {
+    "assessment_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "patient_id": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Patient Id"
+    },
+    "severity": {
+      "$ref": "#/$defs/TriageSeverity"
+    },
+    "matched_rules": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Matched Rules",
+      "type": "array"
+    },
+    "immediate_actions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Immediate Actions",
+      "type": "array"
+    },
+    "referral_required": {
+      "default": false,
+      "title": "Referral Required",
+      "type": "boolean"
+    },
+    "rationale": {
+      "minLength": 1,
+      "title": "Rationale",
+      "type": "string"
+    },
+    "confidence": {
+      "default": 1.0,
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Confidence",
+      "type": "number"
+    },
+    "protocol_source": {
+      "default": "WHO_IMNCI_ASHA_DETERMINISTIC",
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Protocol Source",
+      "type": "string"
+    },
+    "execution_target": {
+      "$ref": "#/$defs/ExecutionTarget",
+      "default": "LOCAL_DETERMINISTIC"
+    },
+    "assessed_at_ms": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Assessed At Ms"
+    }
+  },
+  "required": [
+    "severity",
+    "rationale"
+  ],
+  "title": "TriageAssessment",
+  "type": "object"
+}

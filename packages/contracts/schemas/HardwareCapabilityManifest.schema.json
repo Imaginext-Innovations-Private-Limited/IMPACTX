@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aarogya-mesh.local/schemas/1.0.0/HardwareCapabilityManifest.schema.json",
+  "$defs": {
+    "NodeTier": {
+      "description": "Hardware capability tier of an autonomous Aarogya Mesh node.",
+      "enum": [
+        "TIER_0_WATCH",
+        "TIER_1_PHONE",
+        "TIER_2_HUB"
+      ],
+      "title": "NodeTier",
+      "type": "string"
+    },
+    "WatchMode": {
+      "description": "Dual operating mode for a Tier-0 Watch companion.",
+      "enum": [
+        "CHW_COMPANION",
+        "PATIENT_FAMILY"
+      ],
+      "title": "WatchMode",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Self-advertised hardware profile of a mesh node.",
+  "properties": {
+    "node_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Node Id",
+      "type": "string"
+    },
+    "tier": {
+      "$ref": "#/$defs/NodeTier"
+    },
+    "ram_mb": {
+      "minimum": 1,
+      "title": "Ram Mb",
+      "type": "integer"
+    },
+    "cpu_cores": {
+      "minimum": 1,
+      "title": "Cpu Cores",
+      "type": "integer"
+    },
+    "battery_pct": {
+      "default": 100,
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Battery Pct",
+      "type": "integer"
+    },
+    "has_npu": {
+      "default": false,
+      "title": "Has Npu",
+      "type": "boolean"
+    },
+    "installed_models": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Installed Models",
+      "type": "array"
+    },
+    "watch_mode": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/WatchMode"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "node_id",
+    "tier",
+    "ram_mb",
+    "cpu_cores"
+  ],
+  "title": "HardwareCapabilityManifest",
+  "type": "object"
+}

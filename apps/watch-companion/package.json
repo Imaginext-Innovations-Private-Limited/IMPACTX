@@ -1,0 +1,19 @@
+{
+  "name": "@aarogya-mesh/watch-companion",
+  "version": "0.4.0",
+  "private": true,
+  "description": "Tier-0 dual-mode Watch companion (CHW_COMPANION / PATIENT_FAMILY) for Aarogya Mesh",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/ui/main.ts --bundle --format=esm --target=es2022 --outfile=dist/watch.js --sourcemap",
+    "dev": "npm run build && python3 -m http.server 5174",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.5",
+    "fake-indexeddb": "^6.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  }
+}

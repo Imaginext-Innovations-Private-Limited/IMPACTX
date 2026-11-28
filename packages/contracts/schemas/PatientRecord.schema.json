@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aarogya-mesh.local/schemas/1.0.0/PatientRecord.schema.json",
+  "additionalProperties": false,
+  "description": "Materialized community patient profile.",
+  "properties": {
+    "patient_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Patient Id",
+      "type": "string"
+    },
+    "full_name": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Full Name",
+      "type": "string"
+    },
+    "date_of_birth": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Date Of Birth"
+    },
+    "age_months": {
+      "anyOf": [
+        {
+          "maximum": 1500,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Age Months"
+    },
+    "sex": {
+      "default": "U",
+      "enum": [
+        "F",
+        "M",
+        "O",
+        "U"
+      ],
+      "title": "Sex",
+      "type": "string"
+    },
+    "village_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Village Id",
+      "type": "string"
+    },
+    "household_id": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Household Id"
+    },
+    "is_pregnant": {
+      "default": false,
+      "title": "Is Pregnant",
+      "type": "boolean"
+    },
+    "gestational_weeks": {
+      "anyOf": [
+        {
+          "maximum": 45,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Gestational Weeks"
+    },
+    "preferred_language": {
+      "default": "en",
+      "maxLength": 16,
+      "minLength": 2,
+      "title": "Preferred Language",
+      "type": "string"
+    },
+    "registered_by_node": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Registered By Node"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "title": "Metadata",
+      "type": "object"
+    }
+  },
+  "required": [
+    "patient_id",
+    "full_name",
+    "village_id"
+  ],
+  "title": "PatientRecord",
+  "type": "object"
+}
