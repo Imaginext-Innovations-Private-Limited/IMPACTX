@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSME Mitra - Your AI Assistant</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>MSME Mitra</h2>
+    <p class="tagline">Your AI Assistant</p>
+
+    <a href="#dashboard">Dashboard</a>
+    <a href="#documents">Documents</a>
+    <a href="#gst">GST Compliance</a>
+    <a href="#forecast">Cash Flow</a>
+    <a href="#loans">Loan Schemes</a>
+    <a href="#chat">AI Assistant</a>
+</div>
+
+<main class="main-content">
+
+    <header>
+        <div>
+            <h1>MSME Mitra</h1>
+            <p>Your AI Assistant for Business Growth & Compliance</p>
+        </div>
+
+    </header>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard">
+        <h2>Financial Overview</h2>
+
+        <div class="cards">
+            <div class="card">
+                <p>Total Revenue</p>
+                <h2 id="revenue">₹0</h2>
+            </div>
+
+            <div class="card">
+                <p>Total Expenses</p>
+                <h2 id="expenses">₹0</h2>
+            </div>
+
+            <div class="card">
+                <p>Net Profit</p>
+                <h2 id="profit">₹0</h2>
+            </div>
+
+            <div class="card">
+                <p>Pending GST Tasks</p>
+                <h2 id="gst-count">0</h2>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOCUMENTS -->
+    <section id="documents" class="panel">
+        <h2>Document Management</h2>
+        <p>Upload your invoices and bank statements.</p>
+
+        <input type="file" id="document"
+               accept=".pdf,.csv,.xlsx,.xls">
+
+        <select id="document-type">
+            <option value="invoice">Invoice</option>
+            <option value="bank">Bank Statement</option>
+        </select>
+
+        <button onclick="uploadDocument()">Upload Document</button>
+        <p id="upload-status"></p>
+
+        <div class="sample-download">
+            <p>Need help with the bank statement format?</p>
+
+            <a href="/sample-bank-statement.csv" download>
+                <span>⬇</span> Download Sample Bank Statement
+            </a>
+
+            <p class="sample-note">
+                Use this file as a reference. Your bank statement
+                should contain Date, Description, Amount and Type columns.
+            </p>
+        </div>
+    </section>
+
+    <!-- GST -->
+    <section id="gst" class="panel">
+        <h2>GST Compliance Tracker</h2>
+
+        <div class="gst-form">
+            <h3>Add GST Return</h3>
+
+            <select id="gst-return-name">
+                <option value="GSTR-1">GSTR-1</option>
+                <option value="GSTR-3B">GSTR-3B</option>
+            </select>
+
+            <input type="date" id="gst-due-date">
+
+            <button onclick="addGSTTask()">Add GST Task</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>GST Return</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="gst-table">
+                <tr>
+                    <td colspan="4">Loading GST tasks...</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- CASH FLOW -->
+    <section id="forecast" class="panel">
+        <h2>Cash Flow Analysis</h2>
+
+        <canvas id="cashChart"></canvas>
+
+        <p id="forecast-info">
+            View your business income and expenses.
+        </p>
+    </section>
+
+    <!-- LOAN ELIGIBILITY -->
+    <section id="loans" class="panel">
+
+        <h2>Business Profile</h2>
+
+        <p>
+            Enter your business details to find suitable government loan schemes.
+        </p>
+
+        <div class="business-form">
+
+            <input type="text" id="business-name"
+                   placeholder="Business Name">
+
+            <select id="business-type">
+                <option value="">Select Business Type</option>
+                <option value="Manufacturing">Manufacturing</option>
+                <option value="Trading">Trading</option>
+                <option value="Services">Services</option>
+            </select>
+
+            <input type="number" id="turnover"
+                   placeholder="Annual Turnover (₹)">
+
+            <input type="number" id="loan-amount"
+                   placeholder="Required Loan Amount (₹)">
+
+            <input type="number" id="business-age"
+                   placeholder="Business Age (Years)">
+
+            <input type="number" id="employees"
+                   placeholder="Number of Employees">
+
+            <hr>
+
+            <h3>Scheme Eligibility Details</h3>
+
+            <input type="number" id="applicant-age"
+                   placeholder="Applicant Age">
+
+            <label>Is this a new business?</label>
+
+            <select id="is-new-business">
+                <option value="">Select</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+
+            <label>Education Qualification</label>
+
+            <select id="education">
+                <option value="">Select Qualification</option>
+                <option value="Below 8th">Below 8th</option>
+                <option value="8th Pass">8th Pass</option>
+                <option value="10th Pass">10th Pass</option>
+                <option value="12th Pass">12th Pass</option>
+                <option value="Graduate">Graduate</option>
+                <option value="Postgraduate">Postgraduate</option>
+            </select>
+
+            <label>
+                Have you previously taken and successfully repaid a MUDRA Tarun loan?
+            </label>
+
+            <select id="mudra-tarun-repaid">
+                <option value="">Select</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+
+            <label>Do you have Udyam Registration?</label>
+
+            <select id="udyam-registered">
+                <option value="">Select</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+
+            <button onclick="saveBusinessProfile()">
+                Save Business Profile
+            </button>
+
+            <p id="profile-status"></p>
+
+        </div>
+
+        <hr>
+
+        <h2>Government Loan Schemes</h2>
+
+        <p>
+            Get scheme recommendations based on your business
+            profile and government eligibility conditions.
+        </p>
+
+        <div class="recommendation-section">
+
+            <button onclick="loadLoanRecommendations()">
+                Check Loan Eligibility
+            </button>
+
+            <button onclick="loadAILoanAdvice()">
+                Get AI Loan Advice
+            </button>
+
+            <div id="ai-loan-advice"></div>
+            <div id="loan-results"></div>
+            <div id="best-loan-result"></div>
+
+        </div>
+
+    </section>
+
+    <!-- AI CHATBOT -->
+    <section id="chat" class="panel">
+
+        <h2>MSME Mitra - Your AI Assistant</h2>
+
+        <div id="chat-box">
+            <div class="bot-message">
+                Namaste! I'm MSME Mitra, your AI Assistant.
+                Ask me about your business finances, GST,
+                government loan schemes or business growth.
+            </div>
+        </div>
+
+        <div class="chat-input">
+
+            <input type="text" id="user-message"
+                   placeholder="Ask MSME Mitra anything about your business...">
+
+            <button onclick="sendMessage()">Send</button>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="script.js"></script>
+
+<script>
+async function logoutUser() {
+    try {
+        const response = await fetch("/api/logout", {
+            method: "POST",
+            credentials: "same-origin"
+        });
+
+        if (!response.ok) {
+            throw new Error("Logout failed");
+        }
+
+        window.location.replace("/");
+
+    } catch (error) {
+        console.error("Logout error:", error);
+        alert("Unable to logout. Please try again.");
+    }
+}
+</script>
+
+</body>
+</html>
