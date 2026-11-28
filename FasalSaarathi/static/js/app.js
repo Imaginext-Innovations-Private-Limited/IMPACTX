@@ -1734,17 +1734,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }).join("");
 
         box.innerHTML = `
-            <div class="flex-1 flex flex-col bg-[#f7fbf8] rounded-xl border border-[#d4e6da] p-4 space-y-3.5">
-                <div class="space-y-1.5">
-                    <div class="flex items-center justify-between gap-2">
+            <div class="flex-1 flex flex-col bg-[#f7fbf8] rounded-xl border border-[#d4e6da] p-4 space-y-3.5 min-w-0 overflow-hidden">
+                <div class="space-y-1.5 min-w-0">
+                    <div class="flex items-center justify-between gap-2 min-w-0">
                         <div class="text-xs font-bold text-stone-600 truncate min-w-0" title="${escapeHtml(d.commodity || "")} • ${escapeHtml((d.primary_mandi || "").split("(")[0].trim())}">${escapeHtml(d.commodity || "")} • ${escapeHtml((d.primary_mandi || "").split("(")[0].trim())}</div>
                         <span class="text-xs font-extrabold text-stone-900 bg-white px-2 py-0.5 rounded-full border border-amber-200 whitespace-nowrap shrink-0">₹${d.price_per_kg ?? "--"}${escapeHtml(t.kg)}</span>
                     </div>
                     <div class="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-1">
                         <div class="text-2xl font-extrabold text-amber-800 whitespace-nowrap">₹${d.modal_price ?? "--"} <span class="text-xs font-semibold text-stone-500">${escapeHtml(t.qtl)}</span></div>
-                        <div class="text-[11px] font-bold ${trendColor} inline-flex items-center gap-1 bg-white px-2 py-0.5 rounded-full border border-stone-200">
-                            <i class="fa-solid ${trendIcon}"></i>
-                            <span>${escapeHtml(d.trend || "")}</span>
+                        <div class="text-[11px] font-bold ${trendColor} inline-flex items-center gap-1 bg-white px-2 py-0.5 rounded-full border border-stone-200 max-w-full">
+                            <i class="fa-solid ${trendIcon} shrink-0"></i>
+                            <span class="truncate">${escapeHtml(d.trend || "")}</span>
                         </div>
                     </div>
                     <div class="text-xs text-stone-600">${escapeHtml(t.rangeLabel || "Today's Range")}: <strong class="text-stone-800 whitespace-nowrap">₹${d.min_price ?? "--"} – ₹${d.max_price ?? "--"}</strong></div>
@@ -2037,7 +2037,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (savedMandiLoc && mandiLocInput) mandiLocInput.value = savedMandiLoc;
         if (savedMandiCrop && mandiCropInput) mandiCropInput.value = savedMandiCrop;
-        if ((mandiCropInput && mandiCropInput.value.trim())) {
+        if (savedMandiLoc && mandiCropInput && mandiCropInput.value.trim()) {
+            fetchMandiTool();
+        } else if (!savedMandiLoc && navigator.permissions && navigator.geolocation) {
+            navigator.permissions.query({ name: "geolocation" }).then(res => {
+                if (res.state === "granted") fetchMandiByGPS();
+                else if (mandiCropInput && mandiCropInput.value.trim()) fetchMandiTool();
+                else renderMandiPrompt();
+            }).catch(() => {
+                if (mandiCropInput && mandiCropInput.value.trim()) fetchMandiTool();
+                else renderMandiPrompt();
+            });
+        } else if (mandiCropInput && mandiCropInput.value.trim()) {
             fetchMandiTool();
         } else {
             renderMandiPrompt();

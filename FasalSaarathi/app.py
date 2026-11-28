@@ -20,7 +20,14 @@ try:
     from dotenv import load_dotenv
     load_dotenv()
 except ImportError:
-    pass  # python-dotenv not installed; env vars must be set manually
+    _env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+    if os.path.isfile(_env_path):
+        with open(_env_path, "r", encoding="utf-8") as _ef:
+            for _line in _ef:
+                _s = _line.strip()
+                if _s and not _s.startswith("#") and "=" in _s:
+                    _k, _v = _s.split("=", 1)
+                    os.environ.setdefault(_k.strip(), _v.strip().strip('"').strip("'"))
 
 from flask import Flask, render_template, request, jsonify, send_from_directory, Response
 from werkzeug.utils import secure_filename
@@ -32,12 +39,18 @@ from tools.soil_tool import fetch_soil_health
 from tools.mandi_tool import fetch_mandi_prices
 from tools.crop_disease_tool import analyze_leaf_image
 from tools.terrace_farming_tool import plan_terrace_garden, learn_crop_guide
+from routes.auth_routes import auth_bp
+from routes.insurance_routes import insurance_bp
+from routes.passbook_routes import passbook_bp
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.config["SECRET_KEY"] = os.getenv("FLASK_SECRET_KEY", "kisanvaani-dev-key")
 app.config["UPLOAD_FOLDER"] = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static", "uploads")
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024  # 10 MB max upload
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+app.register_blueprint(auth_bp)
+app.register_blueprint(insurance_bp)
+app.register_blueprint(passbook_bp)
 
 ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png", "gif", "webp"}
 

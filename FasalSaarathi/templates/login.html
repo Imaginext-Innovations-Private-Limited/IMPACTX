@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FasalSaarathi — Farmer Login &amp; Onboarding</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="min-h-screen flex flex-col bg-gradient-to-br from-emerald-50 via-lime-50/40 to-amber-50 text-gray-900">
+
+    <!-- Top Bar -->
+    <header class="bg-white/95 backdrop-blur border-b-2 border-green-500/30 px-4 py-2.5 shadow-sm">
+        <div class="max-w-3xl mx-auto flex items-center justify-between gap-3">
+            <a href="/" class="flex items-center space-x-2.5">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-600 via-emerald-600 to-lime-600 text-white flex items-center justify-center text-lg shadow-sm">
+                    <i class="fa-solid fa-wheat-awn"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-extrabold tracking-tight text-green-800 leading-none">FasalSaarathi</h1>
+                    <p class="text-[11px] font-medium text-amber-700 mt-0.5">ಫಸಲ್ ಸಾರಥಿ • फसल सारथी</p>
+                </div>
+            </a>
+
+            <div class="flex items-center space-x-2">
+                <div class="flex items-center bg-green-50 rounded-xl px-2.5 py-1 border border-green-300">
+                    <i class="fa-solid fa-globe text-green-700 text-xs mr-1.5"></i>
+                    <select id="loginLangSelect" class="bg-transparent text-xs text-green-900 font-bold focus:outline-none cursor-pointer py-0.5">
+                        <option value="en" selected>English</option>
+                        <option value="kn">ಕನ್ನಡ</option>
+                        <option value="hi">हिंदी</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="mr">मराठी</option>
+                    </select>
+                </div>
+                <a href="/" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-300 transition">
+                    <i class="fa-solid fa-arrow-left mr-1"></i><span id="lblBackApp">App</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Auth Card -->
+    <main class="flex-1 flex items-center justify-center px-4 py-6">
+        <div class="w-full max-w-lg bg-white rounded-3xl border-2 border-green-200 shadow-lg overflow-hidden">
+
+            <!-- Banner -->
+            <div class="bg-gradient-to-r from-green-700 via-emerald-600 to-lime-600 px-6 py-4 text-white">
+                <div class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-amber-400/95 text-amber-950 text-[11px] font-extrabold mb-1">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span id="lblAuthBadge">Easy Picture-PIN • No Password Needed</span>
+                </div>
+                <h2 id="lblAuthTitle" class="text-xl font-extrabold leading-snug">Sign in to Your Farm Profile</h2>
+                <p id="lblAuthSubtitle" class="text-xs text-emerald-50 mt-0.5">
+                    Remember your village, language, and crops across all FasalSaarathi tools.
+                </p>
+            </div>
+
+            <!-- Mode Tabs -->
+            <div class="grid grid-cols-2 bg-green-50 border-b border-green-200 p-1.5 gap-1.5">
+                <button type="button" id="tabLoginMode" class="py-2 rounded-xl text-xs font-extrabold bg-white text-green-900 shadow-sm border border-green-200 transition">
+                    🔑 <span id="lblTabLogin">Login</span>
+                </button>
+                <button type="button" id="tabRegisterMode" class="py-2 rounded-xl text-xs font-extrabold text-gray-600 hover:text-green-900 transition">
+                    🌱 <span id="lblTabRegister">New Farmer / Sign Up</span>
+                </button>
+            </div>
+
+            <div class="p-5 sm:p-6 space-y-4">
+                <!-- Status Alert -->
+                <div id="authAlert" class="hidden rounded-xl px-3.5 py-2.5 text-xs font-semibold"></div>
+
+                <!-- Registration-Only Fields -->
+                <div id="registerFields" class="hidden space-y-3.5">
+                    <div>
+                        <label id="lblName" for="authName" class="block text-xs font-bold text-green-900 mb-1">Your Name</label>
+                        <input type="text" id="authName" autocomplete="off" placeholder="e.g. Ramesh Kumar"
+                               class="w-full bg-green-50/50 border border-green-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-green-600">
+                    </div>
+
+                    <!-- Persona Choice -->
+                    <div>
+                        <label id="lblPersona" class="block text-xs font-bold text-green-900 mb-1.5">Who are you?</label>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <button type="button" data-persona="farmer" class="persona-btn active p-3 rounded-2xl border-2 border-green-600 bg-green-50 text-left transition">
+                                <div class="text-lg">🌾</div>
+                                <div id="lblPersonaFarmer" class="text-xs font-extrabold text-green-950 mt-0.5">Field Farmer</div>
+                                <div id="lblPersonaFarmerSub" class="text-[11px] text-gray-600">Mandi, Soil &amp; Crop Care</div>
+                            </button>
+                            <button type="button" data-persona="terrace" class="persona-btn p-3 rounded-2xl border-2 border-gray-200 bg-white hover:border-emerald-300 text-left transition">
+                                <div class="text-lg">🪴</div>
+                                <div id="lblPersonaTerrace" class="text-xs font-extrabold text-green-950 mt-0.5">Terrace / Home Grower</div>
+                                <div id="lblPersonaTerraceSub" class="text-[11px] text-gray-600">Grow-Bags &amp; Balcony</div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Location + GPS -->
+                    <div>
+                        <label id="lblLocation" for="authLocation" class="block text-xs font-bold text-green-900 mb-1">Village, City or PIN</label>
+                        <div class="flex space-x-1.5">
+                            <input type="text" id="authLocation" autocomplete="off" placeholder="e.g. Kolar or 563101"
+                                   class="flex-1 min-w-0 bg-green-50/50 border border-green-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-green-600">
+                            <button type="button" id="authGpsBtn" title="Use GPS"
+                                    class="px-2.5 py-2 rounded-xl bg-emerald-100 hover:bg-emerald-200 text-emerald-900 border border-emerald-300 text-xs font-bold shrink-0">
+                                <i class="fa-solid fa-location-crosshairs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phone Number -->
+                <div>
+                    <label id="lblPhone" for="authPhone" class="block text-xs font-bold text-green-900 mb-1">10-Digit Mobile Number</label>
+                    <div class="flex items-center bg-green-50/50 border border-green-300 rounded-xl px-3 py-2 focus-within:border-green-600">
+                        <span class="text-xs font-extrabold text-green-800 pr-2 border-r border-green-200">+91</span>
+                        <input type="tel" id="authPhone" autocomplete="off" inputmode="numeric" maxlength="14" placeholder="9876543210"
+                               class="flex-1 bg-transparent pl-2.5 text-sm font-semibold text-gray-900 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- 4-Icon Picture-PIN Picker -->
+                <div class="space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <label id="lblPinPrompt" class="text-xs font-bold text-green-900">Tap 4 Farm Pictures as Your PIN</label>
+                        <div class="flex items-center space-x-2">
+                            <button type="button" id="pinBackBtn" class="text-[11px] font-bold text-amber-800 hover:underline">⌫ Undo</button>
+                            <button type="button" id="pinClearBtn" class="text-[11px] font-bold text-gray-500 hover:text-red-600">Clear</button>
+                        </div>
+                    </div>
+
+                    <!-- 4 Selected PIN Slots -->
+                    <div id="pinSlots" class="grid grid-cols-4 gap-2.5">
+                        <div class="pin-slot h-12 rounded-xl border-2 border-dashed border-green-300 bg-green-50/40 flex items-center justify-center text-xl"></div>
+                        <div class="pin-slot h-12 rounded-xl border-2 border-dashed border-green-300 bg-green-50/40 flex items-center justify-center text-xl"></div>
+                        <div class="pin-slot h-12 rounded-xl border-2 border-dashed border-green-300 bg-green-50/40 flex items-center justify-center text-xl"></div>
+                        <div class="pin-slot h-12 rounded-xl border-2 border-dashed border-green-300 bg-green-50/40 flex items-center justify-center text-xl"></div>
+                    </div>
+
+                    <!-- 6 Tap-Friendly Farm Icons -->
+                    <div class="grid grid-cols-3 gap-2.5 pt-1">
+                        {% for icon in icons %}
+                        <button type="button"
+                                class="pin-icon-btn p-2.5 rounded-2xl border-2 border-green-200 bg-white hover:bg-green-50 hover:border-green-500 active:scale-95 transition flex flex-col items-center justify-center space-y-0.5 shadow-2xs"
+                                data-icon-id="{{ icon.id }}" data-emoji="{{ icon.emoji }}">
+                            <span class="text-2xl">{{ icon.emoji }}</span>
+                            <span class="pin-icon-label text-[11px] font-bold text-gray-700"
+                                  data-labels='{{ icon.labels | tojson }}'>{{ icon.labels.en }}</span>
+                        </button>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Primary Submit -->
+                <button type="button" id="authSubmitBtn"
+                        class="w-full py-3 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-sm font-extrabold shadow-md transition active:scale-99">
+                    <span id="lblSubmitBtn">Login to FasalSaarathi</span>
+                </button>
+
+                <!-- Divider -->
+                <div class="flex items-center space-x-2 text-[11px] text-gray-400">
+                    <div class="flex-1 h-px bg-gray-200"></div>
+                    <span id="lblOr">OR</span>
+                    <div class="flex-1 h-px bg-gray-200"></div>
+                </div>
+
+                <!-- 1-Tap Guest Bypass -->
+                <button type="button" id="guestBtn"
+                        class="w-full py-2.5 rounded-2xl bg-amber-50 hover:bg-amber-100 text-amber-950 border border-amber-300 text-xs font-extrabold transition flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-bolt text-amber-600"></i>
+                    <span id="lblGuestBtn">Continue as Guest / Demo (1 Tap)</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        let mode = "login"; // "login" | "register"
+        let selectedPersona = "farmer";
+        let pinSequence = [];
+        let gpsLat = null;
+        let gpsLon = null;
+
+        const I18N = {
+            en: {
+                badge: "Easy Picture-PIN • No Password Needed",
+                titleLogin: "Sign in to Your Farm Profile",
+                titleReg: "Create Your Farm Profile",
+                sub: "Remember your village and language across all FasalSaarathi tools.",
+                tabLogin: "Login",
+                tabReg: "New Farmer / Sign Up",
+                name: "Your Name",
+                persona: "Who are you?",
+                farmer: "Field Farmer",
+                farmerSub: "Mandi, Soil & Crop Care",
+                terrace: "Terrace / Home Grower",
+                terraceSub: "Grow-Bags & Balcony",
+                loc: "Village, City or PIN",
+                phone: "10-Digit Mobile Number",
+                pinPrompt: "Tap 4 Farm Pictures as Your PIN",
+                submitLogin: "Login to FasalSaarathi",
+                submitReg: "Create Account & Continue",
+                guest: "Continue as Guest / Demo (1 Tap)",
+                back: "App",
+                or: "OR",
+            },
+            kn: {
+                badge: "ಸುಲಭ ಚಿತ್ರ-PIN • ಪಾಸ್‌ವರ್ಡ್ ಬೇಕಿಲ್ಲ",
+                titleLogin: "ನಿಮ್ಮ ಕೃಷಿ ಖಾತೆಗೆ ಲಾಗಿನ್ ಆಗಿ",
+                titleReg: "ಹೊಸ ರೈತ ಖಾತೆ ತೆರೆಯಿರಿ",
+                sub: "ನಿಮ್ಮ ಊರು, ಭಾಷೆ ಮತ್ತು ಬೆಳೆಯನ್ನು ಎಲ್ಲಾ ವಿಭಾಗಗಳಲ್ಲಿ ನೆನಪಿಡುತ್ತದೆ.",
+                tabLogin: "ಲಾಗಿನ್",
+                tabReg: "ಹೊಸ ನೋಂದಣಿ",
+                name: "ನಿಮ್ಮ ಹೆಸರು",
+                persona: "ನೀವು ಯಾರು?",
+                farmer: "ಹೊಲದ ರೈತ",
+                farmerSub: "ಮಂಡಿ, ಮಣ್ಣು ಮತ್ತು ಬೆಳೆ",
+                terrace: "ತಾರಸಿ / ಮನೆ ತೋಟಗಾರ",
+                terraceSub: "ಗ್ರೋ-ಬ್ಯಾಗ್ ಮತ್ತು ಬಾಲ್ಕನಿ",
+                loc: "ಗ್ರಾಮ, ನಗರ ಅಥವಾ PIN",
+                crop: "ಮುಖ್ಯ ಬೆಳೆ",
+                phone: "10-ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ",
+                pinPrompt: "PIN ಆಗಿ 4 ಕೃಷಿ ಚಿತ್ರಗಳನ್ನು ಒತ್ತಿ",
+                submitLogin: "ಫಸಲ್ ಸಾರಥಿಗೆ ಲಾಗಿನ್ ಆಗಿ",
+                submitReg: "ಖಾತೆ ರಚಿಸಿ ಮುಂದುವರಿಯಿರಿ",
+                guest: "ಅತಿಥಿಯಾಗಿ ಮುಂದುವರಿಯಿರಿ (1 ಟ್ಯಾಪ್)",
+                back: "ಆ್ಯಪ್",
+                or: "ಅಥವಾ",
+            },
+            hi: {
+                badge: "आसान चित्र-PIN • पासवर्ड की जरूरत नहीं",
+                titleLogin: "अपने खेती प्रोफ़ाइल में लॉगिन करें",
+                titleReg: "नया किसान प्रोफ़ाइल बनाएं",
+                sub: "आपका गांव, भाषा और फसल सभी टूल्स में सेव रहेगी।",
+                tabLogin: "लॉगिन",
+                tabReg: "नया खाता / साइन अप",
+                name: "आपका नाम",
+                persona: "आप कौन हैं?",
+                farmer: "खेत किसान",
+                farmerSub: "मंडी, मिट्टी और फसल",
+                terrace: "छत / घर बागवानी",
+                terraceSub: "ग्रो-बैग व बालकनी",
+                loc: "गांव, शहर या पिन कोड",
+                crop: "मुख्य फसल",
+                phone: "10-अंकों का मोबाइल नंबर",
+                pinPrompt: "अपने PIN के लिए 4 चित्र चुनें",
+                submitLogin: "फसल सारथी में लॉगिन करें",
+                submitReg: "खाता बनाएं और आगे बढ़ें",
+                guest: "गेस्ट / डेमो के रूप में जारी रखें",
+                back: "ऐप",
+                or: "या",
+            },
+            ta: {
+                badge: "எளிய பட-PIN • கடவுச்சொல் தேவையில்லை",
+                titleLogin: "உங்கள் விவசாய கணக்கில் உள்நுழையவும்",
+                titleReg: "புதிய விவசாய கணக்கு உருவாக்கவும்",
+                sub: "உங்கள் ஊர், மொழி மற்றும் பயிர் விவரம் சேமிக்கப்படும்.",
+                tabLogin: "உள்நுழைக",
+                tabReg: "புதிய பதிவு",
+                name: "உங்கள் பெயர்",
+                persona: "நீங்கள் யார்?",
+                farmer: "வயல் விவசாயி",
+                farmerSub: "சந்தை, மண் & பயிர்",
+                terrace: "மாடித் தோட்டக்காரர்",
+                terraceSub: "குரோ-பேக் & பால்கனி",
+                loc: "ஊர், நகரம் அல்லது PIN",
+                crop: "முக்கிய பயிர்",
+                phone: "10-இலக்க மொபைல் எண்",
+                pinPrompt: "PIN ஆக 4 படங்களைத் தொடவும்",
+                submitLogin: "உள்நுழையவும்",
+                submitReg: "கணக்கு உருவாக்கி தொடரவும்",
+                guest: "விருந்தினராக தொடரவும் (1 தட்டு)",
+                back: "செயலி",
+                or: "அல்லது",
+            },
+            te: {
+                badge: "సులభమైన చిత్ర-PIN • పాస్‌వర్డ్ అవసరం లేదు",
+                titleLogin: "మీ వ్యవసాయ ప్రొఫైల్‌లో లాగిన్ చేయండి",
+                titleReg: "కొత్త రైతు ఖాతా తెరవండి",
+                sub: "మీ ఊరు, భాష మరియు పంట వివరాలు అన్ని టూల్స్‌లో ఉంటాయి.",
+                tabLogin: "లాగిన్",
+                tabReg: "కొత్త ఖాతా",
+                name: "మీ పేరు",
+                persona: "మీరు ఎవరు?",
+                farmer: "పొలం రైతు",
+                farmerSub: "మండీ, మట్టి & పంట",
+                terrace: "టెర్రస్ / ఇంటి తోటమాలి",
+                terraceSub: "గ్రో-బ్యాగ్ & బాల్కనీ",
+                loc: "గ్రామం, నగరం లేదా PIN",
+                crop: "ప్రధాన పంట",
+                phone: "10-అంకెల మొబైల్ నంబర్",
+                pinPrompt: "PIN కోసం 4 చిత్రాలను నొక్కండి",
+                submitLogin: "లాగిన్ చేయండి",
+                submitReg: "ఖాతా సృష్టించండి",
+                guest: "గెస్ట్ / డెమోగా కొనసాగండి",
+                back: "యాప్",
+                or: "లేదా",
+            },
+            mr: {
+                badge: "सोपा चित्र-PIN • पासवर्डची गरज नाही",
+                titleLogin: "तुमच्या शेती प्रोफाइलमध्ये लॉगिन करा",
+                titleReg: "नवीन शेतकरी खाते तयार करा",
+                sub: "तुमचे गाव, भाषा आणि पीक सर्व टूल्समध्ये लक्षात राहील.",
+                tabLogin: "लॉगिन",
+                tabReg: "नवीन नोंदणी",
+                name: "तुमचे नाव",
+                persona: "तुम्ही कोण आहात?",
+                farmer: "शेतकरी",
+                farmerSub: "बाजारभाव, माती व पीक",
+                terrace: "गच्ची / घरगुती बागकाम",
+                terraceSub: "ग्रो-बॅग आणि बाल्कनी",
+                loc: "गाव, शहर किंवा पिन कोड",
+                crop: "मुख्य पीक",
+                phone: "10-अंकी मोबाईल नंबर",
+                pinPrompt: "PIN साठी 4 चित्रे निवडा",
+                submitLogin: "लॉगिन करा",
+                submitReg: "खाते तयार करा व पुढे जा",
+                guest: "गेस्ट म्हणून पुढे जा (1 टॅप)",
+                back: "ॲप",
+                or: "किंवा",
+            },
+        };
+
+        const langSel = document.getElementById("loginLangSelect");
+        const tabLoginMode = document.getElementById("tabLoginMode");
+        const tabRegisterMode = document.getElementById("tabRegisterMode");
+        const registerFields = document.getElementById("registerFields");
+        const authAlert = document.getElementById("authAlert");
+        const pinSlots = document.querySelectorAll(".pin-slot");
+
+        function showAlert(msg, ok = false) {
+            authAlert.textContent = msg;
+            authAlert.className = ok
+                ? "rounded-xl px-3.5 py-2.5 text-xs font-semibold bg-emerald-50 border border-emerald-300 text-emerald-900"
+                : "rounded-xl px-3.5 py-2.5 text-xs font-semibold bg-red-50 border border-red-300 text-red-800";
+        }
+
+        function hideAlert() {
+            authAlert.className = "hidden";
+        }
+
+        function renderPinSlots() {
+            pinSlots.forEach((slot, idx) => {
+                if (pinSequence[idx]) {
+                    slot.textContent = pinSequence[idx].emoji;
+                    slot.classList.remove("border-dashed", "border-green-300", "bg-green-50/40");
+                    slot.classList.add("border-solid", "border-green-600", "bg-green-100/70");
+                } else {
+                    slot.textContent = "";
+                    slot.classList.add("border-dashed", "border-green-300", "bg-green-50/40");
+                    slot.classList.remove("border-solid", "border-green-600", "bg-green-100/70");
+                }
+            });
+        }
+
+        function applyTranslations() {
+            const l = langSel.value || "en";
+            const t = I18N[l] || I18N.en;
+            document.getElementById("lblAuthBadge").textContent = t.badge;
+            document.getElementById("lblAuthTitle").textContent = mode === "login" ? t.titleLogin : t.titleReg;
+            document.getElementById("lblAuthSubtitle").textContent = t.sub;
+            document.getElementById("lblTabLogin").textContent = t.tabLogin;
+            document.getElementById("lblTabRegister").textContent = t.tabReg;
+            document.getElementById("lblName").textContent = t.name;
+            document.getElementById("lblPersona").textContent = t.persona;
+            document.getElementById("lblPersonaFarmer").textContent = t.farmer;
+            document.getElementById("lblPersonaFarmerSub").textContent = t.farmerSub;
+            document.getElementById("lblPersonaTerrace").textContent = t.terrace;
+            document.getElementById("lblPersonaTerraceSub").textContent = t.terraceSub;
+            document.getElementById("lblLocation").textContent = t.loc;
+            document.getElementById("lblPhone").textContent = t.phone;
+            document.getElementById("lblPinPrompt").textContent = t.pinPrompt;
+            document.getElementById("lblSubmitBtn").textContent = mode === "login" ? t.submitLogin : t.submitReg;
+            document.getElementById("lblGuestBtn").textContent = t.guest;
+            document.getElementById("lblBackApp").textContent = t.back;
+            document.getElementById("lblOr").textContent = t.or;
+
+            document.querySelectorAll(".pin-icon-label").forEach(el => {
+                try {
+                    const map = JSON.parse(el.getAttribute("data-labels") || "{}");
+                    el.textContent = map[l] || map.en || "";
+                } catch (_) {}
+            });
+        }
+
+        function setMode(newMode) {
+            mode = newMode;
+            hideAlert();
+            if (mode === "login") {
+                registerFields.classList.add("hidden");
+                tabLoginMode.className = "py-2 rounded-xl text-xs font-extrabold bg-white text-green-900 shadow-sm border border-green-200 transition";
+                tabRegisterMode.className = "py-2 rounded-xl text-xs font-extrabold text-gray-600 hover:text-green-900 transition";
+            } else {
+                registerFields.classList.remove("hidden");
+                tabRegisterMode.className = "py-2 rounded-xl text-xs font-extrabold bg-white text-green-900 shadow-sm border border-green-200 transition";
+                tabLoginMode.className = "py-2 rounded-xl text-xs font-extrabold text-gray-600 hover:text-green-900 transition";
+            }
+            applyTranslations();
+        }
+
+        tabLoginMode.addEventListener("click", () => setMode("login"));
+        tabRegisterMode.addEventListener("click", () => setMode("register"));
+        langSel.addEventListener("change", applyTranslations);
+
+        document.querySelectorAll(".persona-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                selectedPersona = btn.getAttribute("data-persona");
+                document.querySelectorAll(".persona-btn").forEach(b => {
+                    b.classList.remove("border-green-600", "bg-green-50");
+                    b.classList.add("border-gray-200", "bg-white");
+                });
+                btn.classList.remove("border-gray-200", "bg-white");
+                btn.classList.add("border-green-600", "bg-green-50");
+            });
+        });
+
+        document.querySelectorAll(".pin-icon-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                if (pinSequence.length >= 4) return;
+                pinSequence.push({
+                    id: btn.getAttribute("data-icon-id"),
+                    emoji: btn.getAttribute("data-emoji"),
+                });
+                renderPinSlots();
+                hideAlert();
+            });
+        });
+
+        document.getElementById("pinBackBtn").addEventListener("click", () => {
+            pinSequence.pop();
+            renderPinSlots();
+        });
+        document.getElementById("pinClearBtn").addEventListener("click", () => {
+            pinSequence = [];
+            renderPinSlots();
+        });
+
+        document.getElementById("authGpsBtn").addEventListener("click", () => {
+            if (!navigator.geolocation) {
+                showAlert("GPS is not supported in this browser. Type your village or PIN.");
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    gpsLat = Number(pos.coords.latitude.toFixed(4));
+                    gpsLon = Number(pos.coords.longitude.toFixed(4));
+                    const locInput = document.getElementById("authLocation");
+                    if (!locInput.value.trim()) {
+                        locInput.value = `${gpsLat}, ${gpsLon}`;
+                    }
+                    showAlert(`GPS captured (${gpsLat}, ${gpsLon})`, true);
+                },
+                () => showAlert("Could not access GPS. Please type your village, city or PIN.")
+            );
+        });
+
+        function syncUserLocalStorage(user) {
+            try {
+                ["kv_weather_loc", "kv_soil_loc", "kv_mandi_loc", "kv_mandi_crop"].forEach(k => localStorage.removeItem(k));
+                if (user && user.user_id) {
+                    localStorage.setItem("kv_active_user_id", user.user_id);
+                    const loc = (user.location_query || "").trim();
+                    if (loc) {
+                        localStorage.setItem("kv_weather_loc", loc);
+                        localStorage.setItem("kv_soil_loc", loc);
+                        localStorage.setItem("kv_mandi_loc", loc);
+                    }
+                } else {
+                    localStorage.removeItem("kv_active_user_id");
+                }
+            } catch (_) {}
+        }
+
+        document.getElementById("authSubmitBtn").addEventListener("click", async () => {
+            hideAlert();
+            const phone = document.getElementById("authPhone").value.trim();
+            const icons = pinSequence.map(x => x.id);
+
+            if (icons.length !== 4) {
+                showAlert("Please tap all 4 farm pictures for your Picture-PIN.");
+                return;
+            }
+
+            const endpoint = mode === "login" ? "/api/auth/login" : "/api/auth/register";
+            const payload = mode === "login"
+                ? { phone, pin_icons: icons }
+                : {
+                    name: document.getElementById("authName").value.trim(),
+                    phone,
+                    pin_icons: icons,
+                    persona: selectedPersona,
+                    language: langSel.value,
+                    location_query: document.getElementById("authLocation").value.trim(),
+                    lat: gpsLat,
+                    lon: gpsLon,
+                };
+
+            try {
+                const resp = await fetch(endpoint, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
+                const data = await resp.json();
+                if (!resp.ok || data.status !== "success") {
+                    showAlert(data.message || "Authentication failed.");
+                    return;
+                }
+                syncUserLocalStorage(data.user);
+                showAlert(`Welcome ${data.user.name}! Redirecting...`, true);
+                setTimeout(() => { window.location.href = "/"; }, 450);
+            } catch (e) {
+                showAlert("Network error. Please try again.");
+            }
+        });
+
+        document.getElementById("guestBtn").addEventListener("click", async () => {
+            try {
+                const resp = await fetch("/api/auth/guest", { method: "POST" });
+                const data = await resp.json();
+                if (data.status === "success") {
+                    syncUserLocalStorage(data.user);
+                    window.location.href = "/";
+                }
+            } catch (_) {
+                showAlert("Could not start guest session.");
+            }
+        });
+
+        // Clear sensitive inputs if restored via browser back/forward cache
+        window.addEventListener("pageshow", (evt) => {
+            if (evt.persisted) {
+                pinSequence = [];
+                gpsLat = null;
+                gpsLon = null;
+                renderPinSlots();
+                document.getElementById("authPhone").value = "";
+                document.getElementById("authName").value = "";
+                document.getElementById("authLocation").value = "";
+            }
+        });
+
+        // Preselect language from ?lang= if passed
+        const params = new URLSearchParams(window.location.search);
+        const qLang = params.get("lang");
+        if (qLang && I18N[qLang]) {
+            langSel.value = qLang;
+        }
+        if (params.get("mode") === "register") {
+            setMode("register");
+        } else {
+            applyTranslations();
+        }
+    });
+    </script>
+</body>
+</html>

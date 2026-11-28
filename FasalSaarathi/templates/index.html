@@ -43,6 +43,14 @@
                     <i class="fa-solid fa-house-chimney-window"></i>
                     <span id="navTerraceLabel">Terrace &amp; Learn</span>
                 </button>
+                <button class="nav-tab px-3.5 py-1.5 text-xs font-bold flex items-center space-x-1.5 transition whitespace-nowrap" data-target="tab-insurance">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span id="navInsuranceLabel">Crop Shield</span>
+                </button>
+                <button class="nav-tab px-3.5 py-1.5 text-xs font-bold flex items-center space-x-1.5 transition whitespace-nowrap" data-target="tab-passbook">
+                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                    <span id="navPassbookLabel">Passbook</span>
+                </button>
             </nav>
 
             <!-- Compact Controls -->
@@ -63,6 +71,11 @@
                         <option value="mr">मराठी</option>
                     </select>
                 </div>
+
+                <a href="/login" id="authHeaderBtn" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-green-600 hover:bg-green-700 text-white shadow-2xs transition whitespace-nowrap">
+                    <i class="fa-solid fa-user-check text-[11px]"></i>
+                    <span id="authHeaderText">Login</span>
+                </a>
             </div>
         </div>
     </header>
@@ -255,7 +268,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
 
                 <!-- Weather Card -->
-                <div class="bg-white rounded-2xl border-2 border-sky-200 p-4 space-y-3.5 flex flex-col shadow-sm">
+                <div class="bg-white rounded-2xl border-2 border-sky-200 p-4 space-y-3.5 flex flex-col shadow-sm min-w-0 overflow-hidden">
                     <div class="flex items-center justify-between gap-2">
                         <h3 id="toolsWeatherTitle" class="text-sm font-extrabold text-sky-900 truncate">Live Weather Tool</h3>
                         <span id="weatherSourceBadge" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-800 border border-sky-300 whitespace-nowrap shrink-0">Open-Meteo</span>
@@ -275,7 +288,7 @@
                 </div>
 
                 <!-- Soil Card -->
-                <div class="bg-white rounded-2xl border-2 border-green-200 p-4 space-y-3 flex flex-col shadow-sm">
+                <div class="bg-white rounded-2xl border-2 border-green-200 p-4 space-y-3 flex flex-col shadow-sm min-w-0 overflow-hidden">
                     <div class="flex items-center justify-between gap-2">
                         <h3 id="toolsSoilTitle" class="text-sm font-extrabold text-green-900 truncate">Soil Health Tool</h3>
                         <span id="soilSourceBadge" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-green-100 text-green-800 border border-green-300 whitespace-nowrap shrink-0">250m Grid</span>
@@ -317,7 +330,7 @@
                 </div>
 
                 <!-- Mandi Card -->
-                <div class="bg-white rounded-2xl border-2 border-amber-200 p-4 space-y-3 flex flex-col shadow-sm">
+                <div class="bg-white rounded-2xl border-2 border-amber-200 p-4 space-y-3 flex flex-col shadow-sm min-w-0 overflow-hidden">
                     <div class="flex items-center justify-between gap-2">
                         <h3 id="toolsMandiTitle" class="text-sm font-extrabold text-amber-900 truncate">APMC Mandi Tool</h3>
                         <span id="mandiSourceBadge" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 whitespace-nowrap shrink-0">APMC Live</span>
@@ -513,7 +526,296 @@
 
         </section>
 
+        <!-- ========================================== -->
+        <!-- TAB 5: CROP INSURANCE SHIELD (MODULE 3)    -->
+        <!-- ========================================== -->
+        <section id="tab-insurance" class="tab-pane hidden space-y-4">
+
+            <!-- CARD 1: Live 72-Hour Extreme Weather Loss Trigger -->
+            <div class="bg-white rounded-2xl border-2 border-emerald-200 p-5 space-y-4 shadow-sm">
+                <div class="flex flex-wrap items-start justify-between gap-3 border-b border-emerald-100 pb-3.5">
+                    <div>
+                        <div class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-[11px] font-extrabold mb-1">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span id="insHeroTag">Fasal Suraksha • PMFBY Crop Insurance Shield</span>
+                        </div>
+                        <h2 id="insAlertTitle" class="text-lg font-extrabold text-green-900">Live 72-Hour Weather Loss Alert</h2>
+                        <p id="insAlertSubtitle" class="text-xs text-gray-600 mt-0.5">
+                            Checks live Open-Meteo hail, heavy rain, and storm triggers for your village so you never miss the 72-hour PMFBY claim window.
+                        </p>
+                    </div>
+                    <span id="insHelplineBadge" class="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-300 whitespace-nowrap">
+                        Helpline: 14447
+                    </span>
+                </div>
+
+                <div class="flex flex-wrap sm:flex-nowrap items-center gap-2">
+                    <input type="text" id="insWeatherLoc" value="" placeholder="Village, Taluk, District or PIN..."
+                           class="flex-1 min-w-0 bg-emerald-50/50 border border-emerald-300 rounded-xl px-3.5 py-2 text-xs text-gray-900 focus:outline-none focus:border-emerald-600">
+                    <button id="insGpsBtn" type="button" title="Use My Farm GPS Location"
+                            class="px-3 py-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-900 border border-emerald-300 text-xs rounded-xl font-bold transition shrink-0">
+                        <i class="fa-solid fa-location-crosshairs"></i>
+                    </button>
+                    <button id="insCheckAlertBtn" type="button"
+                            class="px-4 py-2 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-xs font-extrabold transition shrink-0 flex items-center space-x-1.5">
+                        <i class="fa-solid fa-radar"></i>
+                        <span id="insCheckAlertBtnLabel">Check Weather Shield</span>
+                    </button>
+                </div>
+
+                <div id="insWeatherAlertOutput" class="text-xs text-gray-700"></div>
+            </div>
+
+            <!-- CARD 2: PMFBY Premium Calculator & Saved Policies -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
+                <div class="bg-white rounded-2xl border-2 border-amber-200 p-5 space-y-3.5 shadow-sm">
+                    <h3 id="insCalcTitle" class="text-base font-extrabold text-amber-950">
+                        🛡️ PMFBY Premium &amp; Coverage Calculator
+                    </h3>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <div>
+                            <label id="lblInsCrop" for="insCropSelect" class="block text-[11px] font-bold text-green-900 mb-1">Crop</label>
+                            <select id="insCropSelect" class="w-full bg-amber-50/50 border border-amber-300 rounded-xl px-2.5 py-2 text-xs font-bold text-gray-900">
+                                <option value="paddy">🌾 Paddy (Rice)</option>
+                                <option value="wheat">🌾 Wheat</option>
+                                <option value="tomato">🍅 Tomato</option>
+                                <option value="onion">🧅 Onion</option>
+                                <option value="chilli">🌶️ Chilli</option>
+                                <option value="maize">🌽 Maize</option>
+                                <option value="ragi">🌾 Ragi</option>
+                                <option value="tur">🫘 Tur / Red Gram</option>
+                                <option value="groundnut">🥜 Groundnut</option>
+                                <option value="cotton">☁️ Cotton</option>
+                                <option value="potato">🥔 Potato</option>
+                                <option value="coffee">☕ Coffee</option>
+                                <option value="arecanut">🌴 Arecanut</option>
+                                <option value="banana">🍌 Banana</option>
+                                <option value="sugarcane">🎋 Sugarcane</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label id="lblInsSeason" for="insSeasonSelect" class="block text-[11px] font-bold text-green-900 mb-1">Season</label>
+                            <select id="insSeasonSelect" class="w-full bg-amber-50/50 border border-amber-300 rounded-xl px-2.5 py-2 text-xs font-bold text-gray-900">
+                                <option value="kharif">🌧️ Kharif (2%)</option>
+                                <option value="rabi">❄️ Rabi (1.5%)</option>
+                                <option value="horticulture">🍅 Horticulture (5%)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label id="lblInsAcres" for="insAcresInput" class="block text-[11px] font-bold text-green-900 mb-1">Land (Acres)</label>
+                            <input type="number" id="insAcresInput" value="2" min="0.1" max="500" step="0.5"
+                                   class="w-full bg-amber-50/50 border border-amber-300 rounded-xl px-3 py-2 text-xs font-bold text-gray-900">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2">
+                        <button id="insCalcBtn" type="button"
+                                class="flex-1 py-2.5 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-extrabold transition">
+                            <i class="fa-solid fa-calculator mr-1.5"></i><span id="insCalcBtnLabel">Calculate Premium</span>
+                        </button>
+                        <button id="insSavePolicyBtn" type="button"
+                                class="py-2.5 px-4 rounded-xl bg-green-600 hover:bg-green-700 text-white text-xs font-extrabold transition">
+                            <i class="fa-solid fa-bookmark mr-1.5"></i><span id="insSaveBtnLabel">Save Policy</span>
+                        </button>
+                    </div>
+
+                    <div id="insQuoteOutput" class="text-xs text-gray-700"></div>
+                </div>
+
+                <!-- Saved Policies Vault -->
+                <div class="bg-white rounded-2xl border-2 border-green-200 p-5 space-y-3 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <h3 id="insVaultTitle" class="text-base font-extrabold text-green-950">📋 My Insured Crops</h3>
+                        <span id="insPolicyCount" class="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-green-100 text-green-900">0 Active</span>
+                    </div>
+                    <div id="insPoliciesList" class="space-y-2 text-xs text-gray-600">
+                        No saved policies yet. Calculate a quote and tap Save Policy to track your insured crops.
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 3: One-Click Claim Evidence Dossier -->
+            <div class="bg-white rounded-2xl border-2 border-sky-200 p-5 space-y-4 shadow-sm">
+                <div class="border-b border-sky-100 pb-3">
+                    <h3 id="insDossierTitle" class="text-base font-extrabold text-sky-950">📸 One-Click Claim Evidence Dossier</h3>
+                    <p id="insDossierSubtitle" class="text-xs text-gray-600 mt-0.5">
+                        Bundle your field damage photo, GPS coordinates, timestamp, and live Open-Meteo weather record into a claim-ready sheet.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label id="lblClaimPolicy" for="insClaimPolicySelect" class="block text-[11px] font-bold text-sky-950 mb-1">Linked Policy (Optional)</label>
+                        <select id="insClaimPolicySelect" class="w-full bg-sky-50/50 border border-sky-200 rounded-xl px-3 py-2 text-xs font-semibold">
+                            <option value="">General Crop Loss Report</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label id="lblClaimPhoto" for="insClaimPhoto" class="block text-[11px] font-bold text-sky-950 mb-1">Field Damage Photo</label>
+                        <input type="file" id="insClaimPhoto" accept="image/*"
+                               class="w-full bg-sky-50/50 border border-sky-200 rounded-xl px-2.5 py-1.5 text-xs">
+                    </div>
+                    <div>
+                        <label id="lblClaimNotes" for="insClaimNotes" class="block text-[11px] font-bold text-sky-950 mb-1">Damage Description</label>
+                        <input type="text" id="insClaimNotes" placeholder="e.g. Waterlogging / hail damage in 2 acres"
+                               class="w-full bg-sky-50/50 border border-sky-200 rounded-xl px-3 py-2 text-xs">
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <span id="insDossierHint" class="text-[11px] text-gray-500">Uses location from Weather Shield above (or live GPS).</span>
+                    <button id="insCreateDossierBtn" type="button"
+                            class="px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-extrabold transition flex items-center space-x-2">
+                        <i class="fa-solid fa-file-shield"></i>
+                        <span id="insDossierBtnLabel">Generate Claim Evidence Dossier</span>
+                    </button>
+                </div>
+
+                <div id="insDossierOutput" class="space-y-3 text-xs text-gray-700"></div>
+            </div>
+
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 6: WHATSAPP-STYLE FARM PASSBOOK (MOD 4)-->
+        <!-- ========================================== -->
+        <section id="tab-passbook" class="tab-pane hidden space-y-4">
+            <div class="bg-white rounded-2xl border-2 border-emerald-300 shadow-sm overflow-hidden flex flex-col">
+
+                <!-- WhatsApp Green Top Bar -->
+                <div class="bg-[#075E54] text-white px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center text-lg shadow-sm border border-white/30">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                        <div>
+                            <h2 id="pbTitle" class="text-sm font-extrabold leading-tight">FasalSaarathi Farm Passbook</h2>
+                            <p id="pbSubtitle" class="text-[11px] text-emerald-100">online • Daily Weather, Compost, Insurance &amp; Mandi Voice Briefing</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <button type="button" id="pbRefreshBriefBtn" class="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-xs font-extrabold transition flex items-center space-x-1.5">
+                            <i class="fa-solid fa-rotate"></i>
+                            <span id="pbRefreshLabel">Get Today's Briefing</span>
+                        </button>
+                        <button type="button" id="pbClearBtn" title="Clear Passbook Chat" class="px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Live Summary Strip -->
+                <div class="grid grid-cols-3 gap-2 px-4 py-2.5 bg-[#f0f2f5] border-b border-gray-200 text-center">
+                    <div class="bg-white rounded-xl py-1.5 px-2 border border-emerald-200">
+                        <div id="pbStatWasteLbl" class="text-[10px] font-bold text-gray-500 uppercase">♻️ Kitchen Waste</div>
+                        <div id="pbStatWaste" class="text-xs font-extrabold text-emerald-800">0 kg (₹0 saved)</div>
+                    </div>
+                    <div class="bg-white rounded-xl py-1.5 px-2 border border-sky-200">
+                        <div id="pbStatInsLbl" class="text-[10px] font-bold text-gray-500 uppercase">🛡️ Crop Shield</div>
+                        <div id="pbStatIns" class="text-xs font-extrabold text-sky-800">0 Active</div>
+                    </div>
+                    <div class="bg-white rounded-xl py-1.5 px-2 border border-amber-200">
+                        <div id="pbStatLocLbl" class="text-[10px] font-bold text-gray-500 uppercase">📍 Farm Location</div>
+                        <div id="pbStatLoc" class="text-xs font-extrabold text-amber-900 truncate">Your Farm</div>
+                    </div>
+                </div>
+
+                <!-- WhatsApp Wallpaper Chat Feed -->
+                <div id="pbChatFeed" class="p-4 space-y-3 h-[380px] overflow-y-auto bg-[#efeae2]">
+                    <div id="pbEmptyBanner" class="text-center text-[11px] text-gray-600 bg-white/80 inline-block mx-auto px-3 py-1 rounded-full shadow-2xs">
+                        Tap <strong>Get Today's Briefing</strong> or a quick reply below
+                    </div>
+                </div>
+
+                <!-- Quick-Tap Reply Chips + Message Box -->
+                <div class="p-3 bg-[#f0f2f5] border-t border-gray-200 space-y-2.5">
+                    <div class="flex items-center space-x-1.5 overflow-x-auto scrollbar-none pb-0.5">
+                        <button type="button" id="pbChipWaste" class="pb-quick-btn shrink-0 px-3 py-1.5 rounded-full bg-white hover:bg-emerald-50 text-emerald-900 border border-emerald-300 text-[11px] font-bold shadow-2xs transition" data-action="log_waste">
+                            ♻️ Added 1kg Kitchen Waste
+                        </button>
+                        <button type="button" id="pbChipIns" class="pb-quick-btn shrink-0 px-3 py-1.5 rounded-full bg-white hover:bg-sky-50 text-sky-900 border border-sky-300 text-[11px] font-bold shadow-2xs transition" data-action="check_insurance">
+                            🛡️ Check Insurance Alert
+                        </button>
+                        <button type="button" id="pbChipMandi" class="pb-quick-btn shrink-0 px-3 py-1.5 rounded-full bg-white hover:bg-amber-50 text-amber-900 border border-amber-300 text-[11px] font-bold shadow-2xs transition" data-action="check_mandi">
+                            💰 Today's Mandi Rate
+                        </button>
+                        <button type="button" id="pbChipBrief" class="pb-quick-btn shrink-0 px-3 py-1.5 rounded-full bg-white hover:bg-green-50 text-green-900 border border-green-300 text-[11px] font-bold shadow-2xs transition" data-action="daily_briefing">
+                            ☀️ Morning Briefing
+                        </button>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <input type="text" id="pbLocationInput" placeholder="Location (optional)"
+                               class="w-32 sm:w-40 bg-white border border-gray-300 rounded-xl px-3 py-2 text-xs text-gray-900 focus:outline-none focus:border-emerald-600">
+                        <input type="text" id="pbReplyInput" placeholder="Reply like WhatsApp (e.g. Added 2 kg peels, Onion rate)..."
+                               class="flex-1 min-w-0 bg-white border border-gray-300 rounded-xl px-3.5 py-2 text-xs text-gray-900 focus:outline-none focus:border-emerald-600">
+                        <button type="button" id="pbSendBtn"
+                                class="w-10 h-10 rounded-full bg-[#00a884] hover:bg-[#008f6f] text-white flex items-center justify-center shadow-sm transition shrink-0">
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
     </main>
+
+    <!-- Quick Farm Profile Modal (Module 1) -->
+    <div id="profileModal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-xs items-center justify-center p-4">
+        <div class="w-full max-w-md bg-white rounded-3xl border-2 border-green-200 shadow-xl overflow-hidden">
+            <div class="px-5 py-3.5 bg-gradient-to-r from-green-700 to-emerald-600 text-white flex items-center justify-between">
+                <h3 class="text-sm font-extrabold flex items-center space-x-2">
+                    <i class="fa-solid fa-id-card"></i>
+                    <span>My Farm Profile</span>
+                </h3>
+                <button type="button" id="closeProfileModalBtn" class="text-white/80 hover:text-white text-sm font-bold">✕</button>
+            </div>
+            <div class="p-5 space-y-3">
+                <div id="profileModalAlert" class="hidden"></div>
+                <div>
+                    <label for="profName" class="block text-xs font-bold text-green-900 mb-1">Name</label>
+                    <input type="text" id="profName" class="w-full bg-green-50/50 border border-green-300 rounded-xl px-3 py-2 text-xs">
+                </div>
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div>
+                        <label for="profPersona" class="block text-xs font-bold text-green-900 mb-1">Role</label>
+                        <select id="profPersona" class="w-full bg-green-50/50 border border-green-300 rounded-xl px-3 py-2 text-xs font-bold">
+                            <option value="farmer">🌾 Field Farmer</option>
+                            <option value="terrace">🪴 Terrace Grower</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="profLang" class="block text-xs font-bold text-green-900 mb-1">Language</label>
+                        <select id="profLang" class="w-full bg-green-50/50 border border-green-300 rounded-xl px-3 py-2 text-xs font-bold">
+                            <option value="en">English</option>
+                            <option value="kn">ಕನ್ನಡ</option>
+                            <option value="hi">हिंदी</option>
+                            <option value="ta">தமிழ்</option>
+                            <option value="te">తెలుగు</option>
+                            <option value="mr">मराठी</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label for="profLocation" class="block text-xs font-bold text-green-900 mb-1">Village / City / PIN</label>
+                    <input type="text" id="profLocation" placeholder="e.g. Kolar" class="w-full bg-green-50/50 border border-green-300 rounded-xl px-3 py-2 text-xs">
+                </div>
+                <div class="flex items-center justify-between pt-2 gap-2">
+                    <button type="button" id="logoutProfileBtn" class="px-3.5 py-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-bold">
+                        <i class="fa-solid fa-right-from-bracket mr-1"></i>Switch / Logout
+                    </button>
+                    <button type="button" id="saveProfileBtn" class="px-4 py-2 rounded-xl bg-green-600 hover:bg-green-700 text-white text-xs font-extrabold">
+                        Save Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Minimal Footer -->
     <footer class="text-green-800/70 text-xs py-4 px-4 text-center font-medium">
@@ -521,5 +823,8 @@
     </footer>
 
     <script src="/static/js/app.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/insurance.js"></script>
+    <script src="/static/js/passbook.js"></script>
 </body>
 </html>
