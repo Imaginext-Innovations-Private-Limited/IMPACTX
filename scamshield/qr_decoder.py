@@ -143,23 +143,70 @@ def parse_upi_uri(payload: str) -> dict[str, Any] | None:
 
 def classify_qr_payload(payload: str) -> dict[str, Any]:
     """Classify a decoded QR payload without network access."""
+    from .url_classifier import normalize_url, registered_domain
+
     raw = (payload or "").strip()
     upi = parse_upi_uri(raw)
     if upi is not None:
-        return {"type": "upi_payment", "raw": raw, "upi": upi}
+        action = upi.get("action") or "pay"
+        return {
+            "type": "upi_payment",
+            "qr_type": f"UPI {action.title()} QR",
+            "raw": raw,
+            "upi": upi,
+            "unverified_name_note": "QR-provided payee name is not independently verified.",
+            "cross_modal_mismatch": False,
+            "mismatch_reason": None,
+        }
 
     if _URL_SCHEME_RE.match(raw):
         kind = "apk_download" if _APK_RE.search(raw) else "url"
-        return {"type": kind, "raw": raw, "url": raw}
+        norm = normalize_url(raw)
+        parsed = urlparse(norm)
+        host = (parsed.hostname or "").lower()
+        return {
+            "type": kind,
+            "qr_type": "APK Download QR" if kind == "apk_download" else "URL QR",
+            "raw": raw,
+            "url": raw,
+            "destination": raw,
+            "protocol": (parsed.scheme or "http").lower(),
+            "registered_domain": registered_domain(host) if host else "",
+            "cross_modal_mismatch": False,
+            "mismatch_reason": None,
+        }
 
     lower = raw.lower()
     if lower.startswith(("tel:", "sms:", "smsto:", "mailto:")):
-        return {"type": "contact_action", "raw": raw}
+        scheme = lower.split(":", 1)[0]
+        return {
+            "type": "contact_action",
+            "qr_type": f"Contact Action QR ({scheme})",
+            "raw": raw,
+            "category": scheme,
+            "extracted": raw[:200],
+        }
 
     if _APK_RE.search(raw):
-        return {"type": "apk_download", "raw": raw, "url": raw}
+        return {
+            "type": "apk_download",
+            "qr_type": "APK Download QR",
+            "raw": raw,
+            "url": raw,
+            "destination": raw,
+            "protocol": "",
+            "registered_domain": "",
+            "cross_modal_mismatch": False,
+            "mismatch_reason": None,
+        }
 
-    return {"type": "text", "raw": raw}
+    return {
+        "type": "text",
+        "qr_type": "Plain Text QR",
+        "raw": raw,
+        "category": "plain_text",
+        "extracted": raw[:200],
+    }
 
 
 def analyze_qr_payloads(
@@ -215,6 +262,8 @@ def analyze_qr_payloads(
             evidence = f"UPI QR ({upi['action']}): to {pn} ({pa}), {amt_str}"
 
             if receive_claimed:
+                info["cross_modal_mismatch"] = True
+                info["mismatch_reason"] = "Message mentions receiving money/refund, but QR encodes an outgoing UPI payment."
                 add_indicator(
                     "qr_receive_mismatch",
                     "QR code is an outgoing payment, not a receipt",
@@ -226,6 +275,8 @@ def analyze_qr_payloads(
                     "Quishing / UPI QR fraud",
                 )
             elif authority_claimed:
+                info["cross_modal_mismatch"] = True
+                info["mismatch_reason"] = "Official/KYC claim paired with a UPI payment QR."
                 add_indicator(
                     "qr_authority_mismatch",
                     "Official/KYC claim paired with a UPI payment QR",
@@ -269,6 +320,8 @@ def analyze_qr_payloads(
 
         elif ptype == "url":
             if receive_claimed or authority_claimed:
+                info["cross_modal_mismatch"] = True
+                info["mismatch_reason"] = "Message claims refund, KYC, or official notice while QR opens an external URL."
                 add_indicator(
                     "qr_url_context_mismatch",
                     "QR code redirects to an external website",

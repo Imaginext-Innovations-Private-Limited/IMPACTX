@@ -34,6 +34,44 @@ class AnalysisInput(BaseModel):
     qr_payloads: list[str] | None = Field(default=None, max_length=10)
     email_meta: dict | None = None
 
+
+class QRPayloadDetail(BaseModel):
+    model_config = ConfigDict(extra="allow")
+    type: str
+    qr_type: str | None = None
+    raw: str
+    destination: str | None = None
+    protocol: str | None = None
+    registered_domain: str | None = None
+    cross_modal_mismatch: bool | None = None
+    mismatch_reason: str | None = None
+    upi: dict | None = None
+    url_assessment: dict | None = None
+
+
+class QRAnalysisOut(BaseModel):
+    model_config = ConfigDict(extra="allow")
+    qr_count: int
+    payloads: list[QRPayloadDetail]
+
+
+class AnalysisResponse(BaseModel):
+    model_config = ConfigDict(extra="allow")
+    level: str
+    title: str
+    summary: str
+    score: int
+    score_label: str
+    indicators: list[dict]
+    categories: list[str]
+    actions: list[str]
+    channel: str
+    analysis_mode: str
+    qr_analysis: QRAnalysisOut | None = None
+    identity: dict | None = None
+    engine_contributions: dict | None = None
+    live_reputation: dict | None = None
+
 @app.get("/", include_in_schema=False)
 def home():
     return FileResponse(BASE_DIR / "static" / "index.html")
@@ -100,7 +138,7 @@ def generate_voice(data: VoiceInput, request: Request):
     return {"cached": True}
 
 
-@app.post("/api/analyze")
+@app.post("/api/analyze", response_model=AnalysisResponse)
 def analyze_message(data: AnalysisInput, request: Request):
     try:
         if data.cloud_consent:
@@ -131,6 +169,12 @@ def analyze_message(data: AnalysisInput, request: Request):
             live_res = live_reputation.check_urls_live(urls)
             result["live_reputation"] = live_res
             contributions["live_url_reputation"] = live_res["status"]
+            matched_urls = {m["url"] for m in live_res.get("matches", [])}
+            for p in (result.get("qr_analysis") or {}).get("payloads", []):
+                if p.get("type") in {"url", "apk_download"}:
+                    ua = p.setdefault("url_assessment", {})
+                    ua["live_reputation_status"] = live_res["status"]
+                    ua["live_reputation_matched"] = p.get("url") in matched_urls
             if live_res["status"] == "threat_match":
                 for match in live_res["matches"][:3]:
                     result["indicators"].insert(0, {
