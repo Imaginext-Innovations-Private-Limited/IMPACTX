@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+baseline/
+integration_v4_patch/
+frontend_final_patch/
+*.zip
+.env
+.streamlit/secrets.toml
